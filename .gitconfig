@@ -4,6 +4,7 @@
 	email = emilio.palmerini@gmail.com
 [core]
 	excludesfile = /Users/emiliopalmerini/.gitignore_global
+	editor = nvim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
