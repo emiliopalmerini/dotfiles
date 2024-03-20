@@ -1,0 +1,36 @@
+[user]
+	mail = emilio.palmerini@gmail.com
+	name = emiliopalmerini
+	email = emilio.palmerini@gmail.com
+[core]
+	excludesfile = /Users/emiliopalmerini/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Users/emiliopalmerini/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/emiliopalmerini/.stCommitMsg
+[init]
+	defaultBranc = main
+	defaultBranch = main
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	pho = !git push origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
+	plo = !git pull origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
+	ph = push
+	pl = pull
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	st = status
+[pull]
+	rebase = true
