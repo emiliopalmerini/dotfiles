@@ -1,0 +1,18 @@
+[window]
+startup_mode = "Maximized"
+opacity = 0.8
+
+padding.x = 10
+padding.y = 10
+
+decorations = "None"
+decorations_theme_variant = "Dark" # "Dark"
+
+[font]
+
+normal.family = "FiraCode Nerd Font"
+bold.family = "FiraCode Nerd Font"
+italic.family = "FiraCode Nerd Font"
+bold_italic.family = "FiraCode Nerd Font"
+
+size = 18.0
