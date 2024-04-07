@@ -24,7 +24,7 @@
 [alias]
 	co = checkout
 	br = branch
-	ci = commit
+	cm = commit
 	pho = !git push origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
 	plo = !git pull origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
 	ph = push
