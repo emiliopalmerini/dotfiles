@@ -17,17 +17,10 @@
                     "template": "{{ .PromptMark }}"
                 },
                 {
-                    "type": "text",
-                    "style": "plain",
-                    "foreground": "p:terminal-blue",
-                    "background": "transparent",
-                    "template": "➜ "
-                },
-                {
                     "type": "path",
                     "style": "plain",
-                    "foreground": "p:terminal-magenta",
-                    "template": "<b>{{ .Path }}</b> <p:light-sky-blue>⚡</>",
+                    "foreground": "p:pistachio-green",
+                    "template": "<b>{{ .Path }}</b> <p:pistachio-green>⚡</>",
                     "properties": {
                         "style": "folder"
                     }
@@ -117,14 +110,6 @@
                         "command": "git log --pretty=format:%cr -1 || date +%H:%M:%S",
                         "shell": "zsh"
                     }
-                },
-                {
-                    "type": "time",
-                    "style": "plain",
-                    "foreground": "white-blue",
-                    "properties": {
-                        "time_format": "15:04:05"
-                    }
                 }
             ],
             "overflow": "hide"
@@ -134,10 +119,18 @@
             "alignment": "left",
             "segments": [
                 {
+                    "type": "time",
+                    "style": "plain",
+                    "foreground": "white-blue",
+                    "properties": {
+                        "time_format": "15:04:05"
+                    }
+                },
+                {
                     "type": "text",
                     "style": "plain",
                     "foreground": "p:pistachio-green",
-                    "template": "\u25b6"
+                    "template": "\u276f"
                 }
             ],
             "newline": true
