@@ -110,6 +110,14 @@
                         "command": "git log --pretty=format:%cr -1 || date +%H:%M:%S",
                         "shell": "zsh"
                     }
+                },
+                {
+                    "type": "time",
+                    "style": "plain",
+                    "foreground": "p:pistachio-green",
+                    "properties": {
+                        "time_format": "15:04:05"
+                    }
                 }
             ],
             "overflow": "hide"
@@ -118,14 +126,6 @@
             "type": "prompt",
             "alignment": "left",
             "segments": [
-                {
-                    "type": "time",
-                    "style": "plain",
-                    "foreground": "white-blue",
-                    "properties": {
-                        "time_format": "15:04:05"
-                    }
-                },
                 {
                     "type": "text",
                     "style": "plain",
@@ -139,12 +139,12 @@
     "transient_prompt": {
         "foreground": "p:terminal-blue",
         "background": "p:t-background",
-        "template": "➜ "
+        "template": "\u276f"
     },
     "secondary_prompt": {
         "foreground": "p:terminal-blue",
         "background": "transparent",
-        "template": "➜ "
+        "template": "\u276f"
     },
     "palette": {
         "blue-bell": "#9aa5ce",
