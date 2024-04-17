@@ -1,8 +1,11 @@
 return {
     {
-        "lunarvim/horizon.nvim",
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
         config = function ()
-            vim.cmd[[colorscheme horizon]]
+            vim.cmd.colorscheme 'tokyonight-night'
         end
     }
 }
