@@ -37,7 +37,6 @@
                     ],
                     "template": "({{ .HEAD}})",
                     "properties": {
-                        "branch_icon": "\ue725 ",
                         "fetch_status": true
                     }
                 },
