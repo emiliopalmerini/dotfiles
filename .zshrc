@@ -19,3 +19,11 @@ export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$DOTNETPATH/tools
 
 eval "$(zoxide init --cmd cd zsh)"
+
+# Start Tmux and Zsh
+if [ -z "$TMUX" ]; then
+    if command -v tmux &> /dev/null; then
+        tmux attach-session || tmux new-session
+    fi
+fi
+
