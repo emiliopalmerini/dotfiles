@@ -1,5 +1,5 @@
-require("emilio.set")
-require("emilio.remap")
+require("lua.emilio.opt")
+require("lua.emilio.map")
 require("emilio.lazy_init")
 
 
