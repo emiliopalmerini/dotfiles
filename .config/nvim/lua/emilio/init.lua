@@ -1,5 +1,5 @@
-require("lua.emilio.opt")
-require("lua.emilio.map")
+require("emilio.opt")
+require("emilio.map")
 require("emilio.lazy_init")
 
 
