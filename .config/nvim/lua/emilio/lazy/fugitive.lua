@@ -20,6 +20,10 @@ return {
                     vim.cmd.Git('push')
                 end, opts)
 
+                vim.keymap.set("n", "<leader>gf", function()
+                    vim.cmd.Git('push --force')
+                end, opts)
+
                 -- rebase always
                 vim.keymap.set("n", "<leader>gP", function()
                     vim.cmd.Git({'pull'})
