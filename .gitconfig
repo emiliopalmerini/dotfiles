@@ -1,37 +1,37 @@
 [user]
-	mail = emilio.palmerini@gmail.com
-	name = emiliopalmerini
-	email = emilio.palmerini@gmail.com
+    mail = emilio.palmerini@gmail.com
+    name = emiliopalmerini
+    email = emilio.palmerini@gmail.com
 [core]
-	excludesfile = /Users/emiliopalmerini/.gitignore_global
-	editor = nvim
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Users/emiliopalmerini/Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-[commit]
-	template = /Users/emiliopalmerini/.stCommitMsg
+    excludesfile = /Users/emiliopalmerini/.gitignore_global
+    editor = nvim
+    pager = delta
 [init]
-	defaultBranc = main
-	defaultBranch = main
+    defaultBranc = main
+    defaultBranch = main
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
 [alias]
-	co = checkout
-	br = branch
-	cm = commit
-	pho = !git push origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
-	plo = !git pull origin \\\"$(git rev-parse --abbrev-ref HEAD)\\\"
-	ph = push
-	pl = pull
-	unstage = reset HEAD --
-	last = log -1 HEAD
-	graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-	st = status
+    co = checkout
+    br = branch
+    cm = commit
+    ph = push
+    pl = pull
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    st = status
 [pull]
-	rebase = true
+    rebase = true
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
+[merge]
+    conflictstyle = diff3
+[diff]
+    colorMoved = default

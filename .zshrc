@@ -87,6 +87,9 @@ alias g=git
 alias m=mkdir
 alias zsh='exec zsh'
 
+# Bat (better cat)
+export BAT_THEME=tokyonight_night
+
 export POP_SMTP_HOST=smtp.gmail.com
 export POP_SMTP_PORT=587
 export GOPATH=$HOME/go
@@ -96,4 +99,5 @@ export PATH=$PATH:$DOTNETPATH/tools
 
 # Shell integrations
 eval "$(fzf --zsh)"
-eval "$(zoxide init --cmd cd zsh)"
+Eval "$(zoxide init --cmd cd zsh)"
+
