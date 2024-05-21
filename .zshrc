@@ -86,6 +86,10 @@ alias ci=zi
 alias g=git
 alias m=mkdir
 alias zsh='exec zsh'
+# ---- Eza (better ls) -----
+
+alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
+alias cat=bat
 
 # Bat (better cat)
 export BAT_THEME=tokyonight_night
@@ -99,5 +103,5 @@ export PATH=$PATH:$DOTNETPATH/tools
 
 # Shell integrations
 eval "$(fzf --zsh)"
-Eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init --cmd cd zsh)"
 
