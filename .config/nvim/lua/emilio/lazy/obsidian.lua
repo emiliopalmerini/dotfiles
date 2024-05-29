@@ -114,7 +114,7 @@ return {
                 end,
 
                 templates = {
-                    subdir = "Templates",
+                    subdir = "templates",
                     date_format = "%Y-%m-%d",
                     time_format = "%H:%M",
                     substitutions = {},
