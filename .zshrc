@@ -49,7 +49,7 @@ zinit cdreplay -q
 
 # Keybindings
 bindkey '^y' autosuggest-accept
-bindkey -e
+bindkey -v
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 bindkey '^[w' kill-region
