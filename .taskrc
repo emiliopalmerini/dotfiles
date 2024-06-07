@@ -15,7 +15,7 @@
 # Use the command 'task show' to see all defaults and overrides
 
 # Files
-data.location=/Users/emiliopalmerini/Developer/.tasks
+data.location=~/Developer/.tasks
 
 # To use the default location of the XDG directories,
 # move this configuration file from ~/.taskrc to ~/.config/task/taskrc and uncomment below
@@ -29,7 +29,7 @@ data.location=/Users/emiliopalmerini/Developer/.tasks
 #include dark-16.theme
 #include dark-256.theme
 #include dark-red-256.theme
-#include dark-green-256.theme
+include dark-green-256.theme
 #include dark-blue-256.theme
 #include dark-violets-256.theme
 #include dark-yellow-green.theme
