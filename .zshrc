@@ -75,10 +75,9 @@ alias g=git
 alias m=mkdir
 alias zsh='exec zsh'
 alias taskui=taskwarrior-tui
-
-# ---- Eza (better ls) -----
 alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias cat=bat
+alias dkc='docker-compose'
 
 # Bat (better cat)
 export BAT_THEME=tokyonight_night
