@@ -1,13 +1,11 @@
 [user]
-    mail = emilio.palmerini@gmail.com
     name = emiliopalmerini
-    email = emilio.palmerini@gmail.com
+    email = emilio.palmerini@proton.me
 [core]
     excludesfile = /Users/emiliopalmerini/.gitignore_global
     editor = nvim
     pager = delta
 [init]
-    defaultBranc = main
     defaultBranch = main
 [filter "lfs"]
     required = true
@@ -15,14 +13,14 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
 [alias]
-    co = checkout
+    co = commit
+    cko = checkout
     br = branch
-    cm = commit
     ph = push
     pl = pull
     unstage = reset HEAD --
     last = log -1 HEAD
-    graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    gh = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     st = status
 [pull]
     rebase = true
