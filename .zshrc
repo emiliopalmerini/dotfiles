@@ -76,6 +76,7 @@ alias m=mkdir
 alias zsh='exec zsh'
 alias tkui=taskwarrior-tui
 alias tk=task
+alias tksave='git commit . --m "backup"; git pull; git push'
 alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias cat=bat
 alias dkc='docker-compose'
