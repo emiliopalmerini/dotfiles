@@ -78,6 +78,7 @@ alias taskui=taskwarrior-tui
 alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias cat=bat
 alias dkc='docker-compose'
+alias cdw='cd /mnt/c/Users/emili/'
 
 # Bat (better cat)
 export BAT_THEME=tokyonight_night
