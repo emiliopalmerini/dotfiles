@@ -74,7 +74,8 @@ alias ci=zi
 alias g=git
 alias m=mkdir
 alias zsh='exec zsh'
-alias taskui=taskwarrior-tui
+alias tkui=taskwarrior-tui
+alias tk=task
 alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias cat=bat
 alias dkc='docker-compose'
