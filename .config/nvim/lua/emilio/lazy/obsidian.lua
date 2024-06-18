@@ -7,8 +7,8 @@ return {
         "nvim-lua/plenary.nvim",
     },
     config = function ()
-        vim.keymap.set("n", "<leader>oqs", ":ObsidianQuickSwitch<Cr>")
-        vim.keymap.set("n", "<leader>os", ":ObsidianSearch<Cr>")
+        vim.keymap.set("n", "<leader>sf", ":ObsidianQuickSwitch<Cr>")
+        vim.keymap.set("n", "<leader>slg", ":ObsidianSearch<Cr>")
         vim.keymap.set("n", "<leader>ot", ":ObsidianToday<Cr>")
         vim.keymap.set("n", "<leader>otp", ":ObsidianTemplate<Cr>")
         require("obsidian").setup(
