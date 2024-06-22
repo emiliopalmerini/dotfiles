@@ -12,9 +12,9 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   [[blocks.segments]]
     type = "session"
     style = "plain"
-    foreground = "blue"
+    foreground = "magenta"
     background = "transparent"
-    template = "{{ if .SSHSession }} {{ .UserName }}{{ end }}"
+    template = "{{ if .SSHSession }}{{ .UserName }}@{{.HostName}}:{{ end }}"
 
   [[blocks.segments]]
     type = 'path'

@@ -31,6 +31,3 @@ export GOPATH=$HOME/go
 export DOTNETPATH=$HOME/dotnet
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$DOTNETPATH/tools
-
-# Shell integrations
-eval "$(oh-my-posh init bash)"
