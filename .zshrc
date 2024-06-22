@@ -81,6 +81,7 @@ alias ls="eza --color=always --long --git --no-filesize --icons=always --no-time
 alias cat=bat
 alias dkc='docker-compose'
 alias cdw='cd /mnt/c/Users/emili/'
+alias compose=docker-compose
 
 # Bat (better cat)
 export BAT_THEME=tokyonight_night
