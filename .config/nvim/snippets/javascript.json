@@ -1,0 +1,22 @@
+{
+   "BalanceItem": {
+        "prefix": ["balance", "balanceItemExpression"],
+        "body": ["\"_t\": \"BalanceItemExpressionDocument\"", "\"Code\": \"${0:numero}\""],
+        "description": "Voce di bilancio"
+    },
+   "Sum": {
+        "prefix": ["sum", "sumExpression"],
+        "body": ["\"_t\": \"SumExpressionDocument\"", "\"Children\":  [\t{\t$0\t}\t]"],
+        "description": "Somma"
+    },
+   "Template": {
+        "prefix": ["template", "templateExpression"],
+        "body": ["\"Name\": \"${1:NOME-IN-MAIUSCOLO}\"", "\"Expression\": {\t$0\t}"],
+        "description": "Un template"
+    },
+   "TemplateRef": {
+        "prefix": ["templateRef", "templateReferenceExpression"],
+        "body": ["\"_t\": \"NumberExpressionTemplateReferenceExpressionDocument\"", "\"NameRef\": \"${0:NOME-IN-MAIUSCOLO}\""],
+        "description": "Riferimento al template"
+    }
+}

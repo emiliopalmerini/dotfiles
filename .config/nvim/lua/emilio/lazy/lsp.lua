@@ -1,4 +1,4 @@
-return{
+return {
     "neovim/nvim-lspconfig",
     dependencies = {
         "j-hui/fidget.nvim",
@@ -21,13 +21,14 @@ return{
                 "lua_ls",
                 "gopls",
                 "jedi_language_server",
-                "omnisharp"
+                "omnisharp",
+                "denols"
             },
             handlers = {
                 function(server_name)
                     require("lspconfig")[server_name].setup {}
                 end,
-                ["lua_ls"] = function ()
+                ["lua_ls"] = function()
                     local lspconfig = require("lspconfig")
                     lspconfig.lua_ls.setup {
                         settings = {
@@ -38,13 +39,12 @@ return{
                             }
                         }
                     }
-
                 end
 
             }
         })
         local cmp = require("cmp")
-        local cmp_select = {behavior = cmp.SelectBehavior.Select}
+        local cmp_select = { behavior = cmp.SelectBehavior.Select }
         cmp.setup({
             snippet = {
                 expand = function(args)
@@ -58,9 +58,9 @@ return{
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
-                { name = 'nvim_lsp' },
-                { name = 'luasnip' },
-            },
+                    { name = 'nvim_lsp' },
+                    { name = 'luasnip' },
+                },
                 {
                     { name = 'buffer' },
                 })
@@ -78,8 +78,8 @@ return{
             },
         })
 
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
+        -- Use LspAttach autocommand to only map the following keys
+        -- after the language server attaches to the current buffer
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('UserLspConfig', {}),
             callback = function(ev)
@@ -112,6 +112,5 @@ return{
                 vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
             end,
         })
-
     end
 }
