@@ -16,8 +16,8 @@ return {
                     },
                 },
                 log_level = vim.log.levels.INFO,
-                vim.keymap.set("n", "<leader>sf", ":ObsidianQuickSwitch<Cr>"),
-                vim.keymap.set("n", "<leader>slg", ":ObsidianSearch<Cr>"),
+                vim.keymap.set("n", "<leader>of", ":ObsidianQuickSwitch<Cr>"),
+                vim.keymap.set("n", "<leader>olg", ":ObsidianSearch<Cr>"),
                 vim.keymap.set("n", "<leader>ot", ":ObsidianToday<Cr>"),
                 vim.keymap.set("n", "<leader>otp", ":ObsidianTemplate<Cr>"),
 

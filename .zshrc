@@ -80,6 +80,7 @@ alias tksave='git commit . --m "backup"; git pull; git push'
 alias cat=bat
 alias dkc='docker-compose'
 alias cdw='cd /mnt/c/Users/emili/'
+alias explorer='explorer.exe'
 
 # Bat (better cat)
 export BAT_THEME=tokyonight_night
