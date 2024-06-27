@@ -1,16 +1,12 @@
 return {
     "epwalsh/obsidian.nvim",
-    version = "*",  -- recommended, use latest release instead of latest commit
+    version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = "markdown",
     dependencies = {
         "nvim-lua/plenary.nvim",
     },
-    config = function ()
-        vim.keymap.set("n", "<leader>sf", ":ObsidianQuickSwitch<Cr>")
-        vim.keymap.set("n", "<leader>slg", ":ObsidianSearch<Cr>")
-        vim.keymap.set("n", "<leader>ot", ":ObsidianToday<Cr>")
-        vim.keymap.set("n", "<leader>otp", ":ObsidianTemplate<Cr>")
+    config = function()
         require("obsidian").setup(
             {
                 workspaces = {
@@ -20,6 +16,10 @@ return {
                     },
                 },
                 log_level = vim.log.levels.INFO,
+                vim.keymap.set("n", "<leader>sf", ":ObsidianQuickSwitch<Cr>"),
+                vim.keymap.set("n", "<leader>slg", ":ObsidianSearch<Cr>"),
+                vim.keymap.set("n", "<leader>ot", ":ObsidianToday<Cr>"),
+                vim.keymap.set("n", "<leader>otp", ":ObsidianTemplate<Cr>"),
 
                 daily_notes = {
                     folder = "Logs",
@@ -125,7 +125,7 @@ return {
                 },
 
                 follow_url_func = function(url)
-                    vim.fn.jobstart({"open", url})
+                    vim.fn.jobstart({ "open", url })
                 end,
 
                 use_advanced_uri = false,
@@ -155,8 +155,8 @@ return {
                 open_notes_in = "vsplit",
 
                 ui = {
-                    enable = true,  -- set to false to disable all additional syntax features
-                    update_debounce = 200,  -- update delay after a text change (in milliseconds)
+                    enable = true,         -- set to false to disable all additional syntax features
+                    update_debounce = 200, -- update delay after a text change (in milliseconds)
                     checkboxes = {
                         -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
                         [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
@@ -186,7 +186,7 @@ return {
                     },
                 },
                 attachments = {
-                    img_folder = "Attachments",  -- This is the default
+                    img_folder = "Attachments", -- This is the default
                     ---@param client obsidian.Client
                     ---@param path obsidian.Path the absolute path to the image file
                     ---@return string
