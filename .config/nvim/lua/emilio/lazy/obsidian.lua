@@ -29,11 +29,22 @@ return {
                 path = "~/vaults/bag_of_holding",
             },
             {
-                name = "work",
-                path = "~/vaults/work",
+                name = "no-vault",
+                path = function()
+                    -- alternatively use the CWD:
+                    -- return assert(vim.fn.getcwd())
+                    return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
+                end,
+                overrides = {
+                    notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
+                    new_notes_location = "current_dir",
+                    templates = {
+                        folder = vim.NIL,
+                    },
+                    disable_frontmatter = true,
+                },
             },
         },
-
         -- Alternatively - and for backwards compatibility - you can set 'dir' to a single path instead of
         -- 'workspaces'. For example:
         -- dir = "~/vaults/work",
@@ -48,7 +59,7 @@ return {
             -- Optional, if you want to change the date format for the ID of daily notes.
             date_format = "%Y-%m-%d",
             -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-            template = {"daily_template"}
+            template = { "daily_template" }
         },
 
         -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
@@ -276,8 +287,8 @@ return {
         -- Optional, configure additional syntax highlighting / extmarks.
         -- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
         ui = {
-            enable = true, -- set to false to disable all additional syntax features
-            update_debounce = 200, -- update delay after a text change (in milliseconds)
+            enable = true,          -- set to false to disable all additional syntax features
+            update_debounce = 200,  -- update delay after a text change (in milliseconds)
             max_file_length = 5000, -- disable UI features for files with more than this many lines
             -- Define how various check-boxes are displayed
             checkboxes = {
