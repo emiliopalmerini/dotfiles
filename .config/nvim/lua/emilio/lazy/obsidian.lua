@@ -83,13 +83,13 @@ return {
                 end,
                 opts = { buffer = true, expr = true },
             },
-            ["<leader>os"] = {
+            ["<leader>sf"] = {
                 action = function()
                     return ":ObsidianQuickSwitch<CR>"
                 end,
                 opts = { buffer = true, expr = true },
             },
-            ["<leader>olg"] = {
+            ["<leader>slg"] = {
                 action = function()
                     return ":ObsidianSearch<CR>"
                 end,
