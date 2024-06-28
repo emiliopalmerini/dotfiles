@@ -82,7 +82,31 @@ return {
                     return require("obsidian").util.smart_action()
                 end,
                 opts = { buffer = true, expr = true },
-            }
+            },
+            ["<leader>os"] = {
+                action = function()
+                    return ":ObsidianQuickSwitch<CR>"
+                end,
+                opts = { buffer = true, expr = true },
+            },
+            ["<leader>olg"] = {
+                action = function()
+                    return ":ObsidianSearch<CR>"
+                end,
+                opts = { buffer = true, expr = true },
+            },
+            ["<leader>od"] = {
+                action = function()
+                    return ":ObsidianToday<CR>"
+                end,
+                opts = { buffer = true, expr = true },
+            },
+            ["<leader>ot"] = {
+                action = function()
+                    return ":ObsidianTemplate<CR>"
+                end,
+                opts = { buffer = true, expr = true },
+            },
         },
 
         -- Where to put new notes. Valid options are
