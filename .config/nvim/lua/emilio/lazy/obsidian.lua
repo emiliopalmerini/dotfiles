@@ -187,9 +187,6 @@ return {
                 },
                 attachments = {
                     img_folder = "Attachments", -- This is the default
-                    ---@param client obsidian.Client
-                    ---@param path obsidian.Path the absolute path to the image file
-                    ---@return string
                     img_text_func = function(client, path)
                         local link_path
                         local vault_relative_path = client:vault_relative_path(path)
