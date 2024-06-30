@@ -20,9 +20,10 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "gopls",
-                "jedi_language_server",
+                "pyright",
                 "omnisharp",
-                "denols"
+                "denols",
+                "ruff_lsp",
             },
             handlers = {
                 function(server_name)
