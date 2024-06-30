@@ -58,6 +58,12 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
   newline = true
 
   [[blocks.segments]]
+    type = "python"
+    foreground = 'yellow'
+    background = 'transparent'
+    template = "  {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ end }}"
+
+  [[blocks.segments]]
     type = 'text'
     style = 'plain'
     foreground_templates = [
@@ -66,6 +72,7 @@ console_title_template = '{{ .Shell }} in {{ .Folder }}'
     ]
     background = 'transparent'
     template = '❯'
+
 
 [transient_prompt]
   foreground_templates = [
