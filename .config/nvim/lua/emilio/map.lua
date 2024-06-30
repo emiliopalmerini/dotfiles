@@ -46,5 +46,10 @@ set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
 set('n', '<up>', '<cmd>echo "Use k to move!!"<CR>')
 set('n', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 
+set("n", "<M-,>", "<c-w>5<")
+set("n", "<M-.>", "<c-w>5>")
+set("n", "<M-t>", "<C-W>+")
+set("n", "<M-s>", "<C-W>-")
+
 set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/<CR>', { desc = '' })
 set('n', '<Esc>', '<cmd>nohlsearch<CR>')
