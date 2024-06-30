@@ -70,8 +70,6 @@ return {
             min_chars = 2,
         },
 
-        -- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
-        -- way then set 'mappings = {}'.
         mappings = {
             -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
             ["gd"] = {
@@ -123,7 +121,7 @@ return {
         -- Where to put new notes. Valid options are
         --  * "current_dir" - put new notes in same directory as the current buffer.
         --  * "notes_subdir" - put new notes in the default notes subdirectory.
-        new_notes_location = "current_dir",
+        new_notes_location = "notes_subdir",
 
         -- Optional, customize how note IDs are generated given an optional title.
         ---@param title string|?
@@ -142,7 +140,7 @@ return {
                     suffix = suffix .. string.char(math.random(65, 90))
                 end
             end
-            return tostring(os.time()) .. "-" .. suffix
+            return tostring(os.time()) .. "_" .. suffix
         end,
 
         -- Optional, customize how note file names are generated given the ID, target directory, and title.
