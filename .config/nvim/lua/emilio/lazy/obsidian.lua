@@ -28,22 +28,6 @@ return {
                 name = "bag",
                 path = "~/vaults/bag_of_holding",
             },
-            {
-                name = "no-vault",
-                path = function()
-                    -- alternatively use the CWD:
-                    -- return assert(vim.fn.getcwd())
-                    return assert(vim.fs.dirname(vim.api.nvim_buf_get_name(0)))
-                end,
-                overrides = {
-                    notes_subdir = vim.NIL, -- have to use 'vim.NIL' instead of 'nil'
-                    new_notes_location = "current_dir",
-                    templates = {
-                        folder = vim.NIL,
-                    },
-                    disable_frontmatter = true,
-                },
-            },
         },
         -- Alternatively - and for backwards compatibility - you can set 'dir' to a single path instead of
         -- 'workspaces'. For example:
@@ -55,11 +39,11 @@ return {
 
         daily_notes = {
             -- Optional, if you keep daily notes in a separate directory.
-            folder = "Logs",
+            folder = "./Logs",
             -- Optional, if you want to change the date format for the ID of daily notes.
             date_format = "%Y-%m-%d",
             -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-            template = { "daily_template" }
+            -- template = {"./Templates/daily_template.md"}
         },
 
         -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
@@ -204,7 +188,7 @@ return {
 
         -- Optional, for templates (see below).
         templates = {
-            folder = "Templates",
+            folder = "./Templates",
             date_format = "%Y-%m-%d",
             time_format = "%H:%M",
             -- A map for custom variables, the key should be the variable and the value a function
