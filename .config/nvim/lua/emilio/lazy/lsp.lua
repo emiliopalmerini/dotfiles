@@ -22,7 +22,7 @@ return {
                 "gopls",
                 "pyright",
                 "omnisharp",
-                "denols",
+                "biome",
                 "ruff_lsp",
             },
             handlers = {
