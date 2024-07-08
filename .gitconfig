@@ -17,6 +17,7 @@
     co = checkout
     br = branch
     ph = push
+    phf = push --force
     pl = pull
     unstage = reset HEAD --
     last = log -1 HEAD
