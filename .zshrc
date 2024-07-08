@@ -82,9 +82,6 @@ alias dkc='docker-compose'
 alias cdw='cd /mnt/c/Users/emili/'
 alias explorer='explorer.exe'
 
-# Bat (better cat)
-export BAT_THEME=tokyonight_night
-
 export GOPATH=$HOME/go
 export DOTNETPATH=$HOME/dotnet
 export PATH=$PATH:$GOPATH/bin
