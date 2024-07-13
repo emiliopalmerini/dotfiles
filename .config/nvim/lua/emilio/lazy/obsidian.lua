@@ -3,8 +3,7 @@ return {
     version = "*", -- recommended, use latest release instead of latest commit
     lazy = true,
     ft = "markdown",
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-    -- event = {
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault: event = {
     --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
     --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/**.md"
     --   "BufReadPre path/to/my-vault/**.md",
@@ -25,8 +24,8 @@ return {
         -- current markdown file being edited.
         workspaces = {
             {
-                name = "bag",
-                path = "~/vaults/bag_of_holding",
+                name = "sdv",
+                path = "~/vaults/bag_of_holding/sdv",
             },
         },
         -- Alternatively - and for backwards compatibility - you can set 'dir' to a single path instead of
@@ -39,7 +38,7 @@ return {
 
         daily_notes = {
             -- Optional, if you keep daily notes in a separate directory.
-            folder = "./Logs",
+            folder = "./logs",
             -- Optional, if you want to change the date format for the ID of daily notes.
             date_format = "%Y-%m-%d",
             -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
@@ -117,14 +116,14 @@ return {
             local suffix = ""
             if title ~= nil then
                 -- If title is given, transform it into valid file name.
-                suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+                suffix = title:gsub(" ", "_"):gsub("[^A-Za-z0-9-]", ""):lower()
             else
                 -- If title is nil, just add 4 random uppercase letters to the suffix.
                 for _ = 1, 4 do
                     suffix = suffix .. string.char(math.random(65, 90))
                 end
             end
-            return tostring(os.time()) .. "_" .. suffix
+            return suffix
         end,
 
         -- Optional, customize how note file names are generated given the ID, target directory, and title.
@@ -188,7 +187,7 @@ return {
 
         -- Optional, for templates (see below).
         templates = {
-            folder = "./Templates",
+            folder = "./templates",
             date_format = "%Y-%m-%d",
             time_format = "%H:%M",
             -- A map for custom variables, the key should be the variable and the value a function
