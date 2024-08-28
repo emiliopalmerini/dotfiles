@@ -46,5 +46,5 @@ set("n", "<right>", "<c-w>5>")
 set("n", "<up>", "<C-W>+")
 set("n", "<down>", "<C-W>-")
 
-set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/<CR>', { desc = '' })
+set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/init.lua<CR>', { desc = '' })
 set('n', '<Esc>', '<cmd>nohlsearch<CR>')
