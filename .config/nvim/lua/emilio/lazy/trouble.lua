@@ -40,6 +40,11 @@ return {
             "<leader>xp",
             "<cmd>Trouble diagnostics prev<cr>",
             desc = "Previous diagnostic (Trouble)",
+        },
+        {
+            "<leader>e",
+            "vim.diagnostic.open_float(0, {scope='line'})<CR>",
+            desc = "Float diagnostic"
         }
     },
     opts = {}, -- for default options, refer to the configuration section for custom setup.
