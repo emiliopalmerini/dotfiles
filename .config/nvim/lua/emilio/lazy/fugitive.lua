@@ -1,8 +1,7 @@
 return {
     "tpope/vim-fugitive",
     config = function()
-        -- Open the Git status window
-        vim.keymap.set("n", "<leader>gs", vim.cmd.Git, { desc = "Open Git status window" })
+        vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
         local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
@@ -17,27 +16,23 @@ return {
 
                 local bufnr = vim.api.nvim_get_current_buf()
                 local opts = {buffer = bufnr, remap = false}
-
-                -- Push the current branch to the remote
                 vim.keymap.set("n", "<leader>gp", function()
                     vim.cmd.Git('push')
-                end, opts, { desc = "Push current branch to remote" })
+                end, opts)
 
-                -- Force push the current branch to the remote
                 vim.keymap.set("n", "<leader>gf", function()
                     vim.cmd.Git('push --force')
-                end, opts, { desc = "Force push current branch to remote" })
+                end, opts)
 
-                -- Rebase and pull from the remote branch
+                -- rebase always
                 vim.keymap.set("n", "<leader>gP", function()
                     vim.cmd.Git({'pull'})
-                end, opts, { desc = "Pull from remote with rebase" })
+                end, opts)
 
-                -- Set upstream branch and push
-                vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts, { desc = "Set upstream branch and push" })
-                vim.keymap.set("n", "<leader>g", ":Git push -u origin ", opts, { desc = "Set upstream branch and push" })
+                -- NOTE: It allows me to easily set the branch i am pushing and any tracking
+                -- needed if i did not set the branch up correctly
+                vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts);
             end,
         })
-    end
+end
 }
-

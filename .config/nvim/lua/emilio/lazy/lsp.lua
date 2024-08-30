@@ -88,34 +88,27 @@ return {
                 -- Buffer local mappings.
                 -- See `:help vim.lsp.*` for documentation on any of the below functions
                 local opts = { buffer = ev.buf }
-                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = "Go to declaration", opts = opts })
-                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition", opts = opts })
-                vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = "Show hover information", opts = opts })
-                vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { desc = "Go to implementation", opts = opts })
-                vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder,
-                    { desc = "Add workspace folder", opts = opts })
-                vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder,
-                    { desc = "Remove workspace folder", opts = opts })
-                vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end,
-                    { desc = "Search workspace symbols", opts = opts })
+                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+                vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+                vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+                vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+                vim.keymap.set("n", "<leader>ws", function() vim.lsp.buf.workspace_symbol() end, opts)
                 vim.keymap.set('n', '<space>wl', function()
                     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end, { desc = "List workspace folders", opts = opts })
-                vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition,
-                    { desc = "Go to type definition", opts = opts })
-                vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { desc = "Rename symbol", opts = opts })
-                vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action,
-                    { desc = "Show code actions", opts = opts })
-                vim.keymap.set('n', 'gr', vim.lsp.buf.references, { desc = "Show references", opts = opts })
+                end, opts)
+                vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+                vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+                vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+                vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
                 vim.keymap.set('n', '<space>f', function()
                     vim.lsp.buf.format { async = true }
-                end, { desc = "Format current buffer", opts = opts })
+                end, opts)
 
-                -- Primeagen
-                vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end,
-                    { desc = "Open diagnostic float", opts = opts })
-                vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end,
-                    { desc = "Show signature help", opts = opts })
+                --Primeagen
+                vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+                vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end, opts)
             end,
         })
     end
