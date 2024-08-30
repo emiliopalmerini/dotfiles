@@ -20,10 +20,7 @@ return {
             ensure_installed = {
                 "lua_ls",
                 "gopls",
-                "pyright",
                 "omnisharp",
-                "biome",
-                "ruff_lsp",
             },
             handlers = {
                 function(server_name)
