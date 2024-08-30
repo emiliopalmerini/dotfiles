@@ -48,7 +48,6 @@ set("n", "<right>", "<c-w>5>")
 set("n", "<up>", "<C-W>+")
 set("n", "<down>", "<C-W>-")
 
-set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/lua/emilio/init.lua<CR>', { desc = '' })
 set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"

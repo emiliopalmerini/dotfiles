@@ -1,4 +1,4 @@
-require "custom.plugins.snippets"
+require "custom.snippets"
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append "c"
