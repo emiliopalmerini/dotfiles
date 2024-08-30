@@ -17,13 +17,10 @@ set("n", "N", "Nzzzv")
 set("x", "<leader>p", [["_dP]])
 
 -- next greatest remap ever : asbjornHaland
-set({"n", "v"}, "<leader>y", [["+y]])
+set({ "n", "v" }, "<leader>y", [["+y]])
 set("n", "<leader>Y", [["+Y]])
 
-set({"n", "v"}, "<leader>d", [["_d]])
-
--- This is going to get me cancelled
-set("i", "<C-c>", "<Esc>")
+set({ "n", "v" }, "<leader>d", [["_d]])
 
 set("n", "Q", "<nop>")
 set("n", "<leader>f", vim.lsp.buf.format)
@@ -46,5 +43,5 @@ set("n", "<right>", "<c-w>5>")
 set("n", "<up>", "<C-W>+")
 set("n", "<down>", "<C-W>-")
 
-set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/init.lua<CR>', { desc = '' })
+set('n', '<C-s>', ':so ~/dotfiles/.config/nvim/lua/emilio/init.lua<CR>', { desc = '' })
 set('n', '<Esc>', '<cmd>nohlsearch<CR>')
