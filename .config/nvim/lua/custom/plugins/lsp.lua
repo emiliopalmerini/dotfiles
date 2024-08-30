@@ -24,15 +24,30 @@ return {
 				-- },
 			})
 
+			require("mason").setup()
+
 			local capabilities = nil
 			if pcall(require, "cmp_nvim_lsp") then
 				capabilities = require("cmp_nvim_lsp").default_capabilities()
 			end
 
+			local mason_registry = require("mason-registry")
+
+			local function get_omnisharp_path()
+				local omnisharp_pkg = mason_registry.get_package("omnisharp")
+				return omnisharp_pkg:get_install_path() .. "/libexec/OmniSharp.dll"
+			end
+
 			local lspconfig = require("lspconfig")
 			local servers = {
 				omnisharp = {
-					cmd = { "OmniSharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+					server_capabilities = {
+						semanticTokensProvider = true,
+						completionProvider = true,
+						definitionProvider = true,
+						documentFormattingProvider = true,
+					},
+					cmd = { "dotnet", get_omnisharp_path() },
 					root_dir = function(fname)
 						return require("lspconfig.util").root_pattern("*.csproj")(fname)
 							or require("lspconfig.util").root_pattern("*.sln")(fname)
@@ -209,11 +224,12 @@ return {
 					vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
 					vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
+					vim.keymap.set("n", "gi", builtin.lsp_implementations, { buffer = 0 })
 					vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
 
-					vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-					vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+					vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = 0 })
+					vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
 					vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
 
 					local filetype = vim.bo[bufnr].filetype
