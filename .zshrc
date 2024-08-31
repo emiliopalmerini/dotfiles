@@ -84,8 +84,10 @@ alias explorer='explorer.exe'
 
 export GOPATH=$HOME/go
 export DOTNETPATH=$HOME/dotnet
+export OMNISHARPPATH=$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$DOTNETPATH/tools
+export PATH=$PATH:$OMNISHARPPATH
 
 # Shell integrations
 eval "$(fzf --zsh)"

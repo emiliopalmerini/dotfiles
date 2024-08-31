@@ -29,8 +29,37 @@ return {
 				capabilities = require("cmp_nvim_lsp").default_capabilities()
 			end
 
+			require("mason").setup()
+			local mason_registry = require("mason-registry")
+
+			local function get_omnisharp_path()
+				local omnisharp_pkg = mason_registry.get_package("omnisharp")
+				return omnisharp_pkg:get_install_path() .. "/libexec/OmniSharp.dll"
+			end
+
 			local lspconfig = require("lspconfig")
 			local servers = {
+				omnisharp = {
+					cmd = { "dotnet", get_omnisharp_path() },
+					settings = {
+						FormattingOptions = {
+							EnableEditorConfigSupport = true,
+							OrganizeImports = nil,
+						},
+						MsBuild = {
+							LoadProjectsOnDemand = nil,
+						},
+						RoslynExtensionsOptions = {
+							EnableAnalyzersSupport = nil,
+							EnableImportCompletion = nil,
+							AnalyzeOpenDocumentsOnly = nil,
+						},
+						Sdk = {
+							IncludePrereleases = true,
+						},
+					},
+				},
+
 				gopls = {
 					settings = {
 						gopls = {
@@ -46,13 +75,14 @@ return {
 						},
 					},
 				},
+
 				lua_ls = {
 					server_capabilities = {
 						semanticTokensProvider = vim.NIL,
 					},
 				},
+
 				rust_analyzer = true,
-				omnisharp = true,
 				pyright = true,
 				biome = true,
 				tsserver = {
@@ -117,7 +147,6 @@ return {
 				end
 			end, vim.tbl_keys(servers))
 
-			require("mason").setup()
 			local ensure_installed = {
 				"stylua",
 				"lua_ls",
