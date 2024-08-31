@@ -24,43 +24,13 @@ return {
 				-- },
 			})
 
-			require("mason").setup()
-
 			local capabilities = nil
 			if pcall(require, "cmp_nvim_lsp") then
 				capabilities = require("cmp_nvim_lsp").default_capabilities()
 			end
 
-			local mason_registry = require("mason-registry")
-
-			local function get_omnisharp_path()
-				local omnisharp_pkg = mason_registry.get_package("omnisharp")
-				return omnisharp_pkg:get_install_path() .. "/libexec/OmniSharp.dll"
-			end
-
 			local lspconfig = require("lspconfig")
 			local servers = {
-				omnisharp = {
-					server_capabilities = {
-						semanticTokensProvider = true,
-						completionProvider = true,
-						definitionProvider = true,
-						documentFormattingProvider = true,
-					},
-					cmd = { "dotnet", get_omnisharp_path() },
-					root_dir = function(fname)
-						return require("lspconfig.util").root_pattern("*.csproj")(fname)
-							or require("lspconfig.util").root_pattern("*.sln")(fname)
-					end,
-					settings = {
-						omnisharp = {
-							enableRoslynAnalyzers = true,
-							organizeImports = true,
-							enableEditorConfigSupport = true,
-							enableImportCompletion = true,
-						},
-					},
-				},
 				gopls = {
 					settings = {
 						gopls = {
@@ -82,7 +52,7 @@ return {
 					},
 				},
 				rust_analyzer = true,
-				templ = true,
+				omnisharp = true,
 				pyright = true,
 				biome = true,
 				tsserver = {
@@ -101,13 +71,6 @@ return {
 						},
 					},
 				},
-
-				-- cssls = {
-				--   server_capabilities = {
-				--     documentFormattingProvider = false,
-				--   },
-				-- },
-
 				yamlls = {
 					settings = {
 						yaml = {
@@ -115,36 +78,16 @@ return {
 								enable = false,
 								url = "",
 							},
-							-- schemas = require("schemastore").yaml.schemas(),
 						},
 					},
 				},
-
-				ols = {},
-
-				gleam = {
-					manual_install = true,
-				},
-
 				elixirls = {
 					cmd = { "/Users/emiliopalmerini/.local/share/nvim/mason/bin/elixir-ls" },
 					root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
 					server_capabilities = {
-						-- completionProvider = true,
-						-- definitionProvider = false,
 						documentFormattingProvider = false,
 					},
 				},
-
-				-- lexical = {
-				-- 	cmd = { "/home/tjdevries/.local/share/nvim/mason/bin/lexical", "server" },
-				-- 	root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
-				-- 	server_capabilities = {
-				-- 		completionProvider = vim.NIL,
-				-- 		definitionProvider = false,
-				-- 	},
-				-- },
-				--
 				tailwindcss = {
 					init_options = {
 						userLanguages = {
@@ -160,14 +103,6 @@ return {
 									[[class: "([^"]*)]],
 								},
 							},
-							-- filetypes_include = { "heex" },
-							-- init_options = {
-							--   userLanguages = {
-							--     elixir = "html-eex",
-							--     eelixir = "html-eex",
-							--     heex = "html-eex",
-							--   },
-							-- },
 						},
 					},
 				},
@@ -187,6 +122,7 @@ return {
 				"stylua",
 				"lua_ls",
 				"delve",
+				"omnisharp",
 				-- "tailwind-language-server",
 			}
 
