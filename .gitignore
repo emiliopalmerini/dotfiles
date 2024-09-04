@@ -1,3 +1,4 @@
 .config/tmux/plugins/
 .config/nvim/lazy-lock.json
 .config/zed/.*
+.config/go/telemetry/*
