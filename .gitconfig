@@ -4,7 +4,6 @@
 [core]
     excludesfile = /Users/emiliopalmerini/.gitignore_global
     editor = nvim
-    pager = delta
 [init]
     defaultBranch = main
 [filter "lfs"]
@@ -13,6 +12,8 @@
     smudge = git-lfs smudge -- %f
     process = git-lfs filter-process
 [alias]
+    dlog = -c diff.external=difft log -p --ext-diff
+    dft = difftool
     cm = commit
     co = checkout
     br = branch
@@ -29,12 +30,16 @@
     rebase = true
 [interactive]
     diffFilter = delta --color-only
-[delta]
-    navigate = true    # use n and N to move between diff sections
-    side-by-side = true
-[merge]
-    conflictstyle = diff3
 [diff]
-    colorMoved = default
+        tool = difftastic
+
+[difftool]
+        prompt = false
+
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+        difftool = true
 [rerere]
 	enabled = true
