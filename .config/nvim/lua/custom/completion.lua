@@ -11,7 +11,6 @@ local cmp = require("cmp")
 cmp.setup({
 	sources = {
 		{ name = "nvim_lsp" },
-		{ name = "cody" },
 		{ name = "path" },
 		{ name = "buffer" },
 	},
@@ -26,6 +25,14 @@ cmp.setup({
 			{ "i", "c" }
 		),
 	},
+
+	-- Setup vim-dadbod
+	cmp.setup.filetype({ "sql" }, {
+		sources = {
+			{ name = "vim-dadbod-completion" },
+			{ name = "buffer" },
+		},
+	}),
 
 	-- Enable luasnip to handle snippet expansion for nvim-cmp
 	snippet = {
