@@ -2,3 +2,4 @@
 .config/nvim/lazy-lock.json
 .config/zed/.*
 .config/go/telemetry/*
+.config/go/telemetry/local
