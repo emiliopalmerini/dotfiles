@@ -14,9 +14,6 @@ require("telescope").setup({
 		find_files = {
 			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 		},
-		live_grep = {
-			grep_open_files = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-		},
 	},
 })
 
