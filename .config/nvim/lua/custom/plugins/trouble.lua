@@ -24,14 +24,6 @@ return {
 				"<cmd>Trouble qflist toggle<cr>",
 				desc = "Quickfix List (Trouble)",
 			},
-			{
-				"]t",
-				"<cmd>Trouble next<cr>",
-			},
-			{
-				"[t",
-				"<cmd>Trouble previous<cr>",
-			},
 		},
 	},
 }
