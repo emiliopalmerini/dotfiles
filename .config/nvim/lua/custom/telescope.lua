@@ -2,10 +2,6 @@ require("telescope").setup({
 	extensions = {
 		wrap_results = true,
 		fzf = {},
-		-- history = {
-		-- 	path = vim.fs.joinpath(data, "telescope_history.sqlite3"),
-		-- 	limit = 100,
-		-- },
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({}),
 		},
@@ -18,7 +14,6 @@ require("telescope").setup({
 })
 
 pcall(require("telescope").load_extension, "fzf")
--- pcall(require("telescope").load_extension, "smart_history")
 pcall(require("telescope").load_extension, "ui-select")
 
 local builtin = require("telescope.builtin")
@@ -34,11 +29,6 @@ vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Fi
 vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>si", builtin.git_files, { desc = "[S]earch G[i]t Files" })
 vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch with [G]rep" })
-
--- vim.keymap.set("n", "<space>fa", function()
--- 	---@diagnostic disable-next-line: param-type-mismatch
--- 	builtin.find_files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") })
--- end)
 
 vim.keymap.set("n", "<space>en", function()
 	builtin.find_files({ cwd = vim.fn.stdpath("config") })

@@ -18,7 +18,7 @@ return {
 				"markdown_inline",
 				"json",
 			},
-			sync_install = false,
+			sync_install = true,
 			auto_install = true,
 			indent = {
 				enable = true,
