@@ -14,11 +14,7 @@ vim.opt.splitright = true
 vim.opt.signcolumn = "yes"
 vim.opt.shada = { "'10", "<0", "s10", "h" }
 
-vim.opt.swapfile = false
-
--- vim.opt.formatoptions:remove("o")
-
-vim.opt.wrap = true
+vim.opt.wrap = false
 vim.opt.linebreak = true
 vim.opt.smartindent = true
 
