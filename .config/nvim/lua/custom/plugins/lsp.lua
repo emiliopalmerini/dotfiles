@@ -152,7 +152,6 @@ return {
 				"lua_ls",
 				"delve",
 				"omnisharp",
-				-- "tailwind-language-server",
 			}
 
 			vim.list_extend(ensure_installed, servers_to_install)

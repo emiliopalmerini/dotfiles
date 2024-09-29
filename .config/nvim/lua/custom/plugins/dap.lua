@@ -16,7 +16,6 @@ return {
 			require("dap-go").setup()
 
 			require("nvim-dap-virtual-text").setup({
-				-- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
 				display_callback = function(variable)
 					local name = string.lower(variable.name)
 					local value = string.lower(variable.value)
@@ -31,16 +30,6 @@ return {
 					return " " .. variable.value
 				end,
 			})
-
-			-- Handled by nvim-dap-go
-			-- dap.adapters.go = {
-			-- 	type = "server",
-			-- 	port = "${port}",
-			-- 	executable = {
-			-- 		command = "dlv",
-			-- 		args = { "dap", "-l", "127.0.0.1:${port}" },
-			-- 	},
-			-- }
 
 			dap.adapters.coreclr = {
 				type = "executable",
