@@ -32,56 +32,47 @@ return {
 		log_level = vim.log.levels.INFO,
 
 		daily_notes = {
+			-- Optional, if you keep daily notes in a separate directory.
 			folder = "./logs",
+			-- Optional, if you want to change the date format for the ID of daily notes.
 			date_format = "%Y-%m-%d",
-			template = { "./templates/daily_template.md" },
+			-- Optional, if you want to change the date format of the default alias of daily notes.
+			alias_format = "%B %-d, %Y",
+			-- Optional, default tags to add to each new daily note created.
+			default_tags = { "logs/daily" },
+			-- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
+			template = nil,
 		},
 
+		-- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
 		completion = {
+			-- Set to false to disable completion.
 			nvim_cmp = true,
+			-- Trigger completion at 2 chars.
 			min_chars = 2,
 		},
 
+		-- Optional, configure key mappings. These are the defaults. If you don't want to set any keymappings this
+		-- way then set 'mappings = {}'.
 		mappings = {
-			["gd"] = {
+			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+			["gf"] = {
 				action = function()
-					return require("lua.custom.plugins.plugins.obsidian").util.gf_passthrough()
+					return require("obsidian").util.gf_passthrough()
 				end,
 				opts = { noremap = false, expr = true, buffer = true },
 			},
+			-- Toggle check-boxes.
 			["<leader>ch"] = {
 				action = function()
-					return require("lua.custom.plugins.plugins.obsidian").util.toggle_checkbox()
+					return require("obsidian").util.toggle_checkbox()
 				end,
 				opts = { buffer = true },
 			},
+			-- Smart action depending on context, either follow link or toggle checkbox.
 			["<cr>"] = {
 				action = function()
-					return require("lua.custom.plugins.plugins.obsidian").util.smart_action()
-				end,
-				opts = { buffer = true, expr = true },
-			},
-			["<leader>sf"] = {
-				action = function()
-					return ":ObsidianQuickSwitch<CR>"
-				end,
-				opts = { buffer = true, expr = true },
-			},
-			["<leader>slg"] = {
-				action = function()
-					return ":ObsidianSearch<CR>"
-				end,
-				opts = { buffer = true, expr = true },
-			},
-			["<leader>od"] = {
-				action = function()
-					return ":ObsidianToday<CR>"
-				end,
-				opts = { buffer = true, expr = true },
-			},
-			["<leader>ot"] = {
-				action = function()
-					return ":ObsidianTemplate<CR>"
+					return require("obsidian").util.smart_action()
 				end,
 				opts = { buffer = true, expr = true },
 			},
@@ -90,7 +81,7 @@ return {
 		-- Where to put new notes. Valid options are
 		--  * "current_dir" - put new notes in same directory as the current buffer.
 		--  * "notes_subdir" - put new notes in the default notes subdirectory.
-		new_notes_location = "notes_subdir",
+		new_notes_location = "current_dir",
 
 		-- Optional, customize how note IDs are generated given an optional title.
 		---@param title string|?
@@ -99,17 +90,17 @@ return {
 			-- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
 			-- In this case a note with the title 'My new note' will be given an ID that looks
 			-- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
-			local suffix = ""
+			local formattedTitle = ""
 			if title ~= nil then
 				-- If title is given, transform it into valid file name.
-				suffix = title:gsub("[ %-]", "_"):gsub("[^%w_]", ""):lower()
+				formattedTitle = title:gsub(" ", "_"):gsub("[^A-Za-z0-9-]", ""):lower()
 			else
 				-- If title is nil, just add 4 random uppercase letters to the suffix.
 				for _ = 1, 4 do
-					suffix = suffix .. string.char(math.random(65, 90))
+					formattedTitle = formattedTitle .. string.char(math.random(65, 90))
 				end
 			end
-			return suffix
+			return formattedTitle
 		end,
 
 		-- Optional, customize how note file names are generated given the ID, target directory, and title.
@@ -139,13 +130,6 @@ return {
 		-- Either 'wiki' or 'markdown'.
 		preferred_link_style = "wiki",
 
-		-- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.
-		---@return string
-		image_name_func = function()
-			-- Prefix image names with timestamp.
-			return string.format("%s-", os.time())
-		end,
-
 		-- Optional, boolean or a function that takes a filename and returns a boolean.
 		-- `true` indicates that you don't want obsidian.nvim to manage frontmatter.
 		disable_frontmatter = false,
@@ -173,7 +157,7 @@ return {
 
 		-- Optional, for templates (see below).
 		templates = {
-			folder = "./templates",
+			folder = "templates",
 			date_format = "%Y-%m-%d",
 			time_format = "%H:%M",
 			-- A map for custom variables, the key should be the variable and the value a function
@@ -187,6 +171,17 @@ return {
 			-- Open the URL in the default web browser.
 			vim.fn.jobstart({ "open", url }) -- Mac OS
 			-- vim.fn.jobstart({"xdg-open", url})  -- linux
+			-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
+			-- vim.ui.open(url) -- need Neovim 0.10.0+
+		end,
+
+		-- Optional, by default when you use `:ObsidianFollowLink` on a link to an image
+		-- file it will be ignored but you can customize this behavior here.
+		---@param img string
+		follow_img_func = function(img)
+			vim.fn.jobstart({ "qlmanage", "-p", img }) -- Mac OS quick look preview
+			-- vim.fn.jobstart({"xdg-open", url})  -- linux
+			-- vim.cmd(':silent exec "!start ' .. url .. '"') -- Windows
 		end,
 
 		-- Optional, set to true if you use the Obsidian Advanced URI plugin.
@@ -201,11 +196,17 @@ return {
 			name = "telescope.nvim",
 			-- Optional, configure key mappings for the picker. These are the defaults.
 			-- Not all pickers support all mappings.
-			mappings = {
+			note_mappings = {
 				-- Create a new note from your query.
 				new = "<C-x>",
 				-- Insert a link to the selected note.
 				insert_link = "<C-l>",
+			},
+			tag_mappings = {
+				-- Add tag(s) to current note.
+				tag_note = "<C-x>",
+				-- Insert a tag at the current location.
+				insert_tag = "<C-l>",
 			},
 		},
 
@@ -254,7 +255,7 @@ return {
 		-- Optional, configure additional syntax highlighting / extmarks.
 		-- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
 		ui = {
-			enable = false, -- set to false to disable all additional syntax features
+			enable = true, -- set to false to disable all additional syntax features
 			update_debounce = 200, -- update delay after a text change (in milliseconds)
 			max_file_length = 5000, -- disable UI features for files with more than this many lines
 			-- Define how various check-boxes are displayed
@@ -301,7 +302,15 @@ return {
 			-- The default folder to place images in via `:ObsidianPasteImg`.
 			-- If this is a relative path it will be interpreted as relative to the vault root.
 			-- You can always override this per image by passing a full path to the command instead of just a filename.
-			img_folder = "assets", -- This is the default
+			img_folder = "assets/imgs", -- This is the default
+
+			-- Optional, customize the default name or prefix when pasting images via `:ObsidianPasteImg`.
+			---@return string
+			img_name_func = function()
+				-- Prefix image names with timestamp.
+				return string.format("%s-", os.time())
+			end,
+
 			-- A function that determines the text to insert in the note when pasting an image.
 			-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
 			-- This is the default implementation.

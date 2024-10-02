@@ -85,7 +85,7 @@ return {
 				rust_analyzer = true,
 				pyright = true,
 				biome = true,
-				tsserver = {
+				ts_ls = {
 					server_capabilities = {
 						documentFormattingProvider = false,
 					},
