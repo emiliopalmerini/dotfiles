@@ -17,6 +17,11 @@ return {
 			"b0o/SchemaStore.nvim",
 		},
 		config = function()
+			-- Don't do LSP stuff if we're in Obsidian Edit mode
+			if vim.g.obsidian then
+				return
+			end
+
 			require("neodev").setup({
 				-- library = {
 				--   plugins = { "nvim-dap-ui" },
@@ -29,37 +34,10 @@ return {
 				capabilities = require("cmp_nvim_lsp").default_capabilities()
 			end
 
-			require("mason").setup()
-			local mason_registry = require("mason-registry")
-
-			local function get_omnisharp_path()
-				local omnisharp_pkg = mason_registry.get_package("omnisharp")
-				return omnisharp_pkg:get_install_path() .. "/libexec/OmniSharp.dll"
-			end
-
 			local lspconfig = require("lspconfig")
-			local servers = {
-				omnisharp = {
-					cmd = { "dotnet", get_omnisharp_path() },
-					settings = {
-						FormattingOptions = {
-							EnableEditorConfigSupport = true,
-							OrganizeImports = nil,
-						},
-						MsBuild = {
-							LoadProjectsOnDemand = nil,
-						},
-						RoslynExtensionsOptions = {
-							EnableAnalyzersSupport = nil,
-							EnableImportCompletion = nil,
-							AnalyzeOpenDocumentsOnly = nil,
-						},
-						Sdk = {
-							IncludePrereleases = true,
-						},
-					},
-				},
 
+			local servers = {
+				bashls = true,
 				gopls = {
 					settings = {
 						gopls = {
@@ -75,15 +53,21 @@ return {
 						},
 					},
 				},
-
 				lua_ls = {
 					server_capabilities = {
 						semanticTokensProvider = vim.NIL,
 					},
 				},
-
 				rust_analyzer = true,
+				svelte = true,
+				templ = true,
+				taplo = true,
+				intelephense = true,
+
 				pyright = true,
+				mojo = { manual_install = true },
+
+				-- Enabled biome formatting, turn off all the other ones generally
 				biome = true,
 				ts_ls = {
 					server_capabilities = {
@@ -101,6 +85,13 @@ return {
 						},
 					},
 				},
+
+				-- cssls = {
+				--   server_capabilities = {
+				--     documentFormattingProvider = false,
+				--   },
+				-- },
+
 				yamlls = {
 					settings = {
 						yaml = {
@@ -108,16 +99,79 @@ return {
 								enable = false,
 								url = "",
 							},
+							-- schemas = require("schemastore").yaml.schemas(),
 						},
 					},
 				},
+
+				ols = {},
+
+				ocamllsp = {
+					manual_install = true,
+					cmd = { "dune", "exec", "ocamllsp" },
+					settings = {
+						codelens = { enable = true },
+						inlayHints = { enable = true },
+						syntaxDocumentation = { enable = true },
+					},
+
+					get_language_id = function(_, lang)
+						print("LANG:", lang)
+						local map = {
+							["ocaml.mlx"] = "ocaml",
+						}
+						return map[lang] or lang
+					end,
+
+					filetypes = {
+						"ocaml",
+						"ocaml.interface",
+						"ocaml.menhir",
+						"ocaml.cram",
+						"ocaml.mlx",
+						"ocaml.ocamllex",
+						"reason",
+					},
+
+					server_capabilities = {
+						semanticTokensProvider = false,
+					},
+
+					-- TODO: Check if i still need the filtypes stuff i had before
+				},
+
+				gleam = {
+					manual_install = true,
+				},
+
 				elixirls = {
-					cmd = { "/Users/emiliopalmerini/.local/share/nvim/mason/bin/elixir-ls" },
+					cmd = { "/home/tjdevries/.local/share/nvim/mason/bin/elixir-ls" },
 					root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
 					server_capabilities = {
+						-- completionProvider = true,
+						-- definitionProvider = false,
 						documentFormattingProvider = false,
 					},
 				},
+
+				lexical = {
+					cmd = { "/home/tjdevries/.local/share/nvim/mason/bin/lexical", "server" },
+					root_dir = require("lspconfig.util").root_pattern({ "mix.exs" }),
+					server_capabilities = {
+						completionProvider = vim.NIL,
+						definitionProvider = false,
+					},
+				},
+
+				clangd = {
+					-- cmd = { "clangd", unpack(require("custom.clangd").flags) },
+					-- TODO: Could include cmd, but not sure those were all relevant flags.
+					--    looks like something i would have added while i was floundering
+					init_options = { clangdFileStatus = true },
+
+					filetypes = { "c" },
+				},
+
 				tailwindcss = {
 					init_options = {
 						userLanguages = {
@@ -133,6 +187,14 @@ return {
 									[[class: "([^"]*)]],
 								},
 							},
+							-- filetypes_include = { "heex" },
+							-- init_options = {
+							--   userLanguages = {
+							--     elixir = "html-eex",
+							--     eelixir = "html-eex",
+							--     heex = "html-eex",
+							--   },
+							-- },
 						},
 					},
 				},
@@ -147,11 +209,12 @@ return {
 				end
 			end, vim.tbl_keys(servers))
 
+			require("mason").setup()
 			local ensure_installed = {
 				"stylua",
 				"lua_ls",
 				"delve",
-				"omnisharp",
+				-- "tailwind-language-server",
 			}
 
 			vim.list_extend(ensure_installed, servers_to_install)
@@ -188,12 +251,11 @@ return {
 					vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
 					vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-					vim.keymap.set("n", "gi", builtin.lsp_implementations, { buffer = 0 })
 					vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
 
-					vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { buffer = 0 })
-					vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+					vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
+					vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
 					vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
 
 					local filetype = vim.bo[bufnr].filetype
@@ -235,6 +297,13 @@ return {
 
 			vim.api.nvim_create_autocmd("BufWritePre", {
 				callback = function(args)
+					-- local filename = vim.fn.expand "%:p"
+
+					local extension = vim.fn.expand("%:e")
+					if extension == "mlx" then
+						return
+					end
+
 					require("conform").format({
 						bufnr = args.buf,
 						lsp_fallback = true,
