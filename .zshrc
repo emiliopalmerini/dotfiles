@@ -82,6 +82,16 @@ alias dkc='docker-compose'
 alias cdw='cd /mnt/c/Users/emili/'
 alias explorer='explorer.exe'
 
+# Yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
 export GOPATH=$HOME/go
 export DOTNETPATH=$HOME/dotnet
 export OMNISHARPPATH=$HOME/.local/share/nvim/mason/packages/omnisharp/libexec/OmniSharp.dll
@@ -104,6 +114,8 @@ export FZF_CTRL_R_OPTS="
 export FZF_ALT_C_OPTS="
   --walker-skip .git,node_modules,target
   --preview 'tree -C {}'"
+
+export EDITOR=vim
 
 # Shell integrations
 eval "$(fzf --zsh)"
