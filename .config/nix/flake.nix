@@ -1,51 +1,80 @@
 {
-  description = "Efesto Darwin system flake";
+	description = "Nixos config flake";
 
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-  };
+	inputs = {
+		nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
-  let
-    configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages =
-        [ pkgs.neovim
-        ];
+		home-manager = {
+			url = "github:nix-community/home-manager";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
+		nix-darwin.url = "github:LnL7/nix-darwin";
+		nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+	};
 
-      # Auto upgrade nix package and the daemon service.
-      services.nix-daemon.enable = true;
-      # nix.package = pkgs.nix;
+	outputs = inputs@{ self, nix-darwin, nixpkgs, ... }:
+		let
+			# Sistemi definiti
+			linuxSystem = "x86_64-linux";
+			macSystem = "aarch64-darwin";
 
-      # Necessary for using flakes on this system.
-      nix.settings.experimental-features = "nix-command flakes";
+			# Pacchetti per i sistemi
+			linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
+			macPkgs = nixpkgs.legacyPackages.${macSystem};
 
-      # Create /etc/zshrc that loads the nix-darwin environment.
-      programs.zsh.enable = true;  # default shell on catalina
-      # programs.fish.enable = true;
+			# Configurazione per il Mac
+			macConfiguration = { pkgs, ... }: {
+				nixpkgs.config.allowUnfree = true;
+				environment.systemPackages = [
+					pkgs.neovim
+					pkgs.discord
+					pkgs.tmux
+					pkgs.obsidian
+				];
 
-      # Set Git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
+				fonts.packages = [
+					(pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+				];
 
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
-      system.stateVersion = 5;
+				services.nix-daemon.enable = true;
 
-      # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "x86_64-darwin";
-    };
-  in
-  {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
-    darwinConfigurations."simple" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
-    };
+				nix.settings.experimental-features = "nix-command flakes";
 
-    # Expose the package set, including overlays, for convenience.
-    darwinPackages = self.darwinConfigurations."simple".pkgs;
-  };
+				system.configurationRevision = self.rev or self.dirtyRev or null;
+				system.stateVersion = 5;
+			};
+
+			# Configurazione per Linux
+			linuxConfiguration = {
+				imports = [
+					./hosts/default/configuration.nix
+					inputs.home-manager.nixosModules.default
+				];
+			};
+		in
+			{
+			nixosConfigurations = {
+				default = nixpkgs.lib.nixosSystem {
+					system = linuxSystem;
+					specialArgs = { inherit inputs; };
+					modules = [ linuxConfiguration ];
+				};
+
+				codicePlastico = nixpkgs.lib.nixosSystem {
+					system = linuxSystem;
+					specialArgs = { inherit inputs; };
+					modules = [
+						./hosts/codicePlastico/configuration.nix
+						inputs.home-manager.nixosModules.default
+					];
+				};
+			};
+
+			darwinConfigurations = {
+				macbook = nix-darwin.lib.darwinSystem {
+					system = macSystem;
+					modules = [ macConfiguration ];
+				};
+			};
+		};
 }
