@@ -36,4 +36,3 @@ vim.keymap.set("n", "<up>", "<C-W>+")
 vim.keymap.set("n", "<down>", "<C-W>-")
 
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
-vim.keymap.set("n", "<C-e>", ":lua vim.diagnostic.open_float()<CR>")

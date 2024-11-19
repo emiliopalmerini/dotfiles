@@ -67,7 +67,6 @@ return {
 				pyright = true,
 				mojo = { manual_install = true },
 
-				-- Enabled biome formatting, turn off all the other ones generally
 				ts_ls = {
 					capabilities = capabilities,
 					init_options = {
@@ -77,6 +76,7 @@ return {
 					},
 				},
 				biome = true,
+				eslint = true,
 				jsonls = {
 					server_capabilities = {
 						documentFormattingProvider = false,
@@ -203,9 +203,6 @@ return {
 				"stylua",
 				"lua_ls",
 				"delve",
-				"typescript-language-server",
-				"biome",
-				"eslint-lsp",
 			}
 
 			vim.list_extend(ensure_installed, servers_to_install)
