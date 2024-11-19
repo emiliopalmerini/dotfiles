@@ -68,12 +68,15 @@ return {
 				mojo = { manual_install = true },
 
 				-- Enabled biome formatting, turn off all the other ones generally
-				biome = true,
 				ts_ls = {
-					server_capabilities = {
-						documentFormattingProvider = false,
+					capabilities = capabilities,
+					init_options = {
+						preferences = {
+							disableSuggestions = true,
+						},
 					},
 				},
+				biome = true,
 				jsonls = {
 					server_capabilities = {
 						documentFormattingProvider = false,
@@ -85,12 +88,6 @@ return {
 						},
 					},
 				},
-
-				-- cssls = {
-				--   server_capabilities = {
-				--     documentFormattingProvider = false,
-				--   },
-				-- },
 
 				yamlls = {
 					settings = {
@@ -187,14 +184,6 @@ return {
 									[[class: "([^"]*)]],
 								},
 							},
-							-- filetypes_include = { "heex" },
-							-- init_options = {
-							--   userLanguages = {
-							--     elixir = "html-eex",
-							--     eelixir = "html-eex",
-							--     heex = "html-eex",
-							--   },
-							-- },
 						},
 					},
 				},
@@ -214,7 +203,9 @@ return {
 				"stylua",
 				"lua_ls",
 				"delve",
-				-- "tailwind-language-server",
+				"typescript-language-server",
+				"biome",
+				"eslint-lsp",
 			}
 
 			vim.list_extend(ensure_installed, servers_to_install)
