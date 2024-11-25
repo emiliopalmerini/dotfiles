@@ -2,7 +2,7 @@
     name = emiliopalmerini
     email = emilio.palmerini@proton.me
 [core]
-    excludesfile = /Users/emiliopalmerini/.gitignore_global
+    excludesfile = ~/.gitignore_global
     editor = nvim
 	autocrlf = input
 [init]
