@@ -7,6 +7,7 @@
 	autocrlf = input
 [init]
     defaultBranch = main
+	templatedir = ~/.git_templates
 [filter "lfs"]
     required = true
     clean = git-lfs clean -- %f
