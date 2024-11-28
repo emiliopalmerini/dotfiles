@@ -44,7 +44,35 @@ return {
                     name = "launch - netcoredbg",
                     request = "launch",
                     program = function()
-                        return vim.fn.input('Path to dll: ', vim.fn.getcwd() .. '/bin/Debug/', 'file')
+                        local project_dir = vim.fn.getcwd()
+
+                        local csproj_file = project_dir .. "/" .. vim.fn.glob("*.csproj")
+                        local file = io.open(csproj_file, "r")
+                        if not file then
+                            return vim.fn.input(
+                            'File .csproj non trovato. Specifica la versione del framework (es. net5.0): ', "", 'file')
+                        end
+
+                        local content = file:read("*a")
+                        file:close()
+
+                        local version = content:match("<TargetFramework>(net[%d%.]+)</TargetFramework>")
+                        if not version then
+                            return vim.fn.input(
+                            'Impossibile determinare la versione dal file .csproj. Specifica la versione (es. net5.0): ',
+                                "", 'file')
+                        end
+
+                        local build_config = "Debug"                                          -- Puoi cambiarlo in "Release" se necessario
+                        local build_output_dir = project_dir ..
+                        "/bin/" .. build_config .. "/" .. version                             -- Usa la versione corretta per il tuo progetto .NET
+
+                        local files = vim.fn.glob(build_output_dir .. "/*.dll")
+                        if files == "" then
+                            return vim.fn.input('Path to dll: ', build_output_dir, 'file')
+                        else
+                            return files
+                        end
                     end,
                 },
             }
@@ -79,4 +107,3 @@ return {
         end,
     },
 }
-
