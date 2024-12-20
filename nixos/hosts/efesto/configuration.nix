@@ -89,21 +89,17 @@
     description = "emilio";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    ];
+neovim
+git 
+   ];
   };
 
-  home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = {
-      emilio = {
-        imports = [
-          ./home.nix
-          inputs.self.outputs.homeManagerModules.default
-        ];
-      };
-    };
+   home-manager = {
+	  extraSpecialArgs = {inherit inputs;};
+	  users = {
+		  "emilio" = import ./home.nix;
+	  };
   };
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
@@ -112,6 +108,7 @@
   environment.systemPackages = with pkgs; [
   ];
 
+  programs.zsh.enable = true;
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

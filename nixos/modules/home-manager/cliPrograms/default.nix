@@ -1,7 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./terminals
+    ./neovim.nix
+    ./git.nix
   ];
 }
 
