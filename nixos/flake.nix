@@ -1,27 +1,27 @@
 {
-  description = "Nixos config flake";
+  description = "NixOS configuration flake";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
-     home-manager = {
-       url = "github:nix-community/home-manager";
-       inputs.nixpkgs.follows = "nixpkgs";
-     };
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
   let
-  	system = "x84_64-linux";
-	pkgs = nixpkgs.legacyPackages.${system};
-  in
-  {
+    system = "x86_64-linux";  # Corretto nome dell'architettura
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
     nixosConfigurations.efesto = nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      system = system;  # Specifica il sistema
+      specialArgs = { inherit inputs; };  # Passa gli inputs come argomenti speciali
       modules = [
-        ./hosts/efesto/configuration.nix
-	./modules/nixos
-	inputs.home-manager.nixosModules.default
+        ./hosts/efesto/configuration.nix  # Configurazione host-specifica
+        ./modules/nixos                   # Moduli personalizzati
+        inputs.home-manager.nixosModules.default  # Integrazione di home-manager
       ];
     };
   };
