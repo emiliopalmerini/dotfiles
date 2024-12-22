@@ -13,8 +13,7 @@
   neovim.enable = true;
   kitty.enable = true;
   git.enable = true;
-  discord.enable = false;
-  slack.enable = true;
+  tmux.enable = true;
 
   home.packages = [
     pkgs.gcc
@@ -24,6 +23,9 @@
 	  ".config/nvim" = {
 		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/nvim";
 	  };
+	  ".config/tmux" = {
+		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/tmux";
+    };
   };
 
   # Home Manager can also manage your environment variables through

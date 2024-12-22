@@ -11,7 +11,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "efesto"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   networking.networkmanager.enable = true;
@@ -36,7 +36,7 @@
 
 
   services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   services.xserver.xkb = {
     layout = "us";
@@ -73,7 +73,9 @@
   nixpkgs.config.allowUnfree = true;
 
   programs.zsh.enable = true;
-  hyperland.enable = true;
+  environment.systemPackages = with pkgs; [
+    slack
+  ];
 
   services.openssh.enable = true;
 
