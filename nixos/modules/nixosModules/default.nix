@@ -4,5 +4,6 @@
   imports =
     [
     	./main-user.nix
+	./hyperland.nix
     ];
 }

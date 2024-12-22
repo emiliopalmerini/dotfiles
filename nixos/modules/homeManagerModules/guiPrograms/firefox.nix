@@ -1,14 +1,11 @@
 { lib, config, pkgs, ... }:
 
-let
-  cfg = config.firefox;
-in
 {
-  options.firefox = {
-    enable = lib.mkEnableOption "enable firefox module";
+  options = {
+    firefox.enable = lib.mkEnableOption "enable firefox";
   };
 
-    config = lib.mkIf cfg.enable {
+    config = lib.mkIf config.firefox.enable {
       programs.firefox.enable = true;
     };
 }

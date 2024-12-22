@@ -1,15 +1,12 @@
 { lib, config, pkgs, ... }:
 
-let
-  cfg = config.neovim;
-in
 {
-  options.neovim = {
-    enable 
+  options = {
+    neovim.enable 
       = lib.mkEnableOption "enable neovim module";
   };
 
-    config = lib.mkIf cfg.enable {
+    config = lib.mkIf config.neovim.enable {
     	programs.neovim = {
 		enable = true;
 		defaultEditor = true;

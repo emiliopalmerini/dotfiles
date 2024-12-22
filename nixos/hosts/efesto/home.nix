@@ -11,6 +11,7 @@
 
   firefox.enable = true;
   neovim.enable = true;
+  kitty.enable = true;
 
   home.packages = [
   ];

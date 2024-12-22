@@ -12,7 +12,7 @@
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
-    system = "x86_64-linux";  # Corretto nome dell'architettura
+    system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
 
