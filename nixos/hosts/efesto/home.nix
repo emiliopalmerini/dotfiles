@@ -15,15 +15,12 @@
   git.enable = true;
 
   home.packages = [
-    pkgs.libgcc
+    pkgs.gcc
   ];
 
   home.file = {
-	  ".config" = {
-		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/.config";
-	  };
-	  ".gitconfig" = {
-		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/.gitconfig";
+	  ".config/nvim" = {
+		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/nvim";
 	  };
   };
 
