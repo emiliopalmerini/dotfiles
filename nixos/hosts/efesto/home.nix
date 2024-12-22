@@ -13,6 +13,8 @@
   neovim.enable = true;
   kitty.enable = true;
   git.enable = true;
+  discord.enable = false;
+  slack.enable = true;
 
   home.packages = [
     pkgs.gcc

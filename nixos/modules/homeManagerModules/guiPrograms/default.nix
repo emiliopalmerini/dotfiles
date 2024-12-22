@@ -3,6 +3,8 @@
   imports = [
     ./firefox.nix
     ./kitty.nix
+    ./slack.nix
+    ./discord.nix
   ];
 }
 
