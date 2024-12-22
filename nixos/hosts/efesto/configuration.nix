@@ -72,10 +72,6 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-	  pkgs.git
-  ];
-
   programs.zsh.enable = true;
   hyperland.enable = true;
 

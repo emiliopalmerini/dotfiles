@@ -12,11 +12,19 @@
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
+  git.enable = true;
 
   home.packages = [
+    pkgs.libgcc
   ];
 
   home.file = {
+	  ".config" = {
+		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/.config";
+	  };
+	  ".gitconfig" = {
+		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/.gitconfig";
+	  };
   };
 
   # Home Manager can also manage your environment variables through
