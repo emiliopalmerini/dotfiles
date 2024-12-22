@@ -1,8 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./kitty.nix
-    ./firefox.nix
+    ./guiPrograms
+    ./cliPrograms
   ];
 }
 

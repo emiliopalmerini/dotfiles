@@ -10,7 +10,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
     system = "x86_64-linux";  # Corretto nome dell'architettura
     pkgs = nixpkgs.legacyPackages.${system};
@@ -20,8 +20,9 @@
       system = system;  # Specifica il sistema
       specialArgs = { inherit inputs; };  # Passa gli inputs come argomenti speciali
       modules = [
-	      ./hosts/efesto/configuration.nix  # Configurazione host-specifica
-	      ./modules/nixos                   # Moduli personalizzati
+	      ./hosts/efesto/configuration.nix         # Configurazione host-specifica
+	      inputs.home-manager.nixosModules.default # Default home-manager modules
+	      ./modules/nixosModules                   # Moduli personalizzati
       ];
     };
   };
