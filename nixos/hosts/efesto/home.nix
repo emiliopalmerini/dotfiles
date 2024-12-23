@@ -19,6 +19,7 @@
     pkgs.gcc
     pkgs.go
     pkgs.lua
+    pkgs.oh-my-posh
   ];
 
   nixpkgs = {
@@ -35,6 +36,9 @@
     ];
   };
 
+  home.file.".config/.zshrc" = {
+    source = home/emilio/dotfiles/.zshrc;
+  };
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
   # shell provided by Home Manager. If you don't want to manage your shell

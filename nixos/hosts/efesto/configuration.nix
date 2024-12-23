@@ -54,6 +54,7 @@
     pulse.enable = true;
   };
 
+  nixpkgs.config.allowUnfree = true;
   main-user.enable = true;
   main-user.userName = "emilio";
 
@@ -61,6 +62,9 @@
 	  isNormalUser = true;
 	  description = "emilio";
 	  extraGroups = [ "networkmanager" "wheel" ];
+      packages = [
+      pkgs.slack
+    ];
   };
 
   home-manager = {
@@ -70,17 +74,11 @@
 	  };
   };
 
-  nixpkgs.config.allowUnfree = true;
-
-  programs.zsh.enable = true;
-  environment.systemPackages = with pkgs; [
-    slack
-  ];
+  zsh.enable = true;
 
   environment.variables.EDITOR = "nvim";
 
   services.openssh.enable = true;
-
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
