@@ -77,6 +77,8 @@
     slack
   ];
 
+  environment.variables.EDITOR = "nvim";
+
   services.openssh.enable = true;
 
 

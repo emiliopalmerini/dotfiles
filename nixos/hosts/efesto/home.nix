@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -9,24 +9,31 @@
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-  home.file = {
-    ".config/nvim" = {
-      source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/nvim";
-    };
-  };
-
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
   git.enable = true;
   tmux.enable = true;
-  dotnet.enable = true;
 
   home.packages = [
     pkgs.gcc
     pkgs.go
     pkgs.lua
   ];
+
+  nixpkgs = {
+    overlays = [
+      (final: prev: {
+        vimPlugins = prev.vimPlugins // {
+          own-harpoon-nvim = prev.vimUtils.buildVimPlugin {
+            name = "harpoon";
+            version = "harpoon2";
+            src = inputs.plugin-harpoon;
+          };
+        };
+      })
+    ];
+  };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -44,9 +51,6 @@
   #
   #  /etc/profiles/per-user/emilio/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
 
   programs.home-manager.enable = true;
 }

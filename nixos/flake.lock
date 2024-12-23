@@ -36,10 +36,28 @@
         "type": "github"
       }
     },
+    "plugin-harpoon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1731463207,
+        "narHash": "sha256-PjB64kdmoCD7JfUB7Qz9n34hk0h2/ZZRlN8Jv2Z9HT8=",
+        "ref": "harpoon2",
+        "rev": "a84ab829eaf3678b586609888ef52f7779102263",
+        "revCount": 460,
+        "type": "git",
+        "url": "https://github.com/ThePrimeagen/harpoon"
+      },
+      "original": {
+        "ref": "harpoon2",
+        "type": "git",
+        "url": "https://github.com/ThePrimeagen/harpoon"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "plugin-harpoon": "plugin-harpoon"
       }
     }
   },

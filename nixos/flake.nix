@@ -8,7 +8,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
+
+  plugin-harpoon = {
+      url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
+      flake = false;
+    };
+};
 
   outputs = { self, nixpkgs, ... }@inputs:
   let
