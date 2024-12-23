@@ -24,6 +24,7 @@
           xclip
           wl-clipboard
           ripgrep
+          omnisharp-roslyn
         ];
 
         plugins = with pkgs.vimPlugins; [
