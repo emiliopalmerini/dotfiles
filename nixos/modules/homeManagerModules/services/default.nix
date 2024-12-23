@@ -1,9 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./services
-    ./guiPrograms
-    ./cliPrograms
+    ./dotnet.nix
   ];
 }
 

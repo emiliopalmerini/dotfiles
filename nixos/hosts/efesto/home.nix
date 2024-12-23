@@ -9,24 +9,24 @@
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
+  home.file = {
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/nvim";
+    };
+  };
+
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
   git.enable = true;
   tmux.enable = true;
+  dotnet.enable = true;
 
   home.packages = [
     pkgs.gcc
+    pkgs.go
+    pkgs.lua
   ];
-
-  home.file = {
-	  ".config/nvim" = {
-		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/nvim";
-	  };
-	  ".config/tmux" = {
-		  source = config.lib.file.mkOutOfStoreSymlink "/home/emilio/dotfiles/config/tmux";
-    };
-  };
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
