@@ -5,6 +5,5 @@
     [
       ./main-user.nix
       ./hyperland.nix
-      ./zsh.nix
     ];
 }

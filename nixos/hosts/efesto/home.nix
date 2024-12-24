@@ -14,12 +14,12 @@
   kitty.enable = true;
   git.enable = true;
   tmux.enable = true;
+  zsh.enable = true;
 
   home.packages = [
     pkgs.gcc
     pkgs.go
     pkgs.lua
-    pkgs.oh-my-posh
   ];
 
   nixpkgs = {
@@ -36,25 +36,10 @@
     ];
   };
 
-  home.file.".config/.zshrc" = {
-    source = home/emilio/dotfiles/.zshrc;
+  home.file.".config/ohmyposh" = {
+    source = ../../../config/ohmyposh;
+    recursive = true;
   };
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/emilio/etc/profile.d/hm-session-vars.sh
-  #
 
   programs.home-manager.enable = true;
 }
