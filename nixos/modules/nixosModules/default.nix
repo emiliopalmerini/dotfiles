@@ -3,7 +3,6 @@
 {
   imports =
     [
-      ./hyperland.nix
       ./main-user.nix
     ];
 }

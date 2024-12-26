@@ -34,10 +34,6 @@
 
   services.xserver.enable = true;
 
-
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   services.xserver.xkb = {
     layout = "us";
     variant = "";
@@ -81,6 +77,12 @@
   programs.zsh.enable = true;
 
   services.openssh.enable = true;
+  environment.systemPackages = with pkgs; [
+    dunst
+    libnotify
+    swww
+    rofi-wayland
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
