@@ -12,6 +12,7 @@
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
+  alacritty.enable = true;
 
   git.enable = true;
   git.userName = "emiliopalmerini";
