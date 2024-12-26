@@ -11,7 +11,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  networking.hostName = "efesto"; # Define your hostname.
+  networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   networking.networkmanager.enable = true;
@@ -74,7 +74,12 @@
 	  };
   };
 
+  home-manager.backupFileExtension = "bak";
+
   environment.variables.EDITOR = "nvim";
+
+  environment.shells = with pkgs; [ zsh ];
+  users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
   services.openssh.enable = true;
