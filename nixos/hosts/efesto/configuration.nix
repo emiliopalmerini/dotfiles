@@ -74,6 +74,7 @@
   home-manager.backupFileExtension = "bak";
 
   environment.variables.EDITOR = "nvim";
+  environment.pathsToLink = [ "/share/zsh" ];
 
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
