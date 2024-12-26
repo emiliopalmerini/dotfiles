@@ -12,7 +12,11 @@
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
+
   git.enable = true;
+  git.userName = "emiliopalmerini";
+  git.userEmail = "emiliopalmerini@codiceplastico.com";
+
   tmux.enable = true;
   zsh.enable = true;
 

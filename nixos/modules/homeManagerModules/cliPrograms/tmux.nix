@@ -56,6 +56,10 @@
         tmuxPlugins.cpu
         tmuxPlugins.resurrect
         tmuxPlugins.vim-tmux-navigator
+        {
+          plugin = tmuxPlugins.catppuccin;
+          extraConfig = "set -g @catppuccin_flavor 'mocha' # latte, frappe, macchiato or mocha";
+        }
       ];
     };
   };

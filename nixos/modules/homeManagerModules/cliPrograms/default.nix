@@ -1,10 +1,10 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
+    ./git
     ./neovim.nix
-    ./git.nix
-    ./tmux.nix
     ./shell
+    ./tmux.nix
   ];
 }
 
