@@ -1,8 +1,8 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./terminals
-    ./firefox.nix
+    ./alacritty.nix
+    ./kitty.nix
   ];
 }
 
