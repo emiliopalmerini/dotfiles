@@ -12,7 +12,6 @@
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
-  alacritty.enable = true;
 
   git.enable = true;
   git.userName = "emiliopalmerini";
@@ -21,10 +20,14 @@
   tmux.enable = true;
   zsh.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
   home.packages = [
     pkgs.gcc
     pkgs.go
     pkgs.lua
+    pkgs.slack
+    pkgs.todoist
+    pkgs.discord
   ];
 
   nixpkgs = {

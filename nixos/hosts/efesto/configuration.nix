@@ -62,9 +62,6 @@
 	  isNormalUser = true;
 	  description = "emilio";
 	  extraGroups = [ "networkmanager" "wheel" ];
-      packages = [
-      pkgs.slack
-    ];
   };
 
   home-manager = {
