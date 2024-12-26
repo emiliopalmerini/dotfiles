@@ -5,10 +5,11 @@
       = lib.mkEnableOption "enable tmux";
   };
 
-    config = lib.mkIf config.tmux.enable {
+  config = lib.mkIf config.tmux.enable {
     programs.tmux = {
       enable = true;
-       extraConfig = ''
+      sensibleOnTop = true;
+      extraConfig = ''
       set-option -sa terminal-overrides ",xterm*:Tc"
       set -g mouse on
 
@@ -49,23 +50,13 @@
 
       bind '"' split-window -v -c "#{pane_current_path}"
       bind % split-window -h -c "#{pane_current_path}"
-    '';
+      '';
 
-      # plugins = with pkgs ;
-      #   [
-      #     {
-      #       plugin = tmux-sensible;
-      #       extraConfig = "set -g @plugin tmux-sensible";
-      #     }
-      #     {
-      #       plugin = vim-tmux-navigator;
-      #       extraConfig = "set -g @plugin 'christoomey/vim-tmux-navigator'";
-      #     }
-      #     {
-      #       plugin = tmux-yank;
-      #       extraConfig = "set -g @plugin 'tmux-plugins/tmux-yank'";
-      #     }
-      #   ];
+      plugins = with pkgs; [
+        tmuxPlugins.cpu
+        tmuxPlugins.resurrect
+        tmuxPlugins.vim-tmux-navigator
+      ];
     };
-    };
+  };
 }

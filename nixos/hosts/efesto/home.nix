@@ -36,10 +36,5 @@
     ];
   };
 
-  home.file.".config/ohmyposh" = {
-    source = ../../../config/ohmyposh;
-    recursive = true;
-  };
-
   programs.home-manager.enable = true;
 }
