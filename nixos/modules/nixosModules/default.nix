@@ -5,5 +5,6 @@
     [
       ./main-user.nix
       ./ghostty.nix
+      ./dotnet.nix
     ];
 }

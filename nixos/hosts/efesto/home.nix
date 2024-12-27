@@ -28,6 +28,8 @@
     pkgs.slack
     pkgs.todoist
     pkgs.discord
+    pkgs.obsidian
+    pkgs.lazygit
   ];
 
   nixpkgs = {

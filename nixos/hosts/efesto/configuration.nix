@@ -81,6 +81,7 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   ghostty.enable = true;
+  dotnet.enable = true;
 
   services.openssh.enable = true;
   environment.systemPackages = with pkgs; [
