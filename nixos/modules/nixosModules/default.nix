@@ -4,7 +4,8 @@
   imports =
     [
       ./main-user.nix
-      ./ghostty.nix
       ./dotnet.nix
+      ./ghostty.nix
+      ./mongodb.nix
     ];
 }
