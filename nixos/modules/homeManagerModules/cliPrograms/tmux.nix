@@ -10,6 +10,10 @@
       enable = true;
       sensibleOnTop = true;
       extraConfig = ''
+      # Set prefix to Ctrl-Space
+      unbind C-b
+      set -g prefix C-Space
+      bind C-Space send-prefix
       set-option -sa terminal-overrides ",xterm*:Tc"
       set -g mouse on
 
