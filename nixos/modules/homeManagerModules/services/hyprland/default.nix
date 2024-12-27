@@ -1,14 +1,14 @@
 { pkgs, lib, config, inputs, ... }: 
-  let
-    startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-      ${pkgs.waybar}/bin/waybar &
-      ${pkgs.swww}/bin/swww init &
-  
-      sleep 1
-  
-      ${pkgs.swww}/bin/swww img ${./wallpaper.png} &
-    '';
-in
+#   let
+#     startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
+#       ${pkgs.waybar}/bin/waybar &
+#       ${pkgs.swww}/bin/swww init &
+#   
+#       sleep 1
+#   
+#       ${pkgs.swww}/bin/swww img ${./wallpaper.png} &
+#     '';
+# in
 {
   options = {
     hyprland.enable = lib.mkEnableOption "enables hyprland";
@@ -60,8 +60,7 @@ in
 
           natural_rounding = "yes";
         };
-
-        exec-once = ''${startupScript}/bin/start'';
+        # exec-once = ''${startupScript}/bin/start'';
       };
     };
   };
