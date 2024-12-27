@@ -86,6 +86,8 @@
   bruno.enable = true;
   postman.enable = true;
   mongodbClients.enable = true;
+  virtualBox.enable = true;
+  virtualBox.user = "emilio"; 
 
   services.openssh.enable = true;
   environment.systemPackages = with pkgs; [

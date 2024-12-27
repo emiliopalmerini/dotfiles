@@ -4,10 +4,10 @@
   imports =
     [
       ./apiClients
-      ./main-user.nix
-      ./docker.nix
+      ./virtualizations
       ./dotnet.nix
       ./ghostty.nix
+      ./main-user.nix
       ./mongodbClients.nix
     ];
 }
