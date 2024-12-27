@@ -12,6 +12,7 @@
   firefox.enable = true;
   neovim.enable = true;
   kitty.enable = true;
+  obsidian.enable = true;
 
   git.enable = true;
   git.userName = "emiliopalmerini";

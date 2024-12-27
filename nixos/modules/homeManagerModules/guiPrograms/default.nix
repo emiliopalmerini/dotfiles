@@ -3,6 +3,7 @@
   imports = [
     ./terminals
     ./firefox.nix
+    ./obsidian.nix
   ];
 }
 
