@@ -83,13 +83,16 @@
   ghostty.enable = true;
   dotnet.enable = true;
   docker.enable = true;
+  bruno.enable = true;
+  postman.enable = true;
+  mongodbClients.enable = true;
 
   services.openssh.enable = true;
   environment.systemPackages = with pkgs; [
     dunst
     libnotify
-    swww
     rofi-wayland
+    swww
   ];
 
   # This value determines the NixOS release from which the default
