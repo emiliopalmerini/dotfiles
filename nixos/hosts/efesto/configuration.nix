@@ -82,6 +82,7 @@
   programs.zsh.enable = true;
   ghostty.enable = true;
   dotnet.enable = true;
+  docker.enable = true;
 
   services.openssh.enable = true;
   environment.systemPackages = with pkgs; [
