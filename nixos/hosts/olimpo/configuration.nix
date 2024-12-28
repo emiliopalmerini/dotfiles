@@ -12,7 +12,6 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   networking.networkmanager.enable = true;
 
@@ -34,10 +33,6 @@
 
   services.xserver.enable = true;
 
- # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -57,18 +52,18 @@
 
   nixpkgs.config.allowUnfree = true;
   main-user.enable = true;
-  main-user.userName = "emilio";
+  main-user.userName = "prometeo";
 
-  users.users.emilio = {
+  users.users.prometeo = {
 	  isNormalUser = true;
-	  description = "emilio";
+	  description = "prometeo";
 	  extraGroups = [ "networkmanager" "wheel" ];
   };
 
   home-manager = {
 	  extraSpecialArgs =  { inherit inputs; };
 	  users = {
-	  	"emilio" = import ./home.nix;
+	  	"prometeo" = import ./home.nix;
 	  };
   };
 
@@ -81,15 +76,10 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
   ghostty.enable = true;
-  dotnet.enable = true;
   docker.enable = true;
-  bruno.enable = true;
-  postman.enable = true;
-  mongodbClients.enable = true;
-  virtualBox.enable = true;
-  virtualBox.user = "emilio"; 
 
   services.openssh.enable = true;
+;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
 {
   options = {
@@ -7,6 +7,20 @@
   };
 
   config = lib.mkIf config.neovim.enable {
+    nixpkgs = {
+      overlays = [
+        (final: prev: {
+          vimPlugins = prev.vimPlugins // {
+            own-harpoon-nvim = prev.vimUtils.buildVimPlugin {
+              name = "harpoon";
+              version = "harpoon2";
+              src = inputs.plugin-harpoon;
+            };
+          };
+        })
+      ];
+    };
+
     programs.neovim = 
       let
         toLua = str: "lua << EOF\n${str}\nEOF\n";
