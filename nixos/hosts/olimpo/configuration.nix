@@ -75,11 +75,10 @@
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
-  ghostty.enable = true;
+  ghostty.enable = false;
   docker.enable = true;
 
   services.openssh.enable = true;
-;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
