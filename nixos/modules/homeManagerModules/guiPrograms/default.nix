@@ -3,6 +3,7 @@
   imports = [
     ./terminals
     ./firefox.nix
+    ./mongodbClients.nix
   ];
 }
 

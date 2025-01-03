@@ -16,7 +16,7 @@
   git.userEmail = "emiliopalmerini@proton.me";
 
   tmux.enable = true;
-  zsh.enable = true;
+  customShell.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   home.packages = [

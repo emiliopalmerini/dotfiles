@@ -6,7 +6,7 @@
   };
 
   config = lib.mkIf config.postman.enable {
-    environment.systemPackages = [
+    home.packages = [
       pkgs.postman
     ];
   };

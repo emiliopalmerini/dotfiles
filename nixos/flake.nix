@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -19,10 +20,6 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
-
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -31,21 +28,21 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
-      nixosConfigurations.efesto = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
         system = system;  # Specifica il sistema
         specialArgs = { inherit inputs; };  # Passa gli inputs come argomenti speciali
         modules = [
-          ./hosts/efesto/configuration.nix         # Configurazione host-specifica
+          ./hosts/haephestus/configuration.nix         # Configurazione host-specifica
           inputs.home-manager.nixosModules.default # Default home-manager modules
           ./modules/nixosModules                   # Moduli personalizzati
         ];
       };
 
-      nixosConfigurations.olimpo = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.poseidon = nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/olimpo/configuration.nix
+          ./hosts/poseidon/configuration.nix
           inputs.home-manager.nixosModules.default
           ./modules/nixosModules
         ];

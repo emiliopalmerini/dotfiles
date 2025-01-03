@@ -11,7 +11,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "haephestus"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   networking.networkmanager.enable = true;
@@ -79,15 +79,8 @@
 
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
   ghostty.enable = true;
-  dotnet.enable = true;
   docker.enable = true;
-  bruno.enable = true;
-  postman.enable = true;
-  mongodbClients.enable = true;
-  virtualBox.enable = true;
-  virtualBox.user = "emilio"; 
 
   services.openssh.enable = true;
 

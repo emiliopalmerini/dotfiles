@@ -3,11 +3,7 @@
 {
   imports =
     [
-      ./apiClients
-      ./virtualizations
-      ./dotnet.nix
+      ./docker.nix
       ./ghostty.nix
-      ./main-user.nix
-      ./mongodbClients.nix
     ];
 }

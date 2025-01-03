@@ -2,6 +2,8 @@
 {
   imports = [
     ./hyprland
+    ./customShell
+    ./dotnet.nix
   ];
 }
 

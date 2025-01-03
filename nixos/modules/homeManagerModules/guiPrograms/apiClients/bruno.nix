@@ -6,7 +6,7 @@
   };
 
     config = lib.mkIf config.bruno.enable {
-    environment.systemPackages = [
+    home.packages = [
       pkgs.bruno
     ];
     };

@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }:
 
 let
-  cfg = config.zsh;
+  cfg = config.customShell;
   myAliases = {
     cd = "z";
     c = "clear";
@@ -15,7 +15,7 @@ let
   zshColors = "\${(s.:.)LS_COLORS}";
 in
 {
-  options.zsh = {
+  options.customShell = {
     enable = lib.mkEnableOption "enable zsh module";
   };
 
@@ -61,10 +61,10 @@ in
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
         zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath' 
 
-        bindkey -e
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward
 
+        export TERM=xterm-256color
         eval "$(oh-my-posh init zsh)"
         '';
       plugins = [

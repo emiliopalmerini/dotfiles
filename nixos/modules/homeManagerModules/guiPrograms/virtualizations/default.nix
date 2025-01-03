@@ -3,8 +3,6 @@
 {
   imports =
     [
-      ./docker.nix
-      ./gnomeBoxes.nix
       ./virtualBox.nix
     ];
 }

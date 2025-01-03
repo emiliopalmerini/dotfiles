@@ -3,7 +3,6 @@
   imports = [
     ./git
     ./neovim.nix
-    ./shell
     ./tmux.nix
   ];
 }

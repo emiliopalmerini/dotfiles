@@ -4,19 +4,26 @@
   imports =
     [
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
     ];
 
+  # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "poseidon"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+  # Configure network proxy if necessary
+  # networking.proxy.default = "http://user:password@proxy:port/";
+  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+
+  # Enable networking
   networking.networkmanager.enable = true;
 
+  # Set your time zone.
   time.timeZone = "Europe/Rome";
 
+  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -31,33 +38,20 @@
     LC_TIME = "it_IT.UTF-8";
   };
 
-  services.xserver.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
-    variant = "alt-intl";
-  };
-
-  services.printing.enable = true;
-
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    variant = "";
   };
 
   nixpkgs.config.allowUnfree = true;
-  main-user.enable = true;
-  main-user.userName = "prometeo";
 
   users.users.prometeo = {
 	  isNormalUser = true;
 	  description = "prometeo";
 	  extraGroups = [ "networkmanager" "wheel" ];
+      shell = pkgs.zsh;
+      ignoreShellProgramCheck = true;
   };
 
   home-manager = {
@@ -70,15 +64,17 @@
   home-manager.backupFileExtension = "bak";
 
   environment.variables.EDITOR = "nvim";
-  environment.pathsToLink = [ "/share/zsh" ];
 
-  environment.shells = with pkgs; [ zsh ];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-  ghostty.enable = false;
   docker.enable = true;
+  ghostty.enable = false;
 
   services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -87,5 +83,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
