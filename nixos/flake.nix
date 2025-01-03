@@ -45,7 +45,7 @@
         system = system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/efesto/configuration.nix
+          ./hosts/olimpo/configuration.nix
           inputs.home-manager.nixosModules.default
           ./modules/nixosModules
         ];
