@@ -63,6 +63,16 @@
             config = "colorscheme tokyonight-storm";
           }
 
+          cmp-nvim-lsp
+          cmp-path
+          cmp-buffer
+
+          cmp_luasnip
+          cmp-nvim-lsp
+
+          luasnip
+          friendly-snippets
+
           nvim-cmp 
           {
             plugin = nvim-cmp;
@@ -74,13 +84,6 @@
             plugin = telescope-nvim;
             config = toLuaFile ./plugin/telescope.lua;
           }
-
-          cmp_luasnip
-          cmp-nvim-lsp
-
-          luasnip
-          friendly-snippets
-
 
           lualine-nvim
           nvim-web-devicons
