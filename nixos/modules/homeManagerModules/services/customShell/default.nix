@@ -10,6 +10,7 @@ let
     ls = "ls --color";
     cat = "bat";
     switch = "sudo nixos-rebuild switch --flake";
+    test = "sudo nixos-rebuild test --flake";
   };
   oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
@@ -61,6 +62,7 @@ in
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
         zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath' 
 
+        bindkey -e
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward
 
