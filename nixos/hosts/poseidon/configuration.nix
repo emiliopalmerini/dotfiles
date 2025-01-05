@@ -63,7 +63,10 @@
 
   home-manager.backupFileExtension = "bak";
 
-  environment.variables.EDITOR = "nvim";
+  environment.variables = {
+    EDITOR = "nvim";
+    TERM = "xterm-256color";
+  };
 
   docker.enable = true;
   ghostty.enable = false;

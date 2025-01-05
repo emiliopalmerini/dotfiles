@@ -66,7 +66,6 @@ in
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward
 
-        export TERM=xterm-256color
         eval "$(oh-my-posh init zsh)"
         '';
       plugins = [
