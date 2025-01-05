@@ -45,11 +45,11 @@
 
           {
             plugin = oil-nvim;
-            config = toLuaFile ./nvim/plugin/oil.lua;
+            config = toLuaFile ./plugin/oil.lua;
           }
           {
             plugin = nvim-lspconfig;
-            config = toLuaFile ./nvim/plugin/lsp.lua;
+            config = toLuaFile ./plugin/lsp.lua;
           }
 
           {
@@ -65,13 +65,13 @@
           nvim-cmp 
           {
             plugin = nvim-cmp;
-            config = toLuaFile ./nvim/plugin/cmp.lua;
+            config = toLuaFile ./plugin/cmp.lua;
           }
 
           telescope-fzf-native-nvim
           {
             plugin = telescope-nvim;
-            config = toLuaFile ./nvim/plugin/telescope.lua;
+            config = toLuaFile ./plugin/telescope.lua;
           }
 
           cmp_luasnip
@@ -92,13 +92,13 @@
               p.tree-sitter-lua
               p.tree-sitter-json
             ]));
-            config = toLuaFile ./nvim/plugin/treesitter.lua;
+            config = toLuaFile ./plugin/treesitter.lua;
           }
 
           plenary-nvim
           {
             plugin = own-harpoon-nvim;
-            config = toLuaFile ./nvim/plugin/harpoon.lua;
+            config = toLuaFile ./plugin/harpoon.lua;
           }
 
           vim-nix
@@ -109,7 +109,7 @@
 
         extraLuaConfig = ''
 
-          ${builtins.readFile ./nvim/options.lua}
+          ${builtins.readFile ./options.lua}
         '';
       };
   };
