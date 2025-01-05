@@ -15,6 +15,10 @@
   };
 
     config = lib.mkIf config.git.enable {
+    home.packages = [
+      pkgs.git-absorb
+    ];
+    
     programs.git = {
       enable = true;
       userName = config.git.userName;  
