@@ -4,8 +4,7 @@ return {
 	dependencies = { "nvim-lua/plenary.nvim" },
 	settings = {
 		save_on_toggle = true,
-		sync_on_ui_close = false,
-		key = function()
+		sync_on_ui_close = false, key = function()
 			return vim.loop.cwd()
 		end,
 	},

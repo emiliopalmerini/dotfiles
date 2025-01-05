@@ -35,6 +35,7 @@
 
         extraPackages = with pkgs; [
           lua-language-server
+          gopls
           xclip
           wl-clipboard
           ripgrep

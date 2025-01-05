@@ -32,11 +32,27 @@ require('lspconfig').lua_ls.setup {
 	root_dir = function()
         return vim.loop.cwd()
     end,
-	cmd = { "lua-lsp" },
+	cmd = { "lua-language-server" },
     settings = {
         Lua = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
         },
     }
+}
+
+require('lspconfig').gopls.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  root_dir = require('lspconfig').util.root_pattern('go.mod', '.git'),
+  cmd = { "gopls" },
+  settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+        shadow = true,
+      },
+      staticcheck = true,
+    },
+  }
 }
