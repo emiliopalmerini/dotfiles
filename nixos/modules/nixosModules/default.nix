@@ -3,7 +3,7 @@
 {
   imports =
     [
-      ./docker.nix
+      ./docker
       ./ghostty.nix
     ];
 }

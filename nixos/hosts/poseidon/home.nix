@@ -19,11 +19,12 @@
   customShell.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = [
-    pkgs.gcc
-    pkgs.go
-    pkgs.lua
-    pkgs.lazygit
+  home.packages = with pkgs; [
+    gcc
+    go
+    lua
+    lazygit
+    elixir
   ];
 
   programs.home-manager.enable = true;
