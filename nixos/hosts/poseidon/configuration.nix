@@ -70,6 +70,7 @@
 
   docker.enable = true;
   ghostty.enable = false;
+  plex.enable = true;
 
   services.openssh.enable = true;
 

@@ -14,8 +14,8 @@
           #"--device=/dev/ttyACM0:/dev/ttyACM0"  # Example, change this to match your own hardware
         ];
       };
-
-    networking.firewall.allowedTCPPorts = [ 8123 ];
+    };
+      networking.firewall.allowedTCPPorts = [ 8123 ];
   };
 }
 
