@@ -56,8 +56,6 @@
   };
 
   nixpkgs.config.allowUnfree = true;
-  main-user.enable = true;
-  main-user.userName = "emilio";
 
   users.users.emilio = {
 	  isNormalUser = true;
