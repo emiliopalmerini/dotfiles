@@ -3,7 +3,6 @@
   imports = [
     ./homeAssistant.nix
     ./homer.nix
-    ./portainer.nix
   ];
   options.docker.enable = lib.mkEnableOption "Enable docker module";
 
@@ -19,7 +18,6 @@
 
     homeAssistant.enable = true;
     homer.enable = true;
-    portainer.enable = true;
 
     environment.systemPackages = with pkgs; [
       docker-compose

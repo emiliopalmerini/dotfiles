@@ -11,25 +11,24 @@
 
   firefox.enable = true;
   neovim.enable = true;
-  kitty.enable = true;
 
   git.enable = true;
   git.userName = "emiliopalmerini";
   git.userEmail = "emiliopalmerini@codiceplastico.com";
 
   tmux.enable = true;
-  zsh.enable = true;
+  customShell.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = [
-    pkgs.gcc
-    pkgs.go
-    pkgs.lua
-    pkgs.slack
-    pkgs.todoist
-    pkgs.discord
-    pkgs.obsidian
-    pkgs.lazygit
+  home.packages = with pkgs; [
+    gcc
+    go
+    lua
+    slack
+    todoist
+    discord
+    obsidian
+    lazygit
   ];
 
   programs.home-manager.enable = true;

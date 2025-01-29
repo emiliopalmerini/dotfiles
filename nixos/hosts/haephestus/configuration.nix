@@ -4,7 +4,6 @@
   imports =
     [
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
     ];
 
   boot.loader.systemd-boot.enable = true;
@@ -61,6 +60,8 @@
 	  isNormalUser = true;
 	  description = "emilio";
 	  extraGroups = [ "networkmanager" "wheel" ];
+      shell = pkgs.zsh;
+      ignoreShellProgramCheck = true;
   };
 
   home-manager = {
@@ -72,11 +73,11 @@
 
   home-manager.backupFileExtension = "bak";
 
-  environment.variables.EDITOR = "nvim";
-  environment.pathsToLink = [ "/share/zsh" ];
+  environment.variables = {
+    EDITOR = "nvim";
+    TERM = "xterm-256color";
+  };
 
-  environment.shells = with pkgs; [ zsh ];
-  users.defaultUserShell = pkgs.zsh;
   ghostty.enable = true;
   docker.enable = true;
 
