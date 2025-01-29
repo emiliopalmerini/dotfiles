@@ -56,9 +56,9 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  users.users.emilio = {
+  users.users.emil_io = {
 	  isNormalUser = true;
-	  description = "emilio";
+	  description = "emil_io";
 	  extraGroups = [ "networkmanager" "wheel" ];
       shell = pkgs.zsh;
       ignoreShellProgramCheck = true;
@@ -67,7 +67,7 @@
   home-manager = {
 	  extraSpecialArgs =  { inherit inputs; };
 	  users = {
-	  	"emilio" = import ./home.nix;
+	  	"emil_io" = import ./home.nix;
 	  };
   };
 

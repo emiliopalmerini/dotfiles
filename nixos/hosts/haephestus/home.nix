@@ -4,8 +4,8 @@
   imports = [
   	./../../modules/homeManagerModules
   ];
-  home.username = "emilio";
-  home.homeDirectory = "/home/emilio";
+  home.username = "emil_io";
+  home.homeDirectory = "/home/emil_io";
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
