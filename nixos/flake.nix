@@ -20,6 +20,9 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs = { self, nixpkgs, ... }@inputs:
@@ -29,12 +32,12 @@
     in {
 
       nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
-        system = system;  # Specifica il sistema
-        specialArgs = { inherit inputs; };  # Passa gli inputs come argomenti speciali
+        system = system;
+        specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/haephestus/configuration.nix         # Configurazione host-specifica
-          inputs.home-manager.nixosModules.default # Default home-manager modules
-          ./modules/nixosModules                   # Moduli personalizzati
+          ./hosts/haephestus/configuration.nix
+          inputs.home-manager.nixosModules.default
+          ./modules/nixosModules
         ];
       };
 
