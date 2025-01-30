@@ -1,26 +1,31 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, utils, ... }:
 
 {
 	environment.systemPackages = with pkgs; [
-		neovim
-		git
+          neovim
+          git
 	];
+
 	services.nix-daemon.enable = true;
+
 	nix.settings.experimental-features = "nix-command flakes";
-	programs.zsh.enable = true;
+
 	system.stateVersion = 5;
+
+	programs.zsh.enable = true;
+        # users.users.emiliopalmerini = {
+        #   home = /Users/emiliopalmerini;
+        #   shell = pkgs.zsh;
+        # };
 
 	home-manager.useGlobalPkgs = true;
 	home-manager.useUserPackages = true;
-	home-manager.users."Emilio Palmerini" = import ./hosts/idun/home.nix;
+	home-manager.users.emiliopalmerini = import ./home.nix;
 
 	environment.variables = {
 		EDITOR = "nvim";
 		TERM = "xterm-256color";
 	};
-
-	ghostty.enable = true;
-	docker.enable = true;
 
 	nixpkgs.hostPlatform = "aarch64-darwin";
 }

@@ -53,13 +53,11 @@
 			];
 		};
 
-		darwinConfigurations."idun" = nix-darwin.lib.darwinSystem {
+		darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
 			specialArgs = { inherit inputs; };
 			modules = [
 				./hosts/idun/configuration.nix
-					inputs.home-manager.nixosModules.default
-					./modules/nixosModules
-
+                                inputs.home-manager.nixosModules.default
 			];
       };
     };
