@@ -1,5 +1,10 @@
 { lib, config, pkgs, ... }:
-{
+# let
+#   isMacOS = lib.hasAttr "system" config && 
+#              (config.system.build.platform == "x86_64-darwin" ||
+#               config.system.build.platform == "aarch64-darwin");
+# in
+  {
   options = {
     tmux.enable 
       = lib.mkEnableOption "enable tmux";
@@ -11,6 +16,8 @@
       sensibleOnTop = true;
       extraConfig = ''
       set-option -sa terminal-overrides ",xterm*:Tc"
+      set-option -g default-terminal "screen-256color"
+      set-option -g default-shell /bin/zsh
       set -g mouse on
 
       # Vim style pane selection
@@ -61,6 +68,12 @@
           extraConfig = "set -g @catppuccin_flavor 'mocha' # latte, frappe, macchiato or mocha";
         }
       ];
+      # config = lib.mkIf isMacOS {
+      #     # Aggiungi qui le configurazioni specifiche per macOS
+      #     extraConfig = ''
+      #     set -g default-terminal "screen-256color"
+      #     '';
+      #   };
     };
   };
 }

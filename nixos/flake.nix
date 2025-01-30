@@ -57,7 +57,7 @@
 			specialArgs = { inherit inputs; };
 			modules = [
 				./hosts/idun/configuration.nix
-                                inputs.home-manager.nixosModules.default
+                                inputs.home-manager.darwinModules.default
 			];
       };
     };

@@ -72,9 +72,8 @@
 
           luasnip
           friendly-snippets
-          lspkind
-          tailwindcss-colorizer-cmp
-          copilot
+          lspkind-nvim
+          copilot-lua
           copilot-cmp
 
           nvim-cmp 

@@ -5,8 +5,6 @@
   	./../../modules/homeManagerModules
   ];
 
-  home.username = "emiliopalmerini";
-  home.homeDirectory = "/Users/emiliopalmerini";
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
   neovim.enable = true;

@@ -48,6 +48,9 @@ in
       shellAliases = myAliases ;
 
       initExtra = '' 
+        if [[ -f "/opt/homebrew/bin/brew" ]] then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
         HISTDUP=erase
         
         setopt HIST_FIND_NO_DUPS

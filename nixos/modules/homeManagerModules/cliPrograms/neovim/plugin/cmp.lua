@@ -1,4 +1,4 @@
-require "custom.snippets"
+-- require "custom.snippets"
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append "c"
@@ -27,10 +27,10 @@ local kind_formatter = lspkind.cmp_format {
 }
 
 -- Add tailwindcss-colorizer-cmp as a formatting source
-require("tailwindcss-colorizer-cmp").setup {
-  color_square_width = 2,
-}
-
+-- require("tailwindcss-colorizer-cmp").setup {
+--   color_square_width = 2,
+-- }
+--
 local cmp = require "cmp"
 
 cmp.setup {
@@ -72,7 +72,7 @@ cmp.setup {
       vim_item = kind_formatter(entry, vim_item)
 
       -- Tailwind colorizer setup
-      vim_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
+      -- vim_item = require("tailwindcss-colorizer-cmp").formatter(entry, vim_item)
 
       return vim_item
     end,
