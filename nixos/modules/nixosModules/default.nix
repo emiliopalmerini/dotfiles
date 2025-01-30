@@ -5,6 +5,5 @@
     [
       ./docker
       ./ghostty.nix
-      ./plex.nix
     ];
 }

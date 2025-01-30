@@ -1,7 +1,6 @@
 { lib, config, pkgs, ... }:
 {
   imports = [
-    ./homeAssistant.nix
     ./homer.nix
   ];
   options.docker.enable = lib.mkEnableOption "Enable docker module";
@@ -16,7 +15,6 @@
       backend = "docker";
     };
 
-    homeAssistant.enable = true;
     homer.enable = true;
 
     environment.systemPackages = with pkgs; [
