@@ -15,6 +15,7 @@
 
   tmux.enable = true;
   customShell.enable = true;
+  todoist.enable = true;
 
   nixpkgs.config.allowUnfree = true;
   home.packages = with pkgs; [
