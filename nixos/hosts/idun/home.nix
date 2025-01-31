@@ -21,11 +21,6 @@
     gcc
     go
     lua
-    todoist
-    discord
-    obsidian
-    lazygit
-    gimp
   ];
 
   programs.home-manager.enable = true;
