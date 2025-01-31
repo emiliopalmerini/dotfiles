@@ -25,6 +25,7 @@
     discord
     obsidian
     lazygit
+    gimp
   ];
 
   programs.home-manager.enable = true;
