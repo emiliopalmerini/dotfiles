@@ -1,5 +1,6 @@
 { pkgs, lib, config, inputs, ... }:
 
+with lib;
 let
   # Definizione dello script di avvio
   startupScript = pkgs.writeShellScriptBin "start" ''
@@ -14,11 +15,11 @@ in
 {
   # Definizione delle opzioni per Hyprland
   options = {
-    hyprland.enable = lib.mkEnableOption "Enable Hyprland";
+    hyprland.enable = mkEnableOption "Enable Hyprland";
   };
 
   # Configurazione di Hyprland
-  config = lib.mkIf config.hyprland.enable {
+  config = mkIf config.hyprland.enable {
     xdg.portal = {
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];

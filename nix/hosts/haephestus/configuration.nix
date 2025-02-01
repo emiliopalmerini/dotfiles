@@ -39,10 +39,6 @@
 
   services.xserver = {
     layout = "us"; # Layout di base
-    xkbOptions = [
-      "lv3:ralt_switch" # Permette di usare il tasto Alt destro come modificatore per i caratteri accentati
-      "compose:ralt"    # Permette di usare il tasto Alt destro come tasto di composizione
-    ];
   };
 
   services.printing.enable = true;

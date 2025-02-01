@@ -2,16 +2,16 @@
 
 with lib;
 let
-  cfg = config.gimp;
+  cfg = config.postman;
 in
 {
-  options.gimp = {
-    enable = mkEnableOption "Enable gimp module";
+  options.postman = {
+    enable = mkEnableOption "Enable postman module";
   };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      gimp
+      postman
     ];
   };
 }

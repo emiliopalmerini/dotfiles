@@ -1,12 +1,16 @@
 { lib, config, pkgs, inputs, ... }:
 
+with lib;
+let
+  cfg = config.neovim;
+in
 {
   options = {
     neovim.enable 
-      = lib.mkEnableOption "enable neovim module";
+      = mkEnableOption "enable neovim module";
   };
 
-  config = lib.mkIf config.neovim.enable {
+  config = mkIf cfg.enable {
     nixpkgs = {
       overlays = [
         (final: prev: {

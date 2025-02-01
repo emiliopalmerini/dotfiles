@@ -1,35 +1,35 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
+  cfg = config.git;
   # Definizione del percorso comune per i file di configurazione di Git
-  gitConfigPath = "${lib.homeManager.userHome}/dev/dotfiles/nix/modules/homeManagerModules/git";
-
-  # Definizione delle opzioni per Git
+  gitConfigPath = "~/dev/dotfiles/nix/modules/homeManagerModules/git";
+in
+{
   options = {
     git = {
-      enable = lib.mkEnableOption "Enable Git";
-      userName = lib.mkOption {
+      enable = mkEnableOption "Enable Git";
+      userName = mkOption {
         default = "emiliopalmerini";
         description = "Git user name";
       };
-      userEmail = lib.mkOption {
+      userEmail = mkOption {
         default = "emilio.palmerini@proton.me";
         description = "Git user email";
       };
     };
   };
-in
-{
   # Configurazione di Git
-  config = lib.mkIf config.git.enable {
+  config = mkIf cfg.enable { 
     home.packages = [
       pkgs.git-absorb  # Aggiungi il pacchetto git-absorb
     ];
 
     programs.git = {
       enable = true;
-      userName = config.git.userName;  
-      userEmail = config.git.userEmail; 
+      userName = cfg.userName;  
+      userEmail = cfg.userEmail; 
 
       extraConfig = {
         core = {

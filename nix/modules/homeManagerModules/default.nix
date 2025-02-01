@@ -16,6 +16,7 @@
     ./mongodb
     ./neovim
     ./obsidian
+    ./postman
     ./rectangle
     ./shell
     ./slack

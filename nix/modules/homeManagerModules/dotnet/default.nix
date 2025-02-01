@@ -1,18 +1,18 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    dotnet.enable = lib.mkEnableOption "Enable dotnet";
-  };
+  cfg = config.dotnet;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.dotnet.enable {
-    home.packages = [
-      pkgs.dotnetCorePackages.sdk_9_0
-      pkgs.dotnetCorePackages.sdk_8_0
+  options.dotnet = {
+    enable = mkEnableOption "Enable dotnet module";
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      dotnetCorePackages.sdk_9_0
+      dotnetCorePackages.sdk_8_0
     ];
   };
 }
-

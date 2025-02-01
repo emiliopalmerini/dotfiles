@@ -1,20 +1,20 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  options = {
-    myPackage.enable = lib.mkEnableOption "Enable MongoDB module";
-  };
+  cfg = config.mongodb;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.myPackage.enable {
-    home.packages = [
-      pkgs.mongodb          # Aggiungi il pacchetto MongoDB
-      pkgs.mongodb-compass  # Aggiungi il pacchetto MongoDB Compass
+  options = {
+    mongodb.enable = mkEnableOption "Enable MongoDB module";
+  };
+
+  config = mkIf cfg.enable {
+    home.packages = with pkgs; [
+      mongodb-compass
+      mongodb
+      mongosh
     ];
 
-    # Puoi aggiungere ulteriori configurazioni per MongoDB qui
-    # Esempio:
-    # services.mongodb.enable = true;
   };
 }

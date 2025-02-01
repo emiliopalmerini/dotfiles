@@ -1,7 +1,8 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  cfg = config.customShell;
+  cfg = config.shell;
   myAliases = {
     cd = "z";
     c = "clear";
@@ -16,11 +17,11 @@ let
   zshColors = "\${(s.:.)LS_COLORS}";
 in
 {
-  options.customShell = {
-    enable = lib.mkEnableOption "enable zsh module";
+  options.shell = {
+    enable = mkEnableOption "enable zsh module";
   };
 
-  config = lib.mkIf cfg.enable {
+  config = mkIf cfg.enable {
     programs.bat.enable = true;
     programs.fzf = {
       enable = true;

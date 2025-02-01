@@ -1,13 +1,14 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    myPackage.enable = lib.mkEnableOption "Enable myPackage";
-  };
+  cfg = config.MODULE;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.myPackage.enable {
+  options.MODULE = {
+    enable = mkEnableOption "Enable MODULE module";
+  };
+
+  config = mkIf cfg.enable {
   };
 }

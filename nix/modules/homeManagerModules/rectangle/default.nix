@@ -1,14 +1,14 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    rectangle.enable = lib.mkEnableOption "Enable rectangle";
-  };
+  cfg = config.rectangle;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.rectangle.enable {
+  options = {
+    rectangle.enable = mkEnableOption "Enable rectangle";
+  };
+  config = mkIf config.rectangle.enable {
     home.packages = with pkgs; [
       rectangle
     ];

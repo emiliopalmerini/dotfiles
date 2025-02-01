@@ -1,9 +1,12 @@
 { lib, config, pkgs, ... }:
+let
+  cfg = config.homeAssistant;
+in
 {
   options.homeAssistant.enable =
     lib.mkEnableOption "Enable homeAssistant container";
 
-  config = lib.mkIf config.homeAssistant.enable {
+  config = lib.mkIf cfg.enable {
     virtualisation.oci-containers.containers = {
       homeassistant = {
         volumes = [ "home-assistant:/config" ];

@@ -1,9 +1,14 @@
 { lib, config, pkgs, ... }:
+let
+  cfg = config.homer;
+in
 {
-  options.homer.enable =
+  options = {
+    homer.enable =
     lib.mkEnableOption "Enable homer container";
+  };
 
-  config = lib.mkIf config.homer.enable {
+  config = lib.mkIf cfg.enable {
     virtualisation.oci-containers.containers = {
       homer_olimpo = {
         autoStart = true;

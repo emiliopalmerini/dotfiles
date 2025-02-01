@@ -1,14 +1,14 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    todoist.enable = lib.mkEnableOption "Enable todoist";
-  };
+  cfg = config.todoist;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.todoist.enable {
+  options = {
+    todoist.enable = mkEnableOption "Enable todoist";
+  };
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       todoist
     ];

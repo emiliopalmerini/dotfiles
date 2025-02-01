@@ -1,14 +1,17 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    firefox.enable = lib.mkEnableOption "Enable firefox";
-  };
+  cfg = config.firefox;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.firefox.enable {
-      programs.firefox.enable = true;
+  options.firefox = {
+    enable = mkEnableOption "Enable firefox module";
+  };
+
+  config = mkIf cfg.enable {
+    programs.firefox = {
+      enable = true;
+    };
   };
 }

@@ -1,14 +1,14 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    obsidian.enable = lib.mkEnableOption "Enable obsidian";
-  };
+  cfg = config.obsidian;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.obsidian.enable {
+  options = {
+    obsidian.enable = mkEnableOption "Enable obsidian";
+  };
+  config = mkIf config.obsidian.enable {
     home.packages = with pkgs; [
       obsidian
     ];

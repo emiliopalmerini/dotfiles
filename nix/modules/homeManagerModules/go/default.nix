@@ -1,14 +1,15 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    go.enable = lib.mkEnableOption "Enable go";
-  };
+  cfg = config.go;
 in
 {
+  options = {
+    go.enable = mkEnableOption "Enable go";
+  };
   # Configurazione del modulo
-  config = lib.mkIf config.go.enable {
+  config = mkIf config.go.enable {
     home.packages = with pkgs; [
       go
     ];

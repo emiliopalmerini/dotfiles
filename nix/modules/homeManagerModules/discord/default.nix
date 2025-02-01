@@ -1,14 +1,15 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    discord.enable = lib.mkEnableOption "Enable discord";
-  };
+  cfg = config.discord;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.discord.enable {
+  options.discord = {
+    enable = mkEnableOption "Enable discord module";
+  };
+
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       discord
     ];

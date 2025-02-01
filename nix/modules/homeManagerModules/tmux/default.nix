@@ -1,11 +1,15 @@
 { lib, config, pkgs, ... }:
+with lib;
+let
+  cfg = config.tmux;
+in
 {
   options = {
     tmux.enable 
-      = lib.mkEnableOption "enable tmux";
+      = mkEnableOption "enable tmux";
   };
 
-  config = lib.mkIf config.tmux.enable {
+  config = mkIf cfg.enable {
     programs.tmux = {
       enable = true;
       sensibleOnTop = true;
@@ -63,12 +67,6 @@
           extraConfig = "set -g @catppuccin_flavor 'mocha' # latte, frappe, macchiato or mocha";
         }
       ];
-      # config = lib.mkIf isMacOS {
-      #     # Aggiungi qui le configurazioni specifiche per macOS
-      #     extraConfig = ''
-      #     set -g default-terminal "screen-256color"
-      #     '';
-      #   };
     };
   };
 }

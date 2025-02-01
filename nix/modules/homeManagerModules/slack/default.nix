@@ -1,14 +1,14 @@
 { lib, config, pkgs, ... }:
 
+with lib;
 let
-  # Definizione delle opzioni per il modulo
-  options = {
-    slack.enable = lib.mkEnableOption "Enable slack";
-  };
+  cfg = config.slack;
 in
 {
-  # Configurazione del modulo
-  config = lib.mkIf config.slack.enable {
+  options = {
+    slack.enable = mkEnableOption "Enable slack";
+  };
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       slack
     ];
