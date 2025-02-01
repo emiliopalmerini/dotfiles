@@ -1,6 +1,7 @@
 { lib, config, pkgs, ... }:
 {
   imports = [
+    ./homeAssistant
     ./homer
   ];
   options.docker.enable = lib.mkEnableOption "Enable docker module";
