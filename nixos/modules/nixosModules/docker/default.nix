@@ -1,7 +1,7 @@
 { lib, config, pkgs, ... }:
 {
   imports = [
-    ./homer.nix
+    ./homer
   ];
   options.docker.enable = lib.mkEnableOption "Enable docker module";
 

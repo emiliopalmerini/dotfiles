@@ -9,23 +9,24 @@
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-  neovim.enable = true;
+  home.packages = with pkgs; [
+  ];
+
+  firefox.enable = true;
 
   git.enable = true;
   git.userName = "emiliopalmerini";
   git.userEmail = "emiliopalmerini@proton.me";
 
+  go.enable = true;
+  gcc.enable = true;
+
+  lazygit.enable = true;
+  neovim.enable = true;
+  shell.enable = true;
   tmux.enable = true;
-  customShell.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [
-    gcc
-    go
-    lua
-    lazygit
-    elixir
-  ];
 
   programs.home-manager.enable = true;
 }

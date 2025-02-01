@@ -4,6 +4,6 @@
   imports =
     [
       ./docker
-      ./ghostty.nix
+      ./ghostty
     ];
 }

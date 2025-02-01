@@ -1,9 +1,28 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./services
-    ./guiPrograms
-    ./cliPrograms
+    ./alacritty
+    ./bruno
+    ./discord
+    ./dotnet
+    ./firefox
+    ./gcc
+    ./gimp
+    ./git
+    ./go
+    ./gui
+    ./hyprland
+    ./kitty
+    ./lazygit
+    ./lua
+    ./mongodb
+    ./neovim
+    ./obsidian
+    ./rectangle
+    ./shell
+    ./slack
+    ./tmux
+    ./todoist
   ];
 }
 

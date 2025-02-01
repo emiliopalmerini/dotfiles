@@ -7,6 +7,9 @@
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
+  home.packages = with pkgs; [
+  ];
+
   neovim.enable = true;
 
   git.enable = true;
@@ -14,15 +17,13 @@
   git.userEmail = "emiliopalmerini@proton.me";
 
   tmux.enable = true;
-  customShell.enable = true;
+  shell.enable = true;
   todoist.enable = true;
+  gcc.enable = true;
+  go.enable = true;
+  lua.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [
-    gcc
-    go
-    lua
-  ];
 
   programs.home-manager.enable = true;
 }

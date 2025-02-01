@@ -4,32 +4,35 @@
   imports = [
   	./../../modules/homeManagerModules
   ];
+
   home.username = "emil_io";
   home.homeDirectory = "/home/emil_io";
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
+  home.packages = with pkgs; [
+  ];
+
   firefox.enable = true;
-  neovim.enable = true;
 
   git.enable = true;
-  git.userName = "emiliopalmerini";
   git.userEmail = "emiliopalmerini@codiceplastico.com";
+  git.userName = "emiliopalmerini";
 
+  go.enable = true;
+  gcc.enable = true;
+
+  lazygit.enable = true;
+  mongodb.enable = true;
+  neovim.enable = true;
+  obsidian.enable = true;
+  shell.enable = true;
+  slack.enable = true;
   tmux.enable = true;
-  customShell.enable = true;
+  todoist.enable = true;
+  postman.enable = true;
 
   nixpkgs.config.allowUnfree = true;
-  home.packages = with pkgs; [
-    gcc
-    go
-    lua
-    slack
-    todoist
-    discord
-    obsidian
-    lazygit
-  ];
 
   programs.home-manager.enable = true;
 }
