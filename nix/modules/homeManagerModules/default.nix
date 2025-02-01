@@ -15,6 +15,7 @@
     ./lua
     ./mongodb
     ./neovim
+    ./obs
     ./obsidian
     ./postman
     ./rectangle

@@ -23,14 +23,13 @@
   gcc.enable = true;
 
   lazygit.enable = true;
-  mongodb.enable = true;
   neovim.enable = true;
+  obs.enable = true;
   obsidian.enable = true;
   shell.enable = true;
   slack.enable = true;
   tmux.enable = true;
   todoist.enable = true;
-  postman.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
