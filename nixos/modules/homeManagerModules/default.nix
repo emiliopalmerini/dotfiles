@@ -9,7 +9,6 @@
     ./gimp
     ./git
     ./go
-    ./gui
     ./hyprland
     ./kitty
     ./lazygit
