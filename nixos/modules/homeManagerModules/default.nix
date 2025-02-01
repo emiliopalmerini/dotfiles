@@ -1,7 +1,6 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
-    ./alacritty
     ./bruno
     ./discord
     ./dotnet
