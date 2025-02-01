@@ -58,7 +58,6 @@
         modules = [
           ./hosts/idun/configuration.nix
           inputs.home-manager.darwinModules.default
-          ./modules/darwinModules
         ];
       };
     };
