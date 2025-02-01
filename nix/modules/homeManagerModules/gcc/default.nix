@@ -1,13 +1,16 @@
-{ pkgs, lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
-with lib;
-let cfg = config.modules.gcc;
-
-in {
-    options.modules.gcc = { enable = mkEnableOption "gcc"; };
-    config = mkIf cfg.enable {
+let
+  # Definizione delle opzioni per il modulo
+  options = {
+    gcc.enable = lib.mkEnableOption "Enable gcc";
+  };
+in
+{
+  # Configurazione del modulo
+  config = lib.mkIf config.gcc.enable {
       home.packages = [
         pkgs.gcc
       ];
-    };
+  };
 }

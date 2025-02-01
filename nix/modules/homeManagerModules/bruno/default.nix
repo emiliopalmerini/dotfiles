@@ -1,13 +1,16 @@
 { lib, config, pkgs, ... }:
 
-{
+let
+  # Definizione delle opzioni per il modulo
   options = {
-    bruno.enable = lib.mkEnableOption "enable bruno";
+    bruno.enable = lib.mkEnableOption "Enable bruno";
   };
-
-    config = lib.mkIf config.bruno.enable {
+in
+{
+  # Configurazione del modulo
+  config = lib.mkIf config.bruno.enable {
     home.packages = [
       pkgs.bruno
     ];
-    };
+  };
 }

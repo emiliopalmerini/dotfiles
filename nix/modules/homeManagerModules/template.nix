@@ -3,14 +3,11 @@
 let
   # Definizione delle opzioni per il modulo
   options = {
-    go.enable = lib.mkEnableOption "Enable go";
+    myPackage.enable = lib.mkEnableOption "Enable myPackage";
   };
 in
 {
   # Configurazione del modulo
-  config = lib.mkIf config.go.enable {
-    home.packages = with pkgs; [
-      go
-    ];
+  config = lib.mkIf config.myPackage.enable {
   };
 }

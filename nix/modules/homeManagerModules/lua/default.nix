@@ -4,10 +4,20 @@ with lib;
 let cfg = config.modules.lua;
 
 in {
-    options.modules.lua = { enable = mkEnableOption "lua"; };
-    config = mkIf cfg.enable {
+  # Definizione delle opzioni per il modulo Lua
+  options.modules.lua = {
+    enable = mkEnableOption "Enable Lua programming language";
+  };
+
+  # Configurazione del modulo Lua
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
-        lua
+      pkgs.lua  # Aggiungi il pacchetto Lua
     ];
-    };
+
+    # Puoi aggiungere ulteriori configurazioni per Lua qui
+    # Esempio:
+    # programs.lua.someOption = true;
+  };
 }
+

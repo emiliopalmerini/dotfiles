@@ -1,14 +1,20 @@
 { lib, config, pkgs, ... }:
 
-{
+let
+  # Definizione delle opzioni per lazygit
   options = {
-    lazygit.enable = 
-      lib.mkEnableOption "enable lazygit";
+    lazygit.enable = lib.mkEnableOption "Enable lazygit";
   };
-
-    config = lib.mkIf config.lazygit.enable {
+in
+{
+  # Configurazione di lazygit
+  config = lib.mkIf config.lazygit.enable {
     home.packages = with pkgs; [
-      lazygit
+      pkgs.lazygit  # Aggiungi il pacchetto lazygit
     ];
-    };
+
+    # Puoi aggiungere ulteriori configurazioni per lazygit qui
+    # Esempio:
+    # programs.lazygit.someOption = true;
+  };
 }

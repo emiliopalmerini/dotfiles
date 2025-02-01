@@ -1,19 +1,23 @@
-{ pkgs, lib, config, inputs, ... }: 
-#   let
-#     startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-#       ${pkgs.waybar}/bin/waybar &
-#       ${pkgs.swww}/bin/swww init &
-#   
-#       sleep 1
-#   
-#       ${pkgs.swww}/bin/swww img ${./wallpaper.png} &
-#     '';
-# in
+{ pkgs, lib, config, inputs, ... }:
+
+let
+  # Definizione dello script di avvio
+  startupScript = pkgs.writeShellScriptBin "start" ''
+    ${pkgs.waybar}/bin/waybar &
+    ${pkgs.swww}/bin/swww init &
+
+    sleep 1
+
+    ${pkgs.swww}/bin/swww img ${./wallpaper.png} &
+  '';
+in
 {
+  # Definizione delle opzioni per Hyprland
   options = {
-    hyprland.enable = lib.mkEnableOption "enables hyprland";
+    hyprland.enable = lib.mkEnableOption "Enable Hyprland";
   };
 
+  # Configurazione di Hyprland
   config = lib.mkIf config.hyprland.enable {
     xdg.portal = {
       enable = true;
@@ -49,6 +53,7 @@
             )
               9)
           );
+
         "plugin:borders-plus-plus" = {
           add_borders = 1;
 
@@ -60,7 +65,9 @@
 
           natural_rounding = "yes";
         };
-        # exec-once = ''${startupScript}/bin/start'';
+
+        # Esegui lo script all'avvio
+        exec-once = ''${startupScript}/bin/start'';
       };
     };
   };

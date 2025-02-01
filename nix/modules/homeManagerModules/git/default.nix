@@ -1,24 +1,31 @@
 { lib, config, pkgs, ... }:
 
-{
+let
+  # Definizione del percorso comune per i file di configurazione di Git
+  gitConfigPath = "${lib.homeManager.userHome}/dev/dotfiles/nix/modules/homeManagerModules/git";
+
+  # Definizione delle opzioni per Git
   options = {
     git = {
-      enable = lib.mkEnableOption "enable git";
+      enable = lib.mkEnableOption "Enable Git";
       userName = lib.mkOption {
         default = "emiliopalmerini";
+        description = "Git user name";
       };
       userEmail = lib.mkOption {
         default = "emilio.palmerini@proton.me";
+        description = "Git user email";
       };
     };
-
   };
-
-    config = lib.mkIf config.git.enable {
+in
+{
+  # Configurazione di Git
+  config = lib.mkIf config.git.enable {
     home.packages = [
-      pkgs.git-absorb
+      pkgs.git-absorb  # Aggiungi il pacchetto git-absorb
     ];
-    
+
     programs.git = {
       enable = true;
       userName = config.git.userName;  
@@ -26,12 +33,12 @@
 
       extraConfig = {
         core = {
-          excludesfile = "./.gitignore_global";
+          excludesfile = "${gitConfigPath}/.gitignore_global";  # Percorso per .gitignore_global
           editor = "nvim";
           autocrlf = "input";
         };
         init.defaultBranch = "main";
-        init.templatedir = "./.git_templates";
+        init.templatedir = "${gitConfigPath}/git_templates";  # Percorso per i template
 
         filter."lfs" = {
           required = true;
@@ -56,11 +63,9 @@
         };
 
         pull.rebase = true;
-
         rerere.enabled = true;
-
         fetch.prune = true;
       };
     };
-    };
+  };
 }

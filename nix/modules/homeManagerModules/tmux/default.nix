@@ -1,10 +1,5 @@
 { lib, config, pkgs, ... }:
-# let
-#   isMacOS = lib.hasAttr "system" config && 
-#              (config.system.build.platform == "x86_64-darwin" ||
-#               config.system.build.platform == "aarch64-darwin");
-# in
-  {
+{
   options = {
     tmux.enable 
       = lib.mkEnableOption "enable tmux";
