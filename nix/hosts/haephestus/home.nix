@@ -10,8 +10,9 @@
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
-  home.packages = with pkgs; [
-  ];
+  hyprland.enable = true;
+  wofi.enable = true;
+  waybar.enable = true;
 
   firefox.enable = true;
 

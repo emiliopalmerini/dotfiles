@@ -10,17 +10,9 @@ in
     ];
 
   networking.hostName = "haephestus"; # Define your hostname.
+  hyprland.enable = true;
 
   systemDefault.enable = true;
-
-  services.xserver.enable = true;
-  # Enable the GNOME Desktop Environment.
-  services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    xkb.layout = "us";
-    xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
-  };
 
   services.printing.enable = true;
   services.pipewire = {
@@ -46,6 +38,7 @@ in
   environment.variables = {
     EDITOR = "nvim";
     TERM = "xterm-256color";
+    NIXOS_OZONE_WL = "1";
   };
 
   ghostty.enable = true;

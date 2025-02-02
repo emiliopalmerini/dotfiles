@@ -67,7 +67,7 @@ in
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
         zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath' 
 
-        bindkey -e
+        bindkey -v
         bindkey '^Y' yank
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward

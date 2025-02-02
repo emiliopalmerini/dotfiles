@@ -5,6 +5,7 @@
     [
       ./docker
       ./ghostty
+      ./hyprland
       ./mainUser
       ./system
     ];

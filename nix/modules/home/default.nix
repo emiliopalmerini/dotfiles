@@ -23,6 +23,8 @@
     ./slack
     ./tmux
     ./todoist
+    ./waybar
+    ./wofi
   ];
 }
 
