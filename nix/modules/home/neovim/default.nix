@@ -44,10 +44,7 @@
           cmp_luasnip
           cmp-nvim-lsp
 
-          luasnip
-          friendly-snippets
           lspkind-nvim
-          copilot-cmp
 
           nvim-cmp 
           lualine-nvim
@@ -68,8 +65,13 @@
           neodev-nvim
           SchemaStore-nvim
           lsp_lines-nvim
-          copilot-vim
-          
+          luasnip
+          friendly-snippets
+          {
+            plugin = copilot-lua;
+            config = toLuaFile ./plugin/copilot.lua; 
+          }
+          copilot-cmp
           {
             plugin = (nvim-treesitter.withPlugins (p: [
               p.tree-sitter-nix
@@ -152,5 +154,8 @@
           ${builtins.readFile ./options.lua}
         '';
       };
+    home.packages = with pkgs; [
+      nodejs_23
+    ];
   };
 }
