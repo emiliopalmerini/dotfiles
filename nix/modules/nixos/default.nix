@@ -5,5 +5,7 @@
     [
       ./docker
       ./ghostty
+      ./mainUser
+      ./system
     ];
 }

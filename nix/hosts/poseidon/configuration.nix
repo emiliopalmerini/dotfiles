@@ -1,42 +1,23 @@
 { config, pkgs, inputs, ... }:
 
+let
+  userName = "prometeo";
+in
 {
   imports =
     [
       ./hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   networking.hostName = "poseidon"; # Define your hostname.
+
+  systemDefault.enable = true;
+
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Rome";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "it_IT.UTF-8";
-    LC_IDENTIFICATION = "it_IT.UTF-8";
-    LC_MEASUREMENT = "it_IT.UTF-8";
-    LC_MONETARY = "it_IT.UTF-8";
-    LC_NAME = "it_IT.UTF-8";
-    LC_NUMERIC = "it_IT.UTF-8";
-    LC_PAPER = "it_IT.UTF-8";
-    LC_TELEPHONE = "it_IT.UTF-8";
-    LC_TIME = "it_IT.UTF-8";
-  };
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -44,24 +25,18 @@
     variant = "";
   };
 
-  nixpkgs.config.allowUnfree = true;
-
-  users.users.prometeo = {
-	  isNormalUser = true;
-	  description = "prometeo";
-	  extraGroups = [ "networkmanager" "wheel" ];
-      shell = pkgs.zsh;
-      ignoreShellProgramCheck = true;
+  mainUser = {
+    enable = true;
+    user = "${userName}";
   };
 
   home-manager = {
-	  extraSpecialArgs =  { inherit inputs; };
-	  users = {
-	  	"prometeo" = import ./home.nix;
-	  };
+    extraSpecialArgs =  { inherit inputs; };
+    users = {
+      "${userName}" = import ./home.nix;
+    };
+    backupFileExtension = "bak";
   };
-
-  home-manager.backupFileExtension = "bak";
 
   environment.variables = {
     EDITOR = "nvim";
@@ -71,7 +46,6 @@
   docker.enable = true;
   ghostty.enable = false;
   plex.enable = true;
-
   services.openssh.enable = true;
 
   # Open ports in the firewall.

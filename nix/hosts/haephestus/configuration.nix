@@ -1,50 +1,27 @@
 { config, pkgs, inputs, ... }:
 
-{
+let
+  userName = "emil_io";
+in
+  {
   imports =
     [
       ./hardware-configuration.nix
     ];
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   networking.hostName = "haephestus"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/Rome";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "it_IT.UTF-8";
-    LC_IDENTIFICATION = "it_IT.UTF-8";
-    LC_MEASUREMENT = "it_IT.UTF-8";
-    LC_MONETARY = "it_IT.UTF-8";
-    LC_NAME = "it_IT.UTF-8";
-    LC_NUMERIC = "it_IT.UTF-8";
-    LC_PAPER = "it_IT.UTF-8";
-    LC_TELEPHONE = "it_IT.UTF-8";
-    LC_TIME = "it_IT.UTF-8";
-  };
+  systemDefault.enable = true;
 
   services.xserver.enable = true;
-
- # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
+  # Enable the GNOME Desktop Environment.
   services.xserver = {
-    layout = "us"; # Layout di base
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+    xkb.layout = "us"; # Layout di base
   };
 
   services.printing.enable = true;
-
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -52,24 +29,18 @@
     pulse.enable = true;
   };
 
-  nixpkgs.config.allowUnfree = true;
-
-  users.users.emil_io = {
-	  isNormalUser = true;
-	  description = "emil_io";
-	  extraGroups = [ "networkmanager" "wheel" ];
-      shell = pkgs.zsh;
-      ignoreShellProgramCheck = true;
+  mainUser ={
+    enable = true;
+    user = "${userName}";
   };
 
   home-manager = {
-	  extraSpecialArgs =  { inherit inputs; };
-	  users = {
-	  	"emil_io" = import ./home.nix;
-	  };
+    extraSpecialArgs =  { inherit inputs; };
+    users = {
+      "${userName}" = import ./home.nix;
+    };
+    backupFileExtension = "bak";
   };
-
-  home-manager.backupFileExtension = "bak";
 
   environment.variables = {
     EDITOR = "nvim";

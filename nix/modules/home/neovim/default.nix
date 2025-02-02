@@ -47,7 +47,6 @@
           luasnip
           friendly-snippets
           lspkind-nvim
-          copilot-vim
           copilot-cmp
 
           nvim-cmp 
@@ -69,6 +68,7 @@
           neodev-nvim
           SchemaStore-nvim
           lsp_lines-nvim
+          copilot-vim
           
           {
             plugin = (nvim-treesitter.withPlugins (p: [
