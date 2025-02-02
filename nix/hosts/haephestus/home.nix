@@ -19,6 +19,8 @@
   git.userEmail = "emiliopalmerini@codiceplastico.com";
   git.userName = "emiliopalmerini";
 
+  kitty.enable = true;
+
   go.enable = true;
   gcc.enable = true;
 
