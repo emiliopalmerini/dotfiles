@@ -1,10 +1,10 @@
 { lib, config, pkgs, inputs, ... }:
 
-with lib;
-let
-  cfg = config.neovim;
-in
-{
+  with lib;
+    let
+    cfg = config.neovim;
+  in
+  {
   options = {
     neovim.enable 
       = mkEnableOption "enable neovim module";

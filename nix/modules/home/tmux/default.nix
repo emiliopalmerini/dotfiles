@@ -16,7 +16,6 @@ in
       extraConfig = ''
       set-option -sa terminal-overrides ",xterm*:Tc"
       set-option -g default-terminal "screen-256color"
-      set-option -g default-shell /bin/zsh
       set -g mouse on
 
       # Vim style pane selection
