@@ -18,7 +18,8 @@ in
   services.xserver = {
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
-    xkb.layout = "us"; # Layout di base
+    xkb.layout = "us";
+    xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
   };
 
   services.printing.enable = true;

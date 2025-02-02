@@ -12,6 +12,7 @@ let
     cat = "bat";
     switch = "sudo nixos-rebuild switch --flake";
     test = "sudo nixos-rebuild test --flake";
+    upgrade = "sudo nixos-rebuild switch --upgrade --flake";
   };
   oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
