@@ -11,20 +11,6 @@
   };
 
   config = mkIf cfg.enable {
-    nixpkgs = {
-      overlays = [
-        (final: prev: {
-          vimPlugins = prev.vimPlugins // {
-            own-harpoon-nvim = prev.vimUtils.buildVimPlugin {
-              name = "harpoon";
-              version = "harpoon2";
-              src = inputs.plugin-harpoon;
-            };
-          };
-        })
-      ];
-    };
-
     programs.neovim = 
       let
         toLua = str: "lua << EOF\n${str}\nEOF\n";
@@ -44,10 +30,59 @@
           wl-clipboard
           ripgrep
           omnisharp-roslyn
+          delve
+          stylua
+          unzip
         ];
 
         plugins = with pkgs.vimPlugins; [
 
+          cmp-nvim-lsp
+          cmp-path
+          cmp-buffer
+
+          cmp_luasnip
+          cmp-nvim-lsp
+
+          luasnip
+          friendly-snippets
+          lspkind-nvim
+          copilot-vim
+          copilot-cmp
+
+          nvim-cmp 
+          lualine-nvim
+          nvim-web-devicons
+          telescope-fzf-native-nvim
+          plenary-nvim
+          vim-nix
+          nvim-dap-go
+          nvim-dap-ui
+          nvim-dap-virtual-text
+          nvim-nio
+          mason-nvim
+          mason-lspconfig-nvim
+          mason-tool-installer-nvim
+          fidget-nvim
+          conform-nvim
+          obsidian-nvim
+          neodev-nvim
+          SchemaStore-nvim
+          lsp_lines-nvim
+          
+          {
+            plugin = (nvim-treesitter.withPlugins (p: [
+              p.tree-sitter-nix
+              p.tree-sitter-vim
+              p.tree-sitter-lua
+              p.tree-sitter-json
+              p.tree-sitter-c_sharp
+              p.tree-sitter-go
+              p.tree-sitter-markdown
+              p.tree-sitter-markdown_inline
+            ]));
+            config = toLuaFile ./plugin/treesitter.lua;
+          }
           {
             plugin = oil-nvim;
             config = toLuaFile ./plugin/oil.lua;
@@ -67,54 +102,48 @@
             config = "colorscheme tokyonight-storm";
           }
 
-          cmp-nvim-lsp
-          cmp-path
-          cmp-buffer
-
-          cmp_luasnip
-          cmp-nvim-lsp
-
-          luasnip
-          friendly-snippets
-          lspkind-nvim
-          copilot-lua
-          copilot-cmp
-
-          nvim-cmp 
           {
             plugin = nvim-cmp;
             config = toLuaFile ./plugin/cmp.lua;
           }
 
-          telescope-fzf-native-nvim
           {
             plugin = telescope-nvim;
             config = toLuaFile ./plugin/telescope.lua;
           }
-
-          lualine-nvim
-          nvim-web-devicons
-
           {
-            plugin = (nvim-treesitter.withPlugins (p: [
-              p.tree-sitter-nix
-              p.tree-sitter-vim
-              p.tree-sitter-bash
-              p.tree-sitter-lua
-              p.tree-sitter-json
-            ]));
-            config = toLuaFile ./plugin/treesitter.lua;
-          }
-
-          plenary-nvim
-          {
-            plugin = own-harpoon-nvim;
+            plugin = harpoon2;
             config = toLuaFile ./plugin/harpoon.lua;
           }
 
-          vim-nix
           {
             plugin = vim-fugitive;
+            config = toLuaFile ./plugin/fugitive.lua;
+          }
+
+          {
+            plugin = nvim-dap;
+            config = toLuaFile ./plugin/dap.lua;
+          }
+          {
+            plugin = refactoring-nvim;
+            config = toLuaFile ./plugin/refactoring.lua;
+          }
+          {
+            plugin = vim-tmux-navigator;
+            config = toLuaFile ./plugin/tmux.lua;
+          }
+          {
+            plugin = trouble-nvim;
+            config = toLuaFile ./plugin/trouble.lua;
+          }
+          {
+            plugin = undotree;
+            config = toLuaFile ./plugin/undotree.lua;
+          }
+          {
+            plugin = zen-mode-nvim;
+            config = toLuaFile ./plugin/zen.lua;
           }
         ];
 

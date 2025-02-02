@@ -1,58 +1,163 @@
-local on_attach = function(_, bufnr)
-
-  local bufmap = function(keys, func)
-    vim.keymap.set('n', keys, func, { buffer = bufnr })
-  end
-
-  bufmap('<leader>r', vim.lsp.buf.rename)
-  bufmap('<leader>a', vim.lsp.buf.code_action)
-
-  bufmap('gd', vim.lsp.buf.definition)
-  bufmap('gD', vim.lsp.buf.declaration)
-  bufmap('gi', vim.lsp.buf.implementation)
-  bufmap('<leader>D', vim.lsp.buf.type_definition)
-
-  bufmap('gr', require('telescope.builtin').lsp_references)
-  bufmap('<leader>s', require('telescope.builtin').lsp_document_symbols)
-  bufmap('<leader>S', require('telescope.builtin').lsp_dynamic_workspace_symbols)
-
-  bufmap('K', vim.lsp.buf.hover)
-
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, {})
+if vim.g.obsidian then
+	return
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+require("neodev").setup({
+	-- library = {
+	--   plugins = { "nvim-dap-ui" },
+	--   types = true,
+	-- },
+})
 
-require('lspconfig').lua_ls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-	root_dir = function()
-        return vim.loop.cwd()
-    end,
-	cmd = { "lua-language-server" },
-    settings = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-        },
-    }
+local capabilities = nil
+if pcall(require, "cmp_nvim_lsp") then
+	capabilities = require("cmp_nvim_lsp").default_capabilities()
+end
+
+local lspconfig = require("lspconfig")
+
+local servers = {
+	gopls = {
+		settings = {
+			gopls = {
+				hints = {
+					assignVariableTypes = true,
+					compositeLiteralFields = true,
+					compositeLiteralTypes = true,
+					constantValues = true,
+					functionTypeParameters = true,
+					parameterNames = true,
+					rangeVariableTypes = true,
+				},
+			},
+		},
+	},
+	lua_ls = {
+		server_capabilities = {
+			semanticTokensProvider = vim.NIL,
+		},
+	},
+	templ = true,
 }
 
-require('lspconfig').gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = require('lspconfig').util.root_pattern('go.mod', '.git'),
-  cmd = { "gopls" },
-  settings = {
-    gopls = {
-      analyses = {
-        unusedparams = true,
-        shadow = true,
-      },
-      staticcheck = true,
-    },
-  }
+local servers_to_install = vim.tbl_filter(function(key)
+	local t = servers[key]
+	if type(t) == "table" then
+		return not t.manual_install
+	else
+		return t
+	end
+end, vim.tbl_keys(servers))
+
+require("mason").setup()
+local ensure_installed = {
+	"stylua",
+	"lua_ls",
 }
+
+vim.list_extend(ensure_installed, servers_to_install)
+require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+for name, config in pairs(servers) do
+	if config == true then
+		config = {}
+	end
+	config = vim.tbl_deep_extend("force", {}, {
+		capabilities = capabilities,
+	}, config)
+
+	lspconfig[name].setup(config)
+end
+
+local disable_semantic_tokens = {
+	lua = true,
+}
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local bufnr = args.buf
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
+
+		local settings = servers[client.name]
+		if type(settings) ~= "table" then
+			settings = {}
+		end
+
+		local builtin = require("telescope.builtin")
+
+		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+		vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
+		vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
+		vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+
+		vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
+		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+		vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+
+		local filetype = vim.bo[bufnr].filetype
+		if disable_semantic_tokens[filetype] then
+			client.server_capabilities.semanticTokensProvider = nil
+		end
+
+		-- Override server capabilities
+		if settings.server_capabilities then
+			for k, v in pairs(settings.server_capabilities) do
+				if v == vim.NIL then
+					---@diagnostic disable-next-line: cast-local-type
+					v = nil
+				end
+
+				client.server_capabilities[k] = v
+			end
+		end
+	end,
+})
+
+-- Autoformatting Setup
+local conform = require("conform")
+conform.setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		blade = { "blade-formatter" },
+	},
+})
+
+conform.formatters.injected = {
+	options = {
+		ignore_errors = false,
+		lang_to_formatters = {
+			sql = { "sleek" },
+		},
+	},
+}
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+	callback = function(args)
+		-- local filename = vim.fn.expand "%:p"
+
+		local extension = vim.fn.expand("%:e")
+		if extension == "mlx" then
+			return
+		end
+
+		require("conform").format({
+			bufnr = args.buf,
+			lsp_fallback = true,
+			quiet = true,
+		})
+	end,
+})
+
+require("lsp_lines").setup()
+vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+
+vim.keymap.set("", "<leader>l", function()
+	local config = vim.diagnostic.config() or {}
+	if config.virtual_text then
+		vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
+	else
+		vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+	end
+end, { desc = "Toggle lsp_lines" })

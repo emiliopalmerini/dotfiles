@@ -1,20 +1,15 @@
-local harpoon = require('harpoon')
-harpoon:setup({})
+local harpoon = require("harpoon")
+harpoon:setup()
 
--- basic telescope configuration
-local conf = require("telescope.config").values
-local function toggle_telescope(harpoon_files)
-    local file_paths = {}
-    for _, item in ipairs(harpoon_files.items) do
-        table.insert(file_paths, item.value)
-    end
+vim.keymap.set("n", "<leader>a", function()
+    harpoon:list():add()
+end, { desc = "[A]ppend file to harpoon" })
+vim.keymap.set("n", "<leader>h", function()
+    harpoon.ui:toggle_quick_menu(harpoon:list())
+end, { desc = "Open [H]arpoon list" })
 
-    require("telescope.pickers").new({}, {
-        prompt_title = "Harpoon",
-        finder = require("telescope.finders").new_table({
-            results = file_paths,
-        }),
-        previewer = conf.file_previewer({}),
-        sorter = conf.generic_sorter({}),
-    }):find()
+for _, idx in ipairs({ 1, 2, 3, 4, 5 }) do
+    vim.keymap.set("n", string.format("<space>%d", idx), function()
+        harpoon:list():select(idx)
+    end)
 end
