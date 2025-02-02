@@ -39,7 +39,7 @@
         modules = [
           ./hosts/haephestus/configuration.nix
           inputs.home-manager.nixosModules.default
-          ./modules/nixosModules
+          ./modules/nixos
         ];
       };
 
@@ -49,7 +49,7 @@
         modules = [
           ./hosts/poseidon/configuration.nix
           inputs.home-manager.nixosModules.default
-          ./modules/nixosModules
+          ./modules/nixos
         ];
       };
 

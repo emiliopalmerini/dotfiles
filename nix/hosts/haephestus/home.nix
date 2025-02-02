@@ -2,7 +2,7 @@
 
 {
   imports = [
-  	./../../modules/homeManagerModules
+  	./../../modules/home
   ];
 
   home.username = "emil_io";
