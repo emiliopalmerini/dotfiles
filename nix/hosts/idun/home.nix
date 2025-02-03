@@ -23,6 +23,7 @@
   gcc.enable = true;
   go.enable = true;
   lua.enable = true;
+  kitty.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
