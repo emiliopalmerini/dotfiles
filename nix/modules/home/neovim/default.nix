@@ -67,10 +67,7 @@
           lsp_lines-nvim
           luasnip
           friendly-snippets
-          {
-            plugin = copilot-lua;
-            config = toLuaFile ./plugin/copilot.lua; 
-          }
+          copilot-vim
           copilot-cmp
           {
             plugin = (nvim-treesitter.withPlugins (p: [

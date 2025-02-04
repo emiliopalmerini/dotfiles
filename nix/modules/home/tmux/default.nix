@@ -14,8 +14,15 @@ in
       enable = true;
       sensibleOnTop = true;
       extraConfig = ''
-      set-option -sa terminal-overrides ",xterm*:Tc"
-      set-option -g default-terminal "screen-256color"
+      set -g default-terminal "xterm-256color"
+      set -ga terminal-overrides ",*256col*:Tc"
+      set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
+      set-environment -g COLORTERM "truecolor"
+
+      unbind C-b
+      set-option -g prefix C-Space
+      bind-key C-Space send-prefix
+      set-option -g default-shell "$SHELL"
       set -g mouse on
 
       # Vim style pane selection
@@ -58,8 +65,6 @@ in
       '';
 
       plugins = with pkgs; [
-        tmuxPlugins.cpu
-        tmuxPlugins.resurrect
         tmuxPlugins.vim-tmux-navigator
         {
           plugin = tmuxPlugins.catppuccin;

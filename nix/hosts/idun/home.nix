@@ -18,6 +18,7 @@
   git.userEmail = "emiliopalmerini@proton.me";
 
   tmux.enable = true;
+  telegram.enable = true;
   shell.enable = true;
   todoist.enable = true;
   gcc.enable = true;
