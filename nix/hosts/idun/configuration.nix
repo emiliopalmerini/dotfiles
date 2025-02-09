@@ -45,9 +45,9 @@
         "zen-browser"
         "epic-games"
         "obs"
-      "cupcut"
       ];
       masApps = {
+      "CapCut" = 1500855883
       };
       onActivation.cleanup = "zap";
     };
