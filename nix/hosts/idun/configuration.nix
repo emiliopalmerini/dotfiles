@@ -20,7 +20,7 @@
       dock.autohide  = true;
       dock.persistent-apps = [
         "${pkgs.obsidian}/Applications/Obsidian.app"
-        "/Applications/Ghostty.app"
+        "/Applications/Kitty.app"
         "/Applications/Zen Browser.app"
       ];
       finder.FXPreferredViewStyle = "clmv";
@@ -42,10 +42,10 @@
         "mas"
       ];
       casks = [
-        "ghostty"
         "zen-browser"
         "epic-games"
         "obs"
+      "cupcut"
       ];
       masApps = {
       };
