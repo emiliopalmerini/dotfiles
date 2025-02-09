@@ -45,6 +45,7 @@
         "ghostty"
         "zen-browser"
         "epic-games"
+        "obs"
       ];
       masApps = {
       };
