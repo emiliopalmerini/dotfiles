@@ -10,11 +10,15 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      vscode
-      vscode-extensions.ms-dotnettools.csharp
-      vscode-extensions.csharpier.csharpier-vscode
-      vscode-extensions.ms-dotnettools.vscodeintellicode-csharp
-    ];
+    programs.vscode = {
+      enable = true;
+      extensions = with pkgs.vscode-extensions; [
+        ms-dotnettools.csharp
+        csharpier.csharpier-vscode
+        ms-dotnettools.vscodeintellicode-csharp
+        ms-dotnettools.vscodeintellicode-csharp
+        vscodevim.vim
+      ];
+    };
   };
 }

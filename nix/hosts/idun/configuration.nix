@@ -20,7 +20,7 @@
       dock.autohide  = true;
       dock.persistent-apps = [
         "${pkgs.obsidian}/Applications/Obsidian.app"
-        "/Applications/Kitty.app"
+        "/Applications/kitty.app"
         "/Applications/Zen Browser.app"
       ];
       finder.FXPreferredViewStyle = "clmv";
