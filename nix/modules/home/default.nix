@@ -24,6 +24,8 @@
     ./telegram
     ./tmux
     ./todoist
+    ./unity
+    ./vscode
   ];
 }
 

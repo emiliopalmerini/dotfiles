@@ -2,16 +2,16 @@
 
 with lib;
 let
-  cfg = config.dotnet;
+  cfg = config.unityhub;
 in
 {
-  options.dotnet = {
-    enable = mkEnableOption "Enable dotnet module";
+  options.unityhub = {
+    enable = mkEnableOption "Enable unityhub module";
   };
 
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      dotnetCorePackages.sdk_9_0
+      unityhub
     ];
   };
 }

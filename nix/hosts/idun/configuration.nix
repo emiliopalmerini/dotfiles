@@ -44,10 +44,11 @@
       casks = [
         "zen-browser"
         "epic-games"
+        "unity-hub"
         "obs"
       ];
       masApps = {
-      "CapCut" = 1500855883
+      "CapCut" = 1500855883;
       };
       onActivation.cleanup = "zap";
     };

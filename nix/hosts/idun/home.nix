@@ -26,6 +26,10 @@
   lua.enable = true;
   kitty.enable = true;
 
+  dotnet.enable = true;
+
+  vscode.enable = true;
+
   nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;
