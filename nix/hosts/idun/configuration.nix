@@ -44,7 +44,6 @@
       casks = [
         "zen-browser"
         "epic-games"
-        "unity-hub"
         "obs"
       ];
       masApps = {
