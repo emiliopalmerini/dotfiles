@@ -25,6 +25,7 @@
   go.enable = true;
   lua.enable = true;
   kitty.enable = true;
+  hugo.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
