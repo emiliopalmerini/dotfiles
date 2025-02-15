@@ -10,6 +10,8 @@
 
   system.stateVersion = 5;
 
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
     environment.variables = {
