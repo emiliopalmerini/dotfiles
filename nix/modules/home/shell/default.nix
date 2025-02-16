@@ -13,6 +13,7 @@ let
     switch = "sudo nixos-rebuild switch --flake";
     test = "sudo nixos-rebuild test --flake";
     upgrade = "sudo nixos-rebuild switch --upgrade --flake";
+    darwin-switch = "nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/dev/dotfiles/nix#idun --show-trace";
   };
   oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";

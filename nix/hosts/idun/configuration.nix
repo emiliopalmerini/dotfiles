@@ -10,7 +10,6 @@
 
   system.stateVersion = 5;
 
-  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -22,7 +21,7 @@
       dock.autohide  = true;
       dock.persistent-apps = [
         "${pkgs.obsidian}/Applications/Obsidian.app"
-        "/Applications/kitty.app"
+        "${pkgs.kitty}/Applications/kitty.app"
         "/Applications/Zen Browser.app"
       ];
       finder.FXPreferredViewStyle = "clmv";
@@ -30,6 +29,7 @@
       NSGlobalDomain.AppleICUForce24HourTime = true;
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
       NSGlobalDomain.KeyRepeat = 2;
+      NSGlobalDomain."com.apple.swipescrolldirection" = false;
     };
 
 

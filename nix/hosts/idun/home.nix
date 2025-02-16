@@ -17,6 +17,8 @@
   git.userName = "emiliopalmerini";
   git.userEmail = "emiliopalmerini@proton.me";
 
+  vscode.enable = true;
+
   tmux.enable = true;
   telegram.enable = true;
   shell.enable = true;
