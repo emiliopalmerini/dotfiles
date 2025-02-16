@@ -29,7 +29,7 @@
       NSGlobalDomain.AppleICUForce24HourTime = true;
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
       NSGlobalDomain.KeyRepeat = 2;
-      NSGlobalDomain."com.apple.swipescrolldirection" = false;
+      NSGlobalDomain."com.apple.swipescrolldirection" = true;
     };
 
 
@@ -47,6 +47,7 @@
         "zen-browser"
         "epic-games"
         "obs"
+        "logi-options+"
       ];
       masApps = {
       "CapCut" = 1500855883;
