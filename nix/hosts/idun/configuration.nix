@@ -51,6 +51,7 @@
       ];
       masApps = {
       "CapCut" = 1500855883;
+      "HomeAssistant" = 1099568401;
       };
       onActivation.cleanup = "zap";
     };
