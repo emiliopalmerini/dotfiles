@@ -13,6 +13,7 @@
     ./kitty
     ./lazygit
     ./lua
+    ./make
     ./mongodb
     ./neovim
     ./obs

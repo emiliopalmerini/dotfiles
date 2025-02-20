@@ -2,15 +2,15 @@
 
 with lib;
 let
-  cfg = config.hugo;
+  cfg = config.lazygit;
 in
 {
   options = {
-    hugo.enable = mkEnableOption "Enable hugo";
+    lazygit.enable = mkEnableOption "Enable lazygit";
   };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      pkgs.hugo
+      pkgs.lazygit
     ];
   };
 }
