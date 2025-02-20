@@ -33,6 +33,7 @@
   tmux.enable = true;
   todoist.enable = true;
   make.enable = true;
+  mongodb.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
