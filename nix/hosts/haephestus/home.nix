@@ -32,6 +32,7 @@
   slack.enable = true;
   tmux.enable = true;
   todoist.enable = true;
+  make.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
