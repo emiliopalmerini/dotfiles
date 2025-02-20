@@ -12,6 +12,7 @@ in
   config = mkIf config.go.enable {
     home.packages = with pkgs; [
       go
+      delve
     ];
   };
 }
