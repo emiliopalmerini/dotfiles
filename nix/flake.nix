@@ -33,6 +33,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
+      # Configurazione completa NixOS per haephestus
       nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs; };
@@ -43,16 +44,7 @@
         ];
       };
 
-      nixosConfigurations.poseidon = nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/poseidon/configuration.nix
-          inputs.home-manager.nixosModules.default
-          ./modules/nixos
-        ];
-      };
-
+      # Configurazione per nix-darwin
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         modules = [
