@@ -11,6 +11,7 @@
     ./git
     ./go
     ./hyprland
+    ./hugo
     ./kitty
     ./lazygit
     ./lua
