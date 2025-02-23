@@ -42,12 +42,16 @@
       enable = true;
       brews = [
         "mas"
+        "docker-compose"
+        "clamav"
       ];
       casks = [
         "zen-browser"
         "epic-games"
         "obs"
         "logi-options+"
+        "docker"
+        "vlc"
       ];
       masApps = {
       "CapCut" = 1500855883;

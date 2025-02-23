@@ -1,6 +1,7 @@
 { config, pkgs, inputs, ... }:
 {
   imports = [
+    ./antivirus
     ./bruno
     ./discord
     ./dotnet
