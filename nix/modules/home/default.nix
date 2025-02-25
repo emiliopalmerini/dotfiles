@@ -24,6 +24,7 @@
     ./rectangle
     ./shell
     ./slack
+    ./sqlite
     ./telegram
     ./tmux
     ./todoist
