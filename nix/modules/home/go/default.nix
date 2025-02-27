@@ -11,6 +11,8 @@ in
   # Configurazione del modulo
   config = mkIf config.go.enable {
     home.packages = with pkgs; [
+          gopls
+          delve
       go
     ];
   };

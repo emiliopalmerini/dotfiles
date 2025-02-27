@@ -30,6 +30,7 @@
     ./todoist
     ./unity
     ./vscode
+    ./warp
   ];
 }
 
