@@ -16,24 +16,26 @@
   firefox.enable = true;
 
   git.enable = true;
-  git.userEmail = "emiliopalmerini@codiceplastico.com";
+  git.userEmail = "emilio.palmerini@proton.me";
   git.userName = "emiliopalmerini";
 
   kitty.enable = true;
+  warp.enable = true;
 
   go.enable = true;
   gcc.enable = true;
+  php.enable = true;
 
   lazygit.enable = true;
   neovim.enable = true;
-  obs.enable = true;
   obsidian.enable = true;
   shell.enable = true;
-  slack.enable = true;
   tmux.enable = true;
   todoist.enable = true;
   make.enable = true;
+
   mongodb.enable = true;
+  dbeaver.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 

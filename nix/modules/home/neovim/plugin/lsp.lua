@@ -37,7 +37,17 @@ local servers = {
 			semanticTokensProvider = vim.NIL,
 		},
 	},
-	templ = true,
+	intelephense = {
+    settings = {
+        intelephense = {
+            stubs = { "bcmath", "bz2", "Core", "curl", "date", "dom", "fileinfo", "filter", "gd", "gettext", "hash", "iconv", "json", "libxml", "mbstring", "openssl", "pcntl", "pcre", "PDO", "pdo_mysql", "Phar", "readline", "Reflection", "session", "SimpleXML", "sockets", "sodium", "SPL", "standard", "superglobals", "tokenizer", "xml", "xdebug", "xmlreader", "xmlwriter", "yaml", "zip", "zlib" },
+            diagnostics = { enable = true },
+            completion = { fullyQualifyGlobalConstants = true },
+            files = { maxSize = 5000000 },
+        }
+    }
+},
+templ = true,
 }
 
 local servers_to_install = vim.tbl_filter(function(key)
@@ -120,6 +130,7 @@ local conform = require("conform")
 conform.setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
+        php = { "php_cs_fixer" },
 		blade = { "blade-formatter" },
 	},
 })

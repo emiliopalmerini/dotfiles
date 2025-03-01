@@ -3,8 +3,8 @@
 with lib;
 let
   cfg = config.git;
-  # Definizione del percorso comune per i file di configurazione di Git
-  gitConfigPath = "~/dev/dotfiles/nix/modules/homeManagerModules/git";
+  # Usare la variabile homeDirectory di NixOS o Home Manager
+  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/homeManagerModules/git";
 in
 {
   options = {
@@ -20,7 +20,8 @@ in
       };
     };
   };
-  # Configurazione di Git
+
+  # Configurazione di Git, applicata solo se abilitata
   config = mkIf cfg.enable { 
     home.packages = [
       pkgs.git-absorb  # Aggiungi il pacchetto git-absorb

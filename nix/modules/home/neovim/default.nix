@@ -79,6 +79,7 @@
               p.tree-sitter-go
               p.tree-sitter-markdown
               p.tree-sitter-markdown_inline
+              p.php
             ]));
             config = toLuaFile ./plugin/treesitter.lua;
           }

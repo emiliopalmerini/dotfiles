@@ -3,6 +3,7 @@
   imports = [
     ./antivirus
     ./bruno
+    ./dbeaver
     ./discord
     ./dotnet
     ./firefox
@@ -20,6 +21,7 @@
     ./neovim
     ./obs
     ./obsidian
+    ./php
     ./postman
     ./rectangle
     ./shell
