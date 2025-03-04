@@ -26,6 +26,7 @@
     ./rectangle
     ./shell
     ./slack
+    ./syncthing
     ./sqlite
     ./telegram
     ./tmux
