@@ -21,7 +21,7 @@
       dock.autohide  = true;
       dock.persistent-apps = [
         "${pkgs.obsidian}/Applications/Obsidian.app"
-        "${pkgs.kitty}/Applications/kitty.app"
+        "${pkgs.warp-terminal}/Applications/Warp.app"
         "/Applications/Zen Browser.app"
       ];
       finder.FXPreferredViewStyle = "clmv";
@@ -52,6 +52,7 @@
         "logi-options+"
         "docker"
         "vlc"
+         "syncthing"
       ];
       masApps = {
       "CapCut" = 1500855883;

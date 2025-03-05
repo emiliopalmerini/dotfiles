@@ -27,7 +27,6 @@
   gcc.enable = true;
   go.enable = true;
   lua.enable = true;
-  kitty.enable = true;
   warp.enable = true;
   
   sqlite.enable = true;
