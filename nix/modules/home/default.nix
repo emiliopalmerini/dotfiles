@@ -22,6 +22,7 @@
     ./obs
     ./obsidian
     ./php
+    ./postgres
     ./postman
     ./rectangle
     ./shell

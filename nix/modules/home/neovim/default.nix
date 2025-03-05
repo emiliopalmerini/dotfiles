@@ -68,7 +68,11 @@
           luasnip
           friendly-snippets
           copilot-lua
-          copilot-cmp
+          {
+            plugin = copilot-cmp;
+            config = toLuaFile ./plugin/copilot.lua;
+          }
+          phpactor
           {
             plugin = (nvim-treesitter.withPlugins (p: [
               p.tree-sitter-nix

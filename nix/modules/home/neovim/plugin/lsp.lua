@@ -3,10 +3,6 @@ if vim.g.obsidian then
 end
 
 require("neodev").setup({
-	-- library = {
-	--   plugins = { "nvim-dap-ui" },
-	--   types = true,
-	-- },
 })
 
 local capabilities = nil
@@ -37,17 +33,7 @@ local servers = {
 			semanticTokensProvider = vim.NIL,
 		},
 	},
-	intelephense = {
-    settings = {
-        intelephense = {
-            stubs = { "bcmath", "bz2", "Core", "curl", "date", "dom", "fileinfo", "filter", "gd", "gettext", "hash", "iconv", "json", "libxml", "mbstring", "openssl", "pcntl", "pcre", "PDO", "pdo_mysql", "Phar", "readline", "Reflection", "session", "SimpleXML", "sockets", "sodium", "SPL", "standard", "superglobals", "tokenizer", "xml", "xdebug", "xmlreader", "xmlwriter", "yaml", "zip", "zlib" },
-            diagnostics = { enable = true },
-            completion = { fullyQualifyGlobalConstants = true },
-            files = { maxSize = 5000000 },
-        }
-    }
-},
-templ = true,
+	intelephense = true, 
 }
 
 local servers_to_install = vim.tbl_filter(function(key)
@@ -63,6 +49,8 @@ require("mason").setup()
 local ensure_installed = {
 	"stylua",
 	"lua_ls",
+    "delve",
+    "php-debug-adapter"
 }
 
 vim.list_extend(ensure_installed, servers_to_install)
