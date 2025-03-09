@@ -4,8 +4,6 @@
   environment.systemPackages = with pkgs; [
   ];
 
-  services.nix-daemon.enable = true;
-
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
@@ -20,16 +18,13 @@
     system.defaults = {
       dock.autohide  = true;
       dock.persistent-apps = [
-        "${pkgs.obsidian}/Applications/Obsidian.app"
-        "${pkgs.warp-terminal}/Applications/Warp.app"
-        "/Applications/Zen Browser.app"
       ];
       finder.FXPreferredViewStyle = "clmv";
       loginwindow.GuestEnabled  = false;
       NSGlobalDomain.AppleICUForce24HourTime = true;
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
-      NSGlobalDomain.KeyRepeat = 2;
-      NSGlobalDomain."com.apple.swipescrolldirection" = true;
+      NSGlobalDomain.KeyRepeat = 30;
+      NSGlobalDomain."com.apple.swipescrolldirection" = false;
     };
 
 
@@ -52,7 +47,9 @@
         "logi-options+"
         "docker"
         "vlc"
-         "syncthing"
+       "syncthing"
+        "warp"
+      "obsidian"
       ];
       masApps = {
       "CapCut" = 1500855883;
