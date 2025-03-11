@@ -53,7 +53,6 @@ vim.opt.shortmess:append "c"
 local lspkind = require "lspkind"
 lspkind.init {
   symbol_map = {
-    Copilot = "",
   },
 }
 
@@ -62,7 +61,6 @@ lspkind.init {
 require("luasnip.loaders.from_vscode").load {
 }
 
-vim.api.nvim_set_hl(0, "CmpItemKindCopilot", { fg = "#6CC644" })
 
 local kind_formatter = lspkind.cmp_format {
   mode = "symbol_text",
@@ -73,7 +71,6 @@ local kind_formatter = lspkind.cmp_format {
     path = "[path]",
     luasnip = "[snip]",
     gh_issues = "[issues]",
-    tn = "[TabNine]",
     eruby = "[erb]",
   },
 }
@@ -96,8 +93,7 @@ cmp.setup {
 			-- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
 			group_index = 0,
 		},
-        { name = 'luasnip', option = { use_show_condition = false } },
-		{ name = "copilot" },
+		{ name = 'luasnip', option = { use_show_condition = false } },
 		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "buffer" },
@@ -138,8 +134,6 @@ cmp.setup {
 	sorting = {
 		priority_weight = 2,
 		comparators = {
-			require("copilot_cmp.comparators").prioritize,
-
 			-- Below is the default comparitor list and order for nvim-cmp
 			cmp.config.compare.offset,
 			-- cmp.config.compare.scopes, --this is commented in nvim-cmp too

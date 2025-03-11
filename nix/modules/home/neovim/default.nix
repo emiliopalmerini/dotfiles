@@ -33,8 +33,14 @@
           delve
           stylua
           unzip
-        ];
 
+          # Per supporto Nix
+          nil          # Language server per Nix
+          nixpkgs-fmt  # Formattatore per Nix
+
+          # Altri formattatori se necessari
+          sleek
+        ];
         plugins = with pkgs.vimPlugins; [
 
           cmp-nvim-lsp
@@ -56,9 +62,6 @@
           nvim-dap-ui
           nvim-dap-virtual-text
           nvim-nio
-          mason-nvim
-          mason-lspconfig-nvim
-          mason-tool-installer-nvim
           fidget-nvim
           conform-nvim
           obsidian-nvim
@@ -67,12 +70,6 @@
           lsp_lines-nvim
           luasnip
           friendly-snippets
-          copilot-lua
-          {
-            plugin = copilot-cmp;
-            config = toLuaFile ./plugin/copilot.lua;
-          }
-          phpactor
           {
             plugin = (nvim-treesitter.withPlugins (p: [
               p.tree-sitter-nix
@@ -83,7 +80,6 @@
               p.tree-sitter-go
               p.tree-sitter-markdown
               p.tree-sitter-markdown_inline
-              p.php
             ]));
             config = toLuaFile ./plugin/treesitter.lua;
           }

@@ -24,7 +24,6 @@
 
   go.enable = true;
   gcc.enable = true;
-  php.enable = true;
 
   lazygit.enable = true;
   neovim.enable = true;

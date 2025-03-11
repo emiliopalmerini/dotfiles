@@ -11,12 +11,12 @@ in
 
   config = mkIf cfg.enable {
   home.packages = with pkgs; [
-      php83
-      laravel
-      php83Packages.composer
-      php83Extensions.xdebug
-      php83Packages.php-cs-fixer
+      php84
+      php84Packages.composer
+      php84Extensions.xdebug
+      php84Packages.php-cs-fixer
       vscode-extensions.xdebug.php-debug
+      laravel
   ];
   };
 }
