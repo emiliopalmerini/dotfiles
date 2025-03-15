@@ -23,7 +23,7 @@
       loginwindow.GuestEnabled  = false;
       NSGlobalDomain.AppleICUForce24HourTime = true;
       NSGlobalDomain.AppleInterfaceStyle = "Dark";
-      NSGlobalDomain.KeyRepeat = 30;
+      NSGlobalDomain.KeyRepeat = 10;
       NSGlobalDomain."com.apple.swipescrolldirection" = false;
     };
 

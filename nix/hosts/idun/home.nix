@@ -1,37 +1,32 @@
-{ config, pkgs, inputs, ... }:
-
+{ config, inputs, pkgs, ... }:
 {
   imports = [
-  	./../../modules/home
+    ./../../modules/home
   ];
-
   home.stateVersion = "24.11"; # Please read the comment before changing.
+  nixpkgs.config.allowUnfree = true;
+  programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
-    raycast
     mongosh
+    raycast
   ];
 
-  neovim.enable = true;
-
-  git.enable = true;
-  git.userName = "emiliopalmerini";
-  git.userEmail = "emiliopalmerini@proton.me";
-
-  vscode.enable = true;
-
-  tmux.enable = true;
-  telegram.enable = true;
-  shell.enable = true;
-  todoist.enable = true;
+  bruno.enable = true;
   gcc.enable = true;
+  gimp.enable = true;
+  git.enable = true;
+  git.userEmail = "emiliopalmerini@proton.me";
+  git.userName = "emiliopalmerini";
   go.enable = true;
-  lua.enable = true;
-  
-  sqlite.enable = true;
   hugo.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
-
-  programs.home-manager.enable = true;
+  lazygit.enable = true;
+  lua.enable = true;
+  neovim.enable = true;
+  shell.enable = true;
+  sqlite.enable = true;
+  telegram.enable = true;
+  tmux.enable = true;
+  todoist.enable = true;
 }
+
