@@ -1,22 +1,21 @@
 { lib, config, pkgs, inputs, ... }:
 
-  with lib;
-    let
-    cfg = config.neovim;
-  in
-  {
+with lib;
+let
+  cfg = config.neovim;
+in
+{
   options = {
-    neovim.enable 
-      = mkEnableOption "enable neovim module";
+    neovim.enable = mkEnableOption "enable neovim module";
   };
 
   config = mkIf cfg.enable {
-    programs.neovim = 
+    programs.neovim =
       let
         toLua = str: "lua << EOF\n${str}\nEOF\n";
         toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
       in
-        {
+      {
         enable = true;
 
         viAlias = true;
@@ -35,8 +34,8 @@
           unzip
 
           # Per supporto Nix
-          nil          # Language server per Nix
-          nixpkgs-fmt  # Formattatore per Nix
+          nil # Language server per Nix
+          nixpkgs-fmt # Formattatore per Nix
 
           # Altri formattatori se necessari
           sleek
@@ -52,7 +51,7 @@
 
           lspkind-nvim
 
-          nvim-cmp 
+          nvim-cmp
           lualine-nvim
           nvim-web-devicons
           telescope-fzf-native-nvim
@@ -94,7 +93,7 @@
 
           {
             plugin = comment-nvim;
-            config = toLua "require(\"Comment\").setup()";
+            config = toLua "require('Comment').setup()";
           }
 
           {
@@ -111,39 +110,28 @@
             plugin = telescope-nvim;
             config = toLuaFile ./plugin/telescope.lua;
           }
-          {
-            plugin = harpoon2;
-            config = toLuaFile ./plugin/harpoon.lua;
-          }
-
-          {
-            plugin = vim-fugitive;
-            config = toLuaFile ./plugin/fugitive.lua;
-          }
-
+          harpoon2
+          vim-fugitive
           {
             plugin = nvim-dap;
             config = toLuaFile ./plugin/dap.lua;
           }
           {
             plugin = refactoring-nvim;
-            config = toLuaFile ./plugin/refactoring.lua;
+            config = toLua "require('refactoring').setup()";
           }
-          {
-            plugin = vim-tmux-navigator;
-            config = toLuaFile ./plugin/tmux.lua;
-          }
+          # {
+          #   plugin = vim-tmux-navigator;
+          #   config = toLua "require('tmux').setup()";
+          # }
           {
             plugin = trouble-nvim;
-            config = toLuaFile ./plugin/trouble.lua;
+            config = toLua "require('trouble').setup()";
           }
-          {
-            plugin = undotree;
-            config = toLuaFile ./plugin/undotree.lua;
-          }
+          undotree
           {
             plugin = zen-mode-nvim;
-            config = toLuaFile ./plugin/zen.lua;
+            config = toLua "require('zen-mode').setup()";
           }
         ];
 

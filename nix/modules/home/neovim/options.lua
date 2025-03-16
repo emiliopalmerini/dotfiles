@@ -8,9 +8,6 @@ vim.opt.ignorecase = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- vim.opt.splitbelow = true
--- vim.opt.splitright = true
-
 vim.opt.signcolumn = "yes"
 vim.opt.shada = { "'10", "<0", "s10", "h" }
 
@@ -94,6 +91,38 @@ vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find exis
 vim.keymap.set("n", "<leader>fi", builtin.git_files, { desc = "[F]ind G[i]t Files" })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind with [G]rep" })
 
+local set = vim.opt_local
+
+-- Set local settings for terminal buffers
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("custom-term-open", {}),
+	callback = function()
+		set.number = false
+		set.relativenumber = false
+		set.scrolloff = 0
+
+		vim.bo.filetype = "terminal"
+	end,
+})
+
+-- Easily hit escape in terminal mode.
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
+
+-- Open a terminal at the bottom of the screen with a fixed height.
+vim.keymap.set("n", ",st", function()
+	vim.cmd.new()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 12)
+	vim.wo.winfixheight = true
+	vim.cmd.term()
+end)
+
+-- Plugins keymap
+
+--undotree
+vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
+
+--harpoon
 local harpoon = require("harpoon")
 harpoon:setup()
 
@@ -125,32 +154,7 @@ vim.keymap.set("n", "<C-S-N>", function()
 	harpoon:list():next()
 end)
 
-local set = vim.opt_local
-
--- Set local settings for terminal buffers
-vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("custom-term-open", {}),
-	callback = function()
-		set.number = false
-		set.relativenumber = false
-		set.scrolloff = 0
-
-		vim.bo.filetype = "terminal"
-	end,
-})
-
--- Easily hit escape in terminal mode.
-vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
-
--- Open a terminal at the bottom of the screen with a fixed height.
-vim.keymap.set("n", ",st", function()
-	vim.cmd.new()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 12)
-	vim.wo.winfixheight = true
-	vim.cmd.term()
-end)
-
+--fugitive
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
@@ -181,3 +185,63 @@ autocmd("BufWinEnter", {
 		vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts)
 	end,
 })
+-- refactoring
+vim.api.nvim_set_keymap(
+	"v",
+	"<leader>ri",
+	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
+	{ noremap = true, silent = true, expr = false }
+)
+
+-- trouble
+require("trouble").setup()
+vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", {
+	desc = "Diagnostics (Trouble)",
+})
+
+vim.keymap.set("n", "<leader>tT", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", {
+	desc = "Buffer Diagnostics (Trouble)",
+})
+
+vim.keymap.set("n", "<leader>tL", "<cmd>Trouble loclist toggle<cr>", {
+	desc = "Location List (Trouble)",
+})
+
+vim.keymap.set("n", "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", {
+	desc = "Quickfix List (Trouble)",
+})
+
+--zen
+vim.keymap.set("n", "<leader>zz", function()
+	require("zen-mode").setup({
+		window = {
+			width = 100,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = true
+	vim.wo.number = true
+	vim.wo.rnu = true
+end)
+
+vim.keymap.set("n", "<leader>zZ", function()
+	require("zen-mode").setup({
+		window = {
+			width = 80,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = false
+	vim.wo.number = false
+	vim.wo.rnu = false
+	vim.opt.colorcolumn = "0"
+end)
+
+-- --tmux
+-- vim.keymap.set("n", "<c-j>", "<cmd><C-U>TmuxNavigateUp<cr>")
+-- vim.keymap.set("n", "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>")
+-- vim.keymap.set("n", "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>")
+-- vim.keymap.set("n", "<c-k>", "<cmd><C-U>TmuxNavigateDown<cr>")
+-- vim.keymap.set("n", "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>")
