@@ -14,6 +14,7 @@
   environment.variables = {
     EDITOR = "nvim";
     TERM = "xterm-256color";
+    SHELL = "${pkgs.zsh}/bin/zsh";
   };
   system.defaults = {
     dock.autohide = true;

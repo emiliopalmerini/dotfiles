@@ -39,7 +39,7 @@ in
       enable = true;
       enableZshIntegration = true;
 
-      settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile oh-my-posh-config)); 
+      settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile oh-my-posh-config));
     };
 
     programs.zsh = {
@@ -48,7 +48,7 @@ in
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
 
-      shellAliases = myAliases ;
+      shellAliases = myAliases;
 
       initExtra = '' 
         if [[ -f "/opt/homebrew/bin/brew" ]] then
