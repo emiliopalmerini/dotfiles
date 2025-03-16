@@ -23,16 +23,22 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
     };
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs = { self, nixpkgs, nix-darwin, ... }@inputs:
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-
+    in
+    {
       # Configurazione completa NixOS per haephestus
       nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
         system = system;

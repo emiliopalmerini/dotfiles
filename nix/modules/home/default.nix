@@ -19,6 +19,7 @@
     ./make
     ./mongodb
     ./neovim
+    ./nixvim
     ./obs
     ./obsidian
     ./php

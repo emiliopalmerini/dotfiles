@@ -22,7 +22,8 @@
   hugo.enable = true;
   lazygit.enable = true;
   lua.enable = true;
-  neovim.enable = true;
+  neovim.enable = false;
+nixvim.enable = true;
   shell.enable = true;
   sqlite.enable = true;
   telegram.enable = true;
