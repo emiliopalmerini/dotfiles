@@ -15,6 +15,7 @@ in
       delve
       go
       go-migrate
+      sqlc
     ];
   };
 }

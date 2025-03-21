@@ -42,14 +42,15 @@
       "clamav"
     ];
     casks = [
+      "ghostty"
       "zen-browser"
       "epic-games"
       "obs"
       "docker"
       "vlc"
       "syncthing"
-      "warp"
       "obsidian"
+      "kitty"
     ];
     masApps = {
       "CapCut" = 1500855883;

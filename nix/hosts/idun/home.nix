@@ -23,6 +23,7 @@
   lazygit.enable = true;
   lua.enable = true;
   neovim.enable = true;
+  postgres.enable = true;
   shell.enable = true;
   sqlite.enable = true;
   telegram.enable = true;

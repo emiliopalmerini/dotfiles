@@ -1,4 +1,3 @@
--- Rimuoviamo il controllo per Obsidian dato che non useremo più Mason
 require("neodev").setup({})
 
 local capabilities = nil
@@ -31,9 +30,9 @@ local servers = {
 		},
 	},
 	intelephense = true,
-	nil_ls = {  -- Aggiungiamo nil_ls per il supporto a Nix
+	nil_ls = { -- Aggiungiamo nil_ls per il supporto a Nix
 		settings = {
-			['nil'] = {
+			["nil"] = {
 				formatting = {
 					command = { "nixpkgs-fmt" },
 				},
@@ -80,6 +79,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
 		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
 		vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+		vim.keymap.set("n", "<space>gi", vim.lsp.buf.implementation, { buffer = 0 })
+
 		local filetype = vim.bo[bufnr].filetype
 		if disable_semantic_tokens[filetype] then
 			client.server_capabilities.semanticTokensProvider = nil
