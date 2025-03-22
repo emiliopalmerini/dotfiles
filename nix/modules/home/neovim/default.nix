@@ -118,7 +118,7 @@ in
           }
           {
             plugin = refactoring-nvim;
-            config = toLua "require('refactoring').setup()";
+            config = toLuaFile ./plugin/refactoring.lua;
           }
           # {
           #   plugin = vim-tmux-navigator;
