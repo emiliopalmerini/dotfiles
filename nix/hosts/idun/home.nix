@@ -13,6 +13,7 @@
   ];
 
   bruno.enable = true;
+  discord.enable = true;
   gcc.enable = true;
   gimp.enable = true;
   git.enable = true;

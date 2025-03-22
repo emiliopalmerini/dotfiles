@@ -1,8 +1,6 @@
 { config, pkgs, inputs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-  ];
 
   nix.settings.experimental-features = "nix-command flakes";
 
@@ -17,15 +15,24 @@
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
   system.defaults = {
-    dock.autohide = true;
-    dock.persistent-apps = [
-    ];
-    finder.FXPreferredViewStyle = "clmv";
+    dock = {
+      autohide = true;
+      persistent-apps = [
+      ];
+    };
+    finder =
+      {
+        FXPreferredViewStyle = "clmv";
+        FXRemoveOldTrashItems = true;
+        ShowPathbar = true;
+      };
     loginwindow.GuestEnabled = false;
-    NSGlobalDomain.AppleICUForce24HourTime = true;
-    NSGlobalDomain.AppleInterfaceStyle = "Dark";
-    NSGlobalDomain.KeyRepeat = 10;
-    NSGlobalDomain."com.apple.swipescrolldirection" = false;
+    NSGlobalDomain = {
+      AppleICUForce24HourTime = true;
+      AppleInterfaceStyle = "Dark";
+      KeyRepeat = 10;
+      "com.apple.swipescrolldirection" = false;
+    };
   };
 
 
