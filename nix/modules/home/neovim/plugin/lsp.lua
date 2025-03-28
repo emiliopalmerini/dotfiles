@@ -77,9 +77,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
 		vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+
 		vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
 		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
 		vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+		vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
 		local filetype = vim.bo[bufnr].filetype
 		if disable_semantic_tokens[filetype] then

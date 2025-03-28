@@ -185,13 +185,6 @@ autocmd("BufWinEnter", {
 		vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts)
 	end,
 })
--- refactoring
-vim.api.nvim_set_keymap(
-	"v",
-	"<leader>ri",
-	[[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]],
-	{ noremap = true, silent = true, expr = false }
-)
 
 -- trouble
 require("trouble").setup()
@@ -237,4 +230,9 @@ vim.keymap.set("n", "<leader>zZ", function()
 	vim.wo.number = false
 	vim.wo.rnu = false
 	vim.opt.colorcolumn = "0"
+end)
+
+--refactoring
+vim.keymap.set({ "n", "x" }, "<leader>rr", function()
+	require("telescope").extensions.refactoring.refactors()
 end)

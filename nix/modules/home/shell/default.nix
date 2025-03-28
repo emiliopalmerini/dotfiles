@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.shell;
-  myAliases = myAliases = {
+  myAliases = {
     cd = "z";
     c = "clear";
     g = "git";
@@ -27,23 +27,23 @@ let
     gch = "git checkout";
     gcb = "git checkout -b";
     gl = "git log --oneline --graph --decorate --all";
-    gd = "git diff";                          # Mostra le modifiche
-    gds = "git diff --staged";                # Mostra le modifiche già aggiunte
-    gr = "git reset";                         # Reset generico
-    grs = "git reset --soft HEAD~1";          # Reset soft dell'ultimo commit
-    grh = "git reset --hard HEAD~1";          # Reset hard dell'ultimo commit
-    gbr = "git branch";                       # Mostra i branch locali
-    gbD = "git branch -D";                    # Cancella un branch locale
-    gfp = "git fetch --prune";                # Pulisce i branch remoti eliminati
-    gmt = "git mergetool";                    # Avvia il tool di merge
-    gsta = "git stash";                       # Salva modifiche non committate
-    gstp = "git stash pop";                   # Recupera l'ultimo stash
-    gstd = "git stash drop";                  # Elimina l'ultimo stash
-    gam = "git commit --amend --no-edit";     # Modifica l'ultimo commit senza cambiare il messaggio
-    gfa = "git fetch --all";                  # Fetch di tutti i branch remoti
-    grhh = "git reset --hard";                # Reset hard all'ultimo commit
+    gd = "git diff"; # Mostra le modifiche
+    gds = "git diff --staged"; # Mostra le modifiche già aggiunte
+    gr = "git reset"; # Reset generico
+    grs = "git reset --soft HEAD~1"; # Reset soft dell'ultimo commit
+    grh = "git reset --hard HEAD~1"; # Reset hard dell'ultimo commit
+    gbr = "git branch"; # Mostra i branch locali
+    gbD = "git branch -D"; # Cancella un branch locale
+    gfp = "git fetch --prune"; # Pulisce i branch remoti eliminati
+    gmt = "git mergetool"; # Avvia il tool di merge
+    gsta = "git stash"; # Salva modifiche non committate
+    gstp = "git stash pop"; # Recupera l'ultimo stash
+    gstd = "git stash drop"; # Elimina l'ultimo stash
+    gam = "git commit --amend --no-edit"; # Modifica l'ultimo commit senza cambiare il messaggio
+    gfa = "git fetch --all"; # Fetch di tutti i branch remoti
+    grhh = "git reset --hard"; # Reset hard all'ultimo commit
   };
-oh-my-posh-config = ./oh-my-posh.json;
+  oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
 in
 {
