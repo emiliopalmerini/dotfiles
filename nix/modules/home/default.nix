@@ -1,6 +1,6 @@
-{ config, pkgs, inputs, ... }:
 {
   imports = [
+    ./arc
     ./antivirus
     ./bruno
     ./dbeaver

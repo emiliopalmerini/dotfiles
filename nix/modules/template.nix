@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ lib, config, ... }:
 
 with lib;
 let
@@ -9,6 +9,5 @@ in
     enable = mkEnableOption "Enable MODULE module";
   };
 
-  config = mkIf cfg.enable {
-  };
+  config = mkIf cfg.enable { };
 }
