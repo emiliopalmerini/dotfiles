@@ -14,6 +14,7 @@
     ./hyprland
     ./hugo
     ./kitty
+    ./lazydocker
     ./lazygit
     ./lua
     ./make
