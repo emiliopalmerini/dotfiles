@@ -12,7 +12,6 @@
     raycast
   ];
 
-  arc.enable = true;
   bruno.enable = true;
   discord.enable = true;
   gcc.enable = true;

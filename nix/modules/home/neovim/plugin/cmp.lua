@@ -1,32 +1,57 @@
-ls = require "luasnip"
+ls = require("luasnip")
 -- TODO: Think about `locally_jumpable`, etc.
 -- Might be nice to send PR to luasnip to use filters instead for these functions ;)
 
 vim.snippet.expand = ls.lsp_expand
 
+local ls = require("luasnip")
+
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.active = function(filter)
-  filter = filter or {}
-  filter.direction = filter.direction or 1
+	filter = filter or {}
+	filter.direction = filter.direction or 1
 
-  if filter.direction == 1 then
-    return ls.expand_or_jumpable()
-  else
-    return ls.jumpable(filter.direction)
-  end
+	if filter.direction == 1 then
+		return ls.expand_or_jumpable()
+	else
+		return ls.jumpable(filter.direction)
+	end
 end
+
+ls.add_snippets("nix", {
+	ls.snippet(
+		"nixmodule",
+		[[
+{ lib, config, ... }:
+
+with lib;
+let
+  cfg = config.${1:MODULE};
+in
+{
+  options.${1:MODULE} = {
+    enable = mkEnableOption "Enable ${1:MODULE} module";
+  };
+
+  config = mkIf cfg.enable {
+    ${0}
+  };
+}
+]]
+	),
+})
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.jump = function(direction)
-  if direction == 1 then
-    if ls.expandable() then
-      return ls.expand_or_jump()
-    else
-      return ls.jumpable(1) and ls.jump(1)
-    end
-  else
-    return ls.jumpable(-1) and ls.jump(-1)
-  end
+	if direction == 1 then
+		if ls.expandable() then
+			return ls.expand_or_jump()
+		else
+			return ls.jumpable(1) and ls.jump(1)
+		end
+	else
+		return ls.jumpable(-1) and ls.jump(-1)
+	end
 end
 
 vim.snippet.stop = ls.unlink_current
@@ -34,55 +59,52 @@ vim.snippet.stop = ls.unlink_current
 -- ================================================
 --      My Configuration
 -- ================================================
-ls.config.set_config {
-  history = true,
-  updateevents = "TextChanged,TextChangedI",
-  override_builtin = true,
-}
+ls.config.set_config({
+	history = true,
+	updateevents = "TextChanged,TextChangedI",
+	override_builtin = true,
+})
 
 vim.keymap.set({ "i", "s" }, "<c-k>", function()
-  return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
+	return vim.snippet.active({ direction = 1 }) and vim.snippet.jump(1)
 end, { silent = true })
 
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
-  return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
+	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
 end, { silent = true })
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
-vim.opt.shortmess:append "c"
+vim.opt.shortmess:append("c")
 
-local lspkind = require "lspkind"
-lspkind.init {
-  symbol_map = {
-  },
-}
+local lspkind = require("lspkind")
+lspkind.init({
+	symbol_map = {},
+})
 
 -- cmp
 
-require("luasnip.loaders.from_vscode").load {
-}
+require("luasnip.loaders.from_vscode").load({})
 
-
-local kind_formatter = lspkind.cmp_format {
-  mode = "symbol_text",
-  menu = {
-    buffer = "[buf]",
-    nvim_lsp = "[LSP]",
-    nvim_lua = "[api]",
-    path = "[path]",
-    luasnip = "[snip]",
-    gh_issues = "[issues]",
-    eruby = "[erb]",
-  },
-}
+local kind_formatter = lspkind.cmp_format({
+	mode = "symbol_text",
+	menu = {
+		buffer = "[buf]",
+		nvim_lsp = "[LSP]",
+		nvim_lua = "[api]",
+		path = "[path]",
+		luasnip = "[snip]",
+		gh_issues = "[issues]",
+		eruby = "[erb]",
+	},
+})
 
 -- Add tailwindcss-colorizer-cmp as a formatting source
 -- require("tailwindcss-colorizer-cmp").setup {
 --   color_square_width = 2,
 -- }
 --
-local cmp = require "cmp"
+local cmp = require("cmp")
 
-cmp.setup {
+cmp.setup({
 	experimental = {
 		ghost_text = false,
 	},
@@ -93,19 +115,19 @@ cmp.setup {
 			-- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
 			group_index = 0,
 		},
-		{ name = 'luasnip', option = { use_show_condition = false } },
+		{ name = "luasnip", option = { use_show_condition = false } },
 		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "buffer" },
 	},
 	mapping = {
-		["<C-n>"] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
-		["<C-p>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<C-y>"] = cmp.mapping(
-			cmp.mapping.confirm {
+			cmp.mapping.confirm({
 				behavior = cmp.ConfirmBehavior.Insert,
 				select = true,
-			},
+			}),
 			{ "i", "c" }
 		),
 	},
@@ -154,12 +176,12 @@ cmp.setup {
 		-- completion = cmp.config.window.bordered(),
 		-- documentation = cmp.config.window.bordered(),
 	},
-}
+})
 
 -- Setup up vim-dadbod
 cmp.setup.filetype({ "sql" }, {
-  sources = {
-    { name = "vim-dadbod-completion" },
-    { name = "buffer" },
-  },
+	sources = {
+		{ name = "vim-dadbod-completion" },
+		{ name = "buffer" },
+	},
 })
