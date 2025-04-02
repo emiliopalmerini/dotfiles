@@ -3,13 +3,13 @@
 let
   userName = "emil_io";
 in
-  {
+{
   imports =
     [
       ./hardware-configuration.nix
     ];
 
-  networking.hostName = "haephestus"; # Define your hostname.
+  networking.hostName = "athena"; # Define your hostname.
 
   systemDefault.enable = true;
 
@@ -30,13 +30,13 @@ in
     pulse.enable = true;
   };
 
-  mainUser ={
+  mainUser = {
     enable = true;
     user = "${userName}";
   };
 
   home-manager = {
-    extraSpecialArgs =  { inherit inputs; };
+    extraSpecialArgs = { inherit inputs; };
     users = {
       "${userName}" = import ./home.nix;
     };

@@ -18,28 +18,28 @@ vim.snippet.active = function(filter)
 	end
 end
 
-ls.add_snippets("nix", {
-	ls.snippet(
-		"nixmodule",
-		[[
-{ lib, config, ... }:
-
-with lib;
-let
-  cfg = config.${1:MODULE};
-in
-{
-  options.${1:MODULE} = {
-    enable = mkEnableOption "Enable ${1:MODULE} module";
-  };
-
-  config = mkIf cfg.enable {
-    ${0}
-  };
-}
-]]
-	),
-})
+-- ls.add_snippets("nix", {
+-- 	ls.snippet(
+-- 		"nixmodule",
+-- 		[[
+-- { lib, config, ... }:
+--
+-- with lib;
+-- let
+--   cfg = config.${1:MODULE};
+-- in
+-- {
+--   options.${1:MODULE} = {
+--     enable = mkEnableOption "Enable ${1:MODULE} module";
+--   };
+--
+--   config = mkIf cfg.enable {
+--     ${0}
+--   };
+-- }
+-- ]]
+-- 	),
+-- })
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.jump = function(direction)

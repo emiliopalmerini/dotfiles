@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -27,22 +26,29 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
 
-      # Configurazione completa NixOS per haephestus
-      nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
+      # Configurazione completa NixOS per athena
+      nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/haephestus/configuration.nix
+          ./hosts/athena/configuration.nix
           inputs.home-manager.nixosModules.default
           ./modules/nixos
         ];
       };
+
+	homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
+		pkgs = pkgs;
+		modules = [
+		  ./hosts/haephestus/home.nix
+		];
+	  };
 
       # Configurazione per nix-darwin
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
@@ -52,5 +58,5 @@
           inputs.home-manager.darwinModules.default
         ];
       };
-    };
+};
 }
