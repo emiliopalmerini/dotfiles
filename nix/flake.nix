@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     nvf.url = "github:notashelf/nvf";
 
     plugin-harpoon = {
@@ -30,6 +31,11 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
+      packages.${system}.default = 
+        (nvf.lib.neovimConfiguration {
+          pkgs = pkgs;
+          modules = [ ./nvf.nix];
+        }).neovim;
 
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         system = system;
