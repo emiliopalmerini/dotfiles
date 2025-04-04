@@ -58,6 +58,7 @@
       "syncthing"
       "obsidian"
       "kitty"
+      "arc"
     ];
     masApps = {
       "CapCut" = 1500855883;
