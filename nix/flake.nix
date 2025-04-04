@@ -25,7 +25,7 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, nvf, ... }@inputs:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
