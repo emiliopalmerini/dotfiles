@@ -1,7 +1,10 @@
-{ lib, config, pkgs, ... }:
-
-with lib;
-let
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.shell;
   myAliases = {
     cd = "z";
@@ -45,8 +48,7 @@ let
   };
   oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
-in
-{
+in {
   options.shell = {
     enable = mkEnableOption "enable zsh module";
   };
@@ -78,12 +80,12 @@ in
 
       shellAliases = myAliases;
 
-      initExtra = '' 
+      initExtra = ''
         if [[ -f "/opt/homebrew/bin/brew" ]] then
           eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
         HISTDUP=erase
-        
+
         setopt HIST_FIND_NO_DUPS
         setopt HIST_IGNORE_SPACE
         setopt HIST_IGNORE_ALL_DUPS
@@ -94,7 +96,7 @@ in
         zstyle ':completion:*' menu no
         zstyle ':completion:*' list-colors "${zshColors}"
         zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-        zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath' 
+        zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
         bindkey -e
         bindkey '^Y' yank
@@ -102,7 +104,7 @@ in
         bindkey '^n' history-search-forward
 
         eval "$(oh-my-posh init zsh)"
-        '';
+      '';
       plugins = [
         {
           name = "fzf-tab";

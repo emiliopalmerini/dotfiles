@@ -25,42 +25,46 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, nvf, ... }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      packages.${system}.default = 
-        (nvf.lib.neovimConfiguration {
-          pkgs = pkgs;
-          modules = [ ./nvf.nix];
-        }).neovim;
-
-      nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
-        system = system;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/athena/configuration.nix
-          inputs.home-manager.nixosModules.default
-          ./modules/nixos
-        ];
-      };
-
-      homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
-        modules = [
-          ./hosts/haephestus/home.nix
-        ];
-      };
-
-      # Configurazione per nix-darwin
-      darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/idun/configuration.nix
-          inputs.home-manager.darwinModules.default
-        ];
-      };
+  outputs = {
+    self,
+    nixpkgs,
+    nix-darwin,
+    home-manager,
+    nvf,
+    ...
+  } @ inputs: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+  in {
+    nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
+      system = system;
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./hosts/athena/configuration.nix
+        nvf.homeManagerModules.default
+        inputs.home-manager.nixosModules.default
+        ./modules/nixos
+        ./modules/home
+      ];
     };
+
+    homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
+      pkgs = pkgs;
+      modules = [
+        ./hosts/haephestus/home.nix
+        nvf.homeManagerModules.default
+./modules/home
+      ];
+    };
+
+    # Configurazione per nix-darwin
+    darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./hosts/idun/configuration.nix
+        inputs.home-manager.darwinModules.default
+        nvf.homeManagerModules.default
+      ];
+    };
+  };
 }

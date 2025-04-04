@@ -1,10 +1,6 @@
 {pkgs, ...}: let
   zshShell = "${pkgs.zsh}/bin/zsh";
 in {
-  imports = [
-    ./../../modules/home
-  ];
-
   home = {
     username = "prometeo";
     homeDirectory = "/home/prometeo";
@@ -21,17 +17,16 @@ in {
   };
 
   git = {
-    # Please read the comment before changing.
-
     enable = true;
     userEmail = "emilio.palmerini@condiceplastico.com";
     userName = "emiliopalmerini";
   };
 
+  nvf.enable = true;
   kitty.enable = true;
   ghostty.enable = true;
+gcc.enable = true;
   go.enable = true;
-  gcc.enable = true;
   lazygit.enable = true;
   shell.enable = true;
   tmux.enable = true;
