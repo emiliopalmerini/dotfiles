@@ -8,6 +8,7 @@
     ./dotnet
     ./firefox
     ./gcc
+    ./ghostty
     ./gimp
     ./git
     ./go

@@ -7,8 +7,6 @@ in
     ./../../modules/home
   ];
 
-  home.packages = with pkgs; [ wl-copy ];
-
   home.username = "prometeo";
   home.homeDirectory = "/home/prometeo";
 
@@ -27,17 +25,17 @@ in
   tmux.enable = true;
   make.enable = true;
 
+  nixpkgs.config.allowUnfree = true;
+
   home = {
     activation = {
       addZshToShells = ''
         if ! grep -q '${zshShell}' /etc/shells; then
-          sudo echo '${zshShell}' >> /etc/shells
+          echo '${zshShell}' | /usr/bin/sudo tee -a /etc/shells > /dev/null
         fi
       '';
     };
-
-    nixpkgs.config.allowUnfree = true;
-
-    programs.home-manager.enable = true;
   };
+
+  programs.home-manager.enable = true;
 }

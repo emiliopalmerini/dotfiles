@@ -1,11 +1,7 @@
-{ config, pkgs, inputs, ... }:
-
 {
-  imports =
-    [
-      ./docker
-      ./ghostty
-      ./mainUser
-      ./system
-    ];
+  imports = [
+    ./docker
+    ./mainUser
+    ./system
+  ];
 }

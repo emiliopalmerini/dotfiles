@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ lib, config, pkgs, ... }:
 
 with lib;
 let
@@ -33,15 +33,13 @@ in
           stylua
           unzip
 
-          # Per supporto Nix
-          nil # Language server per Nix
+          #nil # Language server per Nix
           nixpkgs-fmt # Formattatore per Nix
 
-          # Altri formattatori se necessari
-          sleek
+          sleek # Formattatore
         ];
         plugins = with pkgs.vimPlugins; [
-
+          undotree
           cmp-nvim-lsp
           cmp-path
           cmp-buffer
@@ -52,7 +50,7 @@ in
           lspkind-nvim
 
           nvim-cmp
-          lualine-nvim
+
           nvim-web-devicons
           telescope-fzf-native-nvim
           plenary-nvim
@@ -69,6 +67,8 @@ in
           lsp_lines-nvim
           luasnip
           friendly-snippets
+          harpoon2
+          vim-fugitive
           {
             plugin = (nvim-treesitter.withPlugins (p: [
               p.tree-sitter-nix
@@ -90,28 +90,26 @@ in
             plugin = nvim-lspconfig;
             config = toLuaFile ./plugin/lsp.lua;
           }
-
           {
             plugin = comment-nvim;
             config = toLua "require('Comment').setup()";
           }
-
+          {
+            plugin = lualine-nvim;
+            config = toLuaFile ./plugin/lualine.lua;
+          }
           {
             plugin = tokyonight-nvim;
             config = "colorscheme tokyonight-storm";
           }
-
           {
             plugin = nvim-cmp;
             config = toLuaFile ./plugin/cmp.lua;
           }
-
           {
             plugin = telescope-nvim;
             config = toLuaFile ./plugin/telescope.lua;
           }
-          harpoon2
-          vim-fugitive
           {
             plugin = nvim-dap;
             config = toLuaFile ./plugin/dap.lua;
@@ -128,7 +126,6 @@ in
             plugin = trouble-nvim;
             config = toLua "require('trouble').setup()";
           }
-          undotree
           {
             plugin = zen-mode-nvim;
             config = toLua "require('zen-mode').setup()";
@@ -136,12 +133,8 @@ in
         ];
 
         extraLuaConfig = ''
-
           ${builtins.readFile ./options.lua}
         '';
       };
-    home.packages = with pkgs; [
-      nodejs_23
-    ];
   };
 }

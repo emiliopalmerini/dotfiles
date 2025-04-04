@@ -8,6 +8,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf.url = "github:notashelf/nvf";
 
     plugin-harpoon = {
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
@@ -19,9 +20,6 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     };
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
     nix-darwin.url = "github:LnL7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -30,9 +28,9 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
+    in
+    {
 
-      # Configurazione completa NixOS per athena
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         system = system;
         specialArgs = { inherit inputs; };
@@ -43,12 +41,12 @@
         ];
       };
 
-	homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
-		pkgs = pkgs;
-		modules = [
-		  ./hosts/haephestus/home.nix
-		];
-	  };
+      homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
+        pkgs = pkgs;
+        modules = [
+          ./hosts/haephestus/home.nix
+        ];
+      };
 
       # Configurazione per nix-darwin
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
@@ -58,5 +56,5 @@
           inputs.home-manager.darwinModules.default
         ];
       };
-};
+    };
 }

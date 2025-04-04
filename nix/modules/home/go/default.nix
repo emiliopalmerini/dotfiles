@@ -9,7 +9,7 @@ in
     go.enable = mkEnableOption "Enable go";
   };
   # Configurazione del modulo
-  config = mkIf config.go.enable {
+  config = mkIf cfg.enable {
     home.packages = with pkgs; [
       go
       gopls

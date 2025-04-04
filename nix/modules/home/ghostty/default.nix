@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   cfg = config.ghostty;
@@ -9,8 +9,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [
-      inputs.ghostty.packages.x86_64-linux.default
-    ];
+    home.packages = with pkgs; [ ghostty ];
   };
 }

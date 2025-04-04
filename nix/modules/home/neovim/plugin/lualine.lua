@@ -1,4 +1,8 @@
+local my_theme = require("lualine.themes.modus-vivendi")
+
 require("lualine").setup({
-	icons_enabled = true,
-	theme = "onedark",
+	options = {
+		icons_enabled = true,
+		theme = my_theme,
+	},
 })
