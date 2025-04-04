@@ -30,20 +30,20 @@ local servers = {
 		},
 	},
 	intelephense = true,
-	nil_ls = { -- Aggiungiamo nil_ls per il supporto a Nix
-		settings = {
-			["nil"] = {
-				formatting = {
-					command = { "nixpkgs-fmt" },
-				},
-				nix = {
-					flake = {
-						autoEvalInputs = true,
-					},
-				},
-			},
-		},
-	},
+	-- nil_ls = {
+	-- 	settings = {
+	-- 		["nil"] = {
+	-- 			formatting = {
+	-- 				command = { "nixpkgs-fmt" },
+	-- 			},
+	-- 			nix = {
+	-- 				flake = {
+	-- 					autoEvalInputs = true,
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 }
 
 -- Configurazione diretta dei server LSP senza Mason

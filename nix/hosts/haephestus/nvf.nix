@@ -16,8 +16,6 @@ in
   git.userEmail = "emilio.palmerini@condiceplastico.com";
   git.userName = "emiliopalmerini";
 
-  kitty.enable = true;
-  ghostty.enable = true;
   go.enable = true;
   gcc.enable = true;
   lazygit.enable = true;
