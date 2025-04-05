@@ -30,8 +30,7 @@
     NSGlobalDomain = {
       AppleICUForce24HourTime = true;
       AppleInterfaceStyle = "Dark";
-      KeyRepeat = 10;
-      "com.apple.swipescrolldirection" = false;
+      "com.apple.swipescrolldirection" = true;
     };
   };
 
@@ -50,15 +49,11 @@
     ];
     casks = [
       "ghostty"
-      "zen-browser"
-      "epic-games"
       "obs"
       "docker"
-      "vlc"
-      "syncthing"
       "obsidian"
-      "kitty"
       "arc"
+      "steam"
     ];
     masApps = {
       "CapCut" = 1500855883;
