@@ -12,7 +12,6 @@
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
   firefox.enable = true;
-  arc-browser.enable = true;
 
   git.enable = true;
   git.userEmail = "emilio.palmerini@proton.me";
