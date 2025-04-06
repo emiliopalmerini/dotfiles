@@ -1,6 +1,6 @@
 {
   imports = [
-    ./arc
+    ./arc-browser
     ./antivirus
     ./bruno
     ./dbeaver
@@ -21,7 +21,7 @@
     ./make
     ./mongodb
     ./neovim
-./nvf
+    ./nvf
     ./obs
     ./obsidian
     ./php
