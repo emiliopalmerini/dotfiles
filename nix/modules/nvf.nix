@@ -124,11 +124,11 @@
     autocomplete = {
       nvim-cmp = {
         enable = true;
-        # mappings = {
-        #   previous = "C-p";
-        #   next = "C-n";
-        #   confirm = "C-y";
-        # };
+        mappings = {
+          previous = "<C-p>";
+          next = "<C-n>";
+          confirm = "<C-y>";
+        };
       };
     };
     snippets.luasnip.enable = true;
@@ -260,25 +260,37 @@
     };
 
     augroups = [
-      # {
-      #   enable = true;
-      #   name = "highlight-yank";
-      #   clear = true;
-      # }
+      {
+        enable = true;
+        name = "highlight-yank";
+        clear = true;
+      }
     ];
 
-    # autocmds = [
-    #   {
-    #     enable = true;
-    #     desc = "Highlight when yanking (copying) text";
-    #     group = "highlight-yank";
-    #     callback = lib.generators.mkLuaInline ''
-    #       function()
-    #           vim.highlight.on_yank()
-    #       end
-    #     '';
-    #   }
-    # ];
+    autocmds = [
+      {
+        enable = true;
+        desc = "Highlight when yanking (copying) text";
+        group = "highlight-yank";
+        event = "TextYankPost";
+        pattern = "*";
+        callback = lib.generators.mkLuaInline ''
+          function()
+            vim.highlight.on_yank{
+              higroup = "MyYankHighlight",
+              timeout = 200,
+            }
+          end
+        '';
+      }
+    ];
+
+    vim = {
+      # ... altre impostazioni ...
+      luaConfigRC = lib.mkAfter ''
+        vim.api.nvim_set_hl(0, "MyYankHighlight", { bg = "#FFA500" })
+      '';
+    };
 
     keymaps = [
       {
