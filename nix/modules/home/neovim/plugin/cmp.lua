@@ -18,29 +18,6 @@ vim.snippet.active = function(filter)
 	end
 end
 
--- ls.add_snippets("nix", {
--- 	ls.snippet(
--- 		"nixmodule",
--- 		[[
--- { lib, config, ... }:
---
--- with lib;
--- let
---   cfg = config.${1:MODULE};
--- in
--- {
---   options.${1:MODULE} = {
---     enable = mkEnableOption "Enable ${1:MODULE} module";
---   };
---
---   config = mkIf cfg.enable {
---     ${0}
---   };
--- }
--- ]]
--- 	),
--- })
-
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.jump = function(direction)
 	if direction == 1 then
@@ -72,6 +49,7 @@ end, { silent = true })
 vim.keymap.set({ "i", "s" }, "<c-j>", function()
 	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
 end, { silent = true })
+
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append("c")
 

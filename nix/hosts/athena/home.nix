@@ -1,9 +1,11 @@
-{ config, pkgs, inputs, ... }:
-
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./../../modules/home
-    inputs.nvf.homeManagerModules.default
   ];
 
   home.username = "emil_io";
@@ -25,7 +27,6 @@
 
   lazygit.enable = true;
   neovim.enable = true;
-  nvf.enable = true;
   obsidian.enable = true;
   shell.enable = true;
   tmux.enable = true;

@@ -11,7 +11,6 @@
 
     nvf = {
       url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     plugin-harpoon = {
@@ -36,15 +35,22 @@
     , nixpkgs
     , nix-darwin
     , home-manager
+    , nvf
     , ...
     } @ inputs:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      linuxSystem = "x86_64-linux";
+      linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
     in
     {
+      packages.${linuxSystem}.default =
+        (nvf.lib.neovimConfiguration {
+          pkgs = linuxPkgs;
+          modules = [ ./modules/nvf.nix ];
+          }
+        ).neovim;
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
-        system = system;
+        system = linuxSystem;
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/athena/configuration.nix
@@ -52,14 +58,13 @@
       };
 
       homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
-        pkgs = pkgs;
+        pkgs = linuxPkgs;
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/haephestus/home.nix
         ];
       };
 
-      # Configurazione per nix-darwin
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         modules = [

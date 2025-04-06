@@ -21,7 +21,6 @@
     ./make
     ./mongodb
     ./neovim
-    ./nvf
     ./obs
     ./obsidian
     ./php
