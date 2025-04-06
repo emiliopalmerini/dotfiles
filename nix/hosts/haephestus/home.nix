@@ -1,6 +1,13 @@
-{pkgs, ...}: let
+{ pkgs, inputs, ... }:
+let
   zshShell = "${pkgs.zsh}/bin/zsh";
-in {
+in
+{
+  imports = [
+    inputs.nvf.homeManagerModules.default
+    inputs.home-manager.darwinModules.default
+    ../../modules/home
+  ];
   home = {
     username = "prometeo";
     homeDirectory = "/home/prometeo";
@@ -25,7 +32,7 @@ in {
   nvf.enable = true;
   kitty.enable = true;
   ghostty.enable = true;
-gcc.enable = true;
+  gcc.enable = true;
   go.enable = true;
   lazygit.enable = true;
   shell.enable = true;

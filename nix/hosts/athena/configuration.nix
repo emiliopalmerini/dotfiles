@@ -7,6 +7,8 @@ in
   imports =
     [
       ./hardware-configuration.nix
+      ../../modules/nixos
+      inputs.home-manager.nixosModules.default
     ];
 
   networking.hostName = "athena"; # Define your hostname.
@@ -48,7 +50,6 @@ in
     TERM = "xterm-256color";
   };
 
-  ghostty.enable = true;
   docker.enable = true;
 
   services.openssh.enable = true;

@@ -3,15 +3,13 @@
 {
   imports = [
     ./../../modules/home
+    inputs.nvf.homeManagerModules.default
   ];
 
   home.username = "emil_io";
   home.homeDirectory = "/home/emil_io";
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
-
-  home.packages = with pkgs; [
-  ];
 
   firefox.enable = true;
 
@@ -20,13 +18,14 @@
   git.userName = "emiliopalmerini";
 
   kitty.enable = true;
-  warp.enable = true;
+  ghostty.enable = true;
 
   go.enable = true;
   gcc.enable = true;
 
   lazygit.enable = true;
   neovim.enable = true;
+  nvf.enable = true;
   obsidian.enable = true;
   shell.enable = true;
   tmux.enable = true;
