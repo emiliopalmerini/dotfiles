@@ -4,8 +4,6 @@ let
 in
 {
   imports = [
-    inputs.nvf.homeManagerModules.default
-    inputs.home-manager.darwinModules.default
     ../../modules/home
   ];
   home = {
@@ -29,7 +27,6 @@ in
     userName = "emiliopalmerini";
   };
 
-  nvf.enable = true;
   kitty.enable = true;
   ghostty.enable = true;
   gcc.enable = true;
@@ -38,6 +35,7 @@ in
   shell.enable = true;
   tmux.enable = true;
   make.enable = true;
+  neovim.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 

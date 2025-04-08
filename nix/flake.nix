@@ -43,12 +43,6 @@
       linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
     in
     {
-      packages.${linuxSystem}.default =
-        (nvf.lib.neovimConfiguration {
-          pkgs = linuxPkgs;
-          modules = [ ./modules/nvf.nix ];
-          }
-        ).neovim;
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
         specialArgs = { inherit inputs; };
@@ -59,7 +53,7 @@
 
       homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
         pkgs = linuxPkgs;
-        specialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs; };
         modules = [
           ./hosts/haephestus/home.nix
         ];

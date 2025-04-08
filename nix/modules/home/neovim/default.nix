@@ -18,8 +18,8 @@ in {
     in {
       enable = true;
 
-      viAlias = false;
-      vimAlias = false;
+      viAlias = true;
+      vimAlias = true;
       vimdiffAlias = true;
 
       extraPackages = with pkgs; [

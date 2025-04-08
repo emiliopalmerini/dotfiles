@@ -19,9 +19,6 @@ in
         set-environment -g COLORTERM "truecolor"
         set-option -g default-shell "$SHELL" 
 
-        unbind C-b
-        set-option -g prefix C-Space
-        bind-key C-Space send-prefix
         set -g mouse on
 
         # Vim style pane selection

@@ -1,16 +1,38 @@
-{
-  lib,
-  config,
-  ...
-}: {
-  #TODO: return to my keymaps for cmp
+{lib, ...}: {
   #TODO: return to my keymaps for snippets
-  #TODO: add highlight
   vim = {
     viAlias = true;
     vimAlias = true;
     spellcheck = {
       enable = false;
+    };
+
+    options = {
+      hlsearch = true;
+      incsearch = true;
+      inccommand = "split";
+      smartcase = true;
+      ignorecase = true;
+
+      number = true;
+      relativenumber = true;
+
+      signcolumn = "yes";
+
+      wrap = false;
+      linebreak = true;
+      smartindent = true;
+
+      tabstop = 4;
+      softtabstop = 4;
+      shiftwidth = 2;
+      expandtab = true;
+
+      updatetime = 50;
+      conceallevel = 0;
+
+      showmode = false;
+      scrolloff = 8;
     };
 
     lsp = {
@@ -40,11 +62,8 @@
       enableTreesitter = true;
       enableExtraDiagnostics = true;
 
-      # Languages that will be supported in default and maximal configurations.
       nix.enable = true;
       markdown.enable = true;
-
-      # Languages that are enabled in the maximal configuration.
       bash.enable = true;
       clang.enable = false;
       css.enable = true;
@@ -56,14 +75,13 @@
       go.enable = true;
       lua.enable = true;
       zig.enable = false;
-      python.enable = true;
+      python.enable = false;
       typst.enable = false;
       rust = {
         enable = false;
         crates.enable = false;
       };
 
-      # Language modules that are not as common.
       assembly.enable = false;
       astro.enable = false;
       nu.enable = false;
@@ -154,6 +172,7 @@
 
     git = {
       enable = true;
+      vim-fugitive.enable = true;
       gitsigns.enable = true;
       gitsigns.codeActions.enable = false; # throws an annoying debug message
     };
@@ -265,42 +284,85 @@
         name = "highlight-yank";
         clear = true;
       }
+      {
+        enable = true;
+        name = "git-fugitive";
+        clear = true;
+      }
     ];
 
     autocmds = [
       {
         enable = true;
-        desc = "Highlight when yanking (copying) text";
-        group = "highlight-yank";
-        event = "TextYankPost";
-        pattern = "*";
+        desc = "Open git-fugitive";
+        group = "git-fugitive";
+        event = [];
+        pattern = ["*"];
         callback = lib.generators.mkLuaInline ''
           function()
-            vim.highlight.on_yank{
-              higroup = "MyYankHighlight",
-              timeout = 200,
-            }
+           if vim.bo.ft ~= "fugitive" then
+           return
+          end
+        '';
+      }
+      {
+        enable = true;
+        desc = "Highlight when yanking (copying) text";
+        group = "highlight-yank";
+        event = ["TextYankPost"];
+        pattern = ["*"];
+        callback = lib.generators.mkLuaInline ''
+          function()
+            vim.highlight.on_yank()
           end
         '';
       }
     ];
 
-    vim = {
-      # ... altre impostazioni ...
-      luaConfigRC = lib.mkAfter ''
-        vim.api.nvim_set_hl(0, "MyYankHighlight", { bg = "#FFA500" })
-      '';
-    };
-
     keymaps = [
       {
         mode = "n";
-        key = "<leader>-";
+        desc = "Open git-fugitive";
+        key = "<leader>gs>";
+        action = "vim.cmd.Git";
+	lua = true;
+      }
+      {
+        mode = "n";
+        desc = "Push commit";
+        key = "<leader>gp>";
+        action = ''vim.cmd.Git({"pull"})'';
+	lua = true;
+      }
+      {
+        mode = "n";
+        desc = "Push force commit";
+        key = "<leader>gp>";
+        action = ''vim.cmd.Git({"pull"})'';
+	lua = true;
+      }
+      {
+        mode = "n";
+        desc = "Pull rebase commit";
+        key = "<leader>gP>";
+        action = ''vim.cmd.Git({"pull"})'';
+	lua = true;
+      }
+      {
+        mode = "n";
+        desc = "Push -u origin";
+        key = "<leader>gP>";
+        action = ":Git push -u origin ";
+	lua = true;
+      }
+      {
+        mode = "n";
+        key = "-";
         action = "<CMD>Oil<CR>";
       }
       {
         mode = "n";
-        key = "<leader>-f";
+        key = "<leader>-";
         action = "<CMD>Oil --float<CR>";
       }
       {
@@ -341,17 +403,17 @@
       {
         mode = "x";
         key = "<leader>p";
-        action = ''[["_dP]]'';
+        action = ''"_dP'';
       }
       {
         mode = ["n" "v"];
         key = "<leader>y";
-        action = ''[["+y]]'';
+        action = ''"+y'';
       }
       {
         mode = "n";
         key = "<leader>Y";
-        action = ''[["+Y]]'';
+        action = ''"+Y'';
       }
       {
         mode = "n";
