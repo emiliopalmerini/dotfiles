@@ -272,8 +272,8 @@
         enable = true;
         desc = "Highlight when yanking (copying) text";
         group = "highlight-yank";
-        event = "TextYankPost";
-        pattern = "*";
+        event = ["TextYankPost"];
+        pattern = ["*"];
         callback = lib.generators.mkLuaInline ''
           function()
             vim.highlight.on_yank{
@@ -284,13 +284,6 @@
         '';
       }
     ];
-
-    vim = {
-      # ... altre impostazioni ...
-      luaConfigRC = lib.mkAfter ''
-        vim.api.nvim_set_hl(0, "MyYankHighlight", { bg = "#FFA500" })
-      '';
-    };
 
     keymaps = [
       {

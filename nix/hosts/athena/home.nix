@@ -35,6 +35,7 @@
 
   mongodb.enable = true;
   dbeaver.enable = true;
+  vlc.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
