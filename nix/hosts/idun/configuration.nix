@@ -53,7 +53,6 @@
       "docker"
       "obsidian"
       "arc"
-      "steam"
     ];
     masApps = {
       "CapCut" = 1500855883;
