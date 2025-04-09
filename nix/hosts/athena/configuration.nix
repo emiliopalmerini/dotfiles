@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  inputs,
-  ...
-}: let
+{inputs, ...}: let
   userName = "emil_io";
 in {
   imports = [
@@ -13,24 +8,28 @@ in {
   ];
 
   networking.hostName = "athena"; # Define your hostname.
+  networking.nameservers = ["8.8.8.8" "8.8.4.4"];
 
   systemDefault.enable = true;
+  services = {
+    xserver.enable = true;
+    # Enable the GNOME Desktop Environment.
+    xserver = {
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+      xkb.layout = "us";
+      xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
+    };
 
-  services.xserver.enable = true;
-  # Enable the GNOME Desktop Environment.
-  services.xserver = {
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-    xkb.layout = "us";
-    xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
-  };
+    printing.enable = true;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
 
-  services.printing.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+    openssh.enable = true;
   };
 
   mainUser = {
@@ -52,8 +51,6 @@ in {
   };
 
   docker.enable = true;
-
-  services.openssh.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

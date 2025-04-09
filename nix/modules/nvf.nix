@@ -1,4 +1,4 @@
-{lib, ...}: {
+{ lib, ... }: {
   #TODO: return to my keymaps for snippets
   vim = {
     viAlias = true;
@@ -247,7 +247,7 @@
           nix = "110";
           ruby = "120";
           java = "130";
-          go = ["90" "130"];
+          go = [ "90" "130" ];
         };
       };
       fastaction.enable = true;
@@ -296,8 +296,8 @@
         enable = true;
         desc = "Open git-fugitive";
         group = "git-fugitive";
-        event = [];
-        pattern = ["*"];
+        event = [ ];
+        pattern = [ "*" ];
         callback = lib.generators.mkLuaInline ''
           function()
            if vim.bo.ft ~= "fugitive" then
@@ -309,8 +309,8 @@
         enable = true;
         desc = "Highlight when yanking (copying) text";
         group = "highlight-yank";
-        event = ["TextYankPost"];
-        pattern = ["*"];
+        event = [ "TextYankPost" ];
+        pattern = [ "*" ];
         callback = lib.generators.mkLuaInline ''
           function()
             vim.highlight.on_yank()
@@ -325,35 +325,35 @@
         desc = "Open git-fugitive";
         key = "<leader>gs>";
         action = "vim.cmd.Git";
-	lua = true;
+        lua = true;
       }
       {
         mode = "n";
         desc = "Push commit";
         key = "<leader>gp>";
         action = ''vim.cmd.Git({"pull"})'';
-	lua = true;
+        lua = true;
       }
       {
         mode = "n";
         desc = "Push force commit";
         key = "<leader>gp>";
         action = ''vim.cmd.Git({"pull"})'';
-	lua = true;
+        lua = true;
       }
       {
         mode = "n";
         desc = "Pull rebase commit";
         key = "<leader>gP>";
         action = ''vim.cmd.Git({"pull"})'';
-	lua = true;
+        lua = true;
       }
       {
         mode = "n";
         desc = "Push -u origin";
         key = "<leader>gP>";
         action = ":Git push -u origin ";
-	lua = true;
+        lua = true;
       }
       {
         mode = "n";
@@ -406,7 +406,7 @@
         action = ''"_dP'';
       }
       {
-        mode = ["n" "v"];
+        mode = [ "n" "v" ];
         key = "<leader>y";
         action = ''"+y'';
       }

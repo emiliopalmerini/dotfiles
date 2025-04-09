@@ -35,8 +35,8 @@
     ./tmux
     ./todoist
     ./unity
+    ./vlc
     ./vscode
     ./warp
   ];
 }
-
