@@ -5,21 +5,21 @@
 # NixOS-WSL specific options are documented on the NixOS-WSL repository:
 # https://github.com/nix-community/NixOS-WSL
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports = [
     # include NixOS-WSL modules
-    nixos-wsl.nixosModules.default
+    inputs.nixos-wsl.nixosModules.default
   ];
 
   wsl.enable = true;
   wsl.defaultUser = "prometeo";
 
   home-manager = {
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = { inherit inputs; };
     users = {
-      "${userName}" = import ./home.nix;
+      "prometeo" = import ./home.nix;
     };
     backupFileExtension = "bak";
   };

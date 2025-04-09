@@ -1,7 +1,4 @@
 { pkgs, inputs, ... }:
-let
-  zshShell = "${pkgs.zsh}/bin/zsh";
-in
 {
   imports = [
     ../../modules/home

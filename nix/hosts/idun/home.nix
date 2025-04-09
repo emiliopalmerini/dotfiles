@@ -2,7 +2,6 @@
 {
   imports = [
     ./../../modules/home
-    inputs.nvf.homeManagerModules.default
   ];
   home.stateVersion = "24.11"; # Please read the comment before changing.
   nixpkgs.config.allowUnfree = true;
