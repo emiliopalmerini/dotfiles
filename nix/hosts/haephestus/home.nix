@@ -11,14 +11,6 @@ in
     homeDirectory = "/home/prometeo";
 
     stateVersion = "24.11";
-
-    activation = {
-      addZshToShells = ''
-        if ! grep -q '${zshShell}' /etc/shells; then
-          echo '${zshShell}' | /usr/bin/sudo tee -a /etc/shells > /dev/null
-        fi
-      '';
-    };
   };
 
   git = {

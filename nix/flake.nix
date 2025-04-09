@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -51,13 +52,21 @@
         ];
       };
 
-      homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
-        pkgs = linuxPkgs;
-        extraSpecialArgs = { inherit inputs; };
+      nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
+        system = linuxSystem;
+        specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/haephestus/home.nix
+          ./hosts/haephestus/configuration.nix
         ];
       };
+
+      # homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
+      #   pkgs = linuxPkgs;
+      #   specialArgs = { inherit inputs; };
+      #   modules = [
+      #     ./hosts/haephestus/home.nix
+      #   ];
+      # };
 
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
