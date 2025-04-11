@@ -14,12 +14,12 @@
   ];
 
   wsl.enable = true;
-  wsl.defaultUser = "prometeo";
+  wsl.defaultUser = "nixos";
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
-      "prometeo" = import ./home.nix;
+      "nixos" = import ./home.nix;
     };
     backupFileExtension = "bak";
   };

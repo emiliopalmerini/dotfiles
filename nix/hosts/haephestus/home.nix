@@ -4,8 +4,8 @@
     ../../modules/home
   ];
   home = {
-    username = "prometeo";
-    homeDirectory = "/home/prometeo";
+    username = "nixos";
+    homeDirectory = "/home/nixos";
 
     stateVersion = "24.11";
   };
