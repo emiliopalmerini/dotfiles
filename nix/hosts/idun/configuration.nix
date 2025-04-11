@@ -1,7 +1,7 @@
 { config, pkgs, inputs, ... }:
 
 {
-
+  imports = [ inputs.home-manager.darwinModules.home-manager ];
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
@@ -53,6 +53,7 @@
       "docker"
       "obsidian"
       "arc"
+      "logi-options+"
     ];
     masApps = {
       "CapCut" = 1500855883;
