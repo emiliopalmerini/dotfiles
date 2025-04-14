@@ -284,27 +284,27 @@
         name = "highlight-yank";
         clear = true;
       }
-      {
-        enable = true;
-        name = "git-fugitive";
-        clear = true;
-      }
+      #{
+      #  enable = true;
+      #  name = "git-fugitive";
+      #  clear = true;
+      #}
     ];
 
     autocmds = [
-      {
-        enable = true;
-        desc = "Open git-fugitive";
-        group = "git-fugitive";
-        event = [ ];
-        pattern = [ "*" ];
-        callback = lib.generators.mkLuaInline ''
-          function()
-           if vim.bo.ft ~= "fugitive" then
-           return
-          end
-        '';
-      }
+      #{
+      #  enable = true;
+      #  desc = "Open git-fugitive";
+      #  group = "git-fugitive";
+      #  event = [ ];
+      #  pattern = [ "*" ];
+      #  callback = lib.generators.mkLuaInline ''
+      #    function()
+      #     if vim.bo.ft ~= "fugitive" then
+      #     return
+      #    end
+      #  '';
+      #}
       {
         enable = true;
         desc = "Highlight when yanking (copying) text";
@@ -320,41 +320,41 @@
     ];
 
     keymaps = [
-      {
-        mode = "n";
-        desc = "Open git-fugitive";
-        key = "<leader>gs>";
-        action = "vim.cmd.Git";
-        lua = true;
-      }
-      {
-        mode = "n";
-        desc = "Push commit";
-        key = "<leader>gp>";
-        action = ''vim.cmd.Git({"pull"})'';
-        lua = true;
-      }
-      {
-        mode = "n";
-        desc = "Push force commit";
-        key = "<leader>gp>";
-        action = ''vim.cmd.Git({"pull"})'';
-        lua = true;
-      }
-      {
-        mode = "n";
-        desc = "Pull rebase commit";
-        key = "<leader>gP>";
-        action = ''vim.cmd.Git({"pull"})'';
-        lua = true;
-      }
-      {
-        mode = "n";
-        desc = "Push -u origin";
-        key = "<leader>gP>";
-        action = ":Git push -u origin ";
-        lua = true;
-      }
+      #{
+      #  mode = "n";
+      #  desc = "Open git-fugitive";
+      #  key = "<leader>gs>";
+      #  action = "vim.cmd.Git";
+      #  lua = true;
+      #}
+      #{
+      #  mode = "n";
+      #  desc = "Push commit";
+      #  key = "<leader>gp>";
+      #  action = ''vim.cmd.Git({"pull"})'';
+      #  lua = true;
+      #}
+      #{
+      #  mode = "n";
+      #  desc = "Push force commit";
+      #  key = "<leader>gp>";
+      #  action = ''vim.cmd.Git({"pull"})'';
+      #  lua = true;
+      #}
+      #{
+      #  mode = "n";
+      #  desc = "Pull rebase commit";
+      #  key = "<leader>gP>";
+      #  action = ''vim.cmd.Git({"pull"})'';
+      #  lua = true;
+      #}
+      #{
+      #  mode = "n";
+      #  desc = "Push -u origin";
+      #  key = "<leader>gP>";
+      #  action = ":Git push -u origin ";
+      #  lua = true;
+      #}
       {
         mode = "n";
         key = "-";

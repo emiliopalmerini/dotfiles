@@ -13,7 +13,6 @@
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.obsidian-nvim.follows = "obsidian-nvim";
     };
 
     plugin-harpoon = {
@@ -46,6 +45,12 @@
       linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
     in
     {
+      packages.${linuxSystem}.neovim = (
+      nvf.lib.neovimConfiguration {
+        pkgs = linuxPkgs;
+        modules = [ ./modules/nvf.nix ];
+        }).neovim;
+
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
         specialArgs = { inherit inputs; };

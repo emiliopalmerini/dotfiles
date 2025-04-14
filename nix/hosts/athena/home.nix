@@ -26,7 +26,7 @@
   gcc.enable = true;
 
   lazygit.enable = true;
-  neovim.enable = true;
+  neovim.enable = false;
   obsidian.enable = true;
   shell.enable = true;
   tmux.enable = true;
