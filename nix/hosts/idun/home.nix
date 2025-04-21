@@ -12,8 +12,8 @@
     raycast
   ];
 
-  bruno.enable = true;
-  discord.enable = true;
+  bruno.enable = false;
+  discord.enable = false;
   gcc.enable = true;
   gimp.enable = true;
   git.enable = true;

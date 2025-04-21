@@ -31,6 +31,7 @@
       AppleICUForce24HourTime = true;
       AppleInterfaceStyle = "Dark";
       "com.apple.swipescrolldirection" = true;
+      KeyRepeat = 2;
     };
   };
 
