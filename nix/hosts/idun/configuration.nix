@@ -47,6 +47,7 @@
       "mas"
       "docker-compose"
       "clamav"
+      "hugo"
     ];
     casks = [
       "ghostty"
@@ -55,6 +56,7 @@
       "obsidian"
       "arc"
       "logi-options+"
+      "legcord"
     ];
     masApps = {
       "CapCut" = 1500855883;

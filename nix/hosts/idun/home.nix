@@ -12,7 +12,7 @@
     raycast
   ];
 
-  bruno.enable = false;
+  bruno.enable = true;
   discord.enable = false;
   gcc.enable = true;
   gimp.enable = true;
@@ -20,7 +20,7 @@
   git.userEmail = "emiliopalmerini@proton.me";
   git.userName = "emiliopalmerini";
   go.enable = true;
-  hugo.enable = true;
+  hugo.enable = false;
   lazygit.enable = true;
   lua.enable = true;
   neovim.enable = true;
