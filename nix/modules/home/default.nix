@@ -3,6 +3,7 @@
     ./arc-browser
     ./antivirus
     ./bruno
+    ./chrome
     ./dbeaver
     ./discord
     ./dotnet
@@ -21,6 +22,7 @@
     ./make
     ./mongodb
     ./neovim
+    ./nvf
     ./obs
     ./obsidian
     ./php
@@ -35,6 +37,7 @@
     ./tmux
     ./todoist
     ./unity
+    ./virtualization
     ./vlc
     ./vscode
     ./warp

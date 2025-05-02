@@ -18,7 +18,7 @@ in
     users.users.${cfg.user} = {
         isNormalUser = true;
         description = "${cfg.user}"; 
-        extraGroups = [ "networkmanager" "wheel" ];
+        extraGroups = [ "networkmanager" "wheel" "docker" ];
         shell = pkgs.zsh;
         ignoreShellProgramCheck = true;
     };

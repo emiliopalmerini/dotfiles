@@ -1,9 +1,5 @@
 { lib, config, pkgs, ... }:
 {
-  imports = [
-    ./homeAssistant
-    ./homer
-  ];
   options.docker.enable = lib.mkEnableOption "Enable docker module";
 
   config = lib.mkIf config.docker.enable {
@@ -15,8 +11,6 @@
     virtualisation.oci-containers = {
       backend = "docker";
     };
-
-    homer.enable = true;
 
     environment.systemPackages = with pkgs; [
       docker-compose

@@ -13,7 +13,6 @@
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.obsidian-nvim.follows = "obsidian-nvim";
     };
 
     plugin-harpoon = {
@@ -54,21 +53,13 @@
         ];
       };
 
-      nixosConfigurations.haephestus = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.hephaestus = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/haephestus/configuration.nix
+          ./hosts/hephaestus/configuration.nix
         ];
       };
-
-      # homeConfigurations.haephestus = home-manager.lib.homeManagerConfiguration {
-      #   pkgs = linuxPkgs;
-      #   specialArgs = { inherit inputs; };
-      #   modules = [
-      #     ./hosts/haephestus/home.nix
-      #   ];
-      # };
 
       darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
