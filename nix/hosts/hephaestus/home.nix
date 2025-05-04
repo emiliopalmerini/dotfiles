@@ -18,9 +18,12 @@
   firefox.enable = false;
   chrome.enable = true;
 
-  git.enable = true;
-  git.userEmail = "emilio.palmerini@codiceplastico.com";
-  git.userName = "emiliopalmerini";
+  dbeaver.enable = true;
+  git = {
+    enable = true;
+    userEmail = "emilio.palmerini@codiceplastico.com";
+    userName = "emiliopalmerini";
+  };
 
   kitty.enable = true;
   ghostty.enable = true;

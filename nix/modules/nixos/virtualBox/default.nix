@@ -1,16 +1,18 @@
-{ lib, config, pkgs, inputs, ... }:
-
-with lib;
-let
+{
+  lib,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.virtualBox;
-in
-  {
+in {
   options.virtualBox = {
     enable = mkEnableOption "Enable virtualBox module";
   };
 
   config = mkIf cfg.enable {
-     virtualisation.virtualbox.host.enable = true;
-    users.extraGroups.vboxusers.members = [ "emilio" ];
+    virtualisation.virtualbox.host.enable = true;
+
+    users.extraGroups.vboxusers.members = ["emilio"];
   };
 }

@@ -1,10 +1,12 @@
-{ lib, config, pkgs, inputs, ... }:
-
-with lib;
-let
-  cfg = config.dbeaver;
-in
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.dbeaver;
+in {
   options.dbeaver = {
     enable = mkEnableOption "Enable dbeaver module";
   };

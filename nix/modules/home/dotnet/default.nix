@@ -1,25 +1,18 @@
-{ lib, config, pkgs, inputs, ... }:
-
-with lib;
-let
-  cfg = config.dotnet;
-  dotnet8 = pkgs.dotnet-sdk.overrideAttrs (old: {
-    name = "dotnet-sdk-8.0.404-custom";
-  });
-
-  dotnet9 = pkgs.dotnet-sdk.overrideAttrs (old: {
-    name = "dotnet-sdk-9.0.101-custom";
-  });
-in
 {
-  options.dotnet = {
-    enable = mkEnableOption "Enable dotnet module";
-  };
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  options.dotnet.enable = lib.mkEnableOption "Enable .NET SDKS";
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf config.dotnet.enable {
     home.packages = with pkgs; [
-      dotnet8
-      dotnet9
+      dotnet-sdk_9
     ];
+    # nixpkgs.config.permittedInsecurePackages = [
+    #   "dotnet-sdk-6.0.428"
+    #   "dotnet-sdk-7.0.410"
+    # ];
   };
 }
