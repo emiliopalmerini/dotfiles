@@ -44,8 +44,6 @@
   slack.enable = true;
   bruno.enable = true;
 
-  vm.enable = true;
-
   nixpkgs.config.allowUnfree = true;
 
   programs.home-manager.enable = true;

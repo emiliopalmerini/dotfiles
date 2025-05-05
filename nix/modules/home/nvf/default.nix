@@ -40,9 +40,9 @@ in {
             linebreak = true;
             smartindent = true;
 
-            # tabstop = 8;
-            # softtabstop = 4;
-            # shiftwidth = 2;
+            tabstop = 8;
+            softtabstop = 4;
+            shiftwidth = 2;
             expandtab = true;
 
             updatetime = 50;
@@ -312,13 +312,13 @@ in {
             #   enable = true;
             #   desc = "Open git-fugitive";
             #   group = "git-fugitive";
-            #   event = [ ];
-            #   pattern = [ "*" ];
+            #   event = [];
+            #   pattern = ["*"];
             #   callback = lib.generators.mkLuaInline ''
-            # function()
-            #  if vim.bo.ft ~= "fugitive" then
-            #  return
-            # end
+            #     function()
+            #      if vim.bo.ft ~= "fugitive" then
+            #      return
+            #     end
             #   '';
             # }
             {
@@ -339,35 +339,35 @@ in {
             {
               mode = "n";
               desc = "Open git-fugitive";
-              key = "<leader>gs>";
+              key = "<leader>gs";
               action = "vim.cmd.Git";
               lua = true;
             }
             # {
             #   mode = "n";
             #   desc = "Push commit";
-            #   key = "<leader>gp>";
+            #   key = "<leader>gp";
             #   action = ''vim.cmd.Git({"pull"})'';
             #   lua = true;
             # }
             # {
             #   mode = "n";
             #   desc = "Push force commit";
-            #   key = "<leader>gp>";
+            #   key = "<leader>gp";
             #   action = ''vim.cmd.Git({"pull"})'';
             #   lua = true;
             # }
             # {
             #   mode = "n";
             #   desc = "Pull rebase commit";
-            #   key = "<leader>gP>";
+            #   key = "<leader>gP";
             #   action = ''vim.cmd.Git({"pull"})'';
             #   lua = true;
             # }
             # {
             #   mode = "n";
             #   desc = "Push -u origin";
-            #   key = "<leader>gP>";
+            #   key = "<leader>gPu>";
             #   action = ":Git push -u origin ";
             #   lua = true;
             # }

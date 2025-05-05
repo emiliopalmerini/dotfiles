@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let
-  cfg = config.tmux;
-in
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.tmux;
+in {
   options = {
     tmux.enable = mkEnableOption "enable tmux";
   };
@@ -18,12 +21,6 @@ in
         set-environment -g COLORTERM "truecolor"
 
         set -g mouse on
-
-        # Vim style pane selection
-        bind h select-pane -L
-        bind j select-pane -D
-        bind k select-pane -U
-        bind l select-pane -R
 
         # Start windows and panes at 1, not 0
         set -g base-index 1

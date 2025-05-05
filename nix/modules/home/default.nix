@@ -37,7 +37,6 @@
     ./tmux
     ./todoist
     ./unity
-    ./virtualization
     ./vlc
     ./vscode
     ./warp

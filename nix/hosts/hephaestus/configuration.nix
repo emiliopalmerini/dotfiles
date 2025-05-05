@@ -16,6 +16,7 @@ in {
   ];
   boot = {
     # Bootloader.
+    kernelParams = ["kvm.enable_virt_at_load=0"];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
 
@@ -52,8 +53,9 @@ in {
     settings.auto-optimise-store = true;
     settings.experimental-features = ["nix-command" "flakes"];
   };
-  # virtualBox.enable = true;
 
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
   time.timeZone = "Europe/Rome";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -70,12 +72,14 @@ in {
     LC_TIME = "it_IT.UTF-8";
   };
   services = {
-    xserver.enable = true;
-    xserver.displayManager.gdm.enable = true;
-    xserver.desktopManager.gnome.enable = true;
-    xserver.xkb = {
-      layout = "us";
-      variant = "intl";
+    xserver = {
+      enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+      xkb = {
+        layout = "us";
+        variant = "intl";
+      };
     };
 
     # Enable CUPS to print documents.
@@ -102,9 +106,12 @@ in {
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  mainUser = {
-    enable = true;
-    user = "${userName}";
+  users.users.${userName} = {
+    isNormalUser = true;
+    description = "${userName}";
+    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers"];
+    shell = pkgs.zsh;
+    ignoreShellProgramCheck = true;
   };
 
   # Install firefox.
@@ -118,6 +125,7 @@ in {
   environment.systemPackages = with pkgs; [
     networkmanager
     networkmanager-sstp
+    quickemu
   ];
 
   home-manager = {
