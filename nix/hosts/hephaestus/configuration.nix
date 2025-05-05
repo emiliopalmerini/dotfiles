@@ -56,6 +56,7 @@ in {
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
+
   time.timeZone = "Europe/Rome";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -126,6 +127,7 @@ in {
     networkmanager
     networkmanager-sstp
     quickemu
+    vagrant
   ];
 
   home-manager = {
