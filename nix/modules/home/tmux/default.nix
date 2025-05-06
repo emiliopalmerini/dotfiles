@@ -15,6 +15,7 @@ in {
     programs.tmux = {
       enable = true;
       sensibleOnTop = true;
+      # TODO: binding per muoversi senza soluzione di continuità con nvim
       extraConfig = ''
         set -g default-terminal "xterm-256color"
         set -ga terminal-overrides ",*256col*:Tc"
@@ -27,6 +28,12 @@ in {
         set -g pane-base-index 1
         set-window-option -g pane-base-index 1
         set-option -g renumber-windows on
+
+        # Use Alt-arrow keys without prefix key to switch panes
+        bind -n h select-pane -L
+        bind -n l select-pane -R
+        bind -n k select-pane -U
+        bind -n j select-pane -D
 
         # Use Alt-arrow keys without prefix key to switch panes
         bind -n M-Left select-pane -L
