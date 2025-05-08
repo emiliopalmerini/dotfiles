@@ -30,10 +30,10 @@ in {
         set-option -g renumber-windows on
 
         # Use Alt-arrow keys without prefix key to switch panes
-        bind -n h select-pane -L
-        bind -n l select-pane -R
-        bind -n k select-pane -U
-        bind -n j select-pane -D
+        bind  h select-pane -L
+        bind  l select-pane -R
+        bind  k select-pane -U
+        bind  j select-pane -D
 
         # Use Alt-arrow keys without prefix key to switch panes
         bind -n M-Left select-pane -L

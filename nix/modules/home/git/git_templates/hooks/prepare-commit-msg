@@ -10,17 +10,16 @@ PREFIX_NUMBER=$(echo "$BRANCH_NAME" | grep -o '^[0-9]*')
 
 # Verifica che non sia un commit generato automaticamente (es. merge, squash)
 if [[ "$2" != "merge" && "$2" != "squash" ]]; then
-    # Aggiungi "feat:" all'inizio della prima riga (se non già presente)
-    if ! grep -q "^feat:" "$1"; then
-        sed -i "1s/^/feat: /" "$1"
-    fi
+  # Aggiungi "feat:" all'inizio della prima riga (se non già presente)
+  if ! grep -q "^feat:" "$1"; then
+    sed -i "1s/^/feat: /" "$1"
+  fi
 
-    # Verifica che il numero del branch esista e non sia già nel messaggio
-    if [[ -n "$PREFIX_NUMBER" ]]; then
-        if ! grep -q "(#$PREFIX_NUMBER)" "$1"; then
-            # Aggiunge la parentesi alla fine della prima riga
-            sed -i "1s/\$/ (#$PREFIX_NUMBER)/" "$1"
-        fi
+  # Verifica che il numero del branch esista e non sia già nel messaggio
+  if [[ -n "$PREFIX_NUMBER" ]]; then
+    if ! grep -q "(#$PREFIX_NUMBER)" "$1"; then
+      # Aggiunge la parentesi alla fine della prima riga
+      sed -i "1s/\$/ (#$PREFIX_NUMBER)/" "$1"
     fi
+  fi
 fi
-

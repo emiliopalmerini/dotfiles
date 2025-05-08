@@ -1,19 +1,14 @@
-{
-  config,
-  pkgs,
-  inputs,
-  lib,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     inputs.nvf.homeManagerModules.default
     ./../../modules/home
   ];
+  home = {
+    username = "emilio";
+    homeDirectory = "/home/emilio";
 
-  home.username = "emilio";
-  home.homeDirectory = "/home/emilio";
-
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+    stateVersion = "24.11";
+  };
 
   firefox.enable = false;
   chrome.enable = true;
@@ -36,6 +31,7 @@
   neovim.enable = false;
   nvf.enable = true;
   obsidian.enable = true;
+  office.enable = true;
   shell.enable = true;
   tmux.enable = true;
   make.enable = true;
@@ -43,6 +39,7 @@
   mongodb.enable = true;
   slack.enable = true;
   bruno.enable = true;
+  postman.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 

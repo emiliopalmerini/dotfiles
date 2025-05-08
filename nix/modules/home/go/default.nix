@@ -1,10 +1,12 @@
-{ lib, config, pkgs, ... }:
-
-with lib;
-let
-  cfg = config.go;
-in
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.go;
+in {
   options = {
     go.enable = mkEnableOption "Enable go";
   };
@@ -14,7 +16,6 @@ in
       go
       gopls
       go-migrate
-      delve
       templ
       sqlc
     ];

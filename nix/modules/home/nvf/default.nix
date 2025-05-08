@@ -81,41 +81,14 @@ in {
             nix.enable = true;
             markdown.enable = true;
             bash.enable = true;
-            clang.enable = false;
             css.enable = true;
             html.enable = true;
             sql.enable = true;
-            java.enable = false;
-            kotlin.enable = false;
             ts.enable = true;
             go.enable = true;
             lua.enable = true;
-            zig.enable = false;
-            python.enable = false;
-            typst.enable = false;
-            rust = {
-              enable = false;
-              crates.enable = false;
-            };
-
-            assembly.enable = false;
-            astro.enable = false;
-            nu.enable = false;
             csharp.enable = true;
-            julia.enable = false;
-            vala.enable = false;
-            scala.enable = false;
-            r.enable = false;
-            gleam.enable = false;
-            dart.enable = false;
-            ocaml.enable = false;
-            elixir.enable = false;
-            haskell.enable = false;
-            ruby.enable = false;
-            fsharp.enable = false;
-
             tailwind.enable = true;
-            svelte.enable = false;
 
             # Nim LSP is broken on Darwin and therefore
             # should be disabled by default. Users may still enable

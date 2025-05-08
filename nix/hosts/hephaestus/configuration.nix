@@ -2,7 +2,6 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 {
-  config,
   pkgs,
   inputs,
   ...
@@ -128,6 +127,13 @@ in {
     networkmanager-sstp
     quickemu
     vagrant
+    mono
+    msbuild
+  ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-6.0.428"
+    "dotnet-runtime-6.0.36"
   ];
 
   home-manager = {

@@ -25,6 +25,7 @@
     ./nvf
     ./obs
     ./obsidian
+    ./office
     ./php
     ./postgres
     ./postman
