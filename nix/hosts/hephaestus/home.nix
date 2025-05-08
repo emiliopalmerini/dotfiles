@@ -1,4 +1,8 @@
-{inputs, ...}: {
+{
+  inputs,
+  pkgs,
+  ...
+}: {
   imports = [
     inputs.nvf.homeManagerModules.default
     ./../../modules/home
@@ -19,6 +23,10 @@
     userEmail = "emilio.palmerini@codiceplastico.com";
     userName = "emiliopalmerini";
   };
+
+  home.packages = with pkgs; [
+    nodejs_23
+  ];
 
   kitty.enable = true;
   ghostty.enable = true;
