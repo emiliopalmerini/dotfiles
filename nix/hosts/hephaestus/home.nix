@@ -39,6 +39,7 @@
   programs.home-manager.enable = true;
   shell.enable = true;
   slack.enable = true;
+  telegram.enable = true;
   tmux.enable = true;
 
   home.packages = with pkgs; [
