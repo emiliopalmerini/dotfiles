@@ -44,6 +44,7 @@
 
   home.packages = with pkgs; [
     nodejs_23
+    filezilla
   ];
 
   nixpkgs.config.allowUnfree = true;
