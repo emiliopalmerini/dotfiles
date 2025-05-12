@@ -1,13 +1,17 @@
 require("neodev").setup({})
 
-local capabilities = nil
+local capabilities
 if pcall(require, "cmp_nvim_lsp") then
 	capabilities = require("cmp_nvim_lsp").default_capabilities()
 end
 
 local lspconfig = require("lspconfig")
+local omnisharp_path = vim.fn.exepath("OmniSharp")
+if omnisharp_path == "" then
+	omnisharp_path = vim.fn.exepath("omnisharp-roslyn")
+end
 
--- Configurazione dei server LSP
+-- Aggiungiamo anche omnisharp alla lista dei server
 local servers = {
 	gopls = {
 		settings = {
@@ -44,6 +48,21 @@ local servers = {
 	-- 		},
 	-- 	},
 	-- },
+	omnisharp = {
+		cmd = {
+			omnisharp_path,
+			"--languageserver",
+			"--hostPID",
+			tostring(vim.fn.getpid()),
+		},
+		settings = {
+			omnisharp = {
+				useModernNet = true,
+				enableEditorconfigSupport = true,
+				organizeImportsOnFormat = true,
+			},
+		},
+	},
 }
 
 -- Configurazione diretta dei server LSP senza Mason

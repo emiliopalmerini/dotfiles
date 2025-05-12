@@ -20,21 +20,64 @@ require("nvim-dap-virtual-text").setup({
 	end,
 })
 
-dap.adapters.php = {
-  type = "executable",
-  command = "php-debug-adapter",
+dap.adapters.coreclr = {
+	type = "executable",
+	command = "netcoredbg", -- Assicurati che netcoredbg sia nel PATH
+	args = { "--interpreter=vscode" },
 }
 
-dap.configurations.php = {
-  {
-    type = "php",
-    request = "launch",
-    name = "Listen for Xdebug",
-    port = 9003,
-    pathMappings = {
-      ["/var/www/html"] = vim.fn.getcwd(),
-    },
-  },
+dap.configurations.cs = {
+	{
+		type = "coreclr",
+		name = "launch - netcoredbg",
+		request = "launch",
+		program = function()
+			-- Ottieni il percorso del progetto
+			local project_dir = vim.fn.getcwd()
+
+			-- Cerca il file .csproj nel progetto
+			local csproj_file = vim.fn.glob(project_dir .. "/*.csproj")
+			if csproj_file == "" then
+				return vim.fn.input(
+					"File .csproj non trovato. Inserisci percorso .csproj: ",
+					project_dir .. "/",
+					"file"
+				)
+			end
+
+			-- Leggi il file .csproj
+			local file = io.open(csproj_file, "r")
+			if not file then
+				return vim.fn.input("Impossibile aprire .csproj. Specifica versione (es. net8.0): ", "", "file")
+			end
+
+			local content = file:read("*a")
+			file:close()
+
+			-- Estrai la versione del framework
+			local version = content:match("<TargetFramework>(net[%d%.]+)</TargetFramework>")
+			if not version then
+				return vim.fn.input("Impossibile determinare versione. Specifica (es. net8.0): ", "", "file")
+			end
+
+			-- Configurazione di build
+			local build_config = "Debug" -- o "Release"
+			local build_output_dir = table.concat({
+				project_dir,
+				"bin",
+				build_config,
+				version,
+			}, "/")
+
+			-- Trova il primo file .dll
+			local dll = vim.fn.glob(build_output_dir .. "/*.dll")
+			if dll == "" then
+				return vim.fn.input("Percorso al dll: ", build_output_dir .. "/", "file")
+			end
+
+			return dll
+		end,
+	},
 }
 
 vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)

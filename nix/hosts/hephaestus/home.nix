@@ -18,6 +18,7 @@
   chrome.enable = true;
   dbeaver.enable = false;
   dotnet.enable = true;
+  discord.enable = true;
   firefox.enable = false;
   gcc.enable = false;
   ghostty.enable = true;
@@ -31,8 +32,8 @@
   lazygit.enable = true;
   make.enable = true;
   mongodb.enable = true;
-  neovim.enable = false;
-  nvf.enable = true;
+  neovim.enable = true;
+  nvf.enable = false;
   obsidian.enable = true;
   office.enable = true;
   postman.enable = true;

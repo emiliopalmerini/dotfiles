@@ -10,6 +10,7 @@
     home.packages = with pkgs; [
       dotnet-sdk_9
       dotnetPackages.Nuget
+      netcoredbg
     ];
   };
 }

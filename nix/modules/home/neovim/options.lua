@@ -27,11 +27,11 @@ vim.opt.showmode = false
 vim.opt.scrolloff = 8
 
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking (copying) text",
-  group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
-  callback = function()
-    vim.highlight.on_yank()
-  end,
+	desc = "Highlight when yanking (copying) text",
+	group = vim.api.nvim_create_augroup("kickstart-highlight-yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank()
+	end,
 })
 
 vim.g.mapleader = " "
@@ -95,14 +95,14 @@ local set = vim.opt_local
 
 -- Set local settings for terminal buffers
 vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("custom-term-open", {}),
-  callback = function()
-    set.number = false
-    set.relativenumber = false
-    set.scrolloff = 0
+	group = vim.api.nvim_create_augroup("custom-term-open", {}),
+	callback = function()
+		set.number = false
+		set.relativenumber = false
+		set.scrolloff = 0
 
-    vim.bo.filetype = "terminal"
-  end,
+		vim.bo.filetype = "terminal"
+	end,
 })
 
 -- Easily hit escape in terminal mode.
@@ -110,11 +110,11 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>")
 
 -- Open a terminal at the bottom of the screen with a fixed height.
 vim.keymap.set("n", ",st", function()
-  vim.cmd.new()
-  vim.cmd.wincmd("J")
-  vim.api.nvim_win_set_height(0, 12)
-  vim.wo.winfixheight = true
-  vim.cmd.term()
+	vim.cmd.new()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 12)
+	vim.wo.winfixheight = true
+	vim.cmd.term()
 end)
 
 -- Plugins keymap
@@ -127,31 +127,31 @@ local harpoon = require("harpoon")
 harpoon:setup()
 
 vim.keymap.set("n", "<leader>h", function()
-  harpoon.ui:toggle_quick_menu(harpoon:list())
+	harpoon.ui:toggle_quick_menu(harpoon:list())
 end)
 vim.keymap.set("n", "<leader>a", function()
-  harpoon:list():add()
+	harpoon:list():add()
 end)
 
 vim.keymap.set("n", "<leader>1", function()
-  harpoon:list():select(1)
+	harpoon:list():select(1)
 end)
 vim.keymap.set("n", "<leader>2", function()
-  harpoon:list():select(2)
+	harpoon:list():select(2)
 end)
 vim.keymap.set("n", "<leader>3", function()
-  harpoon:list():select(3)
+	harpoon:list():select(3)
 end)
 vim.keymap.set("n", "<leader>4", function()
-  harpoon:list():select(4)
+	harpoon:list():select(4)
 end)
 
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set("n", "<C-S-P>", function()
-  harpoon:list():prev()
+	harpoon:list():prev()
 end)
 vim.keymap.set("n", "<C-S-N>", function()
-  harpoon:list():next()
+	harpoon:list():next()
 end)
 
 --fugitive
@@ -160,79 +160,79 @@ local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
 autocmd("BufWinEnter", {
-  group = emilio_fugitive,
-  pattern = "*",
-  callback = function()
-    if vim.bo.ft ~= "fugitive" then
-      return
-    end
+	group = emilio_fugitive,
+	pattern = "*",
+	callback = function()
+		if vim.bo.ft ~= "fugitive" then
+			return
+		end
 
-    local bufnr = vim.api.nvim_get_current_buf()
-    local opts = { buffer = bufnr, remap = false }
-    vim.keymap.set("n", "<leader>gp", function()
-      vim.cmd.Git("push")
-    end, opts)
+		local bufnr = vim.api.nvim_get_current_buf()
+		local opts = { buffer = bufnr, remap = false }
+		vim.keymap.set("n", "<leader>gp", function()
+			vim.cmd.Git("push")
+		end, opts)
 
-    vim.keymap.set("n", "<leader>gf", function()
-      vim.cmd.Git("push --force")
-    end, opts)
+		vim.keymap.set("n", "<leader>gf", function()
+			vim.cmd.Git("push --force")
+		end, opts)
 
-    -- rebase always
-    vim.keymap.set("n", "<leader>gP", function()
-      vim.cmd.Git({ "pull" })
-    end, opts)
+		-- rebase always
+		vim.keymap.set("n", "<leader>gP", function()
+			vim.cmd.Git({ "pull" })
+		end, opts)
 
-    vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts)
-  end,
+		vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", opts)
+	end,
 })
 
 -- trouble
 require("trouble").setup()
 vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", {
-  desc = "Diagnostics (Trouble)",
+	desc = "Diagnostics (Trouble)",
 })
 
 vim.keymap.set("n", "<leader>tT", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", {
-  desc = "Buffer Diagnostics (Trouble)",
+	desc = "Buffer Diagnostics (Trouble)",
 })
 
 vim.keymap.set("n", "<leader>tL", "<cmd>Trouble loclist toggle<cr>", {
-  desc = "Location List (Trouble)",
+	desc = "Location List (Trouble)",
 })
 
 vim.keymap.set("n", "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", {
-  desc = "Quickfix List (Trouble)",
+	desc = "Quickfix List (Trouble)",
 })
 
 --zen
 vim.keymap.set("n", "<leader>zz", function()
-  require("zen-mode").setup({
-    window = {
-      width = 100,
-      options = {},
-    },
-  })
-  require("zen-mode").toggle()
-  vim.wo.wrap = true
-  vim.wo.number = true
-  vim.wo.rnu = true
+	require("zen-mode").setup({
+		window = {
+			width = 100,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = true
+	vim.wo.number = true
+	vim.wo.rnu = true
 end)
 
 vim.keymap.set("n", "<leader>zZ", function()
-  require("zen-mode").setup({
-    window = {
-      width = 80,
-      options = {},
-    },
-  })
-  require("zen-mode").toggle()
-  vim.wo.wrap = false
-  vim.wo.number = false
-  vim.wo.rnu = false
-  vim.opt.colorcolumn = "0"
+	require("zen-mode").setup({
+		window = {
+			width = 80,
+			options = {},
+		},
+	})
+	require("zen-mode").toggle()
+	vim.wo.wrap = false
+	vim.wo.number = false
+	vim.wo.rnu = false
+	vim.opt.colorcolumn = "0"
 end)
 
 --refactoring
 vim.keymap.set({ "n", "x" }, "<leader>rr", function()
-  require("telescope").extensions.refactoring.refactors()
+	require("telescope").extensions.refactoring.refactors()
 end)
