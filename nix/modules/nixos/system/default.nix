@@ -41,7 +41,7 @@ in
       LC_TIME = "it_IT.UTF-8";
     };
 
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
 
     nixpkgs.config.allowUnfree = true;
