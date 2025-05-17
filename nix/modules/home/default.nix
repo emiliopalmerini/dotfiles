@@ -1,6 +1,5 @@
 {
   imports = [
-    ./arc-browser
     ./antivirus
     ./bruno
     ./chrome
