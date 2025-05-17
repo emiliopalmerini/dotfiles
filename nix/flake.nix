@@ -53,6 +53,14 @@
         ];
       };
 
+      nixosConfigurations.hera = nixpkgs.lib.nixosSystem {
+        system = linuxSystem;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/hera/configuration.nix
+        ];
+      };
+
       nixosConfigurations.hephaestus = nixpkgs.lib.nixosSystem {
         system = linuxSystem;
         specialArgs = { inherit inputs; };
