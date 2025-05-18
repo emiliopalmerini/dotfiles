@@ -1,8 +1,8 @@
 {
-  lib,
-  config,
-  pkgs,
-  ...
+lib,
+config,
+pkgs,
+...
 }:
 with lib; let
   cfg = config.tmux;
@@ -17,35 +17,54 @@ in {
       sensibleOnTop = true;
       # TODO: binding per muoversi senza soluzione di continuità con nvim
       extraConfig = ''
-        set -g default-terminal "xterm-256color"
-        set -ga terminal-overrides ",*256col*:Tc"
-        set-environment -g COLORTERM "truecolor"
-        set-option -g default-shell ${pkgs.zsh}/bin/zsh
+        set-option -sa terminal-overrides ",xterm*:Tc"
+set -g mouse on
 
-        set -g mouse on
 
-        # Start windows and panes at 1, not 0
-        set -g base-index 1
-        set -g pane-base-index 1
-        set-window-option -g pane-base-index 1
-        set-option -g renumber-windows on
+# Vim style pane selection
+bind h select-pane -L
+bind j select-pane -D 
+bind k select-pane -U
+bind l select-pane -R
 
-        # set vi-mode
-        set-window-option -g mode-keys vi
+# Start windows and panes at 1, not 0
+set -g base-index 1
+set -g pane-base-index 1
+set-window-option -g pane-base-index 1
+set-option -g renumber-windows on
 
-        # Keybindings
-        bind-key -T copy-mode-vi v send-keys -X begin-selection
-        bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+# Use Alt-arrow keys without prefix key to switch panes
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D
 
-        bind '"' split-window -v -c "#{pane_current_path}"
-        bind % split-window -h -c "#{pane_current_path}"
+# Shift arrow to switch windows
+bind -n S-Left  previous-window
+bind -n S-Right next-window
+
+# Shift Alt vim keys to switch windows
+bind -n M-H previous-window
+bind -n M-L next-window
+
+
+# set vi-mode
+set-window-option -g mode-keys vi
+# keybindings
+bind-key -T copy-mode-vi v send-keys -X begin-selection
+bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+bind '"' split-window -v -c "#{pane_current_path}"
+bind % split-window -h -c "#{pane_current_path}"
       '';
 
-      plugins = with pkgs; [
-        tmuxPlugins.vim-tmux-navigator
+      plugins = with pkgs; with tmuxPlugins; [
+        yank
+        vim-tmux-navigator
+        sensible
         {
-          plugin = tmuxPlugins.catppuccin;
+          plugin = catppuccin;
           extraConfig = "set -g @catppuccin_flavor 'mocha' # latte, frappe, macchiato or mocha";
         }
       ];
