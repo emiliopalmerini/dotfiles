@@ -15,10 +15,10 @@ with lib; let
     cat = "bat";
 
     # NixOS commands
-    switch = "sudo nixos-rebuild switch --flake";
-    test = "sudo nixos-rebuild test --flake";
-    upgrade = "sudo nixos-rebuild switch --upgrade --flake";
-    darwin-switch = "nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/dev/dotfiles/nix#idun --show-trace";
+    nixos-switch = "sudo nixos-rebuild switch --flake";
+    nixos-test = "sudo nixos-rebuild test --flake";
+    nixos-upgrade = "sudo nixos-rebuild switch --upgrade --flake";
+    darwin-switch = "sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/dev/dotfiles/nix#idun --show-trace";
 
     # Git commands
     ga = "git add .";
