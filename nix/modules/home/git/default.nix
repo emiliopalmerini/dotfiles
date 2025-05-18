@@ -3,8 +3,7 @@
 with lib;
 let
   cfg = config.git;
-  # Usare la variabile homeDirectory di NixOS o Home Manager
-  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/homeManagerModules/git";
+  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/home/git";
 in
 {
   options = {

@@ -1,21 +1,53 @@
 { lib, config, pkgs, ... }:
-{
-  options.docker.enable = lib.mkEnableOption "Enable docker module";
 
-  config = lib.mkIf config.docker.enable {
-    virtualisation.docker.rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
+with lib;
 
-    virtualisation.oci-containers = {
-      backend = "docker";
-    };
+let
+  mkContOpt = name:
+    mkEnableOption ("Enable Docker container: " + name);
 
-    environment.systemPackages = with pkgs; [
-      docker-compose
-      lazydocker
-  ];
+  baseDocker = {
+    virtualisation.docker.rootless.enable            = true;
+    virtualisation.docker.rootless.setSocketVariable = true;
+    virtualisation.oci-containers.backend            = "docker";
   };
+in {
+  options.docker.enable =
+    mkEnableOption "Enable Docker daemon in rootless mode";
+
+  options.docker.containers.qbittorrent =
+    mkContOpt "qbittorrent";
+
+  config = mkIf config.docker.enable (
+    lib.mkMerge [
+      baseDocker
+
+      (mkIf config.docker.containers.qbittorrent {
+        virtualisation.oci-containers.containers.qbittorrent = {
+          image   = "lscr.io/linuxserver/qbittorrent:latest";
+          ports   = [ "127.0.0.1:8080:8080" ];
+          volumes = [
+            "/var/lib/qbittorrent/downloads:/downloads"
+            "/var/lib/qbittorrent/config:/config"
+          ];
+          autoStart    = true;
+          environment = {
+            PUID            = "1000";
+            PGID            = "1000";
+            TZ              = "Etc/UTC";
+            WEBUI_PORT      = "8080";
+            TORRENTING_PORT = "6881";
+          };
+        };
+      })
+
+      {
+        environment.systemPackages = with pkgs; [
+          docker-compose
+          lazydocker
+        ];
+      }
+    ]
+  );
 }
 

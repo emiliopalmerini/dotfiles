@@ -57,37 +57,11 @@
   users.users.prometeo = {
     isNormalUser = true;
     description = "Prometeo";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [];
+    extraGroups = [ "networkmanager" "wheel" ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-   neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-   git
-  ];
-
-  virtualisation.oci-containers.containers = {
-    hackagecompare = {
-      image = "lscr.io/linuxserver/qbittorrent:latest";
-      ports = ["127.0.0.1:8080:8080"];
-      volumes = [
-        "/var/lib/qbittorrent/downloads:/downloads"
-        "/var/lib/qbittorrent/config:/config"
-      ];
-      environment  =  {
-        PUID = "1000";
-        PGID = "1000";
-        TZ = "Etc/UTC";
-        WEBUI_PORT = "8080";
-        TORRENTING_PORT = "6881";
-      };
-    };
-  };
 
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
@@ -102,32 +76,31 @@
     TERM = "xterm-256color";
   };
 
-  docker.enable = true;
-
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
-  services.plex = {
+  docker = {
     enable = true;
-    dataDir = "/var/lib/plex";
-    openFirewall = true;
-    user = "plex";
-    group = "plex";
+    containers = {
+      qbittorrent = true;
+    };
   };
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  networking.firewall.allowedUDPPorts = [ 6881 8080 ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+    services.openssh.enable = true;
+    services.plex = {
+      enable = true;
+      dataDir = "/var/lib/plex";
+      openFirewall = true;
+      user = "plex";
+      group = "plex";
+    };
+    # networking.firewall.allowedTCPPorts = [ ... ];
+    networking.firewall.allowedUDPPorts = [ 6881 8080 ];
+    # networking.firewall.enable = false;
 
-}
+    # This value determines the NixOS release from which the default
+    # settings for stateful data, like file locations and database versions
+    # on your system were taken. It‘s perfectly fine and recommended to leave
+    # this value at the release version of the first install of this system.
+    # Before changing this value read the documentation for this option
+    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+    system.stateVersion = "24.11"; # Did you read the comment?
+
+  }
