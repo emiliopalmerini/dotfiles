@@ -1,4 +1,24 @@
 services:
+  calibre-web:
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
+    labels:
+      glance.name: Calibre 
+      glance.url: http://192.168.178.118:8083
+      glance.description: Read stuff 
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
+      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
+    volumes:
+      - ./data/calibre-web/data:/config
+      - ./data/calibre-web/library:/books
+    ports:
+      - 8083:8083
+    restart: unless-stopped
+
   qbittorrent:
     labels:
       glance.name: QBittorent 
