@@ -42,11 +42,11 @@ ls.config.set_config({
 	override_builtin = true,
 })
 
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
+vim.keymap.set({ "i", "s" }, "<C-n>", function()
 	return vim.snippet.active({ direction = 1 }) and vim.snippet.jump(1)
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
+vim.keymap.set({ "i", "s" }, "<C-p>", function()
 	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
 end, { silent = true })
 
@@ -151,7 +151,7 @@ cmp.setup({
 		-- TODO: I don't like this at all for completion window, it takes up way too much space.
 		--  However, I think the docs one could be OK, but I need to fix the highlights for it
 		--
-		-- completion = cmp.config.window.bordered(),
+		-- completion = cmp.config.wtabtabindow.bordered(),
 		-- documentation = cmp.config.window.bordered(),
 	},
 })

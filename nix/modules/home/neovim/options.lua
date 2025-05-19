@@ -236,3 +236,15 @@ end)
 vim.keymap.set({ "n", "x" }, "<leader>rr", function()
 	require("telescope").extensions.refactoring.refactors()
 end)
+
+-- vim-tmux-navigator
+local opts = { noremap = true, silent = true }
+-- disabilita le default mappings
+vim.g.tmux_navigator_no_mappings = 1
+
+-- mappe in Lua verso i comandi VimL che il plugin fornisce
+vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", opts)
+vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", opts)
+vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", opts)
+vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", opts)
+vim.keymap.set("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>", opts)
