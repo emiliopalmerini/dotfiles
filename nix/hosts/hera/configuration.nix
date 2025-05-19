@@ -79,7 +79,6 @@
   docker = {
     enable = true;
     containers = {
-      qbittorrent = true;
     };
   };
 
@@ -92,8 +91,8 @@
       group = "plex";
     };
     # networking.firewall.allowedTCPPorts = [ ... ];
-    networking.firewall.allowedUDPPorts = [ 6881 8080 ];
-    # networking.firewall.enable = false;
+    # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
+    networking.firewall.enable = false;
 
     # This value determines the NixOS release from which the default
     # settings for stateful data, like file locations and database versions

@@ -1,0 +1,31 @@
+services:
+  qbittorrent:
+    image: ghcr.io/qbittorrent/docker-qbittorrent-nox:latest
+    read_only: false
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+    ports:
+      - 8080:8080
+    volumes:
+      - qbittorrent_config:/config
+      - ./data/qbittorrent/downloads:/downloads
+    restart: unless-stopped 
+
+  homer:
+   image: b4bz/homer
+   container_name: homer
+   volumes:
+     - ./data/homer/assets:/www/assets
+   ports:
+     - 7042:8080
+   user: 1000:1000 # default
+   environment:
+     - INIT_ASSETS=1 # default
+   restart: unless-stopped
+
+
+volumes:
+  qbittorrent_config:
