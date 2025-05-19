@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.git;
-  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/home/git";
+  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/home/git/config";
 in
 {
   options = {
@@ -14,16 +14,15 @@ in
         description = "Git user name";
       };
       userEmail = mkOption {
-        default = "emilio.palmerini@proton.me";
+        default = "emilio.palmerini@gmail.com";
         description = "Git user email";
       };
     };
   };
 
-  # Configurazione di Git, applicata solo se abilitata
   config = mkIf cfg.enable { 
     home.packages = [
-      pkgs.git-absorb  # Aggiungi il pacchetto git-absorb
+      pkgs.git-absorb  
     ];
 
     programs.git = {
