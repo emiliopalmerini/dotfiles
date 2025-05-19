@@ -1,5 +1,10 @@
 services:
   qbittorrent:
+    labels:
+      glance.name: QBittorent 
+      glance.icon: si:qbittorrent
+      glance.url: http://192.168.178.118:8080
+      glance.description: Download stuff 
     image: ghcr.io/qbittorrent/docker-qbittorrent-nox:latest
     read_only: false
     container_name: qbittorrent
@@ -14,18 +19,22 @@ services:
       - ./data/qbittorrent/downloads:/downloads
     restart: unless-stopped 
 
-  homer:
-   image: b4bz/homer
-   container_name: homer
-   volumes:
-     - ./data/homer/assets:/www/assets
-   ports:
-     - 7042:8080
-   user: 1000:1000 # default
-   environment:
-     - INIT_ASSETS=1 # default
-   restart: unless-stopped
-
+  glance:
+    labels:
+      glance.name: Glance 
+      glance.url: http://192.168.178.118:7042
+      glance.description: Dashboard 
+    container_name: glance
+    image: glanceapp/glance
+    restart: unless-stopped
+    volumes:
+      - ./data/glance/config:/app/config
+      - ./data/glance/assets:/app/assets
+      - /run/user/1000/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 7042:8080
+    environment:
+      - MY_SECRET_TOKEN=123456
 
 volumes:
   qbittorrent_config:
