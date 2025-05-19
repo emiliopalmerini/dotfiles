@@ -90,6 +90,7 @@
       user = "plex";
       group = "plex";
     };
+    tailscale.enable = true;
     # networking.firewall.allowedTCPPorts = [ ... ];
     # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
     networking.firewall.enable = false;

@@ -136,6 +136,8 @@ in {
     "dotnet-runtime-6.0.36"
   ];
 
+  tailscale.enable = true;
+
   home-manager = {
     extraSpecialArgs = {inherit inputs;};
     users = {

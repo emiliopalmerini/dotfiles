@@ -3,5 +3,6 @@
     ./docker
     ./mainUser
     ./system
+    ./tailscale
   ];
 }
