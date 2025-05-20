@@ -37,7 +37,6 @@
   obsidian.enable = true;
   office.enable = true;
   postman.enable = true;
-  programs.home-manager.enable = true;
   shell.enable = true;
   slack.enable = true;
   telegram.enable = true;
@@ -49,4 +48,5 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+  programs.home-manager.enable = true;
 }

@@ -16,7 +16,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "hera"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -58,6 +58,8 @@
     isNormalUser = true;
     description = "Prometeo";
     extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
+    ignoreShellProgramCheck = true;
   };
 
   # Allow unfree packages
@@ -91,6 +93,7 @@
       group = "plex";
     };
     tailscale.enable = true;
+  programs.zsh.enable = true;
     # networking.firewall.allowedTCPPorts = [ ... ];
     # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
     networking.firewall.enable = false;

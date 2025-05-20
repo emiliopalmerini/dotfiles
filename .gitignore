@@ -3,3 +3,5 @@
 .config/zed/.*
 .config/go/telemetry/*
 .config/go/telemetry/local
+./nix/modules/nixos/docker/data/qbittorrent/*
+./nix/modules/nixos/docker/data/calibre/*
