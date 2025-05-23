@@ -10,13 +10,13 @@ services:
       glance.description: Read stuff 
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=100
       - TZ=Etc/UTC
       - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
       - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
     volumes:
-      - ~/docker/data/calibre/data:/config
-      - ~/docker/data/calibre/books:/books
+      - ./data/calibre-web/data:/config
+      - ./data/calibre-web/books:/books
     ports:
       - 8083:8083
     restart: unless-stopped
@@ -32,13 +32,13 @@ services:
     container_name: qbittorrent
     environment:
       - PUID=1000
-      - PGID=1000
+      - PGID=100
       - TZ=Europe/Rome
     ports:
       - 8080:8080
     volumes:
       - qbittorrent_config:/config
-      - ~/docker/data/qbittorrent/downloads:/downloads
+      - ./qbittorrent/data/qbittorrent/downloads:/downloads
     restart: unless-stopped 
 
   glance:
@@ -50,8 +50,8 @@ services:
     image: glanceapp/glance
     restart: unless-stopped
     volumes:
-      - ~/docker/data/glance/config:/app/config
-      - ~/docker/data/glance/assets:/app/assets
+      - ./data/glance/config:/app/config
+      - ./data/glance/assets:/app/assets
       - /run/user/1000/docker.sock:/var/run/docker.sock:ro
     ports:
       - 7042:8080
@@ -60,4 +60,3 @@ services:
 
 volumes:
   qbittorrent_config:
-  mealie-data:

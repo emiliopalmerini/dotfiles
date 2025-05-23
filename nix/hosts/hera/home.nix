@@ -22,6 +22,7 @@
   lazygit.enable = true;
   neovim.enable = true;
   shell.enable = true;
+  tmux.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 

@@ -6,11 +6,11 @@
 
 {
   imports =
-	  [ # Include the results of the hardware scan.
-	  ./hardware-configuration.nix
-		  ../../modules/nixos
-		  inputs.home-manager.nixosModules.default
-	  ];
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      ../../modules/nixos
+      inputs.home-manager.nixosModules.default
+    ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -84,26 +84,26 @@
     };
   };
 
-    services.openssh.enable = true;
-    services.plex = {
-      enable = true;
-      dataDir = "/var/lib/plex";
-      openFirewall = true;
-      user = "plex";
-      group = "plex";
-    };
-    tailscale.enable = true;
+  services.openssh.enable = true;
+  services.plex = {
+    enable = true;
+    dataDir = "/var/lib/plex";
+    openFirewall = true;
+    user = "plex";
+    group = "plex";
+  };
+  tailscale.enable = true;
   programs.zsh.enable = true;
-    # networking.firewall.allowedTCPPorts = [ ... ];
-    # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
-    networking.firewall.enable = false;
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
+  networking.firewall.enable = false;
 
-    # This value determines the NixOS release from which the default
-    # settings for stateful data, like file locations and database versions
-    # on your system were taken. It‘s perfectly fine and recommended to leave
-    # this value at the release version of the first install of this system.
-    # Before changing this value read the documentation for this option
-    # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    system.stateVersion = "24.11"; # Did you read the comment?
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
 
-  }
+}
