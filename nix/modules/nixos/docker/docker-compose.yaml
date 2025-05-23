@@ -1,45 +1,115 @@
 services:
 
-  calibre-web:
-    image: lscr.io/linuxserver/calibre-web:latest
-    container_name: calibre-web
-    labels:
-      glance.name: Calibre Web 
-      glance.icon: https://manual.calibre-ebook.com/_static/logo.png 
-      glance.url: http://192.168.178.118:8083
-      glance.description: Read stuff 
-    environment:
-      - PUID=1000
-      - PGID=100
-      - TZ=Etc/UTC
-      - DOCKER_MODS=linuxserver/mods:universal-calibre #optional
-      - OAUTHLIB_RELAX_TOKEN_SCOPE=1 #optional
-    volumes:
-      - ./data/calibre-web/data:/config
-      - ./data/calibre-web/books:/books
-    ports:
-      - 8083:8083
-    restart: unless-stopped
+  # gluetun:
+  #   image: qmcgaw/gluetun
+  #   container_name: gluetun
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - VPN_SERVICE_PROVIDER=mullvad
+  #     - VPN_TYPE=wireguard
+  #     - WIREGUARD_PRIVATE_KEY=iM7vw5aPpnv0c2bfBn94hHVAbKe43mkZU5f6kYsXvFU=
+  #     - WIREGUARD_ADDRESSES=10.75.254.172/32
+  #     - TZ=Europe/Rome
+  #     - DOT=off
+  #     - VPN_PORT_FORWARDING=off
+  #     - FIREWALL_DEBUG=on
+  #     - FIREWALL_ALLOW_MULTICAST=on
+  #     - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+  #     - VPN_RECONNECT_ATTEMPTS=0         # 0 = infiniti tentativi
+  #     - VPN_RECONNECT_INTERVAL=1h        # Riconnessione ogni ora
+  #   ports:
+  #     - 7878:7878        # Radarr
+  #     - 8989:8989        # Sonarr
+  #     - 9696:9696        # Prowlarr
+  #     - 8080:8080        # qBittorrent WebUI
+  #     - 6881:6881        # qBittorrent TCP
+  #     - 6881:6881/udp    # qBittorrent UDP
+  #   restart: always
+  #   devices:
+  #       - /dev/net/tun:/dev/net/tun
+  #
+  # radarr:
+  #   image: lscr.io/linuxserver/radarr:latest
+  #   container_name: radarr
+  #   network_mode: "service:gluetun"
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Rome
+  #   volumes:
+  #     - radarr_config:/config
+  #     - /mnt/torrent/files:/data
+  #   depends_on:
+  #     - gluetun
+  #   restart: unless-stopped
+  #
+  # sonarr:
+  #   image: lscr.io/linuxserver/sonarr:latest
+  #   container_name: sonarr
+  #   network_mode: "service:gluetun"
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Rome
+  #   volumes:
+  #     - sonarr_config:/config
+  #     - /mnt/torrent/files:/data
+  #   depends_on:
+  #     - gluetun
+  #   restart: unless-stopped
+  #
+  # prowlarr:
+  #   image: lscr.io/linuxserver/prowlarr:latest
+  #   container_name: prowlarr
+  #   network_mode: "service:gluetun"
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Rome
+  #   volumes:
+  #     - prowlarr_config:/config
+  #   depends_on:
+  #     - gluetun
+  #   restart: unless-stopped
 
   qbittorrent:
-    labels:
-      glance.name: QBittorent 
-      glance.icon: si:qbittorrent
-      glance.url: http://192.168.178.118:8080
-      glance.description: Download stuff 
-    image: ghcr.io/qbittorrent/docker-qbittorrent-nox:latest
-    read_only: false
+    image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
+    # network_mode: "service:gluetun"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Rome
+      - WEBUI_PORT=8080
+    volumes:
+      - qbittorrent_config:/config
+      - /mnt/torrent/files:/downloads
+    # depends_on:
+    #   gluetun:
+    #     condition: service_healthy
+    restart: unless-stopped
+
+  calibre-web:
+    labels:
+      - "glance.enabled=true"
+      - "glance.name=Calibre-Web"
+      - "glance.description=Web Ebook Library"
+      - "glance.url=http://192.168.178.118:8083"
+      - "glance.category=Media"
+    image: lscr.io/linuxserver/calibre-web:latest
+    container_name: calibre-web
     environment:
       - PUID=1000
       - PGID=100
       - TZ=Europe/Rome
-    ports:
-      - 8080:8080
+      - DOCKER_MODS=linuxserver/mods:universal-calibre  # Tools extra
     volumes:
-      - qbittorrent_config:/config
-      - ./qbittorrent/data/qbittorrent/downloads:/downloads
-    restart: unless-stopped 
+      - calibre_web_config:/config
+      - ./data/calibre_library:/books
+    ports:
+      - 8083:8083
+    restart: unless-stopped
 
   glance:
     labels:
@@ -60,3 +130,7 @@ services:
 
 volumes:
   qbittorrent_config:
+  calibre_web_config:
+  radarr_config:
+  sonarr_config:
+  prowlarr_config:

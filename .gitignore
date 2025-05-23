@@ -3,4 +3,4 @@
 .config/zed/.*
 .config/go/telemetry/*
 .config/go/telemetry/local
-./nix/modules/nixos/docker/data/*
+nix/modules/nixos/docker/data/
