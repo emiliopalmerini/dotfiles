@@ -20,6 +20,7 @@
   git.userEmail = "emiliopalmerini@proton.me";
   git.userName = "emiliopalmerini";
   go.enable = true;
+  httpie.enable = true;
   hugo.enable = false;
   lazygit.enable = true;
   lua.enable = true;
@@ -30,5 +31,6 @@
   telegram.enable = true;
   tmux.enable = true;
   todoist.enable = true;
+  tailscale.enable = true;
 }
 
