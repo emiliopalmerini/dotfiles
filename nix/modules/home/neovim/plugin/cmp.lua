@@ -41,12 +41,11 @@ ls.config.set_config({
 	updateevents = "TextChanged,TextChangedI",
 	override_builtin = true,
 })
-
-vim.keymap.set({ "i", "s" }, "<C-n>", function()
+vim.keymap.set({ "i", "s" }, "<C-k>", function()
 	return vim.snippet.active({ direction = 1 }) and vim.snippet.jump(1)
 end, { silent = true })
 
-vim.keymap.set({ "i", "s" }, "<C-p>", function()
+vim.keymap.set({ "i", "s" }, "<C-j>", function()
 	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
 end, { silent = true })
 

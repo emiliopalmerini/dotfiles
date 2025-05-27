@@ -13,7 +13,8 @@
 
     stateVersion = "24.11";
   };
-
+  
+  audacity.enable = true;
   bruno.enable = true;
   chrome.enable = true;
   dbeaver.enable = false;

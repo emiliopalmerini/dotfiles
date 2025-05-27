@@ -61,7 +61,6 @@ in {
         nvim-nio
         fidget-nvim
         conform-nvim
-        obsidian-nvim
         neodev-nvim
         SchemaStore-nvim
         lsp_lines-nvim
@@ -126,6 +125,10 @@ in {
         {
           plugin = zen-mode-nvim;
           config = toLua "require('zen-mode').setup()";
+        }
+        {
+          plugin = obsidian-nvim;
+          config = toLuaFile ./plugin/obsidian.lua;
         }
       ];
 

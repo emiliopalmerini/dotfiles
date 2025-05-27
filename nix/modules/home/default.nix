@@ -1,5 +1,6 @@
 {
   imports = [
+    ./audacity
     ./antivirus
     ./bruno
     ./chrome
