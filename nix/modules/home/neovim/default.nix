@@ -130,6 +130,10 @@ in {
           plugin = obsidian-nvim;
           config = toLuaFile ./plugin/obsidian.lua;
         }
+        {
+          plugin = supermaven-nvim;
+          config = toLuaFile ./plugin/supermaven.lua;
+        }
       ];
 
       extraLuaConfig = ''

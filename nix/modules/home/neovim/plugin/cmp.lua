@@ -54,8 +54,12 @@ vim.opt.shortmess:append("c")
 
 local lspkind = require("lspkind")
 lspkind.init({
-	symbol_map = {},
+	symbol_map = {
+		Supermaven = "",
+	},
 })
+
+vim.api.nvim_set_hl(0, "CmpItemKindSupermaven", { fg = "#6CC644" })
 
 -- cmp
 
@@ -96,6 +100,7 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "buffer" },
+		{ name = "supermaven" },
 	},
 	mapping = {
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
