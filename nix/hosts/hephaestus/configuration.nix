@@ -24,6 +24,7 @@ in {
     networking.hostName = "hephaestus"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
+
     # Configure network proxy if necessary
     # networking.proxy.default = "http://user:password@proxy:port/";
     # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -129,8 +130,6 @@ in {
       vagrant
       mono
       msbuild
-      docker-compose
-      lazydocker
     ];
 
     nixpkgs.config.permittedInsecurePackages = [
@@ -148,12 +147,7 @@ in {
       backupFileExtension = "bak";
     };
 
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
-  virtualisation.oci-containers.backend = "docker";
-
+  docker.enable = true;
   environment.variables = {
     EDITOR = "nvim";
     TERM = "xterm-256color";
