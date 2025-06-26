@@ -32,6 +32,7 @@ in {
         delve
         stylua
         unzip
+        nodejs
 
         #nil # Language server per Nix
         nixpkgs-fmt # Formattatore per Nix
@@ -130,10 +131,15 @@ in {
           plugin = obsidian-nvim;
           config = toLuaFile ./plugin/obsidian.lua;
         }
+        copilot-cmp
         {
-          plugin = supermaven-nvim;
-          config = toLuaFile ./plugin/supermaven.lua;
+          plugin = copilot-lua;
+          config = toLuaFile ./plugin/copilot.lua;
         }
+        # {
+        #   plugin = supermaven-nvim;
+        #   config = toLuaFile ./plugin/supermaven.lua;
+        # }
       ];
 
       extraLuaConfig = ''

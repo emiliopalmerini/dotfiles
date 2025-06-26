@@ -100,7 +100,8 @@ cmp.setup({
 		{ name = "nvim_lsp" },
 		{ name = "path" },
 		{ name = "buffer" },
-		{ name = "supermaven" },
+		-- { name = "supermaven" },
+		{ name = "copilot", group_index = 2 },
 	},
 	mapping = {
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
