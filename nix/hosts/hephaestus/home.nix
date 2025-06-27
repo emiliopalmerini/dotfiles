@@ -42,6 +42,7 @@
   slack.enable = true;
   telegram.enable = true;
   tmux.enable = true;
+  vscode.enable = true;
 
   home.packages = with pkgs; [
     filezilla
