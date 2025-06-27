@@ -3,7 +3,6 @@
     ./audacity
     ./antivirus
     ./bruno
-    ./codex
     ./chrome
     ./dbeaver
     ./discord
