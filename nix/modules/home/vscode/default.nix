@@ -18,6 +18,7 @@ in
         ms-dotnettools.vscodeintellicode-csharp
         ms-dotnettools.vscodeintellicode-csharp
         vscodevim.vim
+        anweber.vscode-httpyac
       ];
     };
   };
