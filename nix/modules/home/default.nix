@@ -4,6 +4,7 @@
     ./antivirus
     ./bruno
     ./chrome
+    ./cursor
     ./dbeaver
     ./discord
     ./dotnet

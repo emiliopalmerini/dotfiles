@@ -17,6 +17,7 @@
   audacity.enable = true;
   bruno.enable = true;
   chrome.enable = true;
+  cursor.enable = true;
   dbeaver.enable = false;
   dotnet.enable = true;
   discord.enable = true;
