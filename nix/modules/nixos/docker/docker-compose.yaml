@@ -1,32 +1,11 @@
 services:
-
-   # gluetun:
-   #  image: qmcgaw/gluetun
-   #  container_name: gluetun
-   #  cap_add:
-   #    - NET_ADMIN
-   #  environment:
-   #    - VPN_SERVICE_PROVIDER=mullvad
-   #    - VPN_TYPE=wireguard
-   #    - WIREGUARD_PRIVATE_KEY=iM7vw5aPpnv0c2bfBn94hHVAbKe43mkZU5f6kYsXvFU=
-   #    - WIREGUARD_ADDRESSES=10.75.254.172/32
-   #    - TZ=Europe/Rome
-   #    - DOT=off
-   #    - VPN_PORT_FORWARDING=off
-   #    - FIREWALL_DEBUG=on
-   #    - FIREWALL_ALLOW_MULTICAST=on
-   #    - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
-   #    - VPN_RECONNECT_ATTEMPTS=0         # 0 = infiniti tentativi
-   #    - VPN_RECONNECT_INTERVAL=1h        # Riconnessione ogni ora
-   #  ports:
-   #    - 8080:8080        # qBittorrent WebUI
-   #    - 6881:6881        # qBittorrent TCP
-   #    - 6881:6881/udp    # qBittorrent UDP
-   #  restart: always
-   #  devices:
-   #      - /dev/net/tun:/dev/net/tun
-
   qbittorrent:
+    labels:
+      - "glance.enabled=true"
+      - "glance.name=qBittorrent"
+      - "glance.description=Torrent Client"
+      - "glance.url=http://hera:8080"
+      - "glance.category=Downloads"
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
     # network_mode: "service:gluetun"
@@ -40,9 +19,6 @@ services:
       - /var/lib/plex/tv:/downloads/tv
       - /var/lib/plex/movies:/downloads/movies
       - /var/lib/plex/music:/ownloads/music
-    # depends_on:
-    #   gluetun:
-    #     condition: service_healthy
     restart: unless-stopped
 
   calibre-web:
@@ -50,7 +26,7 @@ services:
       - "glance.enabled=true"
       - "glance.name=Calibre-Web"
       - "glance.description=Web Ebook Library"
-      - "glance.url=http://192.168.178.118:8083"
+      - "glance.url=http://hera:8083"
       - "glance.category=Media"
     image: lscr.io/linuxserver/calibre-web:latest
     container_name: calibre-web
@@ -58,7 +34,7 @@ services:
       - PUID=1000
       - PGID=100
       - TZ=Europe/Rome
-      - DOCKER_MODS=linuxserver/mods:universal-calibre  # Tools extra
+      - DOCKER_MODS=linuxserver/mods:universal-calibre
     volumes:
       - calibre_web_config:/config
       - ./data/calibre_library:/books
@@ -68,9 +44,11 @@ services:
 
   glance:
     labels:
-      glance.name: Glance 
-      glance.url: http://192.168.178.118:7042
-      glance.description: Dashboard 
+      - "glance.enabled=true"
+      - "glance.name=Glance"
+      - "glance.description=Dashboard"
+      - "glance.url=http://hera:7042"
+      - "glance.category=Utility"
     container_name: glance
     image: glanceapp/glance
     restart: unless-stopped
@@ -83,8 +61,45 @@ services:
     environment:
       - MY_SECRET_TOKEN=123456
 
-  #
+  # gluetun:
+  #   labels:
+  #     - "glance.enabled=true"
+  #     - "glance.name=Gluetun VPN"
+  #     - "glance.description=VPN Client"
+  #     - "glance.category=Network"
+  #     - "glance.url=http://hera"
+  #   image: qmcgaw/gluetun
+  #   container_name: gluetun
+  #   cap_add:
+  #     - NET_ADMIN
+  #   environment:
+  #     - VPN_SERVICE_PROVIDER=mullvad
+  #     - VPN_TYPE=wireguard
+  #     - WIREGUARD_PRIVATE_KEY=...
+  #     - WIREGUARD_ADDRESSES=10.75.254.172/32
+  #     - TZ=Europe/Rome
+  #     - DOT=off
+  #     - VPN_PORT_FORWARDING=off
+  #     - FIREWALL_DEBUG=on
+  #     - FIREWALL_ALLOW_MULTICAST=on
+  #     - FIREWALL_OUTBOUND_SUBNETS=192.168.0.0/16,10.0.0.0/8,172.16.0.0/12
+  #     - VPN_RECONNECT_ATTEMPTS=0
+  #     - VPN_RECONNECT_INTERVAL=1h
+  #   ports:
+  #     - 8080:8080
+  #     - 6881:6881
+  #     - 6881:6881/udp
+  #   restart: always
+  #   devices:
+  #     - /dev/net/tun:/dev/net/tun
+
   # radarr:
+  #   labels:
+  #     - "glance.enabled=true"
+  #     - "glance.name=Radarr"
+  #     - "glance.description=Movie Downloader"
+  #     - "glance.url=http://hera"
+  #     - "glance.category=Media"
   #   image: lscr.io/linuxserver/radarr:latest
   #   container_name: radarr
   #   network_mode: "service:gluetun"
@@ -98,8 +113,14 @@ services:
   #   depends_on:
   #     - gluetun
   #   restart: unless-stopped
-  #
+
   # sonarr:
+  #   labels:
+  #     - "glance.enabled=true"
+  #     - "glance.name=Sonarr"
+  #     - "glance.description=TV Show Downloader"
+  #     - "glance.url=http://hera"
+  #     - "glance.category=Media"
   #   image: lscr.io/linuxserver/sonarr:latest
   #   container_name: sonarr
   #   network_mode: "service:gluetun"
@@ -113,8 +134,14 @@ services:
   #   depends_on:
   #     - gluetun
   #   restart: unless-stopped
-  #
+
   # prowlarr:
+  #   labels:
+  #     - "glance.enabled=true"
+  #     - "glance.name=Prowlarr"
+  #     - "glance.description=Indexer Manager"
+  #     - "glance.url=http://hera"
+  #     - "glance.category=Media"
   #   image: lscr.io/linuxserver/prowlarr:latest
   #   container_name: prowlarr
   #   network_mode: "service:gluetun"
@@ -127,6 +154,7 @@ services:
   #   depends_on:
   #     - gluetun
   #   restart: unless-stopped
+
 volumes:
   qbittorrent_config:
   calibre_web_config:

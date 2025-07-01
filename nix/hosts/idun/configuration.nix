@@ -51,12 +51,14 @@
     ];
     casks = [
       "ghostty"
+      "mongodb-compass"
       "obs"
       "docker"
       "obsidian"
       "arc"
       "logi-options+"
       "legcord"
+      "vlc"
     ];
     masApps = {
       "CapCut" = 1500855883;
