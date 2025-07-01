@@ -80,8 +80,6 @@
 
   docker = {
     enable = true;
-    containers = {
-    };
   };
 
   services.openssh.enable = true;

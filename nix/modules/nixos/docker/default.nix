@@ -11,8 +11,10 @@ in {
     mkEnableOption "Enable Docker daemon in rootless mode";
 
   config = mkIf config.docker.enable {
-    virtualisation.docker.enable = true;
-
+    virtualisation.docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
     virtualisation.oci-containers.backend = "docker";
     environment.systemPackages = with pkgs; [
       docker-compose
