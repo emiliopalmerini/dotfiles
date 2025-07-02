@@ -14,6 +14,7 @@
     TERM = "xterm-256color";
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
+  system.primaryUser = "root";
   system.defaults = {
     dock = {
       autohide = true;

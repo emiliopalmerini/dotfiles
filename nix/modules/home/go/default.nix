@@ -14,6 +14,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       go
+      delve
       gopls
       go-migrate
       templ

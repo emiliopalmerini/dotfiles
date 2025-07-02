@@ -29,7 +29,6 @@ in {
         ripgrep
         omnisharp-roslyn
         gopls
-        delve
         stylua
         unzip
         nodejs
