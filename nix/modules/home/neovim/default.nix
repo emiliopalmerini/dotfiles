@@ -28,7 +28,6 @@ in {
         wl-clipboard
         ripgrep
         omnisharp-roslyn
-        gopls
         stylua
         unzip
         nodejs

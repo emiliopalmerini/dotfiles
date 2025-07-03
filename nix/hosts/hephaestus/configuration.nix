@@ -130,6 +130,8 @@ in {
       vagrant
       mono
       msbuild
+      docker-compose
+      lazydocker
     ];
 
     nixpkgs.config.permittedInsecurePackages = [
@@ -147,7 +149,11 @@ in {
       backupFileExtension = "bak";
     };
 
-  docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+  };
+  virtualisation.oci-containers.backend = "docker";
+
   environment.variables = {
     EDITOR = "nvim";
     TERM = "xterm-256color";
