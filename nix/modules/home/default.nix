@@ -14,7 +14,6 @@
     ./gimp
     ./git
     ./go
-    ./hyprland
     ./hugo
     ./kitty
     ./lazydocker
@@ -23,7 +22,6 @@
     ./make
     ./mongodb
     ./neovim
-    ./nvf
     ./obs
     ./obsidian
     ./office

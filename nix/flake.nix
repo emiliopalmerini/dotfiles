@@ -9,25 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvf = {
-      url = "github:notashelf/nvf";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     plugin-harpoon = {
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
       flake = false;
-    };
-
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    };
-
-    nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -36,7 +20,6 @@
     , nixpkgs
     , nix-darwin
     , home-manager
-    , nvf
     , ...
     } @ inputs:
     let

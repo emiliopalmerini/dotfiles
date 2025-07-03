@@ -4,7 +4,6 @@
   ...
 }: {
   imports = [
-    inputs.nvf.homeManagerModules.default
     ./../../modules/home
   ];
   home = {
@@ -35,7 +34,6 @@
   make.enable = true;
   mongodb.enable = true;
   neovim.enable = true;
-  nvf.enable = false;
   obsidian.enable = true;
   office.enable = true;
   postman.enable = true;
