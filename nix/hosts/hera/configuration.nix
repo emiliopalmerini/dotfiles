@@ -91,6 +91,7 @@
     group = "plex";
   };
   tailscale.enable = true;
+  clamav.enable = true;
   programs.zsh.enable = true;
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
