@@ -14,7 +14,7 @@
     TERM = "xterm-256color";
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
-  system.primaryUser = "root";
+  system.primaryUser = "emiliopalmerini";
   system.defaults = {
     dock = {
       autohide = true;
@@ -56,7 +56,6 @@
       "obs"
       "docker"
       "obsidian"
-      "arc"
       "logi-options+"
       "legcord"
       "vlc"
