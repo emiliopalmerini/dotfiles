@@ -125,7 +125,8 @@ in {
     # $ nix search wget
     environment.systemPackages = with pkgs; [
       networkmanager
-      networkmanager-sstp
+      sstp
+      ppp
       quickemu
       vagrant
       mono
@@ -133,6 +134,31 @@ in {
       docker-compose
       lazydocker
     ];
+
+    environment.etc = {
+      "ppp/peers/nsa_vpn".text = ''
+      pty "sstp-client --log-level 3 --cert-warn sstp://vpnssl.grupponsa.com"
+      name adminpalmerini@grupponsa.it 
+      remotename sstp
+      ipparam sstp
+      usepeerdns
+      refuse-chap
+      refuse-mschap
+      require-mschap-v2
+      eap
+      noauth
+      defaultroute
+      replacedefaultroute
+      persist
+      '';
+
+      "ppp/chap-secrets".text = ''
+      "adminpalmerini@grupponsa.it" * "tebror-foCxeq-xopfy2" *
+      '';
+
+      "ppp/chap-secrets".mode = "0600";
+      "ppp/peers/miavpn".mode = "0600";
+    };
 
     nixpkgs.config.permittedInsecurePackages = [
       "dotnet-sdk-6.0.428"
