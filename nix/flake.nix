@@ -54,10 +54,10 @@
         ];
       };
 
-      darwinConfigurations.idun = nix-darwin.lib.darwinSystem {
+      darwinConfigurations.eris = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit inputs; };
         modules = [
-          ./hosts/idun/configuration.nix
+          ./hosts/eris/configuration.nix
         ];
       };
     };

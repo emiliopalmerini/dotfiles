@@ -18,7 +18,7 @@ with lib; let
     nixos-switch = "sudo nixos-rebuild switch --flake";
     nixos-test = "sudo nixos-rebuild test --flake";
     nixos-upgrade = "sudo nixos-rebuild switch --upgrade --flake";
-    darwin-switch = "sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/dev/dotfiles/nix#idun --show-trace";
+    darwin-switch = "sudo nix run nix-darwin --extra-experimental-features 'nix-command flakes' -- switch --flake ~/dev/dotfiles/nix#eris --show-trace";
 
     # Git commands
     ga = "git add .";
