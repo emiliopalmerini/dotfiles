@@ -97,6 +97,34 @@
   # networking.firewall.allowedUDPPorts = [ 6881 8080 ];
   networking.firewall.enable = false;
 
+  logind = {
+    lidSwitch = "ignore";
+    extraConfig = ''
+    HandlePowerKey=ignore
+    '';
+  };
+  acpid = {
+    enable = true;
+    lidEventCommands =
+      ''
+    export PATH=$PATH:/run/current-system/sw/bin
+
+    lid_state=$(cat /proc/acpi/button/lid/LID0/state | awk '{print $NF}')
+    if [ $lid_state = "closed" ]; then
+      # Set brightness to zero
+      echo 0  > /sys/class/backlight/acpi_video0/brightness
+    else
+      # Reset the brightness
+      echo 50  > /sys/class/backlight/acpi_video0/brightness
+    fi
+      '';
+
+    powerEventCommands =
+      ''
+    systemctl suspend
+      '';
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
