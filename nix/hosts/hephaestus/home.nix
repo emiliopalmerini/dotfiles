@@ -42,6 +42,7 @@
   telegram.enable = true;
   tmux.enable = true;
   vscode.enable = true;
+  zen-browser.enable = true;
 
   home.packages = with pkgs; [
     nodejs
