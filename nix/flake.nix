@@ -13,8 +13,6 @@
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
       flake = false;
     };
-
-    zen-browser = "github:0xc000022070/zen-browser-flake";
   };
 
   outputs =
