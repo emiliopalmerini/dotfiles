@@ -59,7 +59,6 @@
       "logi-options+"
       "legcord"
       "vlc"
-      "clipger"
     ];
     masApps = {
       "CapCut" = 1500855883;
