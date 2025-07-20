@@ -17,16 +17,14 @@
   gcc.enable = true;
   gimp.enable = true;
   git.enable = true;
-  git.userEmail = "emiliopalmerini@proton.me";
+  git.userEmail = "emiliopalmerini@gmail.com";
   git.userName = "emiliopalmerini";
   go.enable = true;
   hugo.enable = false;
   lazygit.enable = true;
   lua.enable = true;
   neovim.enable = true;
-  postgres.enable = true;
   shell.enable = true;
-  sqlite.enable = true;
   telegram.enable = true;
   tmux.enable = true;
   todoist.enable = true;
