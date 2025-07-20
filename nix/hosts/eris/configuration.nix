@@ -1,10 +1,13 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ inputs.home-manager.darwinModules.home-manager ];
+  imports = [ 
+    inputs.home-manager.darwinModules.home-manager 
+  ];
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
+  services.tailscale.enable = true;
 
 
   programs.zsh.enable = true;
