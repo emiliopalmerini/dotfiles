@@ -40,6 +40,5 @@
     ./vlc
     ./vscode
     ./warp
-    ./zen-browser
   ];
 }

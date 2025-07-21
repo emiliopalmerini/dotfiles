@@ -202,5 +202,6 @@ in {
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   programs.zsh.enable = true;
+  services.flatpak.enable = true;
   users.defaultUserShell = pkgs.zsh; # Did you read the comment?
 }
