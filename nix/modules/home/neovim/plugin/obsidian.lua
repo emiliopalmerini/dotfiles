@@ -7,7 +7,7 @@ require("obsidian").setup({
 	},
 
 	daily_notes = {
-		folder = "jots",
+		folder = "jots/journal",
 		date_format = "%Y-%m-%d",
 		alias_format = "%B %-d, %Y",
 		template = "Day",
