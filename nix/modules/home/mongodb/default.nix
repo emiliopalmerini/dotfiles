@@ -13,6 +13,7 @@ in
     home.packages = with pkgs; [
       mongodb-compass
       mongosh
+      mongodb-tools
     ];
 
   };
