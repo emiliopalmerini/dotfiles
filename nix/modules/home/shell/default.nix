@@ -117,5 +117,10 @@ in {
         }
       ];
     };
+
+    home.packages = with pkgs; [
+      jq
+      jqp
+    ];
   };
 }
