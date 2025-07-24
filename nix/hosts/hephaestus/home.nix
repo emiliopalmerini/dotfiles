@@ -5,12 +5,17 @@
 }: {
   imports = [
     ./../../modules/home
+    inputs.zen-browser.homeModules.twilight
   ];
   home = {
     username = "emilio";
     homeDirectory = "/home/emilio";
 
     stateVersion = "24.11";
+  };
+
+  programs.zen-browser = {
+    enable = true;
   };
   
   audacity.enable = true;

@@ -9,6 +9,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zen-browser.url  = "github:0xc000022070/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+
     plugin-harpoon = {
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
       flake = false;
@@ -20,6 +24,7 @@
     , nixpkgs
     , nix-darwin
     , home-manager
+    , zen-browser
     , ...
     } @ inputs:
     let
