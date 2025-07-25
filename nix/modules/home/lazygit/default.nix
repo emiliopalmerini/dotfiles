@@ -10,7 +10,8 @@ in
   };
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
-      pkgs.lazygit
+      lazygit
+      xclip
     ];
   };
 }
