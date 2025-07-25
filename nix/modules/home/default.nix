@@ -26,6 +26,7 @@
     ./obs
     ./obsidian
     ./office
+    ./ollama
     ./php
     ./postgres
     ./postman

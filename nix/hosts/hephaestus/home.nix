@@ -41,6 +41,7 @@
   neovim.enable = true;
   obsidian.enable = true;
   office.enable = true;
+  ollama.enable = true;
   postman.enable = true;
   shell.enable = true;
   slack.enable = true;
