@@ -21,6 +21,7 @@
   audacity.enable = true;
   bruno.enable = true;
   chrome.enable = true;
+  codex.enable = true;
   cursor.enable = false;
   dbeaver.enable = false;
   dotnet.enable = true;
