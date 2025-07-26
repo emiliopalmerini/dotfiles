@@ -17,7 +17,8 @@ in {
       sensibleOnTop = true;
       # TODO: binding per muoversi senza soluzione di continuità con nvim
       extraConfig = ''
-        set-option -sa terminal-overrides ",xterm*:Tc"
+set-option -g default-shell ${pkgs.zsh}/bin/zsh
+set-option -sa terminal-overrides ",xterm*:Tc"
 set -g mouse on
 
 
@@ -34,8 +35,7 @@ set-window-option -g pane-base-index 1
 set-option -g renumber-windows on
 
 # Use Alt-arrow keys without prefix key to switch panes
-bind -n M-Left select-pane -L
-bind -n M-Right select-pane -R
+bind -n M-Left select-pane -L bind -n M-Right select-pane -R
 bind -n M-Up select-pane -U
 bind -n M-Down select-pane -D
 
