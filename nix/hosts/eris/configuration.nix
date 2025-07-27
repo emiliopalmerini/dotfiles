@@ -20,8 +20,11 @@
   system.primaryUser = "emiliopalmerini";
   system.defaults = {
     dock = {
-      autohide = true;
+      autohide = false;
       persistent-apps = [
+        "/Applications/Ghostty.app"
+        "/Applications/Obsidian.app"
+        "/Applications/Zen.app"
       ];
     };
     finder =
@@ -38,7 +41,6 @@
       KeyRepeat = 2;
     };
   };
-
 
   users.users.emiliopalmerini = {
     home = /Users/emiliopalmerini;
