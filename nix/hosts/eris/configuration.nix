@@ -52,6 +52,7 @@
       "docker-compose"
       "clamav"
       "hugo"
+      "gemini-cli"
     ];
     casks = [
       "ghostty"
