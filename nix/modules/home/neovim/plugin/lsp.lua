@@ -13,6 +13,7 @@ end
 
 -- Aggiungiamo anche omnisharp alla lista dei server
 local servers = {
+	ts_ls = true,
 	gopls = {
 		settings = {
 			gopls = {
