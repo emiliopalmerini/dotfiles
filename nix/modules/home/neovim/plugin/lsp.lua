@@ -35,20 +35,20 @@ local servers = {
 		},
 	},
 	intelephense = true,
-	-- nil_ls = {
-	-- 	settings = {
-	-- 		["nil"] = {
-	-- 			formatting = {
-	-- 				command = { "nixpkgs-fmt" },
-	-- 			},
-	-- 			nix = {
-	-- 				flake = {
-	-- 					autoEvalInputs = true,
-	-- 				},
-	-- 			},
-	-- 		},
-	-- 	},
-	-- },
+	nil_ls = {
+		settings = {
+			["nil"] = {
+				formatting = {
+					command = { "nixpkgs-fmt" },
+				},
+				nix = {
+					flake = {
+						autoEvalInputs = true,
+					},
+				},
+			},
+		},
+	},
 	omnisharp = {
 		cmd = {
 			omnisharp_path,

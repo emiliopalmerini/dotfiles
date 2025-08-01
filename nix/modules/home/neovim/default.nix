@@ -32,7 +32,7 @@ in {
         unzip
         nodejs
 
-        #nil # Language server per Nix
+        nil # Language server per Nix
         nixpkgs-fmt # Formattatore per Nix
 
         sleek # Formattatore
