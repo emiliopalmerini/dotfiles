@@ -21,6 +21,7 @@ in {
       xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
     };
 
+
     printing.enable = true;
     pipewire = {
       enable = true;
