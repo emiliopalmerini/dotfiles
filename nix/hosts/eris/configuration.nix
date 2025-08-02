@@ -25,6 +25,7 @@
         "/Applications/Ghostty.app"
         "/Applications/Obsidian.app"
         "/Applications/Zen.app"
+        "/Applications/Notion.app"
       ];
     };
     finder =
@@ -64,11 +65,10 @@
       "obsidian"
       "logi-options+"
       "legcord"
+      "notion"
       "vlc"
+      "home-assistant"
     ];
-    masApps = {
-      "HomeAssistant" = 1099568401;
-    };
     onActivation.cleanup = "zap";
   };
 
