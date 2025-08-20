@@ -1,7 +1,6 @@
-{
-  inputs,
-  pkgs,
-  ...
+{ inputs
+, pkgs
+, ...
 }: {
   imports = [
     ./../../modules/home
@@ -17,16 +16,10 @@
   programs.zen-browser = {
     enable = true;
   };
-  
-  audacity.enable = true;
-  bruno.enable = true;
+
   chrome.enable = true;
-  cursor.enable = false;
-  dbeaver.enable = false;
+  codex.enable = true;
   dotnet.enable = true;
-  discord.enable = true;
-  firefox.enable = false;
-  gcc.enable = false;
   ghostty.enable = true;
   git = {
     enable = true;
@@ -34,20 +27,17 @@
     userName = "emiliopalmerini";
   };
   go.enable = true;
-  kitty.enable = true;
   lazygit.enable = true;
   make.enable = true;
   mongodb.enable = true;
   neovim.enable = true;
   obsidian.enable = true;
   office.enable = true;
-  ollama.enable = true;
   postman.enable = true;
   shell.enable = true;
   slack.enable = true;
   telegram.enable = true;
   tmux.enable = true;
-  vscode.enable = true;
 
   home.packages = with pkgs; [
     nodejs

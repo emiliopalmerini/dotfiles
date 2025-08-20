@@ -1,15 +1,14 @@
 {
   description = "NixOS configuration flake";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zen-browser.url  = "github:0xc000022070/zen-browser-flake";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
 
@@ -29,7 +28,6 @@
     } @ inputs:
     let
       linuxSystem = "x86_64-linux";
-      linuxPkgs = nixpkgs.legacyPackages.${linuxSystem};
     in
     {
       nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
