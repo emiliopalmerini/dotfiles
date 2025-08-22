@@ -60,5 +60,12 @@
           ./hosts/eris/configuration.nix
         ];
       };
+
+      # Build artifacts (packages)
+      packages.${linuxSystem}.win11AutounattendIso =
+        let
+          pkgs = import nixpkgs { system = linuxSystem; };
+        in
+        import ./hosts/hephaestus/win11-vm { inherit pkgs; };
     };
 }

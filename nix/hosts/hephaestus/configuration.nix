@@ -57,6 +57,16 @@ in {
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
 
+  # Libvirt/QEMU for Windows 11 VM provisioning via Terraform
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      ovmf.enable = true;   # UEFI firmware needed by Windows 11
+      swtpm.enable = true;  # vTPM emulator for Windows 11
+    };
+  };
+  programs.virt-manager.enable = true;
+
   time.timeZone = "Europe/Rome";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -128,7 +138,7 @@ in {
   users.users.${userName} = {
     isNormalUser = true;
     description = "${userName}";
-    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers"];
+    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers" "libvirtd" "kvm"];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
@@ -151,6 +161,13 @@ in {
     msbuild
     docker-compose
     lazydocker
+    # VM + IaC tooling
+    terraform
+    qemu
+    libvirt
+    swtpm
+    virt-manager
+    genisoimage
   ];
 
   environment.etc."ppp/peers/vpn_nsa".text = ''
@@ -222,4 +239,35 @@ in {
   programs.zsh.enable = true;
   services.flatpak.enable = true;
   users.defaultUserShell = pkgs.zsh; # Did you read the comment?
+
+  # Enable generic Docker module and it-tools container
+  docker.enable = true;
+
+  # Paths for ISOs used by Terraform/libvirt
+  systemd.tmpfiles.rules = [
+    "d /var/lib/libvirt/isos 0755 root root -"
+    "d /var/lib/libvirt/images 0755 root root -"
+  ];
+
+  # Symlink/copy the reproducible Autounattend ISO built via Nix during activation
+  system.activationScripts.win11AutounattendIso = let
+    autounattendIso = import ./win11-vm { inherit pkgs; };
+  in {
+    text = ''
+      src=${autounattendIso}
+      dst=/var/lib/libvirt/isos/autounattend.iso
+      echo "Installing Autounattend ISO to $dst"
+      install -m0644 -D "$src" "$dst"
+    '';
+  };
+
+  # Export Terraform variables for Win11 VM (paths can be changed via module options)
+  win11vm = {
+    enable = true;
+    installerIsoPath = "/var/lib/libvirt/isos/windows11.iso";
+    autounattendIsoPath = "/var/lib/libvirt/isos/autounattend.iso";
+    memoryMB = 12288;
+    vcpu = 6;
+    diskGB = 120;
+  };
 }
