@@ -58,6 +58,95 @@
 
   # Docker
   virtualisation.docker.enable = true;
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers = {
+      qbittorrent = {
+        image = "lscr.io/linuxserver/qbittorrent:latest";
+        environment = {
+          PUID = "1000";
+          PGID = "193";
+          TZ = "Europe/Rome";
+          WEBUI_PORT = "8080";
+        };
+        ports = [
+          "8080:8080"
+          "6881:6881"
+          "6881:6881/udp"
+        ];
+        volumes = [
+          "/var/lib/qbittorrent/config:/config"
+          "/var/lib/plex/tv:/downloads/tv"
+          "/var/lib/plex/movies:/downloads/movies"
+          "/var/lib/plex/music:/downloads/music"
+        ];
+        extraOptions = [
+          "--label=glance.enabled=true"
+          "--label=glance.name=qBittorrent"
+          "--label=glance.description=Torrent Client"
+          "--label=glance.url=http://hera:8080"
+          "--label=glance.category=Downloads"
+        ];
+        restartPolicy = "unless-stopped";
+      };
+
+      calibre-web = {
+        image = "lscr.io/linuxserver/calibre-web:latest";
+        environment = {
+          PUID = "1000";
+          PGID = "100";
+          TZ = "Europe/Rome";
+          DOCKER_MODS = "linuxserver/mods:universal-calibre";
+        };
+        ports = [ "8083:8083" ];
+        volumes = [
+          "/var/lib/calibre-web/config:/config"
+          "/var/lib/calibre-web/library:/books"
+        ];
+        extraOptions = [
+          "--label=glance.enabled=true"
+          "--label=glance.name=Calibre-Web"
+          "--label=glance.description=Web Ebook Library"
+          "--label=glance.url=http://hera:8083"
+          "--label=glance.category=Media"
+        ];
+        restartPolicy = "unless-stopped";
+      };
+
+      glance = {
+        image = "glanceapp/glance";
+        environment = {
+          MY_SECRET_TOKEN = "123456";
+        };
+        ports = [ "7042:8080" ];
+        volumes = [
+          "/var/lib/glance/config:/app/config"
+          "/var/lib/glance/assets:/app/assets"
+          "/run/docker.sock:/var/run/docker.sock:ro"
+        ];
+        extraOptions = [
+          "--label=glance.enabled=true"
+          "--label=glance.name=Glance"
+          "--label=glance.description=Dashboard"
+          "--label=glance.url=http://hera:7042"
+          "--label=glance.category=Utility"
+        ];
+        restartPolicy = "unless-stopped";
+      };
+    };
+  };
+
+  # Ensure bind-mount paths exist
+  systemd.tmpfiles.rules = [
+    "d /var/lib/qbittorrent 0755 root root -"
+    "d /var/lib/qbittorrent/config 0755 root root -"
+    "d /var/lib/calibre-web 0755 root root -"
+    "d /var/lib/calibre-web/config 0755 root root -"
+    "d /var/lib/calibre-web/library 0755 root root -"
+    "d /var/lib/glance 0755 root root -"
+    "d /var/lib/glance/config 0755 root root -"
+    "d /var/lib/glance/assets 0755 root root -"
+  ];
 
   services.openssh.enable = true;
 
@@ -109,4 +198,3 @@
 
   system.stateVersion = "24.11";
 }
-
