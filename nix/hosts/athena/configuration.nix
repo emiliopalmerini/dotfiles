@@ -51,7 +51,6 @@ in {
     TERM = "xterm-256color";
   };
 
-  docker.enable = true;
   environment.gnome.excludePackages = (with pkgs; [
     atomix # puzzle game
     cheese # webcam tool
