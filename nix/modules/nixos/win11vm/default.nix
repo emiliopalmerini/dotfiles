@@ -114,6 +114,11 @@ in {
           echo "ERROR: Could not determine outbound interface to reach $VM_IP" >&2
           exit 1
         fi
+        echo "Pinging VM ($VM_IP) to verify connectivity..."
+        if ! ${pkgs.iputils}/bin/ping -c1 -W1 "$VM_IP" >/dev/null 2>&1; then
+          echo "ERROR: VM $VM_NAME ($VM_IP) did not respond to ping. Aborting route change." >&2
+          exit 1
+        fi
         STATE_DIR=/run/win11-vm-routing
         mkdir -p "$STATE_DIR"
         if [ ! -f "$STATE_DIR/default.route" ]; then

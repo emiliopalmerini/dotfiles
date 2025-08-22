@@ -77,4 +77,27 @@ try {
   Write-Warning "Failed to enable Windows routing/NAT: $($_.Exception.Message)"
 }
 
+# Optional: Prepare SSTP VPN defaults (no credentials here)
+try {
+  # Force all VPN connections to use default gateway on remote network (no split tunneling)
+  $vpnConns = @(Get-VpnConnection -AllUserConnection -ErrorAction SilentlyContinue)
+  foreach ($vpn in $vpnConns) {
+    try {
+      Set-VpnConnection -Name $vpn.Name -AllUserConnection -SplitTunneling:$false -PassThru -ErrorAction SilentlyContinue | Out-Null
+    } catch {}
+  }
+
+  # If an SSTP VPN interface is up, prefer it by lowering interface metric
+  $sstpIfs = Get-NetIPInterface -AddressFamily IPv4 | Where-Object { $_.InterfaceDescription -like '*SSTP*' }
+  foreach ($iface in $sstpIfs) {
+    try { Set-NetIPInterface -InterfaceIndex $iface.InterfaceIndex -InterfaceMetric 5 -ErrorAction SilentlyContinue } catch {}
+  }
+
+  Write-Host "VPN defaults prepared. To add/connect an SSTP VPN:" -ForegroundColor Yellow
+  Write-Host "  Add-VpnConnection -Name 'WorkSSTP' -ServerAddress 'vpn.example.com' -TunnelType SSTP -EncryptionLevel Required -AuthenticationMethod EAP -AllUserConnection" -ForegroundColor DarkGray
+  Write-Host "  rasdial 'WorkSSTP' <username> <password>" -ForegroundColor DarkGray
+} catch {
+  Write-Warning "VPN configuration step failed: $($_.Exception.Message)"
+}
+
 Write-Host "Developer setup complete." -ForegroundColor Green
