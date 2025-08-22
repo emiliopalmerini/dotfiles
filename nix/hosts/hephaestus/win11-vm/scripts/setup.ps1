@@ -96,6 +96,33 @@ try {
   Write-Host "VPN defaults prepared. To add/connect an SSTP VPN:" -ForegroundColor Yellow
   Write-Host "  Add-VpnConnection -Name 'WorkSSTP' -ServerAddress 'vpn.example.com' -TunnelType SSTP -EncryptionLevel Required -AuthenticationMethod EAP -AllUserConnection" -ForegroundColor DarkGray
   Write-Host "  rasdial 'WorkSSTP' <username> <password>" -ForegroundColor DarkGray
+  
+  # Auto-create/connect SSTP VPN from config if provided on the Autounattend ISO (D:\vpn.json)
+  $cfgPath = 'D:\vpn.json'
+  if (Test-Path $cfgPath) {
+    try {
+      $cfg = Get-Content $cfgPath -Raw | ConvertFrom-Json
+      $vpnName = $cfg.name
+      $vpnServer = $cfg.server
+      $vpnUser = $cfg.username
+      $vpnPass = $cfg.password
+      if ($vpnName -and $vpnServer) {
+        Write-Host "Configuring SSTP VPN '$vpnName' to $vpnServer" -ForegroundColor Yellow
+        $existing = Get-VpnConnection -AllUserConnection -Name $vpnName -ErrorAction SilentlyContinue
+        if ($null -eq $existing) {
+          Add-VpnConnection -Name $vpnName -ServerAddress $vpnServer -TunnelType SSTP -EncryptionLevel Required -AllUserConnection -SplitTunneling:$false -Force | Out-Null
+        } else {
+          Set-VpnConnection -Name $vpnName -AllUserConnection -SplitTunneling:$false -ServerAddress $vpnServer -Force | Out-Null
+        }
+        if ($vpnUser -and $vpnPass) {
+          Write-Host "Connecting SSTP VPN '$vpnName'..." -ForegroundColor Yellow
+          rasdial $vpnName $vpnUser $vpnPass | Out-Null
+        }
+      }
+    } catch {
+      Write-Warning "Failed to configure/connect SSTP VPN from vpn.json: $($_.Exception.Message)"
+    }
+  }
 } catch {
   Write-Warning "VPN configuration step failed: $($_.Exception.Message)"
 }

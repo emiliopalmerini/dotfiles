@@ -10,6 +10,7 @@ This folder provisions a Windows 11 virtual machine using:
 - Place the Windows 11 ISO at `/var/lib/libvirt/isos/windows11.iso`
 - Build an Autounattend ISO that contains `Autounattend.xml` and `setup.ps1` at the root
   - Reproducible ISO via Nix flake:
+    - Optionally create `vpn.json` (ignored by git) from `vpn-example.json` with SSTP details (name, server, username, password)
     - Build: `nix build nix#win11AutounattendIso`
     - Copy/symlink result to libvirt ISOs: `install -m0644 result /var/lib/libvirt/isos/autounattend.iso`
 
@@ -47,4 +48,4 @@ The Windows setup enables IP forwarding and configures a NAT (New-NetNat) on the
 Notes:
 - Ensure the VM is running; qemu-guest-agent helps discover the VM IP.
 - The VM performs NAT for the libvirt subnet, forwarding to its default gateway (libvirt).
-- If you also connect a VPN inside Windows, sharing that connection will route host traffic through the VPN as well.
+- If you also connect an SSTP VPN inside Windows (the setup script prepares defaults, and will auto-create/connect if `vpn.json` is provided), the VM’s default route will point to the VPN and the host traffic (when enabled) will traverse it.

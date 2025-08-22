@@ -142,6 +142,31 @@ in {
           echo "No previous route state found; doing nothing." >&2
         fi
       '')
+
+      (pkgs.writeShellScriptBin "win11-vm-route-status" ''
+        set -euo pipefail
+        VM_NAME='${cfg.vmName}'
+        VM_IP=$(${pkgs.libvirt}/bin/virsh domifaddr "$VM_NAME" --source agent 2>/dev/null | ${pkgs.gnugrep}/bin/grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n1 || true)
+        if [ -z "$VM_IP" ]; then
+          VM_IP=$(${pkgs.libvirt}/bin/virsh domifaddr "$VM_NAME" --source lease 2>/dev/null | ${pkgs.gnugrep}/bin/grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n1 || true)
+        fi
+        echo "VM: $VM_NAME"
+        echo "VM IP: ${VM_IP:-unknown}"
+        DEF=$(${pkgs.iproute2}/bin/ip route show default || true)
+        echo "Default route: ${DEF:-none}"
+        if [ -n "${VM_IP:-}" ] && echo "$DEF" | ${pkgs.gnugrep}/bin/grep -q "$VM_IP"; then
+          echo "Status: routing via VM"
+        else
+          echo "Status: routing direct"
+        fi
+        if [ -n "${VM_IP:-}" ]; then
+          if ${pkgs.iputils}/bin/ping -c1 -W1 "$VM_IP" >/dev/null 2>&1; then
+            echo "Ping VM: ok"
+          else
+            echo "Ping VM: failed"
+          fi
+        fi
+      '')
     ];
 
     # Ensure working directory exists

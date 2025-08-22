@@ -1,0 +1,7 @@
+{
+  "name": "WorkSSTP",
+  "server": "vpn.example.com",
+  "username": "user@example.com",
+  "password": "changeme"
+}
+

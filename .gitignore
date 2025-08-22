@@ -3,3 +3,4 @@
 .config/zed/.*
 .config/go/telemetry/*
 .config/go/telemetry/local
+nix/hosts/hephaestus/win11-vm/vpn.json
