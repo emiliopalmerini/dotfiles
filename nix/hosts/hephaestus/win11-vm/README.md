@@ -9,9 +9,9 @@ This folder provisions a Windows 11 virtual machine using:
 - On Hephaestus, libvirt is enabled and user is in `libvirtd`/`kvm` groups
 - Place the Windows 11 ISO at `/var/lib/libvirt/isos/windows11.iso`
 - Build an Autounattend ISO that contains `Autounattend.xml` and `setup.ps1` at the root
-  - Example: from this folder run:
-    `genisoimage -V AUTOUNAT -o autounattend.iso Autounattend.xml scripts/setup.ps1`
-  - Move it to `/var/lib/libvirt/isos/autounattend.iso`
+  - Reproducible ISO via Nix flake:
+    - Build: `nix build nix#win11AutounattendIso`
+    - Copy/symlink result to libvirt ISOs: `install -m0644 result /var/lib/libvirt/isos/autounattend.iso`
 
 ## Quick start
 - Export variables or edit `terraform.tfvars`:
