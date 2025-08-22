@@ -159,7 +159,7 @@
     group = "plex";
   };
 
-  environment.systemPackages = with pkgs; [ nodejs ];
+  environment.systemPackages = with pkgs; [ nodejs lazydocker docker-compose ];
   # Tailscale
   services.tailscale.enable = true;
 
