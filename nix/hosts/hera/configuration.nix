@@ -146,6 +146,7 @@
     "d /var/lib/glance 0755 root root -"
     "d /var/lib/glance/config 0755 root root -"
     "d /var/lib/glance/assets 0755 root root -"
+    "d /var/lib/plex 0755 root root -"
     "d /var/lib/plex/tv 0755 root root -"
     "d /var/lib/plex/movies 0755 root root -"
     "d /var/lib/plex/music 0755 root root -"
