@@ -3,6 +3,13 @@ local ui = require("dapui")
 
 require("dapui").setup()
 require("dap-go").setup()
+pcall(function()
+  local dap_python = require("dap-python")
+  local py = vim.fn.exepath("python3")
+  if py == "" then py = vim.fn.exepath("python") end
+  if py == "" then py = "python3" end
+  dap_python.setup(py)
+end)
 
 require("nvim-dap-virtual-text").setup({
 	display_callback = function(variable)
@@ -10,7 +17,42 @@ require("nvim-dap-virtual-text").setup({
 		local value = string.lower(variable.value)
 		if name:match("secret") or name:match("api") or value:match("secret") or value:match("api") then
 			return "*****"
-		end
+end
+
+-- JavaScript / TypeScript via vscode-js-debug (pwa-node)
+pcall(function()
+  local langs = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
+  for _, lang in ipairs(langs) do
+    dap.configurations[lang] = {
+      {
+        type = "pwa-node",
+        request = "launch",
+        name = "Launch file",
+        program = "${file}",
+        cwd = "${workspaceFolder}",
+      },
+      {
+        type = "pwa-node",
+        request = "launch",
+        name = "Launch via ts-node",
+        program = "${file}",
+        cwd = "${workspaceFolder}",
+        runtimeExecutable = "node",
+        runtimeArgs = { "-r", "ts-node/register" },
+        sourceMaps = true,
+        protocol = "inspector",
+        console = "integratedTerminal",
+      },
+      {
+        type = "pwa-node",
+        request = "attach",
+        name = "Attach to process",
+        processId = require("dap.utils").pick_process,
+        cwd = "${workspaceFolder}",
+      },
+    }
+  end
+end)
 
 		if #variable.value > 15 then
 			return " " .. string.sub(variable.value, 1, 15) .. "... "

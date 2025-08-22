@@ -34,7 +34,9 @@ local servers = {
 			semanticTokensProvider = vim.NIL,
 		},
 	},
-	intelephense = true,
+    intelephense = true,
+    pyright = true,
+    ruff = true,
 	nil_ls = {
 		settings = {
 			["nil"] = {
@@ -123,12 +125,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Configurazione Autoformatting
 local conform = require("conform")
 conform.setup({
-	formatters_by_ft = {
-		lua = { "stylua" },
-		php = { "php_cs_fixer" },
-		blade = { "blade-formatter" },
-		nix = { "nixpkgs-fmt" }, -- aggiungiamo il formattatore per Nix
-	},
+    formatters_by_ft = {
+        lua = { "stylua" },
+        php = { "php_cs_fixer" },
+        blade = { "blade-formatter" },
+        nix = { "nixpkgs-fmt" }, -- aggiungiamo il formattatore per Nix
+        python = { "isort", "black" },
+    },
 })
 
 conform.formatters.injected = {
