@@ -248,4 +248,16 @@ in {
     "d /var/lib/libvirt/isos 0755 root root -"
     "d /var/lib/libvirt/images 0755 root root -"
   ];
+
+  # Symlink/copy the reproducible Autounattend ISO built via Nix during activation
+  system.activationScripts.win11AutounattendIso = let
+    autounattendIso = import ./win11-vm { inherit pkgs; };
+  in {
+    text = ''
+      src=${autounattendIso}
+      dst=/var/lib/libvirt/isos/autounattend.iso
+      echo "Installing Autounattend ISO to $dst"
+      install -m0644 -D "$src" "$dst"
+    '';
+  };
 }
