@@ -43,6 +43,12 @@ in {
       default = ../../hosts/hephaestus/win11-vm/terraform;
       description = "Path to the Terraform source directory for the Windows 11 VM.";
     };
+
+    vmName = mkOption {
+      type = types.str;
+      default = "win11";
+      description = "Libvirt domain name of the Windows VM for routing helpers.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -89,6 +95,47 @@ in {
         ${pkgs.terraform}/bin/terraform init -input=false
         echo "Running: terraform apply -auto-approve"
         ${pkgs.terraform}/bin/terraform apply -auto-approve
+      '')
+
+      (pkgs.writeShellScriptBin "win11-vm-route-enable" ''
+        set -euo pipefail
+        VM_NAME='${cfg.vmName}'
+        # Try to get VM IP via qemu-guest-agent first, then DHCP leases
+        VM_IP=$(${pkgs.libvirt}/bin/virsh domifaddr "$VM_NAME" --source agent 2>/dev/null | ${pkgs.gnugrep}/bin/grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n1 || true)
+        if [ -z "$VM_IP" ]; then
+          VM_IP=$(${pkgs.libvirt}/bin/virsh domifaddr "$VM_NAME" --source lease 2>/dev/null | ${pkgs.gnugrep}/bin/grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -n1 || true)
+        fi
+        if [ -z "$VM_IP" ]; then
+          echo "ERROR: Could not determine VM IP for $VM_NAME. Ensure the VM is running and qemu-guest-agent installed, or a DHCP lease exists." >&2
+          exit 1
+        fi
+        DEV=$(${pkgs.iproute2}/bin/ip route get "$VM_IP" | ${pkgs.gnused}/bin/sed -n 's/.* dev \([^ ]\+\).*/\1/p' | head -n1)
+        if [ -z "$DEV" ]; then
+          echo "ERROR: Could not determine outbound interface to reach $VM_IP" >&2
+          exit 1
+        fi
+        STATE_DIR=/run/win11-vm-routing
+        mkdir -p "$STATE_DIR"
+        if [ ! -f "$STATE_DIR/default.route" ]; then
+          ${pkgs.iproute2}/bin/ip route show default > "$STATE_DIR/default.route" || true
+        fi
+        echo "Setting default route via $VM_IP on $DEV"
+        ${pkgs.iproute2}/bin/ip route replace default via "$VM_IP" dev "$DEV"
+        echo "Done. To disable, run: win11-vm-route-disable"
+      '')
+
+      (pkgs.writeShellScriptBin "win11-vm-route-disable" ''
+        set -euo pipefail
+        STATE_DIR=/run/win11-vm-routing
+        if [ -s "$STATE_DIR/default.route" ]; then
+          echo "Restoring previous default route..."
+          # shellcheck disable=SC2046
+          ${pkgs.iproute2}/bin/ip route replace $(cat "$STATE_DIR/default.route")
+          rm -f "$STATE_DIR/default.route"
+          echo "Default route restored."
+        else
+          echo "No previous route state found; doing nothing." >&2
+        fi
       '')
     ];
 
