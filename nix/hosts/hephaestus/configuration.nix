@@ -57,6 +57,16 @@ in {
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
 
+  # Libvirt/QEMU for Windows 11 VM provisioning via Terraform
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      ovmf.enable = true;   # UEFI firmware needed by Windows 11
+      swtpm.enable = true;  # vTPM emulator for Windows 11
+    };
+  };
+  programs.virt-manager.enable = true;
+
   time.timeZone = "Europe/Rome";
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -128,7 +138,7 @@ in {
   users.users.${userName} = {
     isNormalUser = true;
     description = "${userName}";
-    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers"];
+    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers" "libvirtd" "kvm"];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
@@ -151,6 +161,13 @@ in {
     msbuild
     docker-compose
     lazydocker
+    # VM + IaC tooling
+    terraform
+    qemu
+    libvirt
+    swtpm
+    virt-manager
+    genisoimage
   ];
 
   environment.etc."ppp/peers/vpn_nsa".text = ''
@@ -225,4 +242,10 @@ in {
 
   # Enable generic Docker module and it-tools container
   docker.enable = true;
+
+  # Paths for ISOs used by Terraform/libvirt
+  systemd.tmpfiles.rules = [
+    "d /var/lib/libvirt/isos 0755 root root -"
+    "d /var/lib/libvirt/images 0755 root root -"
+  ];
 }
