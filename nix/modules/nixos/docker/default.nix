@@ -25,7 +25,7 @@ in {
         it-tools = {
           image = "ghcr.io/corentinth/it-tools:latest";
           ports = [ "${toString cfg.itToolsPort}:80" ];
-          restartPolicy = "unless-stopped";
+          extraOptions = [ "--restart=unless-stopped" ];
         };
       };
     };
@@ -36,4 +36,3 @@ in {
     ];
   };
 }
-

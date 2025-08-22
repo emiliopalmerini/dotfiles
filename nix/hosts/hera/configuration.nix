@@ -86,8 +86,8 @@
           "--label=glance.description=Torrent Client"
           "--label=glance.url=http://hera:8080"
           "--label=glance.category=Downloads"
+          "--restart=unless-stopped"
         ];
-        restartPolicy = "unless-stopped";
       };
 
       calibre-web = {
@@ -109,8 +109,8 @@
           "--label=glance.description=Web Ebook Library"
           "--label=glance.url=http://hera:8083"
           "--label=glance.category=Media"
+          "--restart=unless-stopped"
         ];
-        restartPolicy = "unless-stopped";
       };
 
       glance = {
@@ -130,8 +130,8 @@
           "--label=glance.description=Dashboard"
           "--label=glance.url=http://hera:7042"
           "--label=glance.category=Utility"
+          "--restart=unless-stopped"
         ];
-        restartPolicy = "unless-stopped";
       };
     };
   };
