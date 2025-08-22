@@ -38,3 +38,13 @@ The first-boot PowerShell `setup.ps1` installs:
 - MongoDB Compass
 - Neovim
 - Utilities: Git, 7-Zip, vswhere
+
+## Routing host traffic via the VM
+The Windows setup enables IP forwarding and configures a NAT (New-NetNat) on the VM. On the NixOS host you can toggle routing:
+- Enable: `sudo win11-vm-route-enable` (sets default route to the VM’s IP)
+- Disable: `sudo win11-vm-route-disable` (restores previous route)
+
+Notes:
+- Ensure the VM is running; qemu-guest-agent helps discover the VM IP.
+- The VM performs NAT for the libvirt subnet, forwarding to its default gateway (libvirt).
+- If you also connect a VPN inside Windows, sharing that connection will route host traffic through the VPN as well.
