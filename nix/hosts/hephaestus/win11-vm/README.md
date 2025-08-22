@@ -31,3 +31,10 @@ The VM boots from the Windows ISO and reads `Autounattend.xml` from the second C
 - The VM uses the default libvirt network
 - Disk size, CPU, RAM are customizable via variables
 
+## Installed developer tools
+The first-boot PowerShell `setup.ps1` installs:
+- Visual Studio 2022 Community with workloads: Managed Desktop and ASP.NET/Web
+- .NET SDKs: 5.0, 6.0, 7.0, 8.0 (side-by-side)
+- MongoDB Compass
+- Neovim
+- Utilities: Git, 7-Zip, vswhere
