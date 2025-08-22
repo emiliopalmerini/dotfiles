@@ -266,5 +266,8 @@ in {
     enable = true;
     installerIsoPath = "/var/lib/libvirt/isos/windows11.iso";
     autounattendIsoPath = "/var/lib/libvirt/isos/autounattend.iso";
+    memoryMB = 12288;
+    vcpu = 6;
+    diskGB = 120;
   };
 }
