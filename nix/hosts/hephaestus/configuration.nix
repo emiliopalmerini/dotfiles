@@ -222,4 +222,7 @@ in {
   programs.zsh.enable = true;
   services.flatpak.enable = true;
   users.defaultUserShell = pkgs.zsh; # Did you read the comment?
+
+  # Enable generic Docker module and it-tools container
+  docker.enable = true;
 }

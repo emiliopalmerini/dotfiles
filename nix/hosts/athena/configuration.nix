@@ -51,6 +51,9 @@ in {
     TERM = "xterm-256color";
   };
 
+  # Enable generic Docker module and it-tools container
+  docker.enable = true;
+
   environment.gnome.excludePackages = (with pkgs; [
     atomix # puzzle game
     cheese # webcam tool
