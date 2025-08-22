@@ -4,5 +4,6 @@
     ./clamav
     ./mainUser
     ./tailscale
+    ./win11vm
   ];
 }

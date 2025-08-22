@@ -260,4 +260,11 @@ in {
       install -m0644 -D "$src" "$dst"
     '';
   };
+
+  # Export Terraform variables for Win11 VM (paths can be changed via module options)
+  win11vm = {
+    enable = true;
+    installerIsoPath = "/var/lib/libvirt/isos/windows11.iso";
+    autounattendIsoPath = "/var/lib/libvirt/isos/autounattend.iso";
+  };
 }
