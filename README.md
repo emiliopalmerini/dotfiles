@@ -53,6 +53,11 @@ Enable with `neovim.enable = true;` in `home.nix`. It provides:
 
 Details and keymaps: see `nix/modules/home/neovim/README.md`.
 
+## Key HM Modules
+- Git: `nix/modules/home/git/README.md`
+- Tmux: `nix/modules/home/tmux/README.md`
+- Shell (Zsh): `nix/modules/home/shell/README.md`
+
 ## Updating inputs
 - From the repo root: `nix flake update --flake nix`
 - Commit the updated `nix/flake.lock`
@@ -72,4 +77,3 @@ Details and keymaps: see `nix/modules/home/neovim/README.md`.
 - Use conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`, ...)
 - Keep commits atomic and scoped to a single change
 - Test changes on at least one host before pushing
-
