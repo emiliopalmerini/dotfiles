@@ -38,7 +38,7 @@
   users.users.prometeo = {
     isNormalUser = true;
     description = "Prometeo";
-    extraGroups = [ "networkmanager" "wheel" "plex" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "plex" ];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
@@ -56,97 +56,73 @@
     TERM = "xterm-256color";
   };
 
-  # Docker
-  virtualisation.docker.enable = true;
-  virtualisation.oci-containers = {
-    backend = "docker";
-    containers = {
-      qbittorrent = {
-        image = "lscr.io/linuxserver/qbittorrent:latest";
-        environment = {
-          PUID = "1000";
-          PGID = "193";
-          TZ = "Europe/Rome";
-          WEBUI_PORT = "8080";
-        };
-        ports = [
-          "8080:8080"
-          "6881:6881"
-          "6881:6881/udp"
-        ];
-        volumes = [
-          "/var/lib/qbittorrent/config:/config"
-          "/var/lib/plex/tv:/downloads/tv"
-          "/var/lib/plex/movies:/downloads/movies"
-          "/var/lib/plex/music:/downloads/music"
-        ];
-        extraOptions = [
-          "--label=glance.enabled=true"
-          "--label=glance.name=qBittorrent"
-          "--label=glance.description=Torrent Client"
-          "--label=glance.url=http://hera:8080"
-          "--label=glance.category=Downloads"
-        ];
-      };
+  docker.enable = true;
 
-      calibre-web = {
-        image = "lscr.io/linuxserver/calibre-web:latest";
-        environment = {
-          PUID = "1000";
-          PGID = "100";
-          TZ = "Europe/Rome";
-          DOCKER_MODS = "linuxserver/mods:universal-calibre";
+  # qBittorrent
+  services.qbittorrent = {
+    enable = true;
+    profileDir = "/var/lib/qbittorrent";
+    openFirewall = true; # apre webuiPort e torrentingPort
+    webuiPort = 8080; # --webui-port
+    torrentingPort = 6881; # --torrenting-port
+    serverConfig = {
+      Preferences = {
+        Downloads = {
+          SavePath = "/var/lib/plex/movies/";
         };
-        ports = [ "8083:8083" ];
-        volumes = [
-          "/var/lib/calibre-web/config:/config"
-          "/var/lib/calibre-web/library:/books"
-        ];
-        extraOptions = [
-          "--label=glance.enabled=true"
-          "--label=glance.name=Calibre-Web"
-          "--label=glance.description=Web Ebook Library"
-          "--label=glance.url=http://hera:8083"
-          "--label=glance.category=Media"
-        ];
-      };
-
-      glance = {
-        image = "glanceapp/glance";
-        environment = {
-          MY_SECRET_TOKEN = "123456";
+        WebUI = {
+          Address = "0.0.0.0"; # bind su tutte le interfacce
         };
-        ports = [ "7042:8080" ];
-        volumes = [
-          "/var/lib/glance/config:/app/config"
-          "/var/lib/glance/assets:/app/assets"
-          "/run/docker.sock:/var/run/docker.sock:ro"
-        ];
-        extraOptions = [
-          "--label=glance.enabled=true"
-          "--label=glance.name=Glance"
-          "--label=glance.description=Dashboard"
-          "--label=glance.url=http://hera:7042"
-          "--label=glance.category=Utility"
-        ];
       };
+      Categories = {
+        movies = { SavePath = "/var/lib/plex/movies/"; SavePathEnabled = true; };
+        tv = { SavePath = "/var/lib/plex/tv/"; SavePathEnabled = true; };
+        music = { SavePath = "/var/lib/plex/music/"; SavePathEnabled = true; };
+      };
+      LegalNotice = { Accepted = true; };
     };
   };
 
-  # Ensure bind-mount paths exist
+  # UMask e gruppo plex per scrivere nelle librerie Plex
+  systemd.services.qbittorrent.serviceConfig.UMask = "0002";
+  users.users.qbittorrent.extraGroups = [ "plex" ];
+
+  # Calibre-Web
+  services.calibre-web = {
+    enable = true;
+    dataDir = "/var/lib/calibre-web";
+    listen = { ip = "0.0.0.0"; port = 8083; };
+    openFirewall = true;
+  };
+
+
+  # Calibre completo (desktop/CLI + calibre-server)
+  systemd.services.calibre-server = {
+    description = "Calibre Content Server";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.calibre}/bin/calibre-server /var/lib/calibre-web/library --port 8084 --with-library";
+      User = "calibre-web";
+      Group = "calibre-web";
+      Restart = "always";
+    };
+  };
+
+  # Directory e permessi
   systemd.tmpfiles.rules = [
-    "d /var/lib/qbittorrent 0755 root root -"
-    "d /var/lib/qbittorrent/config 0755 root root -"
-    "d /var/lib/calibre-web 0755 root root -"
-    "d /var/lib/calibre-web/config 0755 root root -"
-    "d /var/lib/calibre-web/library 0755 root root -"
-    "d /var/lib/glance 0755 root root -"
-    "d /var/lib/glance/config 0755 root root -"
-    "d /var/lib/glance/assets 0755 root root -"
-    "d /var/lib/plex 0755 root root -"
-    "d /var/lib/plex/tv 0755 root root -"
-    "d /var/lib/plex/movies 0755 root root -"
-    "d /var/lib/plex/music 0755 root root -"
+    "d /var/lib/calibre-web/library 0755 calibre-web calibre-web -"
+    # qBittorrent stato/config
+    "d /var/lib/qbittorrent 0755 qbittorrent qbittorrent -"
+    # Calibre-Web stato e libreria
+    "d /var/lib/calibre-web 0755 calibre-web calibre-web -"
+    "d /var/lib/calibre-web/config 0755 calibre-web calibre-web -"
+    "d /var/lib/calibre-web/library 0755 calibre-web calibre-web -"
+    # Plex librerie (setgid per mantenere il gruppo)
+    "d /var/lib/plex 2775 root plex -"
+    "d /var/lib/plex/tv 2775 root plex -"
+    "d /var/lib/plex/movies 2775 root plex -"
+    "d /var/lib/plex/music 2775 root plex -"
   ];
 
   services.openssh.enable = true;
@@ -160,7 +136,175 @@
     group = "plex";
   };
 
-  environment.systemPackages = with pkgs; [ nodejs lazydocker docker-compose ];
+  # Glance dashboard avanzata
+  services.glance = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      server = {
+        host = "0.0.0.0";
+        port = 8090;
+        proxied = true; # utile se passi da Traefik/NPM
+      };
+
+      # Tema base, modificabile
+      theme = {
+        background-color = "240 8 9";
+        primary-color = "43 50 70";
+        text-saturation-multiplier = 1.0;
+      };
+
+      pages = [
+        {
+          name = "Home";
+          head-widgets = [
+            {
+              type = "markets";
+              hide-header = true;
+              markets = [
+                { symbol = "BTC-USD"; name = "Bitcoin"; }
+                { symbol = "ETH-USD"; name = "Ethereum"; }
+                { symbol = "NVDA"; name = "NVIDIA"; }
+                { symbol = "AAPL"; name = "Apple"; }
+              ];
+            }
+          ];
+          columns = [
+            # Colonna sinistra, info rapide
+            {
+              size = "small";
+              widgets = [
+                {
+                  type = "split-column";
+                  widgets = [
+                    { type = "hacker-news"; sort-by = "top"; limit = 15; collapse-after = 5; }
+                    { type = "hacker-news"; sort-by = "new"; limit = 10; collapse-after = 5; }
+                  ];
+                }
+                {
+                  type = "group";
+                  widgets = [
+                    {
+                      type = "rss";
+                      title = "Self-hosting";
+                      limit = 12;
+                      collapse-after = 6;
+                      cache = "6h";
+                      feeds = [
+                        { url = "https://selfh.st/rss/"; title = "selfh.st"; limit = 4; }
+                        { url = "https://news.ycombinator.com/rss"; title = "HN RSS"; limit = 6; }
+                        { url = "https://ciechanow.ski/atom.xml"; title = "Ciechanow"; }
+                        { url = "https://www.joshwcomeau.com/rss.xml"; title = "Josh Comeau"; }
+                      ];
+                    }
+                  ];
+                }
+              ];
+            }
+
+            # Colonna centrale, feed e HN
+            {
+              size = "full";
+              widgets = [
+                { type = "clock"; time-zone = "Europe/Rome"; }
+                {
+                  type = "weather";
+                  location = "Desio, Italy";
+                  units = "metric";
+                  hour-format = "24h";
+                }
+                {
+                  type = "bookmarks";
+                  groups = [
+                    {
+                      name = "Servizi locali";
+                      links = [
+                        { title = "qBittorrent"; url = "http://hera:8080"; }
+                        { title = "Calibre-Web"; url = "http://hera:8083"; }
+                        { title = "Plex"; url = "http://hera:32400/web"; }
+                        { title = "Glance"; url = "http://hera:8090"; }
+                      ];
+                    }
+                  ];
+                }
+                {
+                  type = "calendar";
+                  first-day-of-week = "monday";
+                }
+              ];
+            }
+
+            # Colonna destra, stato server e siti
+            {
+              size = "small";
+              widgets = [
+                # Statistiche del server locale
+                {
+                  type = "server-stats";
+                  servers = [{ type = "local"; name = "Hera"; hide-swap = false; }];
+                }
+
+                # Monitor HTTP(s) di servizi pubblici
+                {
+                  type = "monitor";
+                  services = [
+                    {
+                      name = "Due Draghi al Microfono";
+                      url = "https://duedraghialmicrofono.com/";
+                      icon = "si:icloud"; # personalizza se vuoi un logo
+                    }
+                    {
+                      name = "Plex Web";
+                      url = "http://hera:32400/web";
+                      icon = "mdi:filmstrip";
+                    }
+                    {
+                      name = "qBittorrent";
+                      url = "http://hera:8080/";
+                      icon = "mdi:download";
+                    }
+                    {
+                      name = "Calibre-Web";
+                      url = "http://hera:8083/";
+                      icon = "mdi:book";
+                    }
+                  ];
+                }
+              ];
+            }
+          ];
+        }
+
+        # Pagina secondaria: Media e utilità
+        {
+          name = "Media";
+          columns = [
+            {
+              size = "full";
+              widgets = [
+                {
+                  type = "bookmarks";
+                  groups = [
+                    {
+                      name = "Podcast / Social";
+                      links = [
+                        { title = "Due Draghi Sito"; url = "https://duedraghialmicrofono.com/"; }
+                        { title = "YouTube Studio"; url = "https://www.youtube.com/duedraghialmicrofono"; }
+                        { title = "Patreon"; url = "https://www.patreon.com/DueDraghiPlus"; }
+                        { title = "Spotify for Podcasters"; url = "https://podcasters.spotify.com/"; }
+                      ];
+                    }
+                  ];
+                }
+              ];
+            }
+          ];
+        }
+      ];
+    };
+  };
+
+  environment.systemPackages = with pkgs; [ nodejs calibre ];
   # Tailscale
   services.tailscale.enable = true;
 
