@@ -20,5 +20,5 @@ Zsh-centric shell setup with Oh My Posh, zoxide, fzf, and helpful aliases.
 - fzf-tab plugin pinned at a specific version
 
 ## Packages
-Installs `bat`, `jq`, `jqp`, `httpie` and integrates `fzf`, `zoxide`, `oh-my-posh`.
+Installs `bat`, `jq`, `jqp`, `httpie`, `rg` and integrates `fzf`, `zoxide`, `oh-my-posh`.
 
