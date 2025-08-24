@@ -11,7 +11,7 @@ Zsh-centric shell setup with Oh My Posh, zoxide, fzf, and helpful aliases.
 ```
 
 ## Features
-- Aliases: `cd -> z`, `c`, `g`, `m`, `ls --color`, `bat` as `cat`
+- Aliases: `cd -> z`, `bat` as `cat`
 - Oh My Posh prompt with config from `oh-my-posh.json`
 - zoxide + fzf with Zsh integration
 - Autosuggestions and syntax highlighting
