@@ -1,8 +1,8 @@
 { config, pkgs, inputs, ... }:
 
 {
-  imports = [ 
-    inputs.home-manager.darwinModules.home-manager 
+  imports = [
+    inputs.home-manager.darwinModules.home-manager
   ];
   nix.settings.experimental-features = "nix-command flakes";
 
@@ -20,7 +20,7 @@
   system.primaryUser = "emiliopalmerini";
   system.defaults = {
     dock = {
-      autohide = false;
+      autohide = true;
       persistent-apps = [
         "/Applications/Ghostty.app"
         "/Applications/Obsidian.app"
