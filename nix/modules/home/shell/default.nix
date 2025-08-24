@@ -86,6 +86,7 @@ in
       jq
       jqp
       httpie
+      ripgrep
     ];
   };
 }
