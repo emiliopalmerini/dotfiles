@@ -1,22 +1,18 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }:
 with lib; let
   cfg = config.shell;
   myAliases = {
     cd = "z";
-    c = "clear";
-    g = "git";
-    m = "mkdir";
-    ls = "ls --color";
     cat = "bat";
   };
   oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
-in {
+in
+{
   options.shell = {
     enable = mkEnableOption "enable zsh module";
   };
