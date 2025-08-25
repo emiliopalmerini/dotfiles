@@ -1,13 +1,14 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-pkgs,
-inputs,
-...
-}: let
+{ pkgs
+, inputs
+, ...
+}:
+let
   userName = "emilio";
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos
@@ -15,7 +16,7 @@ in {
   ];
   boot = {
     # Bootloader.
-    kernelParams = ["kvm.enable_virt_at_load=0"];
+    kernelParams = [ "kvm.enable_virt_at_load=0" ];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
 
@@ -51,7 +52,7 @@ in {
     };
 
     settings.auto-optimise-store = true;
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
   virtualisation.virtualbox.host.enable = true;
@@ -100,23 +101,23 @@ in {
     };
   };
 
-    environment.gnome.excludePackages = (with pkgs; [
-      atomix # puzzle game
-      cheese # webcam tool
-      epiphany # web browser
-      evince # document viewer
-      geary # email reader
-      gedit # text editor
-      gnome-characters
-      gnome-music
-      gnome-photos
-      gnome-terminal
-      gnome-tour
-      hitori # sudoku game
-      iagno # go game
-      tali # poker game
-      totem # video player
-    ]);
+  environment.gnome.excludePackages = (with pkgs; [
+    atomix # puzzle game
+    cheese # webcam tool
+    epiphany # web browser
+    evince # document viewer
+    geary # email reader
+    gedit # text editor
+    gnome-characters
+    gnome-music
+    gnome-photos
+    gnome-terminal
+    gnome-tour
+    hitori # sudoku game
+    iagno # go game
+    tali # poker game
+    totem # video player
+  ]);
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -128,7 +129,7 @@ in {
   users.users.${userName} = {
     isNormalUser = true;
     description = "${userName}";
-    extraGroups = ["networkmanager" "wheel" "docker" "vboxusers"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
@@ -154,42 +155,42 @@ in {
   ];
 
   environment.etc."ppp/peers/vpn_nsa".text = ''
-  pty "sstp-client --log-level 3 --cert-warn sstp://vpn.azienda.it"
-  name adminpalmerini
-  remotename sstp
-  ipparam sstp
-  usepeerdns
-  refuse-chap
-  refuse-mschap
-  require-mschap-v2
-  noauth
-  defaultroute
-  replacedefaultroute
-  persist
+    pty "sstp-client --log-level 3 --cert-warn sstp://vpn.azienda.it"
+    name adminpalmerini
+    remotename sstp
+    ipparam sstp
+    usepeerdns
+    refuse-chap
+    refuse-mschap
+    require-mschap-v2
+    noauth
+    defaultroute
+    replacedefaultroute
+    persist
   '';
 
   environment.etc."ppp/peers/vpn_nsa".mode = "0600";
 
   environment.etc."ppp/chap-secrets".text = ''
-  "adminpalmerini@grupponsa.it" * "tebror-foCxeq-xopfy2" *
+    "adminpalmerini@grupponsa.it" * "tebror-foCxeq-xopfy2" *
   '';
 
   environment.etc."ppp/chap-secrets".mode = "0600";
 
-    nixpkgs.config.permittedInsecurePackages = [
-      "dotnet-sdk-6.0.428"
-      "dotnet-runtime-6.0.36"
-    ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "dotnet-sdk-6.0.428"
+    "dotnet-runtime-6.0.36"
+  ];
 
-    tailscale.enable = true;
+  tailscale.enable = true;
 
-    home-manager = {
-      extraSpecialArgs = {inherit inputs;};
-      users = {
-        "${userName}" = import ./home.nix;
-      };
-      backupFileExtension = "bak";
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "${userName}" = import ./home.nix;
     };
+    backupFileExtension = "bak";
+  };
 
   virtualisation.docker = {
     enable = true;
@@ -219,6 +220,12 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
   programs.zsh.enable = true;
   services.flatpak.enable = true;
   users.defaultUserShell = pkgs.zsh; # Did you read the comment?
