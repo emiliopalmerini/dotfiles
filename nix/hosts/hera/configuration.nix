@@ -223,6 +223,8 @@
                         { title = "Calibre-Web"; url = "http://hera:8083"; }
                         { title = "Plex"; url = "http://hera:32400/web"; }
                         { title = "Glance"; url = "http://hera:8090"; }
+                        { title = "Due Draghi SRD"; url = "http://hera:8000"; }
+                        { title = "Il Turno di Guardia Demo"; url = "http://hera:3000"; }
                       ];
                     }
                   ];
