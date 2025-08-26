@@ -59,6 +59,7 @@
       "hugo"
     ];
     casks = [
+      "docker"
       "ghostty"
       "mongodb-compass"
       "obs"
