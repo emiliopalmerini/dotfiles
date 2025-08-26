@@ -51,17 +51,16 @@
   homebrew = {
     enable = true;
     brews = [
+      "lazydocker"
       "mas"
       "docker-compose"
       "clamav"
       "hugo"
-      "gemini-cli"
     ];
     casks = [
       "ghostty"
       "mongodb-compass"
       "obs"
-      "docker"
       "obsidian"
       "logi-options+"
       "legcord"
