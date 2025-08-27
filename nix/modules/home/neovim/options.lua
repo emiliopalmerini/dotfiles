@@ -21,7 +21,7 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 vim.opt.updatetime = 50
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 0
 
 vim.opt.showmode = false
 vim.opt.scrolloff = 8
