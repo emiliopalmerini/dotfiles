@@ -21,10 +21,7 @@ in
 
   config = mkIf cfg.enable {
     virtualisation.docker = {
-      rootless = {
-        enable = true;
-        setSocketVariable = true;
-      };
+      enable = true;
       # Valido anche in rootless: genera daemon.json con i DNS
       daemon.settings = {
         dns = cfg.dnsServers;
