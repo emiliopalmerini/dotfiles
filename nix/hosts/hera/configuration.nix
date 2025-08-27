@@ -38,7 +38,7 @@
   users.users.prometeo = {
     isNormalUser = true;
     description = "Prometeo";
-    extraGroups = [ "networkmanager" "wheel" "plex" ];
+    extraGroups = [ "networkmanager" "wheel" "plex" "docker" ];
     shell = pkgs.zsh;
     ignoreShellProgramCheck = true;
   };
