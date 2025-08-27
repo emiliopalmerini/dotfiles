@@ -12,20 +12,11 @@ in
       default = 8085;
       description = "Host port for exposing it-tools (container port 80).";
     };
-    dnsServers = mkOption {
-      type = with types; listOf str;
-      default = [ "1.1.1.1" "8.8.8.8" ];
-      description = "DNS servers for Docker daemon and containers.";
-    };
   };
 
   config = mkIf cfg.enable {
     virtualisation.docker = {
       enable = true;
-      # Valido anche in rootless: genera daemon.json con i DNS
-      daemon.settings = {
-        dns = cfg.dnsServers;
-      };
     };
 
     virtualisation.oci-containers = {
@@ -34,8 +25,6 @@ in
         it-tools = {
           image = "ghcr.io/corentinth/it-tools:latest";
           ports = [ "${toString cfg.itToolsPort}:80" ];
-          # Ridondante ma utile: passa i DNS anche al run
-          extraOptions = concatMap (d: [ "--dns=${d}" ]) cfg.dnsServers;
         };
       };
     };
