@@ -102,75 +102,66 @@ in
           ++ lib.optionals (pkgs ? gofumpt) [ gofumpt ]
           ++ lib.optionals (pkgs ? golines) [ golines ]
           ++ lib.optionals stdenv.isLinux ([ xclip wl-clipboard ] ++ lib.optionals (cfg.enableDAP && cfg.enableCSharp) [ netcoredbg ])
-          ++ lib.optionals stdenv.isDarwin [ reattach-to-user-namespace ]
+          ++ lib.optionals stdenv.isDarwin [ reattach-to-user-namespace ];
 
-            plugins = with pkgs.vimPlugins;
-        let
-        jsDebugPath =
-          if (builtins.hasAttr "vscode-extensions" pkgs)
-            && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
-            && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
-          then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
-          else "";
-        in (
-        [ undotree cmp-nvim-lsp cmp-path cmp-buffer cmp_luasnip lspkind-nvim ]
-        ++ lib.optionals cfg.enableUI [ nvim-web-devicons ]
-        ++ [ telescope-fzf-native-nvim plenary-nvim vim-nix ]
-        ++ lib.optionals (cfg.enableDAP && cfg.enableGo) [ nvim-dap-go ]
-        ++ lib.optionals cfg.enableDAP [ nvim-dap-ui nvim-dap-virtual-text nvim-nio ]
-        ++ lib.optionals cfg.enableUI [ fidget-nvim ]
-        ++ [ conform-nvim neodev-nvim SchemaStore-nvim ]
-        ++ lib.optionals cfg.enableUI [ lsp_lines-nvim ]
-        ++ lib.optionals cfg.enableUI [{ plugin = which-key-nvim;
-        type = "lua";
-        config = builtins.readFile ./plugin/which-key.lua;
-      }]
-      ++ lib.optionals cfg.enableGit [{ plugin = gitsigns-nvim;
-      type = "lua";
-      config = builtins.readFile ./plugin/gitsigns.lua;
-    }]
-  ++ lib.optionals cfg.enableUI [{ plugin = todo-comments-nvim;
-  type = "lua";
-  config = ''require("todo-comments").setup()'';
-}]
-++ [ luasnip friendly-snippets ]
-++ lib.optionals cfg.enableHarpoon [ harpoon2 ]
-++ lib.optionals cfg.enableGit [ vim-fugitive ]
-++ lib.optionals cfg.enableTreesitter [{
-plugin = nvim-treesitter.withPlugins (p:
-let
-base = [
-p.tree-sitter-nix
-p.tree-sitter-vim
-p.tree-sitter-lua
-p.tree-sitter-markdown
-p.tree-sitter-markdown_inline
-]
-++ lib.optional (p ? tree-sitter-yaml) p.tree-sitter-yaml
-++ lib.optional (p ? tree-sitter-json) p.tree-sitter-json;
-ts = lib.optionals cfg.enableTypeScript (
-(lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
-++ (lib.optional (p ? tree-sitter-typescript) p.tree-sitter-typescript)
-++ (lib.optional (p ? tree-sitter-tsx) p.tree-sitter-tsx)
-);
-go = lib.optionals cfg.enableGo (lib.optional (p ? tree-sitter-go) p.tree-sitter-go);
-py = lib.optionals cfg.enablePython (lib.optional (p ? tree-sitter-python) p.tree-sitter-python);
-cs = lib.optionals cfg.enableCSharp (lib.optional (p ? tree-sitter-c_sharp) p.tree-sitter-c_sharp);
-in base ++ ts ++ go ++ py ++ cs
-);
-type = "lua"; config = builtins.readFile ./plugin/treesitter.lua;
-} { plugin = nvim-treesitter-textobjects; } ]
-++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
-++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
-++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
-++ lib.optionals cfg.enableUI [{ plugin = lualine-nvim; type = "lua"; config = builtins.readFile ./plugin/lualine.lua; }]
-++ lib.optionals cfg.enableUI [{ plugin = tokyonight-nvim; type = "lua"; config = ''pcall(vim.cmd.colorscheme, '${cfg.colorscheme}')''; }]
-++ [{ plugin = nvim-cmp; type = "lua"; config = builtins.readFile ./plugin/cmp.lua; }]
-++ [ cmp-nvim-lsp-signature-help ]
-++ [{ plugin = telescope-nvim; type = "lua"; config = builtins.readFile ./plugin/telescope.lua; }]
-++ lib.optionals cfg.enableDAP [{ plugin = nvim-dap; type = "lua"; config = builtins.readFile ./plugin/dap.lua; }]
-++ lib.optionals (cfg.enableDAP && cfg.enableTypeScript) [{
-plugin = nvim-dap-vscode-js; type = "lua"; config = ''
+        plugins = with pkgs.vimPlugins;
+          let
+            jsDebugPath =
+              if (builtins.hasAttr "vscode-extensions" pkgs)
+              && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
+              && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
+              then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
+              else "";
+          in (
+            [ undotree cmp-nvim-lsp cmp-path cmp-buffer cmp_luasnip lspkind-nvim ]
+            ++ lib.optionals cfg.enableUI [ nvim-web-devicons ]
+            ++ [ telescope-fzf-native-nvim plenary-nvim vim-nix ]
+            ++ lib.optionals (cfg.enableDAP && cfg.enableGo) [ nvim-dap-go ]
+            ++ lib.optionals cfg.enableDAP [ nvim-dap-ui nvim-dap-virtual-text nvim-nio ]
+            ++ lib.optionals cfg.enableUI [ fidget-nvim ]
+            ++ [ conform-nvim neodev-nvim SchemaStore-nvim ]
+            ++ lib.optionals cfg.enableUI [ lsp_lines-nvim ]
+            ++ lib.optionals cfg.enableUI [{ plugin = which-key-nvim; type = "lua"; config = builtins.readFile ./plugin/which-key.lua; }]
+            ++ lib.optionals cfg.enableGit [{ plugin = gitsigns-nvim; type = "lua"; config = builtins.readFile ./plugin/gitsigns.lua; }]
+            ++ lib.optionals cfg.enableUI [{ plugin = todo-comments-nvim; type = "lua"; config = ''require("todo-comments").setup()''; }]
+            ++ [ luasnip friendly-snippets ]
+            ++ lib.optionals cfg.enableHarpoon [ harpoon2 ]
+            ++ lib.optionals cfg.enableGit [ vim-fugitive ]
+            ++ lib.optionals cfg.enableTreesitter [{
+              plugin = nvim-treesitter.withPlugins (p:
+                let
+                  base = [
+                    p.tree-sitter-nix
+                    p.tree-sitter-vim
+                    p.tree-sitter-lua
+                    p.tree-sitter-markdown
+                    p.tree-sitter-markdown_inline
+                  ]
+                  ++ lib.optional (p ? tree-sitter-yaml) p.tree-sitter-yaml
+                  ++ lib.optional (p ? tree-sitter-json) p.tree-sitter-json;
+                  ts = lib.optionals cfg.enableTypeScript (
+                    (lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
+                    ++ (lib.optional (p ? tree-sitter-typescript) p.tree-sitter-typescript)
+                    ++ (lib.optional (p ? tree-sitter-tsx) p.tree-sitter-tsx)
+                  );
+                  go = lib.optionals cfg.enableGo (lib.optional (p ? tree-sitter-go) p.tree-sitter-go);
+                  py = lib.optionals cfg.enablePython (lib.optional (p ? tree-sitter-python) p.tree-sitter-python);
+                  cs = lib.optionals cfg.enableCSharp (lib.optional (p ? tree-sitter-c_sharp) p.tree-sitter-c_sharp);
+                in base ++ ts ++ go ++ py ++ cs
+              );
+              type = "lua"; config = builtins.readFile ./plugin/treesitter.lua;
+            } { plugin = nvim-treesitter-textobjects; } ]
+            ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
+            ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
+            ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
+            ++ lib.optionals cfg.enableUI [{ plugin = lualine-nvim; type = "lua"; config = builtins.readFile ./plugin/lualine.lua; }]
+            ++ lib.optionals cfg.enableUI [{ plugin = tokyonight-nvim; type = "lua"; config = ''pcall(vim.cmd.colorscheme, '${cfg.colorscheme}')''; }]
+            ++ [{ plugin = nvim-cmp; type = "lua"; config = builtins.readFile ./plugin/cmp.lua; }]
+            ++ [ cmp-nvim-lsp-signature-help ]
+            ++ [{ plugin = telescope-nvim; type = "lua"; config = builtins.readFile ./plugin/telescope.lua; }]
+            ++ lib.optionals cfg.enableDAP [{ plugin = nvim-dap; type = "lua"; config = builtins.readFile ./plugin/dap.lua; }]
+            ++ lib.optionals (cfg.enableDAP && cfg.enableTypeScript) [{
+              plugin = nvim-dap-vscode-js; type = "lua"; config = ''
                 local ok, js = pcall(require, "dap-vscode-js")
                 if ok then
                   local debugger_path = "${jsDebugPath}"
@@ -179,7 +170,24 @@ plugin = nvim-dap-vscode-js; type = "lua"; config = ''
                   end
                 end
               '';
-}]
+            }]
+            ++ lib.optionals (cfg.enableDAP && cfg.enablePython) [ nvim-dap-python ]
+            ++ [{ plugin = refactoring-nvim; type = "lua"; config = builtins.readFile ./plugin/refactoring.lua; }]
+            ++ [ vim-tmux-navigator ]
+            ++ lib.optionals cfg.enableUI [{ plugin = trouble-nvim; type = "lua"; config = "require('trouble').setup()"; }]
+            ++ lib.optionals cfg.enableUI [{ plugin = zen-mode-nvim; type = "lua"; config = "require('zen-mode').setup()"; }]
+            ++ lib.optionals cfg.enableCopilot [ copilot-cmp { plugin = copilot-lua; type = "lua"; config = builtins.readFile ./plugin/copilot.lua; } ]
+            ++ cfg.extraPlugins
+          );
+
+        extraLuaConfig = lib.concatStrings [
+          ''
+          -- Expose formatter preference to Lua
+          vim.g.prefer_prettier = ${if cfg.preferPrettier then "true" else "false"}
+          ''
+          (builtins.readFile ./options.lua)
+          cfg.extraLuaConfig
+        ];
 ++ lib.optionals (cfg.enableDAP && cfg.enablePython) [ nvim-dap-python ]
 ++ [{ plugin = refactoring-nvim; type = "lua"; config = builtins.readFile ./plugin/refactoring.lua; }]
 ++ [ vim-tmux-navigator ]
