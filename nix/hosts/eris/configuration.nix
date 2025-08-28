@@ -51,7 +51,6 @@
   homebrew = {
     enable = true;
     brews = [
-      "codex"
       "lazydocker"
       "mas"
       "docker-compose"
