@@ -12,8 +12,35 @@ if omnisharp_path == "" then
 end
 
 -- Aggiungiamo anche omnisharp alla lista dei server
+local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
+  or (vim.fn.exepath("typescript-language-server") ~= "" and "ts_ls")
+  or "vtsls"
+
 local servers = {
-	ts_ls = true,
+	[ts_server_name] = true,
+	jsonls = {
+		settings = {
+			json = {
+				schemas = (function()
+					local ok, schemastore = pcall(require, 'schemastore')
+					if ok then return schemastore.json.schemas() end
+					return nil
+				end)(),
+				validate = { enable = true },
+			},
+		},
+	},
+	yamlls = {
+		settings = {
+			yaml = {
+				schemas = (function()
+					local ok, schemastore = pcall(require, 'schemastore')
+					if ok then return schemastore.yaml.schemas() end
+					return nil
+				end)(),
+			},
+		},
+	},
 	gopls = {
 		settings = {
 			gopls = {
@@ -34,7 +61,6 @@ local servers = {
 			semanticTokensProvider = vim.NIL,
 		},
 	},
-    intelephense = true,
     pyright = true,
     ruff = true,
 	nil_ls = {
@@ -105,6 +131,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
 		vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
+		-- Enable inlay hints if supported
+		if client.server_capabilities and client.server_capabilities.inlayHintProvider then
+			local ih = vim.lsp.inlay_hint
+			if type(ih) == "table" and ih.enable then
+				ih.enable(true, { bufnr = bufnr })
+			elseif type(ih) == "function" then
+				ih(bufnr, true)
+			end
+		end
+
 		local filetype = vim.bo[bufnr].filetype
 		if disable_semantic_tokens[filetype] then
 			client.server_capabilities.semanticTokensProvider = nil
@@ -124,13 +160,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- Configurazione Autoformatting
 local conform = require("conform")
+local prefer_prettier = (vim.g.prefer_prettier == true)
+local js_formatters = prefer_prettier and { "prettierd", "prettier", "biome" } or { "biome", "prettierd", "prettier" }
+
 conform.setup({
     formatters_by_ft = {
         lua = { "stylua" },
-        php = { "php_cs_fixer" },
-        blade = { "blade-formatter" },
         nix = { "nixpkgs-fmt" }, -- aggiungiamo il formattatore per Nix
         python = { "isort", "black" },
+        -- JS/TS formatting
+        javascript = js_formatters,
+        javascriptreact = js_formatters,
+        typescript = js_formatters,
+        typescriptreact = js_formatters,
+        json = js_formatters,
+        yaml = { "prettierd", "prettier" },
+        go = { "gofumpt", "gofmt" },
     },
 })
 
@@ -159,7 +204,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 require("lsp_lines").setup()
 vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
-vim.keymap.set("", "<leader>l", function()
+vim.keymap.set("n", "<leader>l", function()
 	local config = vim.diagnostic.config() or {}
 	if config.virtual_text then
 		vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
