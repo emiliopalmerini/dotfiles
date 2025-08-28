@@ -188,23 +188,6 @@ in
           (builtins.readFile ./options.lua)
           cfg.extraLuaConfig
         ];
-++ lib.optionals (cfg.enableDAP && cfg.enablePython) [ nvim-dap-python ]
-++ [{ plugin = refactoring-nvim; type = "lua"; config = builtins.readFile ./plugin/refactoring.lua; }]
-++ [ vim-tmux-navigator ]
-++ lib.optionals cfg.enableUI [{ plugin = trouble-nvim; type = "lua"; config = "require('trouble').setup()"; }]
-++ lib.optionals cfg.enableUI [{ plugin = zen-mode-nvim; type = "lua"; config = "require('zen-mode').setup()"; }]
-++ lib.optionals cfg.enableCopilot [ copilot-cmp { plugin = copilot-lua; type = "lua"; config = builtins.readFile ./plugin/copilot.lua; } ]
-++ cfg.extraPlugins
-);
-
-extraLuaConfig = lib.concatStrings [
-''
-          -- Expose formatter preference to Lua
-          vim.g.prefer_prettier = ${if cfg.preferPrettier then "true" else "false"}
-          ''
-(builtins.readFile ./options.lua)
-cfg.extraLuaConfig
-];
 };
 };
 }
