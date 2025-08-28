@@ -60,7 +60,7 @@ vim.keymap.set("n", "<leader>Y", [["+Y]])
 vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
-vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
+
 
 vim.keymap.set("n", "[N", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "]J", "<cmd>cprev<CR>zz")
@@ -90,6 +90,7 @@ vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = '[F]ind Recent File
 vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
 vim.keymap.set("n", "<leader>fi", builtin.git_files, { desc = "[F]ind G[i]t Files" })
 vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind with [G]rep" })
+vim.keymap.set("n", "<leader>ft", ":TodoTelescope<CR>", { desc = "[F]ind [T]ODOs" })
 
 local set = vim.opt_local
 
@@ -122,37 +123,22 @@ end)
 --undotree
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
---harpoon
-local harpoon = require("harpoon")
-harpoon:setup()
-
-vim.keymap.set("n", "<leader>h", function()
-	harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
-vim.keymap.set("n", "<leader>a", function()
-	harpoon:list():add()
-end)
-
-vim.keymap.set("n", "<leader>1", function()
-	harpoon:list():select(1)
-end)
-vim.keymap.set("n", "<leader>2", function()
-	harpoon:list():select(2)
-end)
-vim.keymap.set("n", "<leader>3", function()
-	harpoon:list():select(3)
-end)
-vim.keymap.set("n", "<leader>4", function()
-	harpoon:list():select(4)
-end)
-
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<C-S-P>", function()
-	harpoon:list():prev()
-end)
-vim.keymap.set("n", "<C-S-N>", function()
-	harpoon:list():next()
-end)
+-- harpoon (guarded)
+do
+  local ok, harpoon = pcall(require, "harpoon")
+  if ok then
+    harpoon:setup()
+    vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+    vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+    vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+    vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+    vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+    vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+    -- Toggle previous & next buffers stored within Harpoon list
+    vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+    vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
+  end
+end
 
 --fugitive
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
@@ -186,8 +172,8 @@ autocmd("BufWinEnter", {
 	end,
 })
 
--- trouble
-require("trouble").setup()
+-- trouble (guarded)
+pcall(function() require("trouble").setup() end)
 vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", {
 	desc = "Diagnostics (Trouble)",
 })
