@@ -3,13 +3,13 @@ if not ok then return end
 
 wk.setup({})
 
--- Register common groups for discoverability
-wk.register({
-  ["<leader>f"] = { name = "[F]ind" },        -- Telescope
-  ["<leader>g"] = { name = "[G]it" },         -- Git (Fugitive/Gitsigns)
-  ["<leader>t"] = { name = "[T]rouble" },     -- Trouble
-  ["<leader>h"] = { name = "[H]arpoon" },     -- Harpoon
-  ["<leader>z"] = { name = "[Z]en" },         -- Zen-mode
-  ["<space>c"] = { name = "[C]ode" },         -- LSP code actions/rename
-  ["<leader>d"] = { name = "[D]ebug" },       -- DAP
-}, { mode = 'n' })
+-- Register common groups for discoverability (which-key v3 spec)
+require('which-key').add({
+  { "<leader>f", group = "[F]ind",   mode = "n" }, -- Telescope
+  { "<leader>g", group = "[G]it",    mode = "n" }, -- Git (Fugitive/Gitsigns)
+  { "<leader>t", group = "[T]rouble",mode = "n" }, -- Trouble
+  { "<leader>h", group = "[H]arpoon",mode = "n" }, -- Harpoon
+  { "<leader>z", group = "[Z]en",    mode = "n" }, -- Zen-mode
+  { "<space>c",  group = "[C]ode",   mode = "n" }, -- LSP code actions/rename
+  { "<leader>d", group = "[D]ebug",  mode = "n" }, -- DAP
+})
