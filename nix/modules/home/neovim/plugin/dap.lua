@@ -109,18 +109,18 @@ if vim.fn.executable("netcoredbg") == 1 then
   }
 end
 
-vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-vim.keymap.set("n", "<space>gb", dap.run_to_cursor)
+vim.keymap.set("n", "<space>b", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+vim.keymap.set("n", "<space>gb", dap.run_to_cursor, { desc = "Debug: Run to Cursor" })
 
 -- Eval var under cursor
 vim.keymap.set("n", "<space>?", function()
 	require("dapui").eval(nil, { enter = true })
-end)
+end, { desc = "Debug: Eval under cursor" })
 
-vim.keymap.set("n", "<F5>", dap.continue)
-vim.keymap.set("n", "<F10>", dap.step_over)
-vim.keymap.set("n", "<F11>", dap.step_into)
-vim.keymap.set("n", "<F12>", dap.step_out)
+vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
+vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
+vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
+vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
 -- Leader-based DAP mappings for discoverability (which-key)
 vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })

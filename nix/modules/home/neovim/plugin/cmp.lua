@@ -41,11 +41,11 @@ ls.config.set_config({
 })
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
 	return vim.snippet.active({ direction = 1 }) and vim.snippet.jump(1)
-end, { silent = true })
+end, { silent = true, desc = "Snippet: Next placeholder" })
 
 vim.keymap.set({ "i", "s" }, "<C-j>", function()
 	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
-end, { silent = true })
+end, { silent = true, desc = "Snippet: Prev placeholder" })
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append("c")
