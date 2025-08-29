@@ -61,7 +61,6 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set("n", "Q", "<nop>")
 
-
 vim.keymap.set("n", "[N", "<cmd>cnext<CR>zz")
 vim.keymap.set("n", "]J", "<cmd>cprev<CR>zz")
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
@@ -125,23 +124,39 @@ vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle)
 
 -- harpoon (guarded)
 do
-  local ok, harpoon = pcall(require, "harpoon")
-  if ok then
-    harpoon:setup()
-    vim.keymap.set("n", "<leader>h", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-    vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
-    vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
-    vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
-    vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
-    vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
-    -- Toggle previous & next buffers stored within Harpoon list
-    vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
-    vim.keymap.set("n", "<C-S-N>", function() harpoon:list():next() end)
-  end
+	local ok, harpoon = pcall(require, "harpoon")
+	if ok then
+		harpoon:setup()
+		vim.keymap.set("n", "<leader>h", function()
+			harpoon.ui:toggle_quick_menu(harpoon:list())
+		end)
+		vim.keymap.set("n", "<leader>a", function()
+			harpoon:list():add()
+		end)
+		vim.keymap.set("n", "<leader>1", function()
+			harpoon:list():select(1)
+		end)
+		vim.keymap.set("n", "<leader>2", function()
+			harpoon:list():select(2)
+		end)
+		vim.keymap.set("n", "<leader>3", function()
+			harpoon:list():select(3)
+		end)
+		vim.keymap.set("n", "<leader>4", function()
+			harpoon:list():select(4)
+		end)
+		-- Toggle previous & next buffers stored within Harpoon list
+		vim.keymap.set("n", "<C-S-P>", function()
+			harpoon:list():prev()
+		end)
+		vim.keymap.set("n", "<C-S-N>", function()
+			harpoon:list():next()
+		end)
+	end
 end
 
 --fugitive
-vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+vim.keymap.set("n", "<leader>gf", vim.cmd.Git)
 local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
@@ -173,7 +188,9 @@ autocmd("BufWinEnter", {
 })
 
 -- trouble (guarded)
-pcall(function() require("trouble").setup() end)
+pcall(function()
+	require("trouble").setup()
+end)
 vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", {
 	desc = "Diagnostics (Trouble)",
 })
