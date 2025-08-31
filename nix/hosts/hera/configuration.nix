@@ -136,176 +136,51 @@
     group = "plex";
   };
 
-  # Glance dashboard avanzata
-  services.glance = {
+  # Homer dashboard (replaces Glance)
+  services.homer = {
     enable = true;
-    openFirewall = true;
+    # Serve via nginx on hera:8090
+    virtualHost = {
+      nginx.enable = true;
+      domain = "hera";
+    };
     settings = {
-      server = {
-        host = "0.0.0.0";
-        port = 8090;
-        proxied = true; # utile se passi da Traefik/NPM
-      };
-
-      # Tema base, modificabile
-      theme = {
-        background-color = "240 8 9";
-        primary-color = "43 50 70";
-        text-saturation-multiplier = 1.0;
-      };
-
-      pages = [
+      title = "Hera";
+      subtitle = "Self-hosted services";
+      header = true;
+      footer = "";
+      columns = "auto";
+      # Quick links in the top navbar (optional)
+      links = [ ];
+      # Service groups and items
+      services = [
         {
-          name = "Home";
-          head-widgets = [
-            {
-              type = "markets";
-              hide-header = true;
-              markets = [
-                { symbol = "BTC-USD"; name = "Bitcoin"; }
-                { symbol = "ETH-USD"; name = "Ethereum"; }
-                { symbol = "NVDA"; name = "NVIDIA"; }
-                { symbol = "AAPL"; name = "Apple"; }
-              ];
-            }
-          ];
-          columns = [
-            # Colonna sinistra, info rapide
-            {
-              size = "small";
-              widgets = [
-                {
-                  type = "split-column";
-                  widgets = [
-                    { type = "hacker-news"; sort-by = "top"; limit = 15; collapse-after = 5; }
-                    { type = "hacker-news"; sort-by = "new"; limit = 10; collapse-after = 5; }
-                  ];
-                }
-                {
-                  type = "group";
-                  widgets = [
-                    {
-                      type = "rss";
-                      title = "Self-hosting";
-                      limit = 12;
-                      collapse-after = 6;
-                      cache = "6h";
-                      feeds = [
-                        { url = "https://selfh.st/rss/"; title = "selfh.st"; limit = 4; }
-                        { url = "https://news.ycombinator.com/rss"; title = "HN RSS"; limit = 6; }
-                        { url = "https://ciechanow.ski/atom.xml"; title = "Ciechanow"; }
-                        { url = "https://www.joshwcomeau.com/rss.xml"; title = "Josh Comeau"; }
-                      ];
-                    }
-                  ];
-                }
-              ];
-            }
-
-            # Colonna centrale, feed e HN
-            {
-              size = "full";
-              widgets = [
-                { type = "clock"; time-zone = "Europe/Rome"; }
-                {
-                  type = "weather";
-                  location = "Desio, Italy";
-                  units = "metric";
-                  hour-format = "24h";
-                }
-                {
-                  type = "bookmarks";
-                  groups = [
-                    {
-                      name = "Servizi locali";
-                      links = [
-                        { title = "qBittorrent"; url = "http://hera:8080"; }
-                        { title = "Calibre-Web"; url = "http://hera:8083"; }
-                        { title = "Plex"; url = "http://hera:32400/web"; }
-                        { title = "Glance"; url = "http://hera:8090"; }
-                        { title = "Due Draghi SRD"; url = "http://hera:8000"; }
-                        { title = "Il Turno di Guardia Demo"; url = "http://hera:3001"; }
-                        { title = "Dockploy"; url = "http://hera:3000"; }
-                      ];
-                    }
-                  ];
-                }
-                {
-                  type = "calendar";
-                  first-day-of-week = "monday";
-                }
-              ];
-            }
-
-            # Colonna destra, stato server e siti
-            {
-              size = "small";
-              widgets = [
-                # Statistiche del server locale
-                {
-                  type = "server-stats";
-                  servers = [{ type = "local"; name = "Hera"; hide-swap = false; }];
-                }
-
-                # Monitor HTTP(s) di servizi pubblici
-                {
-                  type = "monitor";
-                  services = [
-                    {
-                      name = "Due Draghi al Microfono";
-                      url = "https://duedraghialmicrofono.com/";
-                      icon = "si:icloud"; # personalizza se vuoi un logo
-                    }
-                    {
-                      name = "Plex Web";
-                      url = "http://hera:32400/web";
-                      icon = "mdi:filmstrip";
-                    }
-                    {
-                      name = "qBittorrent";
-                      url = "http://hera:8080/";
-                      icon = "mdi:download";
-                    }
-                    {
-                      name = "Calibre-Web";
-                      url = "http://hera:8083/";
-                      icon = "mdi:book";
-                    }
-                  ];
-                }
-              ];
-            }
+          name = "Servizi locali";
+          items = [
+            { name = "qBittorrent"; url = "http://hera:8080"; }
+            { name = "Calibre-Web"; url = "http://hera:8083"; }
+            { name = "Plex"; url = "http://hera:32400/web"; }
+            { name = "Homer"; url = "http://hera:8090"; }
+            { name = "Due Draghi SRD"; url = "http://hera:8000"; }
+            { name = "Due Draghi SRD Parser"; url = "http://hera:8100"; }
+            { name = "Il Turno di Guardia Demo"; url = "http://hera:3001"; }
           ];
         }
-
-        # Pagina secondaria: Media e utilità
         {
-          name = "Media";
-          columns = [
-            {
-              size = "full";
-              widgets = [
-                {
-                  type = "bookmarks";
-                  groups = [
-                    {
-                      name = "Podcast / Social";
-                      links = [
-                        { title = "Due Draghi Sito"; url = "https://duedraghialmicrofono.com/"; }
-                        { title = "YouTube Studio"; url = "https://www.youtube.com/duedraghialmicrofono"; }
-                        { title = "Patreon"; url = "https://www.patreon.com/DueDraghiPlus"; }
-                        { title = "Spotify for Podcasters"; url = "https://podcasters.spotify.com/"; }
-                      ];
-                    }
-                  ];
-                }
-              ];
-            }
+          name = "Podcast / Social";
+          items = [
+            { name = "Due Draghi Sito"; url = "https://duedraghialmicrofono.com/"; }
+            { name = "YouTube Studio"; url = "https://www.youtube.com/duedraghialmicrofono"; }
+            { name = "Patreon"; url = "https://www.patreon.com/DueDraghiPlus"; }
+            { name = "Spotify for Podcasters"; url = "https://podcasters.spotify.com/"; }
           ];
         }
       ];
     };
   };
+
+  # Bind Homer vhost on all interfaces at port 8090
+  services.nginx.virtualHosts."hera".listen = [ { addr = "0.0.0.0"; port = 8090; } ];
 
   environment.systemPackages = with pkgs; [ nodejs calibre ];
   # Tailscale

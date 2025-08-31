@@ -8,6 +8,7 @@
 
   system.stateVersion = 5;
   services.tailscale.enable = true;
+  
 
 
   programs.zsh.enable = true;
@@ -51,15 +52,8 @@
   homebrew = {
     enable = true;
     brews = [
-      "codex"
-      "lazydocker"
-      "mas"
-      "docker-compose"
-      "clamav"
-      "hugo"
     ];
     casks = [
-      "docker"
       "ghostty"
       "mongodb-compass"
       "obs"

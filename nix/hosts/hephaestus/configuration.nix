@@ -74,15 +74,18 @@ in
     LC_TIME = "it_IT.UTF-8";
   };
   services = {
+    # X server and keyboard
     xserver = {
       enable = true;
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
       xkb = {
         layout = "us";
         variant = "intl";
       };
     };
+
+    # Moved out of services.xserver.* per renames in 24.11
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
 
 
     # Enable CUPS to print documents.
