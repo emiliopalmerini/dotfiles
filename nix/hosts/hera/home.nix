@@ -19,6 +19,7 @@
   git.userName = "emiliopalmerini";
 
   lazygit.enable = true;
+  make.enable = true;
   neovim.enable = true;
   shell.enable = true;
   tmux.enable = true;
