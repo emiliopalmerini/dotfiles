@@ -1,10 +1,8 @@
-ls = require("luasnip")
+local ls = require("luasnip")
 -- TODO: Think about `locally_jumpable`, etc.
 -- Might be nice to send PR to luasnip to use filters instead for these functions ;)
 
 vim.snippet.expand = ls.lsp_expand
-
-local ls = require("luasnip")
 
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.snippet.active = function(filter)
@@ -43,11 +41,11 @@ ls.config.set_config({
 })
 vim.keymap.set({ "i", "s" }, "<C-k>", function()
 	return vim.snippet.active({ direction = 1 }) and vim.snippet.jump(1)
-end, { silent = true })
+end, { silent = true, desc = "Snippet: Next placeholder" })
 
 vim.keymap.set({ "i", "s" }, "<C-j>", function()
 	return vim.snippet.active({ direction = -1 }) and vim.snippet.jump(-1)
-end, { silent = true })
+end, { silent = true, desc = "Snippet: Prev placeholder" })
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 vim.opt.shortmess:append("c")
@@ -91,13 +89,9 @@ cmp.setup({
 	},
 
 	sources = {
-		{
-			name = "lazydev",
-			-- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-			group_index = 0,
-		},
 		{ name = "luasnip", option = { use_show_condition = false } },
 		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "path" },
 		{ name = "buffer" },
 		-- { name = "supermaven" },

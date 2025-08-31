@@ -7,10 +7,21 @@
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
+  home.sessionPath = [
+    "$HOME/.local/bin"
+  ];
+
   home.packages = with pkgs; [
     mongosh
     raycast
     nodejs
+    docker
+    docker-compose
+    lazydocker
+    mas
+    clamav
+    hugo
+    colima
   ];
 
   bruno.enable = true;
