@@ -155,24 +155,21 @@
       # Service groups and items
       services = [
         {
+          name = "Strumenti";
+          items = [
+            { name = "Due Draghi SRD"; url = "http://hera:8000"; }
+            { name = "Registra spese"; url = "http://hera:8081"; }
+          ];
+        }
+        {
           name = "Servizi locali";
           items = [
             { name = "qBittorrent"; url = "http://hera:8080"; }
             { name = "Calibre-Web"; url = "http://hera:8083"; }
             { name = "Plex"; url = "http://hera:32400/web"; }
-            { name = "Homer"; url = "http://hera:8090"; }
-            { name = "Due Draghi SRD"; url = "http://hera:8000"; }
             { name = "Due Draghi SRD Parser"; url = "http://hera:8100"; }
+            { name = "Homer"; url = "http://hera:8090"; }
             { name = "Il Turno di Guardia Demo"; url = "http://hera:3001"; }
-          ];
-        }
-        {
-          name = "Podcast / Social";
-          items = [
-            { name = "Due Draghi Sito"; url = "https://duedraghialmicrofono.com/"; }
-            { name = "YouTube Studio"; url = "https://www.youtube.com/duedraghialmicrofono"; }
-            { name = "Patreon"; url = "https://www.patreon.com/DueDraghiPlus"; }
-            { name = "Spotify for Podcasters"; url = "https://podcasters.spotify.com/"; }
           ];
         }
       ];
@@ -180,7 +177,7 @@
   };
 
   # Bind Homer vhost on all interfaces at port 8090
-  services.nginx.virtualHosts."hera".listen = [ { addr = "0.0.0.0"; port = 8090; } ];
+  services.nginx.virtualHosts."hera".listen = [{ addr = "0.0.0.0"; port = 8090; }];
 
   environment.systemPackages = with pkgs; [ nodejs calibre ];
   # Tailscale
