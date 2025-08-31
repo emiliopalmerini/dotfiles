@@ -15,6 +15,13 @@
     mongosh
     raycast
     nodejs
+    docker
+    docker-compose
+    lazydocker
+    mas
+    clamav
+    hugo
+    colima
   ];
 
   bruno.enable = true;
