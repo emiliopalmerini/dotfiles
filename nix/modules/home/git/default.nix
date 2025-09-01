@@ -20,24 +20,23 @@ in
     };
   };
 
-  config = mkIf cfg.enable { 
+  config = mkIf cfg.enable {
     home.packages = [
-      pkgs.git-absorb  
+      pkgs.git-absorb
     ];
 
     programs.git = {
       enable = true;
-      userName = cfg.userName;  
-      userEmail = cfg.userEmail; 
+      userName = cfg.userName;
+      userEmail = cfg.userEmail;
 
       extraConfig = {
         core = {
-          excludesfile = "${gitConfigPath}/.gitignore_global";  # Percorso per .gitignore_global
+          excludesfile = "${gitConfigPath}/.gitignore_global"; # Percorso per .gitignore_global
           editor = "nvim";
           autocrlf = "input";
         };
         init.defaultBranch = "main";
-        init.templatedir = "${gitConfigPath}/git_templates";  # Percorso per i template
 
         filter."lfs" = {
           required = true;
