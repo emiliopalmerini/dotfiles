@@ -158,7 +158,8 @@
           name = "Strumenti";
           items = [
             { name = "Due Draghi SRD"; url = "http://hera:8000"; }
-            { name = "Registra spese"; url = "http://hera:8081"; }
+            { name = "Spese"; url = "http://hera:8081"; }
+            { name = "Peso"; url = "http://hera:8082"; }
           ];
         }
         {
