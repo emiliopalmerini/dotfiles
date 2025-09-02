@@ -66,7 +66,12 @@ vim.keymap.set("n", "]J", "<cmd>cprev<CR>zz", { desc = "Prev quickfix item (cent
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz", { desc = "Next location list item (center)" })
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Prev location list item (center)" })
 
-vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Search/replace word under cursor" })
+vim.keymap.set(
+	"n",
+	"<leader>s",
+	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+	{ desc = "Search/replace word under cursor" }
+)
 vim.keymap.set("n", "<leader>tf", ":e temp.txt<Cr>", { desc = "Open temp.txt" })
 
 vim.keymap.set("n", "<left>", "<c-w>5<", { desc = "Resize window 5 cols left" })
@@ -127,10 +132,10 @@ do
 	local ok, harpoon = pcall(require, "harpoon")
 	if ok then
 		harpoon:setup()
-		vim.keymap.set("n", "<leader>h", function()
+		vim.keymap.set("n", "<leader>hv", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "Harpoon: Toggle quick menu" })
-		vim.keymap.set("n", "<leader>a", function()
+		vim.keymap.set("n", "<leader>ha", function()
 			harpoon:list():add()
 		end, { desc = "Harpoon: Add file" })
 		vim.keymap.set("n", "<leader>1", function()
@@ -183,7 +188,12 @@ autocmd("BufWinEnter", {
 			vim.cmd.Git({ "pull" })
 		end, vim.tbl_extend("force", opts, { desc = "Git: Pull (rebase)" }))
 
-		vim.keymap.set("n", "<leader>gt", ":Git push -u origin ", vim.tbl_extend("force", opts, { desc = "Git: Push set upstream" }))
+		vim.keymap.set(
+			"n",
+			"<leader>gt",
+			":Git push -u origin ",
+			vim.tbl_extend("force", opts, { desc = "Git: Push set upstream" })
+		)
 	end,
 })
 
@@ -250,4 +260,9 @@ vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", { noremap = true, sile
 vim.keymap.set("n", "<C-j>", "<cmd>TmuxNavigateDown<cr>", { noremap = true, silent = true, desc = "Tmux: Move down" })
 vim.keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<cr>", { noremap = true, silent = true, desc = "Tmux: Move up" })
 vim.keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<cr>", { noremap = true, silent = true, desc = "Tmux: Move right" })
-vim.keymap.set("n", "<C-\\>", "<cmd>TmuxNavigatePrevious<cr>", { noremap = true, silent = true, desc = "Tmux: Previous pane" })
+vim.keymap.set(
+	"n",
+	"<C-\\>",
+	"<cmd>TmuxNavigatePrevious<cr>",
+	{ noremap = true, silent = true, desc = "Tmux: Previous pane" }
+)
