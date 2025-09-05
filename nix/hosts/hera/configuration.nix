@@ -193,7 +193,7 @@
   programs.zsh.enable = true;
 
   # logind
-  services.logind = {
+  services.logind.settings.Login = {
     lidSwitch = "ignore";
     extraConfig = ''
       HandlePowerKey=ignore
