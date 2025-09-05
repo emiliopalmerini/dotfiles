@@ -10,5 +10,10 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [ ghostty ];
+
+    xdg.configFile."ghostty/config".text = ''
+      theme = tokyonight-storm
+      shell-integration = zsh
+    '';
   };
 }
