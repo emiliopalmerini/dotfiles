@@ -1,7 +1,4 @@
-{ config
-, pkgs
-, inputs
-, ...
+{ ...
 }: {
   imports = [
     ./../../modules/home
@@ -17,6 +14,8 @@
   git.enable = true;
   git.userEmail = "emilio.palmerini@gmail";
   git.userName = "emiliopalmerini";
+
+  go.enable = true;
 
   lazygit.enable = true;
   make.enable = true;
