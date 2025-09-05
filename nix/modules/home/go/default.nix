@@ -1,12 +1,12 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }:
 with lib; let
   cfg = config.go;
-in {
+in
+{
   options = {
     go.enable = mkEnableOption "Enable go";
   };
@@ -19,6 +19,7 @@ in {
       go-migrate
       templ
       sqlc
+      air
     ];
   };
 }
