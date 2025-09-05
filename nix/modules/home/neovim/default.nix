@@ -180,7 +180,13 @@ in
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
             ++ lib.optionals cfg.enableUI [{ plugin = lualine-nvim; type = "lua"; config = builtins.readFile ./plugin/lualine.lua; }]
-            ++ lib.optionals cfg.enableUI [{ plugin = tokyonight-nvim; type = "lua"; config = ''pcall(vim.cmd.colorscheme, '${cfg.colorscheme}')''; }]
+            ++ lib.optionals cfg.enableUI [{
+              plugin = tokyonight-nvim;
+              type = "lua";
+              config = ''${builtins.readFile ./plugin/tokyonight.lua}
+                pcall(vim.cmd.colorscheme, '${cfg.colorscheme}')
+              '';
+            }]
             ++ [{ plugin = nvim-cmp; type = "lua"; config = builtins.readFile ./plugin/cmp.lua; }]
             ++ [ cmp-nvim-lsp-signature-help ]
             ++ [{ plugin = telescope-nvim; type = "lua"; config = builtins.readFile ./plugin/telescope.lua; }]
