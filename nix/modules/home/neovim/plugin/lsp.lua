@@ -18,6 +18,12 @@ local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
 
 local servers = {
 	[ts_server_name] = true,
+	-- XML
+	lemminx = true,
+	bashls = {
+		cmd = { "bash-language-server", "start" },
+		filetypes = { "sh", "bash" },
+	},
 	jsonls = {
 		settings = {
 			json = {

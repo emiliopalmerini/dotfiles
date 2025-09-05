@@ -67,6 +67,11 @@ in
               if nodePackages ? vtsls then nodePackages.vtsls
               else if pkgs ? vtsls then pkgs.vtsls
               else null;
+            # Bash Language Server (binary: "bash-language-server")
+            bashlsPkg =
+              if nodePackages ? bash-language-server then nodePackages.bash-language-server
+              else if pkgs ? bash-language-server then pkgs.bash-language-server
+              else null;
             prettierdPkg = if nodePackages ? prettierd then nodePackages.prettierd else null;
             prettierPkg = if nodePackages ? prettier then nodePackages.prettier else null;
             biomePkg = if pkgs ? biome then pkgs.biome else null;
@@ -82,6 +87,8 @@ in
             nixpkgs-fmt
 
             sleek
+            # XML Language Server
+            lemminx
           ]
           ++ lib.optionals cfg.enableCSharp [ omnisharp-roslyn ]
           ++ lib.optionals cfg.enableGo [ gopls ]
@@ -102,17 +109,20 @@ in
           ++ lib.optionals (pkgs ? gofumpt) [ gofumpt ]
           ++ lib.optionals (pkgs ? golines) [ golines ]
           ++ lib.optionals stdenv.isLinux ([ xclip wl-clipboard ] ++ lib.optionals (cfg.enableDAP && cfg.enableCSharp) [ netcoredbg ])
-          ++ lib.optionals stdenv.isDarwin [ reattach-to-user-namespace ];
+          ++ lib.optionals stdenv.isDarwin [ reattach-to-user-namespace ]
+          # Bash tooling
+          ++ lib.optionals (bashlsPkg != null) [ bashlsPkg ];
 
         plugins = with pkgs.vimPlugins;
           let
             jsDebugPath =
               if (builtins.hasAttr "vscode-extensions" pkgs)
-              && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
-              && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
+                && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
+                && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
               then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
               else "";
-          in (
+          in
+          (
             [ undotree cmp-nvim-lsp cmp-path cmp-buffer cmp_luasnip lspkind-nvim ]
             ++ lib.optionals cfg.enableUI [ nvim-web-devicons ]
             ++ [ telescope-fzf-native-nvim plenary-nvim vim-nix ]
@@ -121,9 +131,21 @@ in
             ++ lib.optionals cfg.enableUI [ fidget-nvim ]
             ++ [ conform-nvim neodev-nvim SchemaStore-nvim ]
             ++ lib.optionals cfg.enableUI [ lsp_lines-nvim ]
-            ++ lib.optionals cfg.enableUI [{ plugin = which-key-nvim; type = "lua"; config = builtins.readFile ./plugin/which-key.lua; }]
-            ++ lib.optionals cfg.enableGit [{ plugin = gitsigns-nvim; type = "lua"; config = builtins.readFile ./plugin/gitsigns.lua; }]
-            ++ lib.optionals cfg.enableUI [{ plugin = todo-comments-nvim; type = "lua"; config = ''require("todo-comments").setup()''; }]
+            ++ lib.optionals cfg.enableUI [{
+              plugin = which-key-nvim;
+              type = "lua";
+              config = builtins.readFile ./plugin/which-key.lua;
+            }]
+            ++ lib.optionals cfg.enableGit [{
+              plugin = gitsigns-nvim;
+              type = "lua";
+              config = builtins.readFile ./plugin/gitsigns.lua;
+            }]
+            ++ lib.optionals cfg.enableUI [{
+              plugin = todo-comments-nvim;
+              type = "lua";
+              config = ''require("todo-comments").setup()'';
+            }]
             ++ [ luasnip friendly-snippets ]
             ++ lib.optionals cfg.enableHarpoon [ harpoon2 ]
             ++ lib.optionals cfg.enableGit [ vim-fugitive ]
@@ -147,10 +169,13 @@ in
                   go = lib.optionals cfg.enableGo (lib.optional (p ? tree-sitter-go) p.tree-sitter-go);
                   py = lib.optionals cfg.enablePython (lib.optional (p ? tree-sitter-python) p.tree-sitter-python);
                   cs = lib.optionals cfg.enableCSharp (lib.optional (p ? tree-sitter-c_sharp) p.tree-sitter-c_sharp);
-                in base ++ ts ++ go ++ py ++ cs
+                in
+                base ++ ts ++ go ++ py ++ cs
               );
-              type = "lua"; config = builtins.readFile ./plugin/treesitter.lua;
-            } { plugin = nvim-treesitter-textobjects; } ]
+              type = "lua";
+              config = builtins.readFile ./plugin/treesitter.lua;
+            }
+              { plugin = nvim-treesitter-textobjects; }]
             ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
@@ -161,7 +186,9 @@ in
             ++ [{ plugin = telescope-nvim; type = "lua"; config = builtins.readFile ./plugin/telescope.lua; }]
             ++ lib.optionals cfg.enableDAP [{ plugin = nvim-dap; type = "lua"; config = builtins.readFile ./plugin/dap.lua; }]
             ++ lib.optionals (cfg.enableDAP && cfg.enableTypeScript) [{
-              plugin = nvim-dap-vscode-js; type = "lua"; config = ''
+              plugin = nvim-dap-vscode-js;
+              type = "lua";
+              config = ''
                 local ok, js = pcall(require, "dap-vscode-js")
                 if ok then
                   local debugger_path = "${jsDebugPath}"
@@ -182,12 +209,12 @@ in
 
         extraLuaConfig = lib.concatStrings [
           ''
-          -- Expose formatter preference to Lua
-          vim.g.prefer_prettier = ${if cfg.preferPrettier then "true" else "false"}
+            -- Expose formatter preference to Lua
+            vim.g.prefer_prettier = ${if cfg.preferPrettier then "true" else "false"}
           ''
           (builtins.readFile ./options.lua)
           cfg.extraLuaConfig
         ];
-};
-};
+      };
+    };
 }

@@ -4,7 +4,7 @@ Reproducible Neovim setup managed by Home Manager. No Mason: all tools and LSPs 
 
 ## What it provides
 - Plugins: Treesitter, Telescope (+ FZF), LSP, CMP, DAP, UI/statusline, Git, utilities
-- LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), C# (OmniSharp)
+- LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (OmniSharp)
 - DAP: Go (`delve`), C# (`netcoredbg`), Python (`debugpy`), JS/TS (vscode-js-debug if available)
 - Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, Python (isort + black), JS/TS/JSON (Biome or Prettier/Prettierd), YAML (Prettier/Prettierd), SQL (sleek)
 - Completion extras: signature help (`cmp-nvim-lsp-signature-help`)
@@ -50,6 +50,7 @@ Ruff uses `ruff server`, not `ruff-lsp` (deprecated).
 - TypeScript: `vtsls` (package: `nodePackages.vtsls` or `pkgs.vtsls`); fallback `tsserver` (`typescript-language-server` + `typescript`) if present on PATH.
 - JSON: `jsonls` (package: `pkgs.vscode-langservers-extracted` or `nodePackages.vscode-json-languageserver` or `pkgs.json-lsp`).
 - YAML: `yamlls` (package: `nodePackages.yaml-language-server`).
+- Bash: `bashls` (package: `nodePackages.bash-language-server` or `pkgs.bash-language-server`).
 - Go: `gopls` (package: `gopls`).
 - Lua: `lua_ls` (package: `lua-language-server`).
 - Nix: `nil_ls` (package: `nil`).
@@ -105,7 +106,7 @@ See `options.lua` for general settings and helpful mappings (Harpoon, Trouble, U
 
 ## Packages installed for Neovim
 The module injects necessary runtime tools via `programs.neovim.extraPackages`:
-- LSPs: `lua-language-server`, `gopls`, `vtsls` (optional), `typescript`, `pyright`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON)
+- LSPs: `lua-language-server`, `gopls`, `vtsls` (optional), `typescript`, `pyright`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON), `bash-language-server`
 - DAP/Debug: `delve`, `python3 + debugpy`, `netcoredbg` (Linux only)
 - Formatters: `stylua`, `nixpkgs-fmt`, `black`, `isort`, `sleek`, optional `biome`, `prettierd`, `prettier`
 - Utils: `ripgrep`, `unzip`, `nodejs`
