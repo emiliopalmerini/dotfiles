@@ -171,23 +171,35 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Configurazione Autoformatting
 local conform = require("conform")
 local prefer_prettier = (vim.g.prefer_prettier == true)
-local js_formatters = prefer_prettier and { "prettierd", "prettier", "biome" } or { "biome", "prettierd", "prettier" }
+local has_prettierd = (vim.fn.executable("prettierd") == 1)
+local js_formatters = nil
+if prefer_prettier then
+  js_formatters = has_prettierd and { "prettierd", "prettier", "biome" } or { "prettier", "biome" }
+else
+  js_formatters = has_prettierd and { "biome", "prettierd", "prettier" } or { "biome", "prettier" }
+end
 
 conform.setup({
 	formatters_by_ft = {
 		lua = { "stylua" },
-		nix = { "nixpkgs-fmt" }, -- aggiungiamo il formattatore per Nix
+		nix = { "nixpkgs-fmt" }, -- Nix formatter
 		python = { "isort", "black" },
 		-- JS/TS formatting
 		javascript = js_formatters,
 		javascriptreact = js_formatters,
 		typescript = js_formatters,
 		typescriptreact = js_formatters,
-		json = js_formatters,
-		yaml = { "prettierd", "prettier" },
+    json = js_formatters,
+    yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
 		go = { "gofumpt", "gofmt" },
 	},
 })
+
+-- Define missing formatter configs
+conform.formatters["nixpkgs-fmt"] = {
+  command = "nixpkgs-fmt",
+  stdin = true,
+}
 
 conform.formatters.injected = {
 	options = {
