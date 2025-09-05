@@ -7,6 +7,8 @@ vim.opt.ignorecase = true
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
 
 vim.opt.signcolumn = "yes"
 vim.opt.shada = { "'10", "<0", "s10", "h" }
