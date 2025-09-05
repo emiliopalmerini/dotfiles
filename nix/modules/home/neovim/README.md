@@ -28,7 +28,7 @@ In your host `home.nix`:
 
 ## Plugins (high level)
 - Core: `nvim-lspconfig`, `nvim-cmp`, `cmp-nvim-lsp`, `luasnip`, `lspkind`, `cmp-nvim-lsp-signature-help`
-- UI: `lualine.nvim`, `tokyonight.nvim`, `nvim-web-devicons`, `fidget.nvim`, `trouble.nvim`, `zen-mode.nvim`
+- UI: `heirline.nvim`, `tokyonight.nvim`, `nvim-web-devicons`, `fidget.nvim`, `trouble.nvim`, `zen-mode.nvim`
 - Editing: `Comment.nvim`, `oil.nvim`, `refactoring.nvim`, `undotree`, `which-key.nvim`, `todo-comments.nvim`
 - Git: `vim-fugitive`, `gitsigns.nvim`, `harpoon2`
 - Telescope: `telescope.nvim`, `telescope-fzf-native.nvim`, `plenary.nvim`

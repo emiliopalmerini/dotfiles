@@ -21,5 +21,4 @@ Configures tmux with sane defaults, vi-like navigation, and useful plugins.
 - `tmux-yank`: easy copy to system clipboard
 - `vim-tmux-navigator`: seamless navigation between Vim and tmux
 - `sensible`: tmux sensible defaults
-- `catppuccin`: theme (flavor `mocha`)
-
+- `tmux-minimal-theme`: clean, minimal statusline theme

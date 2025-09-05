@@ -17,7 +17,7 @@ in
         Defaults to false (prefer Biome).
       '';
     };
-    neovim.enableUI = mkOption { type = types.bool; default = true; description = "Enable UI plugins (devicons, lualine, theme, fidget, trouble, zen)."; };
+    neovim.enableUI = mkOption { type = types.bool; default = true; description = "Enable UI plugins (devicons, heirline, theme, fidget, trouble, zen)."; };
     neovim.enableDAP = mkOption { type = types.bool; default = true; description = "Enable DAP plugins and tools."; };
     neovim.enableGit = mkOption { type = types.bool; default = true; description = "Enable Git plugins (fugitive, gitsigns)."; };
     neovim.enableTreesitter = mkOption { type = types.bool; default = true; description = "Enable Treesitter and parsers."; };
@@ -79,8 +79,11 @@ in
           [
             lua-language-server
             ripgrep
+            fd
             stylua
             unzip
+            gcc
+            tree-sitter
             nodejs
 
             nil
@@ -179,7 +182,7 @@ in
             ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
-            ++ lib.optionals cfg.enableUI [{ plugin = lualine-nvim; type = "lua"; config = builtins.readFile ./plugin/lualine.lua; }]
+            ++ lib.optionals cfg.enableUI [{ plugin = heirline-nvim; type = "lua"; config = builtins.readFile ./plugin/lualine.lua; }]
             ++ lib.optionals cfg.enableUI [{
               plugin = tokyonight-nvim;
               type = "lua";

@@ -16,6 +16,7 @@
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
       flake = false;
     };
+
   };
 
   outputs =
