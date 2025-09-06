@@ -22,7 +22,7 @@ in
     neovim.enableGit = mkOption { type = types.bool; default = true; description = "Enable Git plugins (fugitive, gitsigns)."; };
     neovim.enableTreesitter = mkOption { type = types.bool; default = true; description = "Enable Treesitter and parsers."; };
     neovim.enableHarpoon = mkOption { type = types.bool; default = true; description = "Enable Harpoon plugin and keymaps."; };
-    neovim.enableCopilot = mkOption { type = types.bool; default = true; description = "Enable GitHub Copilot plugins."; };
+    # neovim.enableCopilot = mkOption { type = types.bool; default = true; description = "Enable GitHub Copilot plugins."; };
 
     # Per-language toggles
     neovim.enableTypeScript = mkOption { type = types.bool; default = true; description = "Enable TypeScript LSP/DAP/tools."; };
@@ -212,7 +212,7 @@ in
             ++ [ vim-tmux-navigator ]
             ++ lib.optionals cfg.enableUI [{ plugin = trouble-nvim; type = "lua"; config = "require('trouble').setup()"; }]
             ++ lib.optionals cfg.enableUI [{ plugin = zen-mode-nvim; type = "lua"; config = "require('zen-mode').setup()"; }]
-            ++ lib.optionals cfg.enableCopilot [ copilot-cmp { plugin = copilot-lua; type = "lua"; config = builtins.readFile ./plugin/copilot.lua; } ]
+            # ++ lib.optionals cfg.enableCopilot [ copilot-cmp { plugin = copilot-lua; type = "lua"; config = builtins.readFile ./plugin/copilot.lua; } ]
             ++ cfg.extraPlugins
           );
 

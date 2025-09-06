@@ -34,7 +34,6 @@ In your host `home.nix`:
 - Telescope: `telescope.nvim`, `telescope-fzf-native.nvim`, `plenary.nvim`
 - Treesitter: `nvim-treesitter` with pinned parsers (nix, vim, lua, json, c_sharp, go, python, markdown[_inline]) + `nvim-treesitter-textobjects`
 - DAP: `nvim-dap`, `nvim-dap-ui`, `nvim-dap-virtual-text`, `nvim-dap-go`, `nvim-dap-python`, `nvim-nio`, `dap-vscode-js` (optional)
-- Copilot: `copilot.lua`, `copilot-cmp`
 
 ## LSP
 Configured in `plugin/lsp.lua`. Servers enabled:
