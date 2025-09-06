@@ -63,6 +63,7 @@
       "notion"
       "vlc"
       "home-assistant"
+      "rectangle"
     ];
     onActivation.cleanup = "zap";
   };

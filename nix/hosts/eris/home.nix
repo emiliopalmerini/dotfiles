@@ -22,6 +22,7 @@
     clamav
     hugo
     colima
+    rectangle
   ];
 
   bruno.enable = true;
