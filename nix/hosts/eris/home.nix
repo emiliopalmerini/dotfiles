@@ -1,8 +1,11 @@
-{ pkgs, ... }:
+{ pkgs, userConfig, ... }:
 {
   imports = [
     ./../../modules/home
   ];
+
+  home.username = userConfig.username;
+  home.homeDirectory = userConfig.homeDirectory;
   home.stateVersion = "24.11"; # Please read the comment before changing.
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
@@ -30,7 +33,7 @@
   gcc.enable = true;
   gimp.enable = true;
   git.enable = true;
-  git.userEmail = "emiliopalmerini@gmail.com";
+  git.userEmail = userConfig.email;
   git.userName = "emiliopalmerini";
   go.enable = true;
   hugo.enable = false;

@@ -10,8 +10,8 @@ rec {
   users = userLib.users;
   getUserConfig = userLib.getUserConfig;
   
-  # Expose common utilities
-  inherit (commonLib) commonEnvironment darwinEnvironment mkEnvironment;
+  # Expose common utilities  
+  inherit (commonLib) mkEnvironment;
 
   # Helper function to create NixOS configurations
   mkNixosSystem = hostname: nixpkgs.lib.nixosSystem {

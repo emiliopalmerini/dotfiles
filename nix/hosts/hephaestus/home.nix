@@ -1,14 +1,11 @@
-{ inputs
-, pkgs
-, ...
-}: {
+{ inputs, pkgs, userConfig, ... }: {
   imports = [
     ./../../modules/home
     inputs.zen-browser.homeModules.twilight
   ];
   home = {
-    username = "emilio";
-    homeDirectory = "/home/emilio";
+    username = userConfig.username;
+    homeDirectory = userConfig.homeDirectory;
 
     stateVersion = "24.11";
   };
@@ -23,7 +20,7 @@
   ghostty.enable = true;
   git = {
     enable = true;
-    userEmail = "emilio.palmerini@codiceplastico.com";
+    userEmail = userConfig.email;
     userName = "emiliopalmerini";
   };
   go.enable = true;

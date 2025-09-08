@@ -1,18 +1,18 @@
-{ ...
+{ userConfig, ...
 }: {
   imports = [
     ./../../modules/home
   ];
 
-  home.username = "prometeo";
-  home.homeDirectory = "/home/prometeo";
+  home.username = userConfig.username;
+  home.homeDirectory = userConfig.homeDirectory;
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
   firefox.enable = true;
 
   git.enable = true;
-  git.userEmail = "emilio.palmerini@gmail";
+  git.userEmail = userConfig.email;
   git.userName = "emiliopalmerini";
 
   go.enable = true;

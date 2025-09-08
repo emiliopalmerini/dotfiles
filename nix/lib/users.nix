@@ -9,17 +9,17 @@ let
     };
     
     hera = {
-      username = "emil_io";
-      email = "emilio.palmerini@proton.me"; 
-      fullName = "Emilio Palmerini";
-      homeDirectory = "/home/emil_io";
+      username = "prometeo";
+      email = "emilio.palmerini@gmail.com"; 
+      fullName = "Prometeo";
+      homeDirectory = "/home/prometeo";
     };
     
     hephaestus = {
-      username = "emil_io";
-      email = "emilio.palmerini@proton.me";
+      username = "emilio";
+      email = "emilio.palmerini@codiceplastico.com";
       fullName = "Emilio Palmerini"; 
-      homeDirectory = "/home/emil_io";
+      homeDirectory = "/home/emilio";
     };
     
     eris = {

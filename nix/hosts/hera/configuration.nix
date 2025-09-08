@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, userConfig, commonEnv, ... }:
 
 {
   imports = [
@@ -35,26 +35,23 @@
   };
   console.keyMap = "us-acentos";
 
-  users.users.prometeo = {
-    isNormalUser = true;
-    description = "Prometeo";
-    extraGroups = [ "networkmanager" "wheel" "plex" "docker" ];
-    shell = pkgs.zsh;
-    ignoreShellProgramCheck = true;
+  mainUser = {
+    enable = true;
+    user = userConfig.username;
   };
+  
+  # Additional groups specific to hera
+  users.users.${userConfig.username}.extraGroups = [ "plex" ];
 
   nixpkgs.config.allowUnfree = true;
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users.prometeo = import ./home.nix;
+    extraSpecialArgs = { inherit inputs userConfig; };
+    users.${userConfig.username} = import ./home.nix;
     backupFileExtension = "bak";
   };
 
-  environment.variables = {
-    EDITOR = "nvim";
-    TERM = "xterm-256color";
-  };
+  environment.variables = commonEnv;
 
   docker.enable = true;
 

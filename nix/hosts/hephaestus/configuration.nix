@@ -1,13 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ pkgs
-, inputs
-, ...
-}:
-let
-  userName = "emilio";
-in
+{ pkgs, inputs, userConfig, commonEnv, ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -129,13 +123,13 @@ in
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${userName} = {
-    isNormalUser = true;
-    description = "${userName}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "vboxusers" ];
-    shell = pkgs.zsh;
-    ignoreShellProgramCheck = true;
+  mainUser = {
+    enable = true;
+    user = userConfig.username;
   };
+  
+  # Additional groups specific to hephaestus
+  users.users.${userConfig.username}.extraGroups = [ "vboxusers" ];
 
   # Install firefox.
   programs.firefox.enable = true;
@@ -160,9 +154,9 @@ in
   tailscale.enable = true;
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs userConfig; };
     users = {
-      "${userName}" = import ./home.nix;
+      "${userConfig.username}" = import ./home.nix;
     };
     backupFileExtension = "bak";
   };
@@ -172,10 +166,7 @@ in
   };
   virtualisation.oci-containers.backend = "docker";
 
-  environment.variables = {
-    EDITOR = "nvim";
-    TERM = "xterm-256color";
-  };
+  environment.variables = commonEnv;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
