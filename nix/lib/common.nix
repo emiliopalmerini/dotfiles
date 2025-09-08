@@ -1,4 +1,4 @@
-{
+let
   # Common environment variables shared across hosts
   commonEnvironment = {
     EDITOR = "nvim";
@@ -9,7 +9,8 @@
   darwinEnvironment = {
     SHELL = "zsh"; # This will be resolved to the actual zsh path by the Darwin config
   };
-
+in
+{
   # Function to merge environments
   mkEnvironment = { isDarwin ? false }: 
     commonEnvironment // (if isDarwin then darwinEnvironment else {});
