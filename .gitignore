@@ -3,3 +3,10 @@
 .config/zed/.*
 .config/go/telemetry/*
 .config/go/telemetry/local
+
+# Sensitive files
+**/secrets/
+**/*secrets*
+**/vpn.json
+**/*credentials*
+**/*password*
