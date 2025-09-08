@@ -15,12 +15,14 @@
   home-manager-integration.enable = true;
   media-server.enable = true;
   tailscale-only-access.enable = true;
+  tailscale-only-access.allowLocalNetwork = true;
+  tailscale-only-access.localNetworkInterface = "enp0s31f6";
 
   mainUser = {
     enable = true;
     user = userConfig.username;
   };
-  
+
   # Additional groups specific to hera
   users.users.${userConfig.username}.extraGroups = [ "plex" ];
 
