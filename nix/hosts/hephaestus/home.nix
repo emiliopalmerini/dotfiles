@@ -18,7 +18,7 @@
   };
 
   chrome.enable = true;
-  codex.enable = true;
+  claude.enable = true;
   dotnet.enable = true;
   ghostty.enable = true;
   git = {

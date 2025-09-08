@@ -4,6 +4,7 @@
     ./antivirus
     ./bruno
     ./chrome
+    ./claude
     ./codex
     ./cursor
     ./dbeaver
