@@ -1,7 +1,15 @@
 {
   imports = 
-    # Development tools and editors
+    # Configuration profiles
     [
+      ./profiles/base
+      ./profiles/developer
+      ./profiles/desktop
+      ./profiles/work
+    ]
+    
+    # Development tools and editors
+    ++ [
       ./git
       ./neovim
       ./vscode
@@ -17,6 +25,7 @@
       ./dotnet
       ./gcc
       ./lua
+      ./nodejs
       ./php
     ]
     
