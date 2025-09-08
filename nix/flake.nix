@@ -28,38 +28,14 @@
     , ...
     } @ inputs:
     let
-      linuxSystem = "x86_64-linux";
+      lib = import ./lib/default.nix { inherit inputs nixpkgs; };
+      
+      # Define host lists
+      nixosHosts = [ "athena" "hera" "hephaestus" ];
+      darwinHosts = [ "eris" ];
     in
     {
-      nixosConfigurations.athena = nixpkgs.lib.nixosSystem {
-        system = linuxSystem;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/athena/configuration.nix
-        ];
-      };
-
-      nixosConfigurations.hera = nixpkgs.lib.nixosSystem {
-        system = linuxSystem;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/hera/configuration.nix
-        ];
-      };
-
-      nixosConfigurations.hephaestus = nixpkgs.lib.nixosSystem {
-        system = linuxSystem;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/hephaestus/configuration.nix
-        ];
-      };
-
-      darwinConfigurations.eris = nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/eris/configuration.nix
-        ];
-      };
+      nixosConfigurations = lib.mkNixosConfigurations nixosHosts;
+      darwinConfigurations = lib.mkDarwinConfigurations darwinHosts;
     };
 }

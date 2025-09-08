@@ -2,21 +2,22 @@
   config,
   pkgs,
   inputs,
+  userConfig,
   ...
 }: {
   imports = [
     ./../../modules/home
   ];
 
-  home.username = "emil_io";
-  home.homeDirectory = "/home/emil_io";
+  home.username = userConfig.username;
+  home.homeDirectory = userConfig.homeDirectory;
 
   home.stateVersion = "24.11"; # Please read the comment before changing.
 
   firefox.enable = true;
 
   git.enable = true;
-  git.userEmail = "emilio.palmerini@proton.me";
+  git.userEmail = userConfig.email;
   git.userName = "emiliopalmerini";
 
   kitty.enable = true;
