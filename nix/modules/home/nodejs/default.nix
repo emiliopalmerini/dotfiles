@@ -36,11 +36,11 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       nodejs
-      npm
+      nodePackages.npm
     ] 
-    ++ optionals cfg.enableYarn [ yarn ]
-    ++ optionals cfg.enablePnpm [ pnpm ]
-    ++ optionals cfg.enableTypeScript [ typescript ]
+    ++ optionals cfg.enableYarn [ nodePackages.yarn ]
+    ++ optionals cfg.enablePnpm [ nodePackages.pnpm ]
+    ++ optionals cfg.enableTypeScript [ nodePackages.typescript ]
     ++ cfg.extraPackages;
     
     # Set up npm global directory to avoid permission issues
