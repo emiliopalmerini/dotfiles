@@ -1,6 +1,4 @@
-{inputs, ...}: let
-  userName = "emil_io";
-in {
+{inputs, pkgs, userConfig, commonEnv, ...}: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos
@@ -10,69 +8,24 @@ in {
   networking.hostName = "athena"; # Define your hostname.
   networking.nameservers = ["8.8.8.8" "8.8.4.4"];
 
-  systemDefault.enable = true;
-  services = {
-    # X server and keyboard
-    xserver = {
-      enable = true;
-      xkb.layout = "us";
-      xkb.options = ""; # Aggiungi questa riga per il supporto delle lettere accentate
-    };
+  # Enable shared modules
+  basic-system.enable = true;
+  gnome-desktop.enable = true;
+  home-manager-integration.enable = true;
+  home-manager-integration.homeConfigPath = ./home.nix;
 
-    # Moved out of services.xserver.* per renames in 24.11
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-
-
-    printing.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-
-    openssh.enable = true;
-  };
+  services.openssh.enable = true;
 
   mainUser = {
     enable = true;
-    user = "${userName}";
+    user = userConfig.username;
   };
 
-  home-manager = {
-    extraSpecialArgs = {inherit inputs;};
-    users = {
-      "${userName}" = import ./home.nix;
-    };
-    backupFileExtension = "bak";
-  };
-
-  environment.variables = {
-    EDITOR = "nvim";
-    TERM = "xterm-256color";
-  };
+  environment.variables = commonEnv;
 
   # Enable generic Docker module and it-tools container
   docker.enable = true;
 
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gedit # text editor
-    gnome-characters
-    gnome-music
-    gnome-photos
-    gnome-terminal
-    gnome-tour
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-    totem # video player
-  ]);
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

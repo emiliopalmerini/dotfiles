@@ -1,20 +1,25 @@
-{ pkgs, ... }:
+{ pkgs, userConfig, ... }:
 {
   imports = [
     ./../../modules/home
   ];
-  home.stateVersion = "24.11"; # Please read the comment before changing.
-  nixpkgs.config.allowUnfree = true;
-  programs.home-manager.enable = true;
 
+  # Enable profiles - macOS configuration
+  profiles.base.enable = true;
+  profiles.developer.enable = true;
+  profiles.desktop.enable = true;
+  profiles.desktop.enableCommunication = true;
+  profiles.desktop.enableMedia = false; # No VLC needed
+  
+  # macOS specific session path
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
-
+  
+  # macOS specific packages and tools
   home.packages = with pkgs; [
     mongosh
     raycast
-    nodejs
     docker
     docker-compose
     lazydocker
@@ -24,22 +29,13 @@
     colima
     rectangle
   ];
-
+  
+  # Additional tools
   bruno.enable = true;
   discord.enable = false;
-  gcc.enable = true;
   gimp.enable = true;
-  git.enable = true;
-  git.userEmail = "emiliopalmerini@gmail.com";
-  git.userName = "emiliopalmerini";
-  go.enable = true;
-  hugo.enable = false;
-  lazygit.enable = true;
   lua.enable = true;
-  neovim.enable = true;
-  shell.enable = true;
-  telegram.enable = true;
-  tmux.enable = true;
-  todoist.enable = true;
+  nodejs.enable = true;
+  hugo.enable = false; # Disabled since we have it in packages
 }
 

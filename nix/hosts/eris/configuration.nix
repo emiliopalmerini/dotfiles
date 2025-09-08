@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, userConfig, commonEnv, ... }:
 
 {
   imports = [
@@ -13,12 +13,10 @@
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
-  environment.variables = {
-    EDITOR = "nvim";
-    TERM = "xterm-256color";
+  environment.variables = commonEnv // {
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
-  system.primaryUser = "emiliopalmerini";
+  system.primaryUser = userConfig.username;
   system.defaults = {
     dock = {
       autohide = true;
@@ -44,8 +42,8 @@
     };
   };
 
-  users.users.emiliopalmerini = {
-    home = /Users/emiliopalmerini;
+  users.users.${userConfig.username} = {
+    home = userConfig.homeDirectory;
     shell = pkgs.zsh;
   };
 
@@ -92,10 +90,10 @@
   home-manager = {
     # useGlobalPkgs = true;
     # useUserPackages = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs userConfig; };
     backupFileExtension = "backup";
     users = {
-      "emiliopalmerini" = import ./home.nix;
+      "${userConfig.username}" = import ./home.nix;
     };
   };
 
