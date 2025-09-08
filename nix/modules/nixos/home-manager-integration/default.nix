@@ -15,9 +15,8 @@ in
     };
     
     homeConfigPath = mkOption {
-      type = types.str;
-      default = "./home.nix";
-      description = "Path to the home.nix configuration file";
+      type = types.path;
+      description = "Path to the home.nix configuration file (must be absolute path)";
     };
   };
 

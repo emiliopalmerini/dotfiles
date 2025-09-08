@@ -24,6 +24,7 @@
   gnome-desktop.enable = true;
   italian-locale.enable = true;
   home-manager-integration.enable = true;
+  home-manager-integration.homeConfigPath = ./home.nix;
   system = {
     autoUpgrade.enable = true;
     autoUpgrade.dates = "weekly";

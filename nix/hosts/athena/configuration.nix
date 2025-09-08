@@ -12,6 +12,7 @@
   basic-system.enable = true;
   gnome-desktop.enable = true;
   home-manager-integration.enable = true;
+  home-manager-integration.homeConfigPath = ./home.nix;
 
   services.openssh.enable = true;
 

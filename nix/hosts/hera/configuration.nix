@@ -13,6 +13,7 @@
   basic-system.enable = true;
   italian-locale.enable = true;
   home-manager-integration.enable = true;
+  home-manager-integration.homeConfigPath = ./home.nix;
   media-server.enable = true;
   tailscale-only-access.enable = true;
   tailscale-only-access.allowLocalNetwork = true;
