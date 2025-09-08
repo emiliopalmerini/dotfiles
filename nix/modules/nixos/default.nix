@@ -12,5 +12,6 @@
     ./home-manager-integration
     ./italian-locale
     ./media-server
+    ./tailscale-only-access
   ];
 }

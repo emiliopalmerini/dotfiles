@@ -8,13 +8,13 @@
   ];
 
   networking.hostName = "hera";
-  networking.firewall.enable = false;
 
   # Enable shared modules
   basic-system.enable = true;
   italian-locale.enable = true;
   home-manager-integration.enable = true;
   media-server.enable = true;
+  tailscale-only-access.enable = true;
 
   mainUser = {
     enable = true;
@@ -31,7 +31,7 @@
 
   docker.enable = true;
 
-  services.openssh.enable = true;
+  # SSH handled by tailscale-only-access module
 
   # Homer dashboard (replaces Glance)
   services.homer = {
@@ -74,12 +74,11 @@
     };
   };
 
-  # Bind Homer vhost on all interfaces at port 8090
+  # Homer will be accessible only via Tailscale due to firewall rules
   services.nginx.virtualHosts."hera".listen = [{ addr = "0.0.0.0"; port = 8090; }];
 
   environment.systemPackages = with pkgs; [ nodejs calibre ];
-  # Tailscale
-  services.tailscale.enable = true;
+  # Tailscale handled by tailscale-only-access module
 
   # ClamAV
   services.clamav = {
