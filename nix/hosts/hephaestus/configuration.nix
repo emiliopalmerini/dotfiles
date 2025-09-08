@@ -17,15 +17,13 @@
     initrd.luks.devices."luks-68c92b43-cf28-46bf-9a0a-96a2290dcdac".device = "/dev/disk/by-uuid/68c92b43-cf28-46bf-9a0a-96a2290dcdac";
   };
   networking.hostName = "hephaestus"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  # Enable shared modules
+  basic-system.enable = true;
+  basic-system.enableBootloader = false; # Custom boot config above
+  gnome-desktop.enable = true;
+  italian-locale.enable = true;
+  home-manager-integration.enable = true;
   system = {
     autoUpgrade.enable = true;
     autoUpgrade.dates = "weekly";
@@ -38,35 +36,13 @@
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
     stateVersion = "24.11";
   };
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "daily";
-      options = "--delete-older-than 10d";
-    };
-
-    settings.auto-optimise-store = true;
-    settings.experimental-features = [ "nix-command" "flakes" ];
-  };
+  # Override basic-system nix gc settings
+  basic-system.nixGcDays = "daily";
+  basic-system.nixGcKeepDays = "10d";
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
 
-  time.timeZone = "Europe/Rome";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "it_IT.UTF-8";
-    LC_IDENTIFICATION = "it_IT.UTF-8";
-    LC_MEASUREMENT = "it_IT.UTF-8";
-    LC_MONETARY = "it_IT.UTF-8";
-    LC_NAME = "it_IT.UTF-8";
-    LC_NUMERIC = "it_IT.UTF-8";
-    LC_PAPER = "it_IT.UTF-8";
-    LC_TELEPHONE = "it_IT.UTF-8";
-    LC_TIME = "it_IT.UTF-8";
-  };
   services = {
     # X server and keyboard
     xserver = {
