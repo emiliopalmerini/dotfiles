@@ -146,17 +146,17 @@ local Statusline = {
 	Encoding,
 }
 
--- NAVIC (breadcrumbs nel winbar)
-local Navic = {
-	condition = function()
-		return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-	end,
-	provider = function()
-		return require("nvim-navic").get_location({ highlight = true })
-	end,
-}
-
-local Winbar = { File, Space, Navic }
+-- -- NAVIC (breadcrumbs nel winbar)
+-- local Navic = {
+-- 	condition = function()
+-- 		return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+-- 	end,
+-- 	provider = function()
+-- 		return require("nvim-navic").get_location({ highlight = true })
+-- 	end,
+-- }
+--
+-- local Winbar = { File, Space, Navic }
 
 -- Setup + colori dinamici
 vim.api.nvim_create_augroup("HeirlineMinimalColors", { clear = true })
@@ -169,6 +169,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 heirline.setup({
 	statusline = Statusline,
-	winbar = Winbar,
 	opts = { colors = setup_colors },
 })
