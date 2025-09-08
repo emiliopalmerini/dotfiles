@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Append the leading number from the branch name to the commit subject.
+# Example: branch "133-integrazione-codice-as-..." turns
+#   "feat: add X" -> "feat: add X (#133)"
+
+# If in detached HEAD (e.g., merge, rebase), exit quietly
+branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")
+if [[ -z "$branch_name" || "$branch_name" == "HEAD" ]]; then
+  exit 0
+fi
+
+# Extract leading number (digits) from branch start
+ticket_number=""
+if [[ "$branch_name" =~ ^([0-9]+)[-_].* ]]; then
+  ticket_number="${BASH_REMATCH[1]}"
+else
+  # No leading number: do nothing
+  exit 0
+fi
+
+# Read current commit subject and body
+subject=$(git log -1 --pretty=%s)
+body=$(git log -1 --pretty=%b)
+
+# If subject already contains the same ticket suffix, do nothing
+if [[ "$subject" =~ \(#${ticket_number}\)$ ]]; then
+  exit 0
+fi
+
+new_subject="$subject (#$ticket_number)"
+
+# Create a temporary file with amended message (subject + blank line + body if any)
+tmpfile=$(mktemp)
+trap 'rm -f "$tmpfile"' EXIT
+
+if [[ -n "$body" ]]; then
+  printf '%s\n\n%s\n' "$new_subject" "$body" > "$tmpfile"
+else
+  printf '%s\n' "$new_subject" > "$tmpfile"
+fi
+
+# Amend last commit with updated message
+# Note: post-commit will run again after amend; guard above keeps it idempotent
+GIT_EDITOR=: git commit --amend -F "$tmpfile" --no-verify >/dev/null 2>&1 || true
+
+exit 0

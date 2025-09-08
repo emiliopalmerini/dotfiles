@@ -66,6 +66,8 @@ Details and keymaps: see `nix/modules/home/neovim/README.md`.
 - NixOS switch: `sudo nixos-rebuild switch --flake nix#<host>`
 - macOS switch: `darwin-rebuild switch --flake nix#<host>`
 - Home-only (when using HM directly): `home-manager switch --flake nix#<host>`
+- Clean old generations: `nix-collect-garbage --delete-old`
+- Clean generations older than 30 days: `nix-collect-garbage --delete-older-than 30d`
 
 ## Adding a new host
 1) Create `nix/hosts/<new-host>/configuration.nix` and `home.nix` (copy from an existing host).

@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.git;
-  gitConfigPath = "${config.home.homeDirectory}/dev/dotfiles/nix/modules/home/git/config";
+  gitConfigPath = "${config.home.homeDirectory}/repos/dotfiles/nix/modules/home/git/config";
 in
 {
   options = {
@@ -35,6 +35,7 @@ in
           excludesfile = "${gitConfigPath}/.gitignore_global"; # Percorso per .gitignore_global
           editor = "nvim";
           autocrlf = "input";
+          hooksPath = "${gitConfigPath}/hooks";
         };
         init.defaultBranch = "main";
 

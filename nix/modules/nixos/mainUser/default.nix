@@ -4,7 +4,7 @@ with lib;
 let
   cfg = config.mainUser;
 in
-  {
+{
   options.mainUser = {
     enable = mkEnableOption "Enable mainUser module";
     user = mkOption {
@@ -16,11 +16,11 @@ in
 
   config = mkIf cfg.enable {
     users.users.${cfg.user} = {
-        isNormalUser = true;
-        description = "${cfg.user}"; 
-        extraGroups = [ "networkmanager" "wheel" "docker" ];
-        shell = pkgs.zsh;
-        ignoreShellProgramCheck = true;
+      isNormalUser = true;
+      description = "${cfg.user}";
+      extraGroups = [ "networkmanager" "wheel" "docker" ];
+      shell = pkgs.zsh;
+      ignoreShellProgramCheck = true;
     };
   };
 }
