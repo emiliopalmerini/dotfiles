@@ -36,7 +36,7 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       nodejs
-      nodePackages.npm
+      # npm is already included with nodejs, no need to install separately
     ] 
     ++ optionals cfg.enableYarn [ nodePackages.yarn ]
     ++ optionals cfg.enablePnpm [ nodePackages.pnpm ]
