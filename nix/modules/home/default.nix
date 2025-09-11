@@ -42,6 +42,7 @@
       ./lazygit
       ./lazydocker
       ./warp
+      ./brew
     ]
     
     # GUI applications - Development

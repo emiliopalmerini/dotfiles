@@ -28,7 +28,6 @@
     clamav
     hugo
     colima
-    rectangle
   ];
 
   # Additional tools

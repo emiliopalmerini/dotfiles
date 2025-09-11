@@ -3,13 +3,12 @@
 {
   imports = [
     inputs.home-manager.darwinModules.home-manager
+    ../../modules/darwin
   ];
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
   services.tailscale.enable = true;
-  
-
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -17,28 +16,31 @@
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
   system.primaryUser = userConfig.username;
-  system.defaults = {
-    dock = {
-      autohide = true;
-      persistent-apps = [
-        "/Applications/Ghostty.app"
-        "/Applications/Obsidian.app"
-        "/Applications/Zen.app"
-        "/Applications/Notion.app"
-      ];
+  # Darwin module configurations
+  darwin.dock = {
+    enable = true;
+    autohide = true;
+    persistentApps = [
+      "/Applications/Ghostty.app"
+      "/Applications/Obsidian.app"
+      "/Applications/Arc.app"
+      "/Applications/Notion.app"
+    ];
+  };
+
+  darwin.systemDefaults = {
+    enable = true;
+    finder = {
+      preferredViewStyle = "clmv";
+      removeOldTrashItems = true;
+      showPathbar = true;
     };
-    finder =
-      {
-        FXPreferredViewStyle = "clmv";
-        FXRemoveOldTrashItems = true;
-        ShowPathbar = true;
-      };
-    loginwindow.GuestEnabled = false;
-    NSGlobalDomain = {
-      AppleICUForce24HourTime = true;
-      AppleInterfaceStyle = "Dark";
-      "com.apple.swipescrolldirection" = true;
-      KeyRepeat = 2;
+    loginwindow.guestEnabled = false;
+    globalDomain = {
+      force24HourTime = true;
+      interfaceStyle = "Dark";
+      naturalScrollDirection = true;
+      keyRepeat = 2;
     };
   };
 
@@ -47,11 +49,11 @@
     shell = pkgs.zsh;
   };
 
-  homebrew = {
+  darwin.homebrew = {
     enable = true;
-    brews = [
-    ];
+    brews = [];
     casks = [
+      "arc"
       "ghostty"
       "mongodb-compass"
       "obs"
@@ -63,7 +65,7 @@
       "home-assistant"
       "rectangle"
     ];
-    onActivation.cleanup = "zap";
+    cleanup = "zap";
   };
 
   system.activationScripts.applications.text =
@@ -88,8 +90,6 @@
     '';
 
   home-manager = {
-    # useGlobalPkgs = true;
-    # useUserPackages = true;
     extraSpecialArgs = { inherit inputs userConfig; };
     backupFileExtension = "backup";
     users = {
