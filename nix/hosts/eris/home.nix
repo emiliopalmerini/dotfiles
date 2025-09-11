@@ -10,15 +10,16 @@
   profiles.desktop.enable = true;
   profiles.desktop.enableCommunication = true;
   profiles.desktop.enableMedia = false; # No VLC needed
-  
+
   # macOS specific session path
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
-  
+
   # macOS specific packages and tools
   home.packages = with pkgs; [
     mongosh
+    mongodb-tools
     raycast
     docker
     docker-compose
@@ -29,7 +30,7 @@
     colima
     rectangle
   ];
-  
+
   # Additional tools
   bruno.enable = true;
   discord.enable = false;
