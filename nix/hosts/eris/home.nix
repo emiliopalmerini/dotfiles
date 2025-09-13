@@ -36,6 +36,6 @@
   gimp.enable = true;
   lua.enable = true;
   nodejs.enable = true;
-  pdf2md.enable = true;
+  hugo.enable = false; # Disabled since we have it in packages
 }
 
