@@ -11,9 +11,9 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-    };
+    # ghostty = {
+    #   url = "github:ghostty-org/ghostty";
+    # };
 
     plugin-harpoon = {
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
@@ -28,12 +28,12 @@
     , nix-darwin
     , home-manager
     , zen-browser
-    , ghostty
+      # , ghostty
     , ...
     } @ inputs:
     let
       lib = import ./lib/default.nix { inherit inputs nixpkgs; };
-      
+
       # Define host lists
       nixosHosts = [ "athena" "hera" "hephaestus" ];
       darwinHosts = [ "eris" ];

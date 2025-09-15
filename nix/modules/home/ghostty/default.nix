@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   cfg = config.ghostty;
@@ -11,11 +11,16 @@ in
 
   config = lib.mkIf cfg.enable {
     # Use Nix package on Linux, Homebrew on macOS
-    home.packages = lib.optionals isLinux [ inputs.ghostty.packages.${pkgs.system}.default ];
+    home.packages = lib.optionals isLinux [ pkgs.ghostty ]; #[ inputs.ghostty.packages.${pkgs.system}.default ];
 
     xdg.configFile."ghostty/config".text = ''
       theme = tokyonight-storm
       shell-integration = zsh
+      
+      # OpenGL context fix for Linux
+      renderer = opengl
+      gtk-single-instance = false
+      window-decoration = true
     '';
   };
 }
