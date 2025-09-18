@@ -201,6 +201,15 @@ conform.formatters["nixpkgs-fmt"] = {
   stdin = true,
 }
 
+-- Configure Prettier to not use trailing commas in JSON
+conform.formatters.prettier = {
+  prepend_args = { "--trailing-comma", "none" },
+}
+
+conform.formatters.prettierd = {
+  prepend_args = { "--trailing-comma", "none" },
+}
+
 conform.formatters.injected = {
 	options = {
 		ignore_errors = false,
