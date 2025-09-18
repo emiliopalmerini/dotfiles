@@ -174,4 +174,6 @@
 
   # Enable generic Docker module and it-tools container
   docker.enable = true;
+  docker.enableWindows = true;
+  docker.enableVpnRouting = true;
 }
