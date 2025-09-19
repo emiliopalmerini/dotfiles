@@ -16,10 +16,6 @@ in
     xdg.configFile."ghostty/config".text = ''
       theme = tokyonight-storm
       shell-integration = zsh
-      
-      # OpenGL context fix for Linux
-      renderer = opengl
-      gtk-single-instance = false
       window-decoration = true
     '';
   };
