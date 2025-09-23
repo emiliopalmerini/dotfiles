@@ -74,8 +74,3 @@ Details and keymaps: see `nix/modules/home/neovim/README.md`.
 2) Copy the machine’s `hardware-configuration.nix` to the same directory (NixOS only).
 3) Add a new output in `nix/flake.nix` under `nixosConfigurations` or `darwinConfigurations`.
 4) Switch with the appropriate command.
-
-## Contributing
-- Use conventional commits (`feat:`, `fix:`, `docs:`, `refactor:`, ...)
-- Keep commits atomic and scoped to a single change
-- Test changes on at least one host before pushing
