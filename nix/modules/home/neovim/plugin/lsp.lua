@@ -5,7 +5,6 @@ if pcall(require, "cmp_nvim_lsp") then
 	capabilities = require("cmp_nvim_lsp").default_capabilities()
 end
 
-local lspconfig = require("lspconfig")
 local omnisharp_path = vim.fn.exepath("OmniSharp")
 if omnisharp_path == "" then
 	omnisharp_path = vim.fn.exepath("omnisharp-roslyn")
@@ -104,7 +103,7 @@ local servers = {
 	},
 }
 
--- Configurazione diretta dei server LSP senza Mason
+-- Configurazione diretta dei server LSP senza Mason usando vim.lsp.config
 for name, config in pairs(servers) do
 	if config == true then
 		config = {}
@@ -112,7 +111,8 @@ for name, config in pairs(servers) do
 	config = vim.tbl_deep_extend("force", {}, {
 		capabilities = capabilities,
 	}, config)
-	lspconfig[name].setup(config)
+	vim.lsp.config[name] = config
+	vim.lsp.enable(name)
 end
 
 local disable_semantic_tokens = {
