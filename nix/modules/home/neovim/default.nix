@@ -111,8 +111,8 @@ in
           # Optional Go formatters
           ++ lib.optionals (pkgs ? gofumpt) [ gofumpt ]
           ++ lib.optionals (pkgs ? golines) [ golines ]
-          ++ lib.optionals stdenv.isLinux ([ xclip wl-clipboard ] ++ lib.optionals (cfg.enableDAP && cfg.enableCSharp) [ netcoredbg ])
-          ++ lib.optionals stdenv.isDarwin [ reattach-to-user-namespace ]
+          ++ lib.optionals pkgs.stdenv.isLinux ([ xclip wl-clipboard ] ++ lib.optionals (cfg.enableDAP && cfg.enableCSharp) [ netcoredbg ])
+          ++ lib.optionals pkgs.stdenv.isDarwin [ reattach-to-user-namespace ]
           # Bash tooling
           ++ lib.optionals (bashlsPkg != null) [ bashlsPkg ];
 

@@ -11,7 +11,6 @@ in
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       lazygit
-      xclip
-    ];
+    ] ++ lib.optionals pkgs.stdenv.isLinux [ xclip ];
   };
 }

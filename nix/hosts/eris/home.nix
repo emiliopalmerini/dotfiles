@@ -8,7 +8,7 @@
   profiles.base.enable = true;
   profiles.developer.enable = true;
   profiles.desktop.enable = true;
-  profiles.desktop.enableCommunication = true;
+  profiles.desktop.enableCommunication = false; # Telegram not available on macOS via Nix
   profiles.desktop.enableMedia = false; # No VLC needed
 
   # macOS specific session path
@@ -31,9 +31,9 @@
   ];
 
   # Additional tools
-  bruno.enable = true;
+  bruno.enable = false; # Not available on macOS via Nix
   discord.enable = false;
-  gimp.enable = true;
+  gimp.enable = false; # Not available on macOS via Nix
   lua.enable = true;
   nodejs.enable = true;
   hugo.enable = false; # Disabled since we have it in packages
