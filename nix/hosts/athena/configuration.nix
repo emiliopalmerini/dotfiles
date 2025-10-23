@@ -1,4 +1,4 @@
-{inputs, pkgs, userConfig, commonEnv, ...}: {
+{ inputs, userConfig, commonEnv, ... }: {
   imports = [
     ./hardware-configuration.nix
     ../../modules/nixos
@@ -6,7 +6,7 @@
   ];
 
   networking.hostName = "athena"; # Define your hostname.
-  networking.nameservers = ["8.8.8.8" "8.8.4.4"];
+  networking.nameservers = [ "8.8.8.8" "8.8.4.4" ];
 
   # Enable shared modules
   basic-system.enable = true;

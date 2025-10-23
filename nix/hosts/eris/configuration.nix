@@ -23,7 +23,7 @@
     persistentApps = [
       "/Applications/Ghostty.app"
       "/Applications/Obsidian.app"
-      "/Applications/Arc.app"
+      "/Applications/Zen Browser.app"
       "/Applications/Notion.app"
     ];
   };
@@ -51,7 +51,7 @@
 
   darwin.homebrew = {
     enable = true;
-    brews = [];
+    brews = [ ];
     casks = [
       "arc"
       "ghostty"
@@ -64,6 +64,7 @@
       "vlc"
       "home-assistant"
       "rectangle"
+      "zen-browser"
     ];
     cleanup = "zap";
   };

@@ -1,5 +1,5 @@
 {
-  imports = 
+  imports =
     # Configuration profiles
     [
       ./profiles/base
@@ -7,7 +7,7 @@
       ./profiles/desktop
       ./profiles/work
     ]
-    
+
     # Development tools and editors
     ++ [
       ./git
@@ -18,7 +18,7 @@
       ./shell
       ./tmux
     ]
-    
+
     # Programming languages and compilers
     ++ [
       ./go
@@ -26,15 +26,14 @@
       ./gcc
       ./lua
       ./nodejs
-      ./php
     ]
-    
+
     # Build tools and utilities
     ++ [
       ./make
       ./hugo
     ]
-    
+
     # Terminal applications and tools
     ++ [
       ./kitty
@@ -44,7 +43,7 @@
       ./warp
       ./brew
     ]
-    
+
     # GUI applications - Development
     ++ [
       ./bruno
@@ -52,13 +51,13 @@
       ./postman
       ./claude
     ]
-    
+
     # GUI applications - Browsers
     ++ [
       ./firefox
       ./chrome
     ]
-    
+
     # GUI applications - Media and Creative
     ++ [
       ./obs
@@ -67,7 +66,7 @@
       ./vlc
       ./unity
     ]
-    
+
     # GUI applications - Productivity
     ++ [
       ./obsidian
@@ -79,14 +78,14 @@
       ./discord
       ./telegram
     ]
-    
+
     # Databases and storage
     ++ [
       ./mongodb
       ./postgres
       ./sqlite
     ]
-    
+
     # AI and specialized tools
     ++ [
       ./ollama

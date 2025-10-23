@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./../../modules/home
