@@ -25,12 +25,12 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
 ### Module System
 
 Home Manager modules are organized by category in `nix/modules/home/`:
-- **Profiles**: `base`, `developer`, `desktop`, `work`
 - **Development**: `git`, `neovim`, `vscode`, `shell`, `tmux`
-- **Languages**: `go`, `dotnet`, `nodejs`, `php`, `lua`
-- **Tools**: Terminal apps, GUI applications, databases
+- **Languages**: `go`, `dotnet`, `nodejs`, `lua`
+- **Tools**: Terminal apps (kitty, ghostty), GUI applications, databases
+- **Productivity**: `obsidian`, `todoist`, `office`, `slack`
 
-Each module can be enabled per-machine in the machine's `home.nix` file with `<module>.enable = true;`.
+Each module can be enabled per-machine in the machine's `home.nix` file with `<module>.enable = true;`. Machines explicitly enable only the modules they need, making configurations clear and maintainable.
 
 ## Common Commands
 
@@ -76,5 +76,5 @@ Each machine has its own `configuration.nix` (system config) and `home.nix` (use
 
 - `nix/lib/default.nix` - Core functions for generating system configurations
 - `nix/lib/users.nix` - User-specific configurations per machine
-- `nix/modules/home/profiles/` - Bundled configurations for different use cases
+- `nix/modules/home/` - Individual Home Manager modules for tools and applications
 - `nix/machines/<machine-name>/home.nix` - Per-machine Home Manager module selection

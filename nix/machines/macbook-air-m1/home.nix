@@ -1,15 +1,46 @@
-{ pkgs, ... }:
+{ pkgs, userConfig, ... }:
 {
   imports = [
     ./../../modules/home
   ];
 
-  # Enable profiles - macOS configuration
-  profiles.base.enable = true;
-  profiles.developer.enable = true;
-  profiles.desktop.enable = true;
-  profiles.desktop.enableCommunication = false; # Telegram not available on macOS via Nix
-  profiles.desktop.enableMedia = false; # No VLC needed
+  # Base Home Manager configuration
+  home.username = userConfig.username;
+  home.homeDirectory = userConfig.homeDirectory;
+  home.stateVersion = "24.11";
+
+  nixpkgs.config.allowUnfree = true;
+  programs.home-manager.enable = true;
+
+  # Git configuration
+  git.enable = true;
+  git.userEmail = userConfig.email;
+  git.userName = "emiliopalmerini";
+
+  # Core developer tools
+  go.enable = true;
+  lazygit.enable = true;
+  make.enable = true;
+  neovim.enable = true;
+  shell.enable = true;
+  tmux.enable = true;
+  claude.enable = true;
+  nodejs.enable = true;
+  lua.enable = true;
+
+  # Desktop applications
+  chrome.enable = true;
+  gcc.enable = true;
+  obsidian.enable = true;
+  todoist.enable = true;
+  ghostty.enable = true;
+
+  # Disabled - not available or not needed on macOS
+  telegram.enable = false; # Not available on macOS via Nix
+  vlc.enable = false; # Not needed
+  bruno.enable = false; # Not available on macOS via Nix
+  discord.enable = false;
+  gimp.enable = false; # Not available on macOS via Nix
 
   # macOS specific session path
   home.sessionPath = [
@@ -29,13 +60,4 @@
     hugo
     colima
   ];
-
-  # Additional tools
-  bruno.enable = false; # Not available on macOS via Nix
-  discord.enable = false;
-  gimp.enable = false; # Not available on macOS via Nix
-  lua.enable = true;
-  nodejs.enable = true;
-  hugo.enable = false; # Disabled since we have it in packages
 }
-

@@ -1,15 +1,7 @@
 {
   imports =
-    # Configuration profiles
-    [
-      ./profiles/base
-      ./profiles/developer
-      ./profiles/desktop
-      ./profiles/work
-    ]
-
     # Development tools and editors
-    ++ [
+    [
       ./git
       ./neovim
       ./vscode
