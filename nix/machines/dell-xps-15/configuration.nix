@@ -16,7 +16,7 @@
 
     initrd.luks.devices."luks-68c92b43-cf28-46bf-9a0a-96a2290dcdac".device = "/dev/disk/by-uuid/68c92b43-cf28-46bf-9a0a-96a2290dcdac";
   };
-  networking.hostName = "hephaestus"; # Define your hostname.
+  networking.hostName = "dell-xps-15"; # Define your hostname.
 
   # Enable shared modules
   basic-system.enable = true;
@@ -104,7 +104,7 @@
     user = userConfig.username;
   };
   
-  # Additional groups specific to hephaestus
+  # Additional groups specific to dell-xps-15
   users.users.${userConfig.username}.extraGroups = [ "vboxusers" ];
 
   # Install firefox.

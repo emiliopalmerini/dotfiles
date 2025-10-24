@@ -22,7 +22,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    # Core development stack - present in all hosts
+    # Core development stack - present in all machines
     go.enable = true;
     lazygit.enable = true;
     make.enable = true;

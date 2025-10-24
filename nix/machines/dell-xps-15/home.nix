@@ -10,7 +10,7 @@
   profiles.desktop.enable = true;
   profiles.work.enable = true;
   
-  # Special zen-browser setup for hephaestus
+  # Special zen-browser setup for dell-xps-15
   programs.zen-browser = {
     enable = true;
   };

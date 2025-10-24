@@ -7,7 +7,7 @@
     inputs.home-manager.nixosModules.default
   ];
 
-  networking.hostName = "hera";
+  networking.hostName = "thinkpad-home-server";
 
   # Enable shared modules
   basic-system.enable = true;
@@ -24,7 +24,7 @@
     user = userConfig.username;
   };
 
-  # Additional groups specific to hera
+  # Additional groups specific to thinkpad-home-server
   users.users.${userConfig.username}.extraGroups = [ "plex" ];
 
   nixpkgs.config.allowUnfree = true;

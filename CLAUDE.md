@@ -10,7 +10,10 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
 
 - `nix/` - Main Nix configuration directory
   - `flake.nix` - Entry point defining all system configurations
-  - `hosts/` - Per-host configurations (athena, hera, hephaestus, eris)
+  - `machines/` - Per-machine configurations (physical hosts and VMs)
+    - `dell-xps-15/` - Work laptop (NixOS)
+    - `thinkpad-home-server/` - Home server (NixOS)
+    - `macbook-air-m1/` - Personal MacBook (macOS)
   - `modules/` - Reusable configuration modules
     - `home/` - Home Manager modules (tools, apps, development environments)
     - `nixos/` - NixOS system modules
@@ -27,16 +30,16 @@ Home Manager modules are organized by category in `nix/modules/home/`:
 - **Languages**: `go`, `dotnet`, `nodejs`, `php`, `lua`
 - **Tools**: Terminal apps, GUI applications, databases
 
-Each module can be enabled per-host in the host's `home.nix` file with `<module>.enable = true;`.
+Each module can be enabled per-machine in the machine's `home.nix` file with `<module>.enable = true;`.
 
 ## Common Commands
 
 ### NixOS Systems
-- Build and switch: `sudo nixos-rebuild switch --flake nix#<hostname>`
-- Test configuration: `sudo nixos-rebuild test --flake nix#<hostname>`
+- Build and switch: `sudo nixos-rebuild switch --flake nix#<machine-name>`
+- Test configuration: `sudo nixos-rebuild test --flake nix#<machine-name>`
 
-### macOS Systems  
-- Build and switch: `darwin-rebuild switch --flake nix#<hostname>`
+### macOS Systems
+- Build and switch: `darwin-rebuild switch --flake nix#<machine-name>`
 
 ### Flake Management
 - Update inputs: `nix flake update --flake nix`
@@ -53,25 +56,25 @@ Each module can be enabled per-host in the host's `home.nix` file with `<module>
 
 ## Development Workflow
 
-### Adding New Hosts
-1. Create `nix/hosts/<hostname>/configuration.nix` and `home.nix`
-2. Copy hardware configuration for NixOS hosts
-3. Add hostname to appropriate list in `nix/flake.nix` (nixosHosts or darwinHosts)
+### Adding New Machines
+1. Create `nix/machines/<machine-name>/configuration.nix` and `home.nix`
+2. Copy hardware configuration for NixOS machines
+3. Add machine name to appropriate list in `nix/flake.nix` (nixosMachines or darwinMachines)
 
 ### Adding New Home Manager Modules
 1. Create module directory in `nix/modules/home/<module-name>/`
 2. Add module to imports in `nix/modules/home/default.nix`
 3. Follow existing module patterns with `enable` option
 
-### Host Configurations
-- **NixOS hosts**: athena, hera, hephaestus (x86_64-linux)
-- **macOS hosts**: eris (aarch64-darwin)
+### Machine Configurations
+- **NixOS machines**: dell-xps-15, thinkpad-home-server (x86_64-linux)
+- **macOS machines**: macbook-air-m1 (aarch64-darwin)
 
-Each host has its own `configuration.nix` (system config) and `home.nix` (user environment config).
+Each machine has its own `configuration.nix` (system config) and `home.nix` (user environment config).
 
 ## Key Files to Understand
 
 - `nix/lib/default.nix` - Core functions for generating system configurations
-- `nix/lib/users.nix` - User-specific configurations per host
+- `nix/lib/users.nix` - User-specific configurations per machine
 - `nix/modules/home/profiles/` - Bundled configurations for different use cases
-- `nix/hosts/<hostname>/home.nix` - Per-host Home Manager module selection
+- `nix/machines/<machine-name>/home.nix` - Per-machine Home Manager module selection
