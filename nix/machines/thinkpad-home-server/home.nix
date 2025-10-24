@@ -1,4 +1,4 @@
-{ userConfig, ... }:
+{ userConfig, pkgs, lib, ... }:
 {
   imports = [
     ./../../modules/home
@@ -17,12 +17,16 @@
   git.userEmail = userConfig.email;
   git.userName = "emiliopalmerini";
 
-  # Core developer tools for server management
+  # Core developer tools for server management (complex modules)
   go.enable = true;
-  lazygit.enable = true;
-  make.enable = true;
   neovim.enable = true;
   shell.enable = true;
   tmux.enable = true;
-  claude.enable = true;
+
+  # Simple packages - installed directly
+  home.packages = with pkgs; [
+    claude-code
+    lazygit
+    gnumake
+  ] ++ lib.optionals stdenv.isLinux [ xclip ];
 }

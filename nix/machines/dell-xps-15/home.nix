@@ -1,4 +1,4 @@
-{ inputs, pkgs, userConfig, ... }: {
+{ inputs, pkgs, userConfig, lib, ... }: {
   imports = [
     ./../../modules/home
     inputs.zen-browser.homeModules.twilight
@@ -17,31 +17,36 @@
   git.userEmail = userConfig.email;
   git.userName = "emiliopalmerini";
 
-  # Core developer tools
+  # Core developer tools (complex modules with configs)
   go.enable = true;
-  lazygit.enable = true;
-  make.enable = true;
   neovim.enable = true;
   shell.enable = true;
   tmux.enable = true;
-  claude.enable = true;
   mongodb.enable = true;
   nodejs.enable = true;
-
-  # Desktop applications
-  chrome.enable = true;
-  gcc.enable = true;
-  obsidian.enable = true;
-  todoist.enable = true;
-  telegram.enable = true;
-  ghostty.enable = true;
-
-  # Work tools
-  office.enable = true;
-  slack.enable = true;
   dotnet.enable = true;
-  postman.enable = true;
-  bruno.enable = true;
+
+  # Simple packages - installed directly
+  home.packages = with pkgs; [
+    # Development tools
+    claude-code
+    lazygit
+    gnumake
+    gcc
+
+    # Desktop applications
+    google-chrome
+    obsidian
+    todoist
+    telegram-desktop
+    ghostty
+
+    # Work tools
+    libreoffice
+    slack
+    postman
+    bruno
+  ] ++ lib.optionals stdenv.isLinux [ xclip ];
 
   # Browser - zen-browser requires special setup
   programs.zen-browser = {

@@ -24,13 +24,19 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
 
 ### Module System
 
-Home Manager modules are organized by category in `nix/modules/home/`:
-- **Development**: `git`, `neovim`, `vscode`, `shell`, `tmux`
-- **Languages**: `go`, `dotnet`, `nodejs`, `lua`
-- **Tools**: Terminal apps (kitty, ghostty), GUI applications, databases
-- **Productivity**: `obsidian`, `todoist`, `office`, `slack`
+Home Manager uses a hybrid approach:
 
-Each module can be enabled per-machine in the machine's `home.nix` file with `<module>.enable = true;`. Machines explicitly enable only the modules they need, making configurations clear and maintainable.
+**Modules (8 total)** - For tools with complex configuration:
+- **Development tools**: `git` (aliases, hooks), `neovim` (LSPs, plugins), `shell` (zsh with oh-my-posh), `tmux` (keybindings)
+- **Languages with environment setup**: `nodejs` (npm config, PATH), `dotnet` (multiple SDKs, DOTNET_ROOT)
+- **Convenient bundles**: `go` (7 related tools), `mongodb` (3 related tools)
+
+Modules are enabled per-machine with `<module>.enable = true;`.
+
+**Direct packages** - For simple applications without custom config:
+- Installed directly in `home.packages = [ pkgs.package-name ]`
+- Examples: chrome, obsidian, slack, lazygit, gcc, etc.
+- More explicit and easier to manage than wrapper modules
 
 ## Common Commands
 
