@@ -21,6 +21,21 @@ let
       fullName = "Emilio Palmerini";
       homeDirectory = "/Users/emiliopalmerini";
     };
+
+    # VM configurations
+    vm-aarch64 = {
+      username = "emilio";
+      email = "emilio.palmerini@gmail.com";
+      fullName = "Emilio Palmerini";
+      homeDirectory = "/home/emilio";
+    };
+
+    wsl = {
+      username = "emilio";
+      email = "emilio.palmerini@gmail.com";
+      fullName = "Emilio Palmerini";
+      homeDirectory = "/home/emilio";
+    };
   };
 in
 {
