@@ -39,10 +39,7 @@
     lua
 
     # Desktop applications
-    google-chrome
     obsidian
-    todoist
-    ghostty
 
     # macOS specific tools
     mongosh
@@ -55,5 +52,6 @@
     clamav
     hugo
     colima
+    gh
   ];
 }
