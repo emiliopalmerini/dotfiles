@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//Users/emiliopalmerini/Documents/bag_of_holding/**)"
-    ],
-    "deny": [],
-    "ask": []
-  }
-}
