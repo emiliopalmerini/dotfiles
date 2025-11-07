@@ -25,7 +25,7 @@ in
     # neovim.enableCopilot = mkOption { type = types.bool; default = true; description = "Enable GitHub Copilot plugins."; };
 
     # Per-language toggles
-    #neovim.enableTypeScript = mkOption { type = types.bool; default = true; description = "Enable TypeScript LSP/DAP/tools."; };
+    neovim.enableTypeScript = mkOption { type = types.bool; default = true; description = "Enable TypeScript LSP/DAP/tools."; };
     neovim.enableGo = mkOption { type = types.bool; default = true; description = "Enable Go LSP/DAP/tools."; };
     neovim.enablePython = mkOption { type = types.bool; default = true; description = "Enable Python LSP/DAP/tools."; };
     neovim.enableCSharp = mkOption { type = types.bool; default = true; description = "Enable C# LSP/DAP/tools."; };
@@ -180,6 +180,7 @@ in
             }
               { plugin = nvim-treesitter-textobjects; }]
             ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
+            ++ [{ plugin = obsidian-nvim; type = "lua"; config = builtins.readFile ./plugin/obsidian.lua; }]
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
             ++ lib.optionals cfg.enableUI [{ plugin = heirline-nvim; type = "lua"; config = builtins.readFile ./plugin/statusline.lua; }]
