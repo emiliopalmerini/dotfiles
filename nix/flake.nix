@@ -39,12 +39,12 @@
     let
       lib = import ./lib/default.nix { inherit inputs nixpkgs; };
 
-      # Define host lists
-      nixosHosts = [ "athena" "hera" "hephaestus" ];
-      darwinHosts = [ "eris" ];
+      # Define machine lists
+      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "vm-aarch64" "wsl" ];
+      darwinMachines = [ "macbook-air-m1" ];
     in
     {
-      nixosConfigurations = lib.mkNixosConfigurations nixosHosts;
-      darwinConfigurations = lib.mkDarwinConfigurations darwinHosts;
+      nixosConfigurations = lib.mkNixosConfigurations nixosMachines;
+      darwinConfigurations = lib.mkDarwinConfigurations darwinMachines;
     };
 }

@@ -10,10 +10,18 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
 
 - `nix/` - Main Nix configuration directory
   - `flake.nix` - Entry point defining all system configurations
-  - `hosts/` - Per-host configurations (athena, hera, hephaestus, eris)
+  - `machines/` - Per-machine configurations (physical hosts and VMs)
+    - `dell-xps-15/` - Work laptop (NixOS)
+    - `thinkpad-home-server/` - Home server (NixOS)
+    - `macbook-air-m1/` - Personal MacBook (macOS)
+    - `vm-aarch64.nix` - ARM64 VM for macOS (VMware/Parallels/QEMU)
+    - `wsl.nix` - Windows WSL configuration
+    - `vm-shared.nix` - Common VM configuration
+    - `vm-home.nix` - Shared Home Manager config for VMs
+    - `hardware/` - Hardware configurations for machines and VMs
   - `modules/` - Reusable configuration modules
     - `home/` - Home Manager modules (tools, apps, development environments)
-    - `nixos/` - NixOS system modules
+    - `nixos/` - NixOS system modules (including `vm/` for VM-specific settings)
     - `darwin/` - macOS-specific modules
   - `lib/` - Utility functions for configuration generation
 - `powershell/` - Windows PowerShell configuration and setup
@@ -21,22 +29,37 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
 
 ### Module System
 
-Home Manager modules are organized by category in `nix/modules/home/`:
-- **Profiles**: `base`, `developer`, `desktop`, `work`
-- **Development**: `git`, `neovim`, `vscode`, `shell`, `tmux`
-- **Languages**: `go`, `dotnet`, `nodejs`, `php`, `lua`
-- **Tools**: Terminal apps, GUI applications, databases
+Home Manager uses a hybrid approach:
 
-Each module can be enabled per-host in the host's `home.nix` file with `<module>.enable = true;`.
+**Modules (8 total)** - For tools with complex configuration:
+- **Development tools**: `git` (aliases, hooks), `neovim` (LSPs, plugins), `shell` (zsh with oh-my-posh), `tmux` (keybindings)
+- **Languages with environment setup**: `nodejs` (npm config, PATH), `dotnet` (multiple SDKs, DOTNET_ROOT)
+- **Convenient bundles**: `go` (7 related tools), `mongodb` (3 related tools)
+
+Modules are enabled per-machine with `<module>.enable = true;`.
+
+**Direct packages** - For simple applications without custom config:
+- Installed directly in `home.packages = [ pkgs.package-name ]`
+- Examples: chrome, obsidian, slack, lazygit, gcc, etc.
+- More explicit and easier to manage than wrapper modules
 
 ## Common Commands
 
 ### NixOS Systems
-- Build and switch: `sudo nixos-rebuild switch --flake nix#<hostname>`
-- Test configuration: `sudo nixos-rebuild test --flake nix#<hostname>`
+- Build and switch: `sudo nixos-rebuild switch --flake nix#<machine-name>`
+- Test configuration: `sudo nixos-rebuild test --flake nix#<machine-name>`
 
-### macOS Systems  
-- Build and switch: `darwin-rebuild switch --flake nix#<hostname>`
+### macOS Systems
+- Build and switch: `darwin-rebuild switch --flake nix#<machine-name>`
+
+### VMs and WSL
+- **vm-aarch64**: For running NixOS on macOS (VMware Fusion, Parallels, or QEMU)
+  - Build VM: `nix build nix#nixosConfigurations.vm-aarch64.config.system.build.vm`
+  - Run VM: `./result/bin/run-vm-aarch64-vm`
+  - Includes shared filesystem at `/host` for easy file sharing
+- **wsl**: For running NixOS on Windows via WSL
+  - Build: `sudo nixos-rebuild switch --flake nix#wsl`
+  - Uses WSL-specific configuration with automount at `/mnt`
 
 ### Flake Management
 - Update inputs: `nix flake update --flake nix`
@@ -53,25 +76,36 @@ Each module can be enabled per-host in the host's `home.nix` file with `<module>
 
 ## Development Workflow
 
-### Adding New Hosts
-1. Create `nix/hosts/<hostname>/configuration.nix` and `home.nix`
-2. Copy hardware configuration for NixOS hosts
-3. Add hostname to appropriate list in `nix/flake.nix` (nixosHosts or darwinHosts)
+### Adding New Machines
+**Physical machines:**
+1. Create `nix/machines/<machine-name>/configuration.nix` and `home.nix`
+2. Copy hardware configuration for NixOS machines
+3. Add machine name to appropriate list in `nix/flake.nix` (nixosMachines or darwinMachines)
+
+**VMs (Mitchell Hashimoto style):**
+1. Create `nix/machines/vm-<name>.nix` that imports `vm-shared.nix`
+2. Create `nix/machines/hardware/vm-<name>.nix` with hardware config
+3. Add VM name to `nixosMachines` list in `nix/flake.nix`
+4. Add user config to `nix/lib/users.nix`
+5. Customize VM-specific settings (hostname, network interface, backend)
 
 ### Adding New Home Manager Modules
 1. Create module directory in `nix/modules/home/<module-name>/`
 2. Add module to imports in `nix/modules/home/default.nix`
 3. Follow existing module patterns with `enable` option
 
-### Host Configurations
-- **NixOS hosts**: athena, hera, hephaestus (x86_64-linux)
-- **macOS hosts**: eris (aarch64-darwin)
+### Machine Configurations
+- **NixOS machines**: dell-xps-15, thinkpad-home-server (x86_64-linux)
+- **macOS machines**: macbook-air-m1 (aarch64-darwin)
+- **VMs and WSL**: vm-aarch64, wsl
 
-Each host has its own `configuration.nix` (system config) and `home.nix` (user environment config).
+Physical machines have their own directory with `configuration.nix` (system config) and `home.nix` (user environment config).
+
+VMs follow Mitchell Hashimoto's pattern: single `.nix` files in `machines/` directory that import `vm-shared.nix` for common VM configuration.
 
 ## Key Files to Understand
 
 - `nix/lib/default.nix` - Core functions for generating system configurations
-- `nix/lib/users.nix` - User-specific configurations per host
-- `nix/modules/home/profiles/` - Bundled configurations for different use cases
-- `nix/hosts/<hostname>/home.nix` - Per-host Home Manager module selection
+- `nix/lib/users.nix` - User-specific configurations per machine
+- `nix/modules/home/` - Individual Home Manager modules for tools and applications
+- `nix/machines/<machine-name>/home.nix` - Per-machine Home Manager module selection

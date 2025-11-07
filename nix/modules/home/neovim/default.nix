@@ -180,6 +180,7 @@ in
             }
               { plugin = nvim-treesitter-textobjects; }]
             ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
+            ++ [{ plugin = obsidian-nvim; type = "lua"; config = builtins.readFile ./plugin/obsidian.lua; }]
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
             ++ lib.optionals cfg.enableUI [{ plugin = heirline-nvim; type = "lua"; config = builtins.readFile ./plugin/statusline.lua; }]

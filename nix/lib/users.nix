@@ -1,39 +1,47 @@
 let
-  # User configurations per host
+  # User configurations per machine
   users = {
-    athena = {
-      username = "emil_io";
-      email = "emilio.palmerini@proton.me";
-      fullName = "Emilio Palmerini";
-      homeDirectory = "/home/emil_io";
-    };
-    
-    hera = {
+    thinkpad-home-server = {
       username = "prometeo";
-      email = "emilio.palmerini@gmail.com"; 
+      email = "emilio.palmerini@gmail.com";
       fullName = "Prometeo";
       homeDirectory = "/home/prometeo";
     };
-    
-    hephaestus = {
+
+    dell-xps-15 = {
       username = "emilio";
       email = "emilio.palmerini@codiceplastico.com";
-      fullName = "Emilio Palmerini"; 
+      fullName = "Emilio Palmerini";
       homeDirectory = "/home/emilio";
     };
-    
-    eris = {
+
+    macbook-air-m1 = {
       username = "emiliopalmerini";
       email = "emilio.palmerini@gmail.com";
       fullName = "Emilio Palmerini";
       homeDirectory = "/Users/emiliopalmerini";
+    };
+
+    # VM configurations
+    vm-aarch64 = {
+      username = "emilio";
+      email = "emilio.palmerini@gmail.com";
+      fullName = "Emilio Palmerini";
+      homeDirectory = "/home/emilio";
+    };
+
+    wsl = {
+      username = "emilio";
+      email = "emilio.palmerini@gmail.com";
+      fullName = "Emilio Palmerini";
+      homeDirectory = "/home/emilio";
     };
   };
 in
 {
   # Expose users
   inherit users;
-  
-  # Helper function to get user config for a host
-  getUserConfig = hostname: users.${hostname};
+
+  # Helper function to get user config for a machine
+  getUserConfig = machineName: users.${machineName};
 }

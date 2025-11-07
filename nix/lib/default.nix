@@ -14,45 +14,45 @@ rec {
   inherit (commonLib) mkEnvironment;
 
   # Helper function to create NixOS configurations
-  mkNixosSystem = hostname: nixpkgs.lib.nixosSystem {
+  mkNixosSystem = machineName: nixpkgs.lib.nixosSystem {
     system = linuxSystem;
-    specialArgs = { 
-      inherit inputs; 
-      userConfig = getUserConfig hostname;
+    specialArgs = {
+      inherit inputs;
+      userConfig = getUserConfig machineName;
       commonEnv = mkEnvironment { isDarwin = false; };
     };
     modules = [
-      ../hosts/${hostname}/configuration.nix
+      ../machines/${machineName}/configuration.nix
     ];
   };
 
-  # Helper function to create Darwin configurations  
-  mkDarwinSystem = hostname: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = { 
-      inherit inputs; 
-      userConfig = getUserConfig hostname;
+  # Helper function to create Darwin configurations
+  mkDarwinSystem = machineName: inputs.nix-darwin.lib.darwinSystem {
+    specialArgs = {
+      inherit inputs;
+      userConfig = getUserConfig machineName;
       commonEnv = mkEnvironment { isDarwin = true; };
     };
     modules = [
-      ../hosts/${hostname}/configuration.nix
+      ../machines/${machineName}/configuration.nix
     ];
   };
 
-  # Generate nixosConfigurations from host list
-  mkNixosConfigurations = hostNames: 
+  # Generate nixosConfigurations from machine list
+  mkNixosConfigurations = machineNames:
     builtins.listToAttrs (
-      map (host: { 
-        name = host; 
-        value = mkNixosSystem host; 
-      }) hostNames
+      map (machine: {
+        name = machine;
+        value = mkNixosSystem machine;
+      }) machineNames
     );
 
-  # Generate darwinConfigurations from host list
-  mkDarwinConfigurations = hostNames:
+  # Generate darwinConfigurations from machine list
+  mkDarwinConfigurations = machineNames:
     builtins.listToAttrs (
-      map (host: { 
-        name = host; 
-        value = mkDarwinSystem host; 
-      }) hostNames
+      map (machine: {
+        name = machine;
+        value = mkDarwinSystem machine;
+      }) machineNames
     );
 }

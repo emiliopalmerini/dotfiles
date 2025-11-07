@@ -5,7 +5,7 @@
     ./clamav
     ./mainUser
     ./tailscale
-    
+
     # New shared modules
     ./basic-system
     ./gnome-desktop
@@ -13,5 +13,6 @@
     ./italian-locale
     ./media-server
     ./tailscale-only-access
+    ./vm
   ];
 }

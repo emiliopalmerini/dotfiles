@@ -1,5 +1,5 @@
 let
-  # Common environment variables shared across hosts
+  # Common environment variables shared across machines
   commonEnvironment = {
     EDITOR = "nvim";
     TERM = "xterm-256color";
