@@ -8,6 +8,13 @@ let
       homeDirectory = "/home/prometeo";
     };
 
+    dell-precision = {
+      username = "epalmerini";
+      email = "emilio.palmerini@vivaticket.com";
+      fullName = "Emilio Palmerini";
+      homeDirectory = "/home/epalmerini";
+    };
+
     dell-xps-15 = {
       username = "emilio";
       email = "emilio.palmerini@codiceplastico.com";

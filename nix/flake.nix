@@ -40,7 +40,7 @@
       lib = import ./lib/default.nix { inherit inputs nixpkgs; };
 
       # Define machine lists
-      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "vm-aarch64" "wsl" ];
+      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "vm-aarch64" "wsl" "dell-precision" ];
       darwinMachines = [ "macbook-air-m1" ];
     in
     {

@@ -6,6 +6,7 @@
 let
   dotnetSdks = with pkgs.dotnetCorePackages; [
     sdk_6_0
+    sdk_7_0
     sdk_8_0
     sdk_9_0
   ];
@@ -13,6 +14,7 @@ let
   insecurePackages = [
     "dotnet-sdk-6.0.428"
     "dotnet-runtime-6.0.36"
+    "dotnet-sdk-7.0.410"
   ];
 
   dotnet-combined = (pkgs.dotnetCorePackages.combinePackages dotnetSdks).overrideAttrs (finalAttrs: previousAttrs: {
