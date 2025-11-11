@@ -88,6 +88,7 @@ in
       httpie
       ripgrep
       tree
+      gh
     ];
   };
 }

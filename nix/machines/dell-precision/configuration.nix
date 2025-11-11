@@ -166,4 +166,13 @@
 
   # Enable generic Docker module and it-tools container
   docker.enable = true;
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any additional libraries needed
+    stdenv.cc.cc
+    zlib
+    openssl
+    icu
+  ];
 }
