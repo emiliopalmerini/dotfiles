@@ -93,6 +93,7 @@ local servers = {
 			"--hostPID",
 			tostring(vim.fn.getpid()),
 		},
+		filetypes = { "cs", "vb" },
 		settings = {
 			omnisharp = {
 				useModernNet = true,
