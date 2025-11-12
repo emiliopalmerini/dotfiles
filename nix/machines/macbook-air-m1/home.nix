@@ -40,6 +40,7 @@
 
     # Desktop applications
     obsidian
+    maccy # Clipboard history manager
 
     # macOS specific tools
     mongosh

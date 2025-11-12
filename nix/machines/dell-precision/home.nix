@@ -40,6 +40,7 @@
     todoist
     telegram-desktop
     ghostty
+    copyq # Clipboard history manager
 
     # Work tools
     libreoffice
