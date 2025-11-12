@@ -10,6 +10,11 @@ in
   };
 
   config = mkIf cfg.enable {
+    # Install Spacebar GNOME extension for workspace indicator
+    home.packages = with pkgs; [
+      gnomeExtensions.spacebar
+    ];
+
     # GNOME dconf settings for workspaces and keybindings
     dconf.settings = {
       # Set number of static workspaces to 6
