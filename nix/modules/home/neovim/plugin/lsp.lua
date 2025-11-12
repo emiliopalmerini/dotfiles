@@ -94,12 +94,21 @@ local servers = {
 			tostring(vim.fn.getpid()),
 		},
 		filetypes = { "cs", "vb" },
+		handlers = {
+			["textDocument/definition"] = function(...)
+				return require("vim.lsp.handlers")["textDocument/definition"](...)
+			end,
+		},
 		settings = {
 			omnisharp = {
 				useModernNet = true,
 				enableEditorconfigSupport = true,
 				organizeImportsOnFormat = true,
 			},
+		},
+		-- Add flags to handle OmniSharp's non-standard responses
+		flags = {
+			debounce_text_changes = 150,
 		},
 	},
 }
@@ -112,6 +121,20 @@ for name, config in pairs(servers) do
 	config = vim.tbl_deep_extend("force", {}, {
 		capabilities = capabilities,
 	}, config)
+
+	-- Add OmniSharp-specific handler to filter out nil messages
+	if name == "omnisharp" then
+		local default_handlers = config.handlers or {}
+		config.handlers = vim.tbl_extend("force", default_handlers, {
+			["client/registerCapability"] = function(err, result, ctx)
+				if result == nil then
+					return
+				end
+				return vim.lsp.handlers["client/registerCapability"](err, result, ctx)
+			end,
+		})
+	end
+
 	vim.lsp.config[name] = config
 	vim.lsp.enable(name)
 end
