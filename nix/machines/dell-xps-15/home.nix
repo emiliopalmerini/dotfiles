@@ -26,6 +26,9 @@
   nodejs.enable = true;
   dotnet.enable = true;
 
+  # Desktop environment configuration
+  gnome-workspaces.enable = true;
+
   # Simple packages - installed directly
   home.packages = with pkgs; [
     # Development tools
@@ -40,6 +43,7 @@
     todoist
     telegram-desktop
     ghostty
+    gnomeExtensions.clipboard-indicator # Clipboard history manager
 
     # Work tools
     libreoffice
