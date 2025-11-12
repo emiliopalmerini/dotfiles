@@ -40,7 +40,7 @@
     todoist
     telegram-desktop
     ghostty
-    copyq # Clipboard history manager
+    gnomeExtensions.clipboard-indicator # Clipboard history manager
 
     # Work tools
     libreoffice
