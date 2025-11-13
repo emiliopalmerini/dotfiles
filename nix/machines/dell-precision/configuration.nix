@@ -137,7 +137,23 @@
   virtualisation.docker = {
     enable = true;
   };
-  virtualisation.oci-containers.backend = "docker";
+  virtualisation.oci-containers = {
+    backend = "docker";
+    containers = {
+      postgres = {
+        image = "postgres:16";
+        ports = [ "5432:5432" ];
+        environment = {
+          POSTGRES_PASSWORD = "postgres";
+          POSTGRES_USER = "postgres";
+          POSTGRES_DB = "postgres";
+        };
+        volumes = [
+          "postgres-data:/var/lib/postgresql/data"
+        ];
+      };
+    };
+  };
 
   environment.variables = commonEnv;
 

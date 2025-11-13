@@ -92,6 +92,8 @@ in
             sleek
             # XML Language Server
             lemminx
+            # Protobuf tooling (includes language server)
+            buf
           ]
           ++ lib.optionals cfg.enableCSharp [ omnisharp-roslyn ]
           ++ lib.optionals cfg.enableGo [ gopls ]
@@ -163,7 +165,8 @@ in
                     p.tree-sitter-markdown_inline
                   ]
                   ++ lib.optional (p ? tree-sitter-yaml) p.tree-sitter-yaml
-                  ++ lib.optional (p ? tree-sitter-json) p.tree-sitter-json;
+                  ++ lib.optional (p ? tree-sitter-json) p.tree-sitter-json
+                  ++ lib.optional (p ? tree-sitter-proto) p.tree-sitter-proto;
                   ts = lib.optionals cfg.enableTypeScript (
                     (lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
                     ++ (lib.optional (p ? tree-sitter-typescript) p.tree-sitter-typescript)

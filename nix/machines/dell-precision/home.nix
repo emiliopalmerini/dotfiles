@@ -36,6 +36,8 @@
     lazygit
     gnumake
     gcc
+    protobuf # Protocol Buffers compiler (includes protoc)
+    grpcurl # gRPC CLI tool for testing endpoints
 
     # Desktop applications
     google-chrome
@@ -52,6 +54,7 @@
     bruno
     openfortivpn
     jetbrains.rider
+    dbeaver-bin
   ] ++ lib.optionals stdenv.isLinux [ xclip ];
 
   # Browser - zen-browser requires special setup

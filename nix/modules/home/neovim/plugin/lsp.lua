@@ -19,6 +19,8 @@ local servers = {
 	[ts_server_name] = true,
 	-- XML
 	lemminx = true,
+	-- Protobuf
+	bufls = true,
 	bashls = {
 		cmd = { "bash-language-server", "start" },
 		filetypes = { "sh", "bash" },
@@ -216,6 +218,7 @@ conform.setup({
     json = js_formatters,
     yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
 		go = { "gofumpt", "gofmt" },
+		proto = { "buf" },
 	},
 })
 
