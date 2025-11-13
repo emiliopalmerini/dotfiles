@@ -100,12 +100,30 @@ local servers = {
 			["textDocument/definition"] = function(...)
 				return require("vim.lsp.handlers")["textDocument/definition"](...)
 			end,
+			["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
+				-- Enable virtual text for diagnostics
+				virtual_text = true,
+				-- Show signs in the gutter
+				signs = true,
+				-- Update diagnostics in insert mode
+				update_in_insert = false,
+				-- Show diagnostics with higher severity first
+				severity_sort = true,
+			}),
 		},
 		settings = {
-			omnisharp = {
-				useModernNet = true,
-				enableEditorconfigSupport = true,
-				organizeImportsOnFormat = true,
+			FormattingOptions = {
+				EnableEditorConfigSupport = true,
+				OrganizeImports = true,
+			},
+			RoslynExtensionsOptions = {
+				EnableAnalyzersSupport = true,
+				EnableImportCompletion = true,
+				AnalyzeOpenDocumentsOnly = false,
+			},
+			-- Ensure SDK is detected
+			MsBuild = {
+				LoadProjectsOnDemand = false,
 			},
 		},
 		-- Add flags to handle OmniSharp's non-standard responses
@@ -200,9 +218,9 @@ local prefer_prettier = (vim.g.prefer_prettier == true)
 local has_prettierd = (vim.fn.executable("prettierd") == 1)
 local js_formatters = nil
 if prefer_prettier then
-  js_formatters = has_prettierd and { "prettierd", "prettier", "biome" } or { "prettier", "biome" }
+	js_formatters = has_prettierd and { "prettierd", "prettier", "biome" } or { "prettier", "biome" }
 else
-  js_formatters = has_prettierd and { "biome", "prettierd", "prettier" } or { "biome", "prettier" }
+	js_formatters = has_prettierd and { "biome", "prettierd", "prettier" } or { "biome", "prettier" }
 end
 
 conform.setup({
@@ -215,8 +233,8 @@ conform.setup({
 		javascriptreact = js_formatters,
 		typescript = js_formatters,
 		typescriptreact = js_formatters,
-    json = js_formatters,
-    yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
+		json = js_formatters,
+		yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
 		go = { "gofumpt", "gofmt" },
 		proto = { "buf" },
 	},
@@ -224,17 +242,17 @@ conform.setup({
 
 -- Define missing formatter configs
 conform.formatters["nixpkgs-fmt"] = {
-  command = "nixpkgs-fmt",
-  stdin = true,
+	command = "nixpkgs-fmt",
+	stdin = true,
 }
 
 -- Configure Prettier to not use trailing commas in JSON
 conform.formatters.prettier = {
-  prepend_args = { "--trailing-comma", "none" },
+	prepend_args = { "--trailing-comma", "none" },
 }
 
 conform.formatters.prettierd = {
-  prepend_args = { "--trailing-comma", "none" },
+	prepend_args = { "--trailing-comma", "none" },
 }
 
 conform.formatters.injected = {
@@ -261,7 +279,23 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 require("lsp_lines").setup()
-vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+
+vim.diagnostic.config({
+	virtual_text = true,
+	virtual_lines = false,
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = "",
+			[vim.diagnostic.severity.WARN] = "",
+			[vim.diagnostic.severity.INFO] = "",
+			[vim.diagnostic.severity.HINT] = "",
+		},
+	},
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+})
+
 vim.keymap.set("n", "<leader>l", function()
 	local config = vim.diagnostic.config() or {}
 	if config.virtual_text then

@@ -134,10 +134,10 @@ do
 	local ok, harpoon = pcall(require, "harpoon")
 	if ok then
 		harpoon:setup()
-		vim.keymap.set("n", "<leader>hv", function()
+		vim.keymap.set("n", "<leader>h", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end, { desc = "Harpoon: Toggle quick menu" })
-		vim.keymap.set("n", "<leader>ha", function()
+		vim.keymap.set("n", "<leader>H", function()
 			harpoon:list():add()
 		end, { desc = "Harpoon: Add file" })
 		vim.keymap.set("n", "<leader>1", function()
