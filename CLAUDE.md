@@ -12,6 +12,7 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
   - `flake.nix` - Entry point defining all system configurations
   - `machines/` - Per-machine configurations (physical hosts and VMs)
     - `dell-xps-15/` - Work laptop (NixOS)
+    - `dell-precision/` - Work desktop (NixOS)
     - `thinkpad-home-server/` - Home server (NixOS)
     - `macbook-air-m1/` - Personal MacBook (macOS)
     - `vm-aarch64.nix` - ARM64 VM for macOS (VMware/Parallels/QEMU)
@@ -24,17 +25,17 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
     - `nixos/` - NixOS system modules (including `vm/` for VM-specific settings)
     - `darwin/` - macOS-specific modules
   - `lib/` - Utility functions for configuration generation
-- `powershell/` - Windows PowerShell configuration and setup
 - `.claude/agents/` - Contains nixos-config-expert agent for Nix-related tasks
 
 ### Module System
 
 Home Manager uses a hybrid approach:
 
-**Modules (8 total)** - For tools with complex configuration:
+**Modules (9 total)** - For tools with complex configuration:
 - **Development tools**: `git` (aliases, hooks), `neovim` (LSPs, plugins), `shell` (zsh with oh-my-posh), `tmux` (keybindings)
 - **Languages with environment setup**: `nodejs` (npm config, PATH), `dotnet` (multiple SDKs, DOTNET_ROOT)
 - **Convenient bundles**: `go` (7 related tools), `mongodb` (3 related tools)
+- **Desktop environment**: `gnome-workspaces` (GNOME workspace configuration)
 
 Modules are enabled per-machine with `<module>.enable = true;`.
 
@@ -69,11 +70,6 @@ Modules are enabled per-machine with `<module>.enable = true;`.
 - Clean old generations: `nix-collect-garbage --delete-old`
 - Clean generations older than 30 days: `nix-collect-garbage --delete-older-than 30d`
 
-### Windows PowerShell Setup
-- Full setup: `.\setup.ps1` (run from `powershell/` directory)
-- Setup without fonts: `.\setup.ps1 -SkipFontInstall`
-- Force overwrite: `.\setup.ps1 -Force`
-
 ## Development Workflow
 
 ### Adding New Machines
@@ -95,7 +91,7 @@ Modules are enabled per-machine with `<module>.enable = true;`.
 3. Follow existing module patterns with `enable` option
 
 ### Machine Configurations
-- **NixOS machines**: dell-xps-15, thinkpad-home-server (x86_64-linux)
+- **NixOS machines**: dell-xps-15, dell-precision, thinkpad-home-server (x86_64-linux)
 - **macOS machines**: macbook-air-m1 (aarch64-darwin)
 - **VMs and WSL**: vm-aarch64, wsl
 
