@@ -40,11 +40,12 @@
       lib = import ./lib/default.nix { inherit inputs nixpkgs; };
 
       # Define machine lists
-      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "vm-aarch64" "dell-precision" ];
+      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "dell-precision" ];
+      vmMachines = [ "vm-aarch64" ];
       darwinMachines = [ "macbook-air-m1" ];
     in
     {
-      nixosConfigurations = lib.mkNixosConfigurations nixosMachines;
+      nixosConfigurations = lib.mkNixosConfigurations nixosMachines // lib.mkVmConfigurations vmMachines;
       darwinConfigurations = lib.mkDarwinConfigurations darwinMachines;
     };
 }

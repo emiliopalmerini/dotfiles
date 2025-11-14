@@ -13,9 +13,22 @@ rec {
   # Expose common utilities  
   inherit (commonLib) mkEnvironment;
 
-  # Helper function to create NixOS configurations
+  # Helper function to create NixOS configurations (physical machines - x86_64)
   mkNixosSystem = machineName: nixpkgs.lib.nixosSystem {
     system = linuxSystem;
+    specialArgs = {
+      inherit inputs;
+      userConfig = getUserConfig machineName;
+      commonEnv = mkEnvironment { isDarwin = false; };
+    };
+    modules = [
+      ../machines/${machineName}/configuration.nix
+    ];
+  };
+
+  # Helper function to create VM configurations (aarch64-linux for ARM Macs)
+  mkVmSystem = machineName: nixpkgs.lib.nixosSystem {
+    system = "aarch64-linux";
     specialArgs = {
       inherit inputs;
       userConfig = getUserConfig machineName;
@@ -44,6 +57,15 @@ rec {
       map (machine: {
         name = machine;
         value = mkNixosSystem machine;
+      }) machineNames
+    );
+
+  # Generate VM configurations from machine list
+  mkVmConfigurations = machineNames:
+    builtins.listToAttrs (
+      map (machine: {
+        name = machine;
+        value = mkVmSystem machine;
       }) machineNames
     );
 
