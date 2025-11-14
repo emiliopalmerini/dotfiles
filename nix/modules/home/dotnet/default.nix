@@ -40,7 +40,7 @@ in
     ];
 
     home.sessionVariables = {
-      DOTNET_ROOT = "${pkgs.dotnetCorePackages.combinePackages dotnetSdks}";
+      DOTNET_ROOT = "${dotnet-combined}";
     };
 
     nixpkgs.config.permittedInsecurePackages = insecurePackages;
