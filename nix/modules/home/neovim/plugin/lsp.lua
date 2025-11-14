@@ -237,32 +237,37 @@ conform.setup({
 		yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
 		go = { "gofumpt", "gofmt" },
 		proto = { "buf" },
+		cs = { "csharpier" }, -- C# formatter
 	},
-})
-
--- Define missing formatter configs
-conform.formatters["nixpkgs-fmt"] = {
-	command = "nixpkgs-fmt",
-	stdin = true,
-}
-
--- Configure Prettier to not use trailing commas in JSON
-conform.formatters.prettier = {
-	prepend_args = { "--trailing-comma", "none" },
-}
-
-conform.formatters.prettierd = {
-	prepend_args = { "--trailing-comma", "none" },
-}
-
-conform.formatters.injected = {
-	options = {
-		ignore_errors = false,
-		lang_to_formatters = {
-			sql = { "sleek" },
+	formatters = {
+		-- Define missing formatter configs
+		["nixpkgs-fmt"] = {
+			command = "nixpkgs-fmt",
+			stdin = true,
+		},
+		-- CSharpier formatter configuration
+		csharpier = {
+			command = "csharpier",
+			args = { "format", "--write-stdout" },
+			stdin = true,
+		},
+		-- Configure Prettier to not use trailing commas in JSON
+		prettier = {
+			prepend_args = { "--trailing-comma", "none" },
+		},
+		prettierd = {
+			prepend_args = { "--trailing-comma", "none" },
+		},
+		injected = {
+			options = {
+				ignore_errors = false,
+				lang_to_formatters = {
+					sql = { "sleek" },
+				},
+			},
 		},
 	},
-}
+})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function(args)

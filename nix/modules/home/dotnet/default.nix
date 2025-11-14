@@ -36,6 +36,7 @@ in
       dotnet-combined
       pkgs.dotnetPackages.Nuget
       pkgs.netcoredbg
+      pkgs.csharpier
     ];
 
     home.sessionVariables = {
