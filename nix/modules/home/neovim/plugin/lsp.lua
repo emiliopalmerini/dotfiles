@@ -5,12 +5,6 @@ if pcall(require, "cmp_nvim_lsp") then
 	capabilities = require("cmp_nvim_lsp").default_capabilities()
 end
 
-local omnisharp_path = vim.fn.exepath("OmniSharp")
-if omnisharp_path == "" then
-	omnisharp_path = vim.fn.exepath("omnisharp-roslyn")
-end
-
--- Aggiungiamo anche omnisharp alla lista dei server
 local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
 	or (vim.fn.exepath("typescript-language-server") ~= "" and "ts_ls")
 	or "vtsls"
@@ -88,49 +82,6 @@ local servers = {
 			},
 		},
 	},
-	omnisharp = {
-		cmd = {
-			omnisharp_path,
-			"--languageserver",
-			"--hostPID",
-			tostring(vim.fn.getpid()),
-		},
-		filetypes = { "cs", "vb" },
-		handlers = {
-			["textDocument/definition"] = function(...)
-				return require("vim.lsp.handlers")["textDocument/definition"](...)
-			end,
-			["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.handlers["textDocument/publishDiagnostics"], {
-				-- Enable virtual text for diagnostics
-				virtual_text = true,
-				-- Show signs in the gutter
-				signs = true,
-				-- Update diagnostics in insert mode
-				update_in_insert = false,
-				-- Show diagnostics with higher severity first
-				severity_sort = true,
-			}),
-		},
-		settings = {
-			FormattingOptions = {
-				EnableEditorConfigSupport = true,
-				OrganizeImports = true,
-			},
-			RoslynExtensionsOptions = {
-				EnableAnalyzersSupport = true,
-				EnableImportCompletion = true,
-				AnalyzeOpenDocumentsOnly = false,
-			},
-			-- Ensure SDK is detected
-			MsBuild = {
-				LoadProjectsOnDemand = false,
-			},
-		},
-		-- Add flags to handle OmniSharp's non-standard responses
-		flags = {
-			debounce_text_changes = 150,
-		},
-	},
 }
 
 -- Configurazione diretta dei server LSP senza Mason usando vim.lsp.config
@@ -141,19 +92,6 @@ for name, config in pairs(servers) do
 	config = vim.tbl_deep_extend("force", {}, {
 		capabilities = capabilities,
 	}, config)
-
-	-- Add OmniSharp-specific handler to filter out nil messages
-	if name == "omnisharp" then
-		local default_handlers = config.handlers or {}
-		config.handlers = vim.tbl_extend("force", default_handlers, {
-			["client/registerCapability"] = function(err, result, ctx)
-				if result == nil then
-					return
-				end
-				return vim.lsp.handlers["client/registerCapability"](err, result, ctx)
-			end,
-		})
-	end
 
 	vim.lsp.config[name] = config
 	vim.lsp.enable(name)

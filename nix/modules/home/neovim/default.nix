@@ -95,7 +95,7 @@ in
             # Protobuf tooling (includes language server)
             buf
           ]
-          ++ lib.optionals cfg.enableCSharp [ omnisharp-roslyn ]
+          ++ lib.optionals cfg.enableCSharp [ roslyn-ls ]
           ++ lib.optionals cfg.enableGo [ gopls ]
           ++ lib.optionals cfg.enableTypeScript [ nodePackages.typescript nodePackages.ts-node ]
           # Python LSP/formatters
@@ -185,6 +185,7 @@ in
             ++ [{ plugin = oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }]
             ++ [{ plugin = obsidian-nvim; type = "lua"; config = builtins.readFile ./plugin/obsidian.lua; }]
             ++ [{ plugin = nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }]
+            ++ lib.optionals cfg.enableCSharp [{ plugin = roslyn-nvim; type = "lua"; config = builtins.readFile ./plugin/roslyn.lua; }]
             ++ [{ plugin = comment-nvim; type = "lua"; config = "require('Comment').setup()"; }]
             ++ lib.optionals cfg.enableUI [{ plugin = heirline-nvim; type = "lua"; config = builtins.readFile ./plugin/statusline.lua; }]
             ++ lib.optionals cfg.enableUI [{
