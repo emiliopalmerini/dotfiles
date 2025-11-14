@@ -20,7 +20,7 @@
   # Enable shared modules
   basic-system.enable = true;
   basic-system.enableBootloader = false; # Custom boot config above
-  gnome-desktop.enable = true;
+  hyprland.enable = true;
   italian-locale.enable = true;
   # Note: using manual home-manager config due to zen-browser special import
   system = {
@@ -41,58 +41,6 @@
 
   virtualisation.virtualbox.host.enable = true;
   virtualisation.virtualbox.host.enableExtensionPack = true;
-
-  services = {
-    # X server and keyboard
-    xserver = {
-      enable = true;
-      xkb = {
-        layout = "us";
-        variant = "intl";
-      };
-    };
-
-    # Moved out of services.xserver.* per renames in 24.11
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-
-
-    # Enable CUPS to print documents.
-    printing.enable = true;
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
-  };
-
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gedit # text editor
-    gnome-characters
-    gnome-music
-    gnome-photos
-    gnome-terminal
-    gnome-tour
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-    totem # video player
-  ]);
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;

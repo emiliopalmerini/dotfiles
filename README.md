@@ -27,7 +27,7 @@ A reproducible Nix/NixOS/Home Manager setup with per-host configurations and mod
 2) Build and switch:
 - `sudo nixos-rebuild switch --flake nix#athena`
 
-Update the host name to match an existing output in `nix/flake.nix` (`dell-xps-15`, `thinkpad-home-server`, `dell-precision`, `vm-aarch64`, `wsl`), or add a new one.
+Update the host name to match an existing output in `nix/flake.nix` (`dell-xps-15`, `thinkpad-home-server`, `dell-precision`, `vm-aarch64`), or add a new one.
 
 ## Bootstrap (macOS)
 1) Install nix-darwin (follow upstream docs).

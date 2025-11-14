@@ -37,12 +37,6 @@ let
       homeDirectory = "/home/emilio";
     };
 
-    wsl = {
-      username = "emilio";
-      email = "emilio.palmerini@gmail.com";
-      fullName = "Emilio Palmerini";
-      homeDirectory = "/home/emilio";
-    };
   };
 in
 {

@@ -27,7 +27,7 @@
   dotnet.enable = true;
 
   # Desktop environment configuration
-  gnome-workspaces.enable = true;
+  hyprland.enable = true;
 
   # Simple packages - installed directly
   home.packages = with pkgs; [

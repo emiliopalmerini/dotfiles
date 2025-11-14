@@ -1,8 +1,9 @@
-{ config, pkgs, inputs, userConfig, ... }:
+{ config, pkgs, inputs, userConfig, lib, ... }:
 
 {
   imports = [
     ../modules/home
+    inputs.zen-browser.homeModules.twilight
   ];
 
   # Home Manager state version
@@ -12,25 +13,57 @@
   home.username = userConfig.username;
   home.homeDirectory = userConfig.homeDirectory;
 
-  # Enable essential development modules
+  # Allow unfree packages
+  nixpkgs.config.allowUnfree = true;
+
+  # Git configuration
   git.enable = true;
+  git.userEmail = userConfig.email;
+  git.userName = "emiliopalmerini";
+
+  # Core developer tools (complex modules with configs)
+  go.enable = true;
+  neovim.enable = true;
   shell.enable = true;
   tmux.enable = true;
-  neovim.enable = true;
+  mongodb.enable = true;
+  nodejs.enable = true;
+  dotnet.enable = true;
 
-  # Basic packages for VMs
+  # Desktop environment configuration
+  hyprland.enable = true;
+
+  # Development and productivity packages
   home.packages = with pkgs; [
+    # Development tools
+    claude-code
+    lazygit
+    gnumake
+    gcc
+    protobuf
+    grpcurl
+
     # Basic utilities
     ripgrep
     fd
     eza
     bat
     fzf
+    jq
 
-    # Development tools
-    gcc
-    gnumake
-  ];
+    # Desktop applications
+    ghostty
+    obsidian
+
+    # Work tools
+    postman
+    bruno
+  ] ++ lib.optionals stdenv.isLinux [ xclip ];
+
+  # Browser - zen-browser requires special setup
+  programs.zen-browser = {
+    enable = true;
+  };
 
   # Let Home Manager manage itself
   programs.home-manager.enable = true;

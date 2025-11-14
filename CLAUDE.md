@@ -16,7 +16,6 @@ This is a personal dotfiles repository with multi-platform support (NixOS, macOS
     - `thinkpad-home-server/` - Home server (NixOS)
     - `macbook-air-m1/` - Personal MacBook (macOS)
     - `vm-aarch64.nix` - ARM64 VM for macOS (VMware/Parallels/QEMU)
-    - `wsl.nix` - Windows WSL configuration
     - `vm-shared.nix` - Common VM configuration
     - `vm-home.nix` - Shared Home Manager config for VMs
     - `hardware/` - Hardware configurations for machines and VMs
@@ -53,14 +52,11 @@ Modules are enabled per-machine with `<module>.enable = true;`.
 ### macOS Systems
 - Build and switch: `darwin-rebuild switch --flake nix#<machine-name>`
 
-### VMs and WSL
+### VMs
 - **vm-aarch64**: For running NixOS on macOS (VMware Fusion, Parallels, or QEMU)
   - Build VM: `nix build nix#nixosConfigurations.vm-aarch64.config.system.build.vm`
   - Run VM: `./result/bin/run-vm-aarch64-vm`
   - Includes shared filesystem at `/host` for easy file sharing
-- **wsl**: For running NixOS on Windows via WSL
-  - Build: `sudo nixos-rebuild switch --flake nix#wsl`
-  - Uses WSL-specific configuration with automount at `/mnt`
 
 ### Flake Management
 - Update inputs: `nix flake update --flake nix`
@@ -93,7 +89,7 @@ Modules are enabled per-machine with `<module>.enable = true;`.
 ### Machine Configurations
 - **NixOS machines**: dell-xps-15, dell-precision, thinkpad-home-server (x86_64-linux)
 - **macOS machines**: macbook-air-m1 (aarch64-darwin)
-- **VMs and WSL**: vm-aarch64, wsl
+- **VMs**: vm-aarch64
 
 Physical machines have their own directory with `configuration.nix` (system config) and `home.nix` (user environment config).
 

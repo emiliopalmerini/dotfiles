@@ -44,14 +44,42 @@
   # Disable firewall for easier VM access (NAT networking)
   networking.firewall.enable = false;
 
-  # Basic development tools
+  # Virtualization and containerization
+  virtualisation.docker.enable = true;
+  users.users.${userConfig.username}.extraGroups = [ "docker" ];
+
+  # Enable Tailscale for VPN access
+  tailscale.enable = true;
+
+  # Development and system tools
   environment.systemPackages = with pkgs; [
+    # Core utilities
     vim
     git
     wget
     curl
     htop
     tree
+    gnumake
+
+    # Development tools
+    gcc
+    python3
+
+    # Network utilities
+    nettools
+    dnsutils
+
+    # Container tools
+    docker-compose
+    lazydocker
+
+    # System monitoring
+    iotop
+    iftop
+
+    # Clipboard support for Wayland
+    wl-clipboard
   ];
 
   # Pass common environment variables
@@ -60,6 +88,12 @@
   # Enable zsh
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+  # Allow unfree packages (needed for some development tools)
+  nixpkgs.config.allowUnfree = true;
+
+  # Enable Firefox
+  programs.firefox.enable = true;
 
   # System state version
   system.stateVersion = "24.11";

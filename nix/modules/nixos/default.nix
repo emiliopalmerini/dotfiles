@@ -1,18 +1,27 @@
 {
   imports = [
-    # Existing modules
+    # Core system configuration
+    ./basic-system
+    ./mainUser
+    ./home-manager-integration
+
+    # Localization
+    ./italian-locale
+
+    # Desktop environments
+    ./gnome-desktop
+    ./hyprland
+
+    # Networking and remote access
+    ./tailscale
+    ./tailscale-only-access
+
+    # Services and applications
     ./docker
     ./clamav
-    ./mainUser
-    ./tailscale
-
-    # New shared modules
-    ./basic-system
-    ./gnome-desktop
-    ./home-manager-integration
-    ./italian-locale
     ./media-server
-    ./tailscale-only-access
+
+    # Virtualization
     ./vm
   ];
 }
