@@ -27,17 +27,17 @@ A reproducible Nix/NixOS/Home Manager setup with per-host configurations and mod
 2) Build and switch:
 - `sudo nixos-rebuild switch --flake nix#athena`
 
-Update the host name to match an existing output in `nix/flake.nix` (`athena`, `hera`, `hephaestus`, ...), or add a new one.
+Update the host name to match an existing output in `nix/flake.nix` (`dell-xps-15`, `thinkpad-home-server`, `dell-precision`, `vm-aarch64`, `wsl`), or add a new one.
 
 ## Bootstrap (macOS)
 1) Install nix-darwin (follow upstream docs).
-2) Switch using the flake output (example host `eris`):
-- `darwin-rebuild switch --flake nix#eris`
+2) Switch using the flake output (example host `macbook-air-m1`):
+- `darwin-rebuild switch --flake nix#macbook-air-m1`
 
 ## Home Manager
-Home Manager is integrated into each host’s config. Toggle modules per-host in `nix/hosts/<host>/home.nix` by setting `<module>.enable = true;`.
+Home Manager is integrated into each host's config. Toggle modules per-host in `nix/machines/<host>/home.nix` by setting `<module>.enable = true;`.
 
-Example (macOS host `eris`):
+Example (macOS host `macbook-air-m1`):
 - `neovim.enable = true;`
 - `git.enable = true;`
 - `tmux.enable = true;`
@@ -70,7 +70,7 @@ Details and keymaps: see `nix/modules/home/neovim/README.md`.
 - Clean generations older than 30 days: `nix-collect-garbage --delete-older-than 30d`
 
 ## Adding a new host
-1) Create `nix/hosts/<new-host>/configuration.nix` and `home.nix` (copy from an existing host).
-2) Copy the machine’s `hardware-configuration.nix` to the same directory (NixOS only).
-3) Add a new output in `nix/flake.nix` under `nixosConfigurations` or `darwinConfigurations`.
+1) Create `nix/machines/<new-host>/configuration.nix` and `home.nix` (copy from an existing host).
+2) Copy the machine's `hardware-configuration.nix` to the same directory (NixOS only).
+3) Add the host name to the appropriate list in `nix/flake.nix` (`nixosMachines` or `darwinMachines`).
 4) Switch with the appropriate command.

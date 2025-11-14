@@ -4,9 +4,9 @@ Reproducible Neovim setup managed by Home Manager. No Mason: all tools and LSPs 
 
 ## What it provides
 - Plugins: Treesitter, Telescope (+ FZF), LSP, CMP, DAP, UI/statusline, Git, utilities
-- LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (OmniSharp)
+- LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (roslyn-ls), XML (`lemminx`), Protobuf (`bufls`)
 - DAP: Go (`delve`), C# (`netcoredbg`), Python (`debugpy`), JS/TS (vscode-js-debug if available)
-- Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, Python (isort + black), JS/TS/JSON (Biome or Prettier/Prettierd), YAML (Prettier/Prettierd), SQL (sleek)
+- Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, Python (isort + black), JS/TS/JSON (Biome or Prettier/Prettierd), YAML (Prettier/Prettierd), SQL (sleek), Go (optional: gofumpt, golines)
 - Completion extras: signature help (`cmp-nvim-lsp-signature-help`)
 - OS-aware extras: Linux clipboard tools (`xclip`, `wl-clipboard`) and macOS `reattach-to-user-namespace`
 
@@ -38,10 +38,11 @@ In your host `home.nix`:
 ## LSP
 Configured in `plugin/lsp.lua`. Servers enabled:
 - TypeScript: `vtsls` (preferred) or `tsserver` (`ts_ls`) as fallback if present on PATH
-- `gopls`, `lua_ls`, `nil_ls`, `omnisharp`, `pyright`, `ruff`, `jsonls`, `yamlls`
+- `gopls`, `lua_ls`, `nil_ls`, `roslyn_ls`, `pyright`, `ruff`, `jsonls`, `yamlls`, `bashls`, `lemminx` (XML), `bufls` (Protobuf)
 - Capabilities integrated with `nvim-cmp`
 - Diagnostics: toggle virtual text/lines with `<leader>tl`
-- Inlay hints: auto-enabled on attach when server supports them
+- Inlay hints: auto-enabled on attach when server supports them (e.g., gopls)
+- JSON/YAML schemas via SchemaStore integration
 
 Ruff uses `ruff server`, not `ruff-lsp` (deprecated).
 
@@ -54,7 +55,9 @@ Ruff uses `ruff server`, not `ruff-lsp` (deprecated).
 - Lua: `lua_ls` (package: `lua-language-server`).
 - Nix: `nil_ls` (package: `nil`).
 - Python: `pyright` (package: `pyright`), `ruff` (package: `ruff`).
-- C#: `omnisharp` (package: `omnisharp-roslyn`).
+- C#: `roslyn_ls` (package: `roslyn-ls`).
+- XML: `lemminx` (package: `lemminx`).
+- Protobuf: `bufls` (package: `buf`).
 
 To add/remove a server per host: adjust `plugin/lsp.lua` `servers` table and ensure the package is present in `programs.neovim.extraPackages`.
 JSON and YAML support are enabled by default and their Treesitter parsers are included by default when available in nixpkgs.
@@ -64,15 +67,11 @@ JSON and YAML support are enabled by default and their Treesitter parsers are in
 - Nix: `nixpkgs-fmt`
 - Python: `isort`, `black`
 - SQL (injected): `sleek`
+- JS/TS/JSON: `biome` or `prettierd`/`prettier` (order configurable via `neovim.preferPrettier`)
+- YAML: `prettierd`/`prettier`
+- Go: optional `gofumpt`, `golines` (if available in nixpkgs)
 
 Auto-format on save (except for `.mlx`).
-
-- JS/TS/JSON: `biome` or `prettierd`/`prettier` (order configurable via `neovim.preferPrettier`).
-- YAML: `prettierd`/`prettier`.
-
-Override formatters:
-- Prefer Prettier over Biome by setting `neovim.preferPrettier = true;`.
-- To add/remove a formatter, adjust `programs.neovim.extraPackages` and update Conform mappings in `plugin/lsp.lua`.
 
 ## DAP
 - Go: `nvim-dap-go`
@@ -136,10 +135,10 @@ See `options.lua` for general settings and helpful mappings (Harpoon, Trouble, U
 
 ## Packages installed for Neovim
 The module injects necessary runtime tools via `programs.neovim.extraPackages`:
-- LSPs: `lua-language-server`, `gopls`, `vtsls` (optional), `typescript`, `pyright`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON), `bash-language-server`
-- DAP/Debug: `delve`, `python3 + debugpy`, `netcoredbg` (Linux only)
-- Formatters: `stylua`, `nixpkgs-fmt`, `black`, `isort`, `sleek`, optional `biome`, `prettierd`, `prettier`
-- Utils: `ripgrep`, `unzip`, `nodejs`
+- LSPs: `lua-language-server`, `gopls`, `vtsls` (optional), `typescript`, `pyright`, `ruff`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON), `bash-language-server`, `roslyn-ls`, `lemminx`, `buf`
+- DAP/Debug: `delve` (Go), `python3 + debugpy`, `netcoredbg` (Linux only, C#)
+- Formatters: `stylua`, `nixpkgs-fmt`, `black`, `isort`, `sleek`, optional `biome`, `prettierd`, `prettier`, `gofumpt`, `golines`
+- Utils: `ripgrep`, `fd`, `unzip`, `gcc`, `tree-sitter`, `nodejs`
 - Clipboard: `xclip`, `wl-clipboard` (Linux) or `reattach-to-user-namespace` (macOS)
 
 If a package is missing in your nixpkgs release, the module guards it with optionals (no eval failures).
@@ -156,19 +155,18 @@ If clipboard fails, verify the session type and that the corresponding binaries 
 ## Module options
 - `neovim.enable`: enable the module
 - `neovim.preferPrettier` (bool): if true and both Biome and Prettier are installed, Prettier/Prettierd is preferred for JS/TS/JSON; otherwise Biome is preferred. Default: false.
- - `neovim.colorscheme` (str): colorscheme name to apply (default: `tokyonight-storm`). Ensure the theme plugin is available via built-ins or `extraPlugins`.
- - Feature toggles (bool):
-   - `neovim.enableUI` (default: true)
-   - `neovim.enableDAP` (default: true)
-   - `neovim.enableGit` (default: true)
-   - `neovim.enableTreesitter` (default: true)
-   - `neovim.enableHarpoon` (default: true)
-   - `neovim.enableCopilot` (default: true)
- - Per-language toggles (bool):
-   - `neovim.enableTypeScript`, `enableGo`, `enablePython`, `enableCSharp` (all default: true)
- - Extensibility:
-   - `neovim.extraPlugins` (list): add extra `pkgs.vimPlugins.*` entries
-   - `neovim.extraLuaConfig` (string): appended to the generated `extraLuaConfig`
+- `neovim.colorscheme` (str): colorscheme name to apply (default: `tokyonight-storm`). Ensure the theme plugin is available via built-ins or `extraPlugins`.
+- Feature toggles (bool):
+  - `neovim.enableUI` (default: true)
+  - `neovim.enableDAP` (default: true)
+  - `neovim.enableGit` (default: true)
+  - `neovim.enableTreesitter` (default: true)
+  - `neovim.enableHarpoon` (default: true)
+- Per-language toggles (bool):
+  - `neovim.enableTypeScript`, `enableGo`, `enablePython`, `enableCSharp` (all default: true)
+- Extensibility:
+  - `neovim.extraPlugins` (list): add extra `pkgs.vimPlugins.*` entries
+  - `neovim.extraLuaConfig` (string): appended to the generated `extraLuaConfig`
 
 Example:
 ```

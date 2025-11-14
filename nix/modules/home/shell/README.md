@@ -17,8 +17,14 @@ Zsh-centric shell setup with Oh My Posh, zoxide, fzf, and helpful aliases.
 - Autosuggestions and syntax highlighting
 - macOS Homebrew environment sourcing if present
 - ZLE keybindings: `Ctrl-Y` yank, `Ctrl-p/n` history search
-- fzf-tab plugin pinned at a specific version
+- fzf-tab plugin pinned at version v1.1.2
+- History configuration: deduplication, ignore space/dups, no beep
+- Completion: case-insensitive matching, colorized, fzf-tab for `cd` and `z`
 
 ## Packages
-Installs `bat`, `jq`, `jqp`, `httpie`, `rg`, `tree` and integrates `fzf`, `zoxide`, `oh-my-posh`.
+Installs `bat`, `jq`, `jqp`, `httpie`, `rg`, `tree`, `gh` (GitHub CLI) and integrates `fzf`, `zoxide`, `oh-my-posh`.
+
+## Notes
+- Shell configuration uses `initContent` field for custom Zsh initialization code
+- The module enables completion, autosuggestion, and syntax highlighting via Home Manager options
 
