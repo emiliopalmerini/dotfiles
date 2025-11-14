@@ -111,6 +111,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 		local builtin = require("telescope.builtin")
 		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+		-- Go-to mappings (g prefix)
 		vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0, desc = "LSP: Go to definition" })
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0, desc = "LSP: Go to implementation" })
 		vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0, desc = "LSP: References" })
@@ -118,10 +119,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0, desc = "LSP: Type definition" })
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0, desc = "LSP: Hover docs" })
 
-		vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0, desc = "LSP: Rename" })
-		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0, desc = "LSP: Code action" })
-		vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0, desc = "LSP: Document symbols" })
-		vim.keymap.set("n", "<leader>bf", vim.lsp.buf.format, { buffer = 0, desc = "LSP: Format buffer" })
+		-- [C]ode actions
+		vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = 0, desc = "Code: Rename" })
+		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = 0, desc = "Code: Action" })
+		vim.keymap.set("n", "<leader>cd", builtin.lsp_document_symbols, { buffer = 0, desc = "Code: Document symbols" })
+		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = 0, desc = "Code: Format" })
 
 		-- Enable inlay hints if supported
 		if client.server_capabilities and client.server_capabilities.inlayHintProvider then
@@ -239,11 +241,11 @@ vim.diagnostic.config({
 	severity_sort = true,
 })
 
-vim.keymap.set("n", "<leader>l", function()
+vim.keymap.set("n", "<leader>tl", function()
 	local config = vim.diagnostic.config() or {}
 	if config.virtual_text then
 		vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
 	else
 		vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
 	end
-end, { desc = "Toggle lsp_lines" })
+end, { desc = "Toggle: LSP lines" })

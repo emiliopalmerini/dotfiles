@@ -118,27 +118,27 @@ if vim.fn.executable("netcoredbg") == 1 then
 	}
 end
 
-vim.keymap.set("n", "<space>b", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
-vim.keymap.set("n", "<space>gb", dap.run_to_cursor, { desc = "Debug: Run to Cursor" })
+-- Function key mappings for quick debugging (F5 = continue, F2-F4 in reverse for ergonomics)
+vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
+vim.keymap.set("n", "<F4>", dap.step_over, { desc = "Debug: Step Over" })
+vim.keymap.set("n", "<F3>", dap.step_into, { desc = "Debug: Step Into" })
+vim.keymap.set("n", "<F2>", dap.step_out, { desc = "Debug: Step Out" })
 
--- Eval var under cursor
+-- Space mappings for quick access
+vim.keymap.set("n", "<space>b", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
+vim.keymap.set("n", "<space>gb", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
 vim.keymap.set("n", "<space>?", function()
 	require("dapui").eval(nil, { enter = true })
 end, { desc = "Debug: Eval under cursor" })
 
-vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
-vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
-vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
-vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
-
--- Leader-based DAP mappings for discoverability (which-key)
-vim.keymap.set("n", "<leader>bb", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
-vim.keymap.set("n", "<leader>bc", dap.continue, { desc = "Debug: Continue" })
-vim.keymap.set("n", "<leader>bo", dap.step_over, { desc = "Debug: Step Over" })
-vim.keymap.set("n", "<leader>bi", dap.step_into, { desc = "Debug: Step Into" })
-vim.keymap.set("n", "<leader>bO", dap.step_out, { desc = "Debug: Step Out" })
-vim.keymap.set("n", "<leader>br", dap.restart, { desc = "Debug: Restart" })
-vim.keymap.set("n", "<leader>be", function()
+-- [D]ebug group - mnemonic debugger actions
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
+vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Debug: Continue" })
+vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Debug: Step over" })
+vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: Step into" })
+vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Debug: Step out" })
+vim.keymap.set("n", "<leader>dr", dap.restart, { desc = "Debug: Restart" })
+vim.keymap.set("n", "<leader>de", function()
 	require("dapui").eval(nil, { enter = true })
 end, { desc = "Debug: Eval" })
 

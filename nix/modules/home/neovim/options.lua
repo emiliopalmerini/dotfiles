@@ -41,7 +41,7 @@ vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 
 vim.keymap.set("n", "<leader>x", "<cmd>.lua<CR>", { desc = "Execute the current line" })
-vim.keymap.set("n", "<leader><leader>x", "<cmd>source %<CR>", { desc = "Execute the current file" })
+vim.keymap.set("n", "<leader>X", "<cmd>source %<CR>", { desc = "Execute the current file" })
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
@@ -59,7 +59,7 @@ vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste over without yanking"
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Yank to system clipboard" })
 vim.keymap.set("n", "<leader>Y", [["+Y]], { desc = "Yank line to system clipboard" })
 
-vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete to black hole register" })
+vim.keymap.set({ "n", "v" }, "<leader>D", [["_d]], { desc = "Delete to black hole register" })
 
 vim.keymap.set("n", "Q", "<nop>", { desc = "Disable Ex mode" })
 
@@ -70,11 +70,11 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz", { desc = "Prev location lis
 
 vim.keymap.set(
 	"n",
-	"<leader>s",
+	"<leader>rs",
 	[[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
-	{ desc = "Search/replace word under cursor" }
+	{ desc = "Replace: Search/replace word under cursor" }
 )
-vim.keymap.set("n", "<leader>tf", ":e temp.txt<Cr>", { desc = "Open temp.txt" })
+vim.keymap.set("n", "<leader>tf", ":e temp.txt<Cr>", { desc = "Toggle: Open temp.txt" })
 
 vim.keymap.set("n", "<left>", "<c-w>5<", { desc = "Resize window 5 cols left" })
 vim.keymap.set("n", "<right>", "<c-w>5>", { desc = "Resize window 5 cols right" })
@@ -85,18 +85,21 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highl
 
 local builtin = require("telescope.builtin")
 
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
-vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
-vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
-vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "[F]ind [S]elect Telescope" })
-vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind current [W]ord" })
-vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
-vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
-vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
-vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-vim.keymap.set("n", "<leader>fi", builtin.git_files, { desc = "[F]ind G[i]t Files" })
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind with [G]rep" })
-vim.keymap.set("n", "<leader>ft", ":TodoTelescope<CR>", { desc = "[F]ind [T]ODOs" })
+-- [F]ind group - mnemonic for search operations
+vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find: Files" })
+vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Find: Grep (live)" })
+vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find: Word under cursor" })
+vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Find: Diagnostics" })
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find: Help" })
+vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find: Keymaps" })
+vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "Find: Resume" })
+vim.keymap.set("n", "<leader>fs", builtin.builtin, { desc = "Find: Select Telescope" })
+vim.keymap.set("n", "<leader>ft", ":TodoTelescope<CR>", { desc = "Find: TODOs" })
+vim.keymap.set("n", "<leader>fi", builtin.git_files, { desc = "Find: Git files" })
+vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = 'Find: Recent files' })
+
+-- [B]uffer group
+vim.keymap.set("n", "<leader>bl", builtin.buffers, { desc = "Buffer: List" })
 
 local set = vim.opt_local
 
@@ -126,44 +129,42 @@ end, { desc = "Split bottom terminal (12 lines)" })
 
 -- Plugins keymap
 
---undotree
 vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle UndoTree" })
 
--- harpoon (guarded)
+-- [H]arpoon group - quick file navigation
 do
 	local ok, harpoon = pcall(require, "harpoon")
 	if ok then
 		harpoon:setup()
 		vim.keymap.set("n", "<leader>h", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
-		end, { desc = "Harpoon: Toggle quick menu" })
+		end, { desc = "Harpoon: Quick menu" })
 		vim.keymap.set("n", "<leader>H", function()
 			harpoon:list():add()
 		end, { desc = "Harpoon: Add file" })
 		vim.keymap.set("n", "<leader>1", function()
 			harpoon:list():select(1)
-		end, { desc = "Harpoon: Go to file 1" })
+		end, { desc = "Harpoon: File 1" })
 		vim.keymap.set("n", "<leader>2", function()
 			harpoon:list():select(2)
-		end, { desc = "Harpoon: Go to file 2" })
+		end, { desc = "Harpoon: File 2" })
 		vim.keymap.set("n", "<leader>3", function()
 			harpoon:list():select(3)
-		end, { desc = "Harpoon: Go to file 3" })
+		end, { desc = "Harpoon: File 3" })
 		vim.keymap.set("n", "<leader>4", function()
 			harpoon:list():select(4)
-		end, { desc = "Harpoon: Go to file 4" })
-		-- Toggle previous & next buffers stored within Harpoon list
+		end, { desc = "Harpoon: File 4" })
 		vim.keymap.set("n", "<C-S-P>", function()
 			harpoon:list():prev()
-		end, { desc = "Harpoon: Previous mark" })
+		end, { desc = "Harpoon: Previous" })
 		vim.keymap.set("n", "<C-S-N>", function()
 			harpoon:list():next()
-		end, { desc = "Harpoon: Next mark" })
+		end, { desc = "Harpoon: Next" })
 	end
 end
 
---fugitive
-vim.keymap.set("n", "<leader>gf", vim.cmd.Git, { desc = "Git: Open Fugitive" })
+-- [G]it group - version control
+vim.keymap.set("n", "<leader>gf", vim.cmd.Git, { desc = "Git: Fugitive" })
 local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
 local autocmd = vim.api.nvim_create_autocmd
@@ -199,27 +200,27 @@ autocmd("BufWinEnter", {
 	end,
 })
 
--- trouble (guarded)
+-- [T]rouble group - diagnostics and lists
 pcall(function()
 	require("trouble").setup()
 end)
 vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", {
-	desc = "Diagnostics (Trouble)",
+	desc = "Trouble: Diagnostics",
 })
 
 vim.keymap.set("n", "<leader>tT", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", {
-	desc = "Buffer Diagnostics (Trouble)",
+	desc = "Trouble: Buffer diagnostics",
 })
 
 vim.keymap.set("n", "<leader>tL", "<cmd>Trouble loclist toggle<cr>", {
-	desc = "Location List (Trouble)",
+	desc = "Trouble: Location list",
 })
 
 vim.keymap.set("n", "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", {
-	desc = "Quickfix List (Trouble)",
+	desc = "Trouble: Quickfix list",
 })
 
---zen
+-- [Z]en group - focus mode
 vim.keymap.set("n", "<leader>zz", function()
 	require("zen-mode").setup({
 		window = {
@@ -231,7 +232,7 @@ vim.keymap.set("n", "<leader>zz", function()
 	vim.wo.wrap = true
 	vim.wo.number = true
 	vim.wo.rnu = true
-end, { desc = "Zen Mode (width 100)" })
+end, { desc = "Zen: Mode (width 100)" })
 
 vim.keymap.set("n", "<leader>zZ", function()
 	require("zen-mode").setup({
@@ -245,9 +246,9 @@ vim.keymap.set("n", "<leader>zZ", function()
 	vim.wo.number = false
 	vim.wo.rnu = false
 	vim.opt.colorcolumn = "0"
-end, { desc = "Zen Mode (width 80)" })
+end, { desc = "Zen: Mode (width 80, minimal)" })
 
---refactoring
+-- [R]efactor group
 vim.keymap.set({ "n", "x" }, "<leader>rr", function()
 	require("telescope").extensions.refactoring.refactors()
 end, { desc = "Refactor: Select action" })

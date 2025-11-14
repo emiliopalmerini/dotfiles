@@ -40,7 +40,7 @@ Configured in `plugin/lsp.lua`. Servers enabled:
 - TypeScript: `vtsls` (preferred) or `tsserver` (`ts_ls`) as fallback if present on PATH
 - `gopls`, `lua_ls`, `nil_ls`, `omnisharp`, `pyright`, `ruff`, `jsonls`, `yamlls`
 - Capabilities integrated with `nvim-cmp`
-- Diagnostics: toggle virtual text/lines with `<leader>l`
+- Diagnostics: toggle virtual text/lines with `<leader>tl`
 - Inlay hints: auto-enabled on attach when server supports them
 
 Ruff uses `ruff server`, not `ruff-lsp` (deprecated).
@@ -84,14 +84,45 @@ Keymaps in `plugin/dap.lua`:
 - Toggle breakpoint: `<space>b` or `<leader>db`
 - Run to cursor: `<space>gb`
 - Eval variable (UI prompt): `<space>?` or `<leader>de`
-- Control: `<F5>` continue, `<F10>` step over, `<F11>` step into, `<F12>` step out; restart: `<leader>dr`
+- Control: `<F5>` continue, `<F4>` step over, `<F3>` step into, `<F2>` step out; restart: `<leader>dr`
 
 Notes:
 - C#: CoreCLR adapter is registered only if `netcoredbg` is available (typically Linux). On macOS without `netcoredbg`, C# DAP is disabled automatically.
 - JS/TS: Adapter loads only if `ms-vscode.js-debug` exists in nixpkgs; the "Launch via ts-node" config is added only if `ts-node` is on PATH.
 
-## Telescope keymaps
-- `<leader>ff` files, `<leader>fi` git files, `<leader>fg` live grep, `<leader>fd` diagnostics, `<leader><leader>` buffers, `<leader>ft` TODOs
+## Keymaps (Mnemonic Groups)
+
+Keybindings are organized into mnemonic groups following vim grammar:
+
+### [F]ind - Search operations (`<leader>f`)
+- `ff` files, `fg` grep (live), `fw` word, `fd` diagnostics
+- `fh` help, `fk` keymaps, `fr` resume, `fs` select telescope
+- `ft` TODOs, `fi` git files, `f.` recent files
+
+### [G]it - Version control (`<leader>g`)
+- `gf` fugitive, `gp` push, `gP` pull, `gt` push set upstream
+
+### [C]ode - LSP actions (`<leader>c`)
+- `cr` rename, `ca` action, `cd` document symbols, `cf` format
+
+### [B]uffer - Buffer operations (`<leader>b`)
+- `bl` list buffers
+
+### [T]rouble/Toggle - Diagnostics & toggles (`<leader>t`)
+- `tt` diagnostics, `tT` buffer diagnostics, `tL` location list, `tQ` quickfix list
+- `tf` temp file, `tl` toggle lsp_lines
+
+### [H]arpoon - Quick navigation (`<leader>h`)
+- `h` quick menu, `H` add file, `1-4` select file 1-4
+
+### [Z]en - Focus mode (`<leader>z`)
+- `zz` mode (width 100), `zZ` mode (width 80, minimal)
+
+### [R]efactor/Replace (`<leader>r`)
+- `rr` refactor menu, `rs` search/replace word
+
+### [D]ebug - DAP debugging (`<leader>d`)
+- `db` toggle breakpoint, `dc` continue, `do` step over, `di` step into, `dO` step out, `dr` restart, `de` eval
 
 ## Textobjects (Treesitter)
 - Select: `af/if` function, `ac/ic` class, `as` scope; lookahead enabled; selection modes tuned (param=charwise, func=linewise, class=blockwise); includes surrounding whitespace.
