@@ -30,29 +30,28 @@
   ];
 
   # Packages - both macOS specific and cross-platform
-  home.packages = with pkgs; [
+  home.packages = [
     # Development tools
-    claude-code
-    lazygit
-    gnumake
-    gcc
-    lua
+    pkgs.claude-code
+    pkgs.lazygit
+    pkgs.gnumake
+    pkgs.gcc
+    pkgs.lua
+    pkgs.python313Packages.markitdown
 
     # Desktop applications
-    obsidian
-    maccy # Clipboard history manager
+    pkgs.obsidian
 
     # macOS specific tools
-    mongosh
-    mongodb-tools
-    raycast
-    docker
-    docker-compose
-    lazydocker
-    mas
-    clamav
-    hugo
-    colima
-    gh
+    pkgs.mongosh
+    pkgs.mongodb-tools
+    pkgs.raycast
+    pkgs.docker
+    pkgs.docker-compose
+    pkgs.lazydocker
+    pkgs.mas
+    pkgs.clamav
+    pkgs.hugo
+    pkgs.colima
   ];
 }

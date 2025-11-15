@@ -23,6 +23,7 @@ in
   config = mkIf cfg.enable {
     home.packages = [
       pkgs.git-absorb
+      pkgs.git-lfs
     ];
 
     programs.git = {
