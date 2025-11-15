@@ -1,4 +1,3 @@
-
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
@@ -50,7 +49,7 @@
     enable = true;
     user = userConfig.username;
   };
-  
+
   # Additional groups specific to dell-xps-15
   users.users.${userConfig.username}.extraGroups = [ "vboxusers" ];
 
@@ -62,14 +61,14 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    networkmanager
-    sstp
-    ppp
-    mono
-    msbuild
-    docker-compose
-    lazydocker
+  environment.systemPackages = [
+    pkgs.networkmanager
+    pkgs.sstp
+    pkgs.ppp
+    pkgs.mono
+    pkgs.msbuild
+    pkgs.docker-compose
+    pkgs.lazydocker
   ];
 
   tailscale.enable = true;
@@ -132,11 +131,11 @@
   docker.enable = true;
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
+  programs.nix-ld.libraries = [
     # Add any additional libraries needed
-    stdenv.cc.cc
-    zlib
-    openssl
-    icu
+    pkgs.stdenv.cc.cc
+    pkgs.zlib
+    pkgs.openssl
+    pkgs.icu
   ];
 }

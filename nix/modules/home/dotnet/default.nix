@@ -4,11 +4,11 @@
 , ...
 }:
 let
-  dotnetSdks = with pkgs.dotnetCorePackages; [
-    sdk_6_0
-    sdk_7_0
-    sdk_8_0
-    sdk_9_0
+  dotnetSdks = [
+    pkgs.dotnetCorePackages.sdk_6_0
+    pkgs.dotnetCorePackages.sdk_7_0
+    pkgs.dotnetCorePackages.sdk_8_0
+    pkgs.dotnetCorePackages.sdk_9_0
   ];
 
   insecurePackages = [

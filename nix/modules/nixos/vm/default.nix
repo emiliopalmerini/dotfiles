@@ -90,11 +90,11 @@ in
     environment.etc."is-vm".text = "This is a NixOS VM";
 
     # Minimal system packages for VMs
-    environment.systemPackages = with pkgs; mkDefault [
-      vim
-      git
-      wget
-      curl
+    environment.systemPackages = mkDefault [
+      pkgs.vim
+      pkgs.git
+      pkgs.wget
+      pkgs.curl
     ];
 
     # Disable some unnecessary services in VMs

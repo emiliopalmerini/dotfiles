@@ -91,13 +91,13 @@ in
       ];
     };
 
-    home.packages = with pkgs; [
-      jq
-      jqp
-      httpie
-      ripgrep
-      tree
-      gh
+    home.packages = [
+      pkgs.jq
+      pkgs.jqp
+      pkgs.httpie
+      pkgs.ripgrep
+      pkgs.tree
+      pkgs.gh
     ];
   };
 }

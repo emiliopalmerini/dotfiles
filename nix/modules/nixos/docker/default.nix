@@ -29,10 +29,10 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      docker-compose
-      docker-buildx
-      lazydocker
+    environment.systemPackages = [
+      pkgs.docker-compose
+      pkgs.docker-buildx
+      pkgs.lazydocker
     ];
   };
 }

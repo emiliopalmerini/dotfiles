@@ -80,7 +80,10 @@
   # Homer will be accessible only via Tailscale due to firewall rules
   services.nginx.virtualHosts."hera".listen = [{ addr = "0.0.0.0"; port = 8090; }];
 
-  environment.systemPackages = with pkgs; [ nodejs calibre ];
+  environment.systemPackages = [
+    pkgs.nodejs
+    pkgs.calibre
+  ];
   # Tailscale handled by tailscale-only-access module
 
   # ClamAV

@@ -10,16 +10,15 @@ in
   options = {
     go.enable = mkEnableOption "Enable go";
   };
-  # Configurazione del modulo
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      go
-      delve
-      gopls
-      go-migrate
-      templ
-      sqlc
-      air
+    home.packages = [
+      pkgs.go
+      pkgs.delve
+      pkgs.gopls
+      pkgs.go-migrate
+      pkgs.templ
+      pkgs.sqlc
+      pkgs.air
     ];
   };
 }

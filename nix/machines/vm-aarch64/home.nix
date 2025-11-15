@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, userConfig, lib, ... }:
+{ pkgs, inputs, userConfig, lib, ... }:
 
 {
   imports = [
@@ -24,7 +24,7 @@
   # Core developer tools (complex modules with configs)
   go.enable = true;
   neovim.enable = true;
-  neovim.enableCSharp = false;  # roslyn-nvim not available on aarch64-linux
+  neovim.enableCSharp = false; # roslyn-nvim not available on aarch64-linux
   shell.enable = true;
   tmux.enable = true;
   mongodb.enable = true;
@@ -35,31 +35,31 @@
   hyprland.enable = true;
 
   # Development and productivity packages
-  home.packages = with pkgs; [
+  home.packages = [
     # Development tools
-    claude-code
-    lazygit
-    gnumake
-    gcc
-    protobuf
-    grpcurl
+    pkgs.claude-code
+    pkgs.lazygit
+    pkgs.gnumake
+    pkgs.gcc
+    pkgs.protobuf
+    pkgs.grpcurl
 
     # Basic utilities
-    ripgrep
-    fd
-    eza
-    bat
-    fzf
-    jq
+    pkgs.ripgrep
+    pkgs.fd
+    pkgs.eza
+    pkgs.bat
+    pkgs.fzf
+    pkgs.jq
 
     # Desktop applications
-    ghostty
-    obsidian
+    pkgs.ghostty
+    pkgs.obsidian
 
     # Work tools
-    postman
-    bruno
-  ] ++ lib.optionals stdenv.isLinux [ xclip ];
+    pkgs.postman
+    pkgs.bruno
+  ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip ];
 
   # Browser - zen-browser requires special setup
   programs.zen-browser = {

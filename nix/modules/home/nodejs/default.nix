@@ -34,13 +34,13 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      nodejs
+    home.packages = [
+      pkgs.nodejs
       # npm is already included with nodejs, no need to install separately
-    ] 
-    ++ optionals cfg.enableYarn [ nodePackages.yarn ]
-    ++ optionals cfg.enablePnpm [ nodePackages.pnpm ]
-    ++ optionals cfg.enableTypeScript [ nodePackages.typescript ]
+    ]
+    ++ optionals cfg.enableYarn [ pkgs.nodePackages.yarn ]
+    ++ optionals cfg.enablePnpm [ pkgs.nodePackages.pnpm ]
+    ++ optionals cfg.enableTypeScript [ pkgs.nodePackages.typescript ]
     ++ cfg.extraPackages;
     
     # Set up npm global directory to avoid permission issues

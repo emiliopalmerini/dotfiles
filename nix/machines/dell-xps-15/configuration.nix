@@ -74,23 +74,23 @@
     };
   };
 
-  environment.gnome.excludePackages = (with pkgs; [
-    atomix # puzzle game
-    cheese # webcam tool
-    epiphany # web browser
-    evince # document viewer
-    geary # email reader
-    gedit # text editor
-    gnome-characters
-    gnome-music
-    gnome-photos
-    gnome-terminal
-    gnome-tour
-    hitori # sudoku game
-    iagno # go game
-    tali # poker game
-    totem # video player
-  ]);
+  environment.gnome.excludePackages = [
+    pkgs.atomix # puzzle game
+    pkgs.cheese # webcam tool
+    pkgs.epiphany # web browser
+    pkgs.evince # document viewer
+    pkgs.geary # email reader
+    pkgs.gedit # text editor
+    pkgs.gnome-characters
+    pkgs.gnome-music
+    pkgs.gnome-photos
+    pkgs.gnome-terminal
+    pkgs.gnome-tour
+    pkgs.hitori # sudoku game
+    pkgs.iagno # go game
+    pkgs.tali # poker game
+    pkgs.totem # video player
+  ];
   # Enable sound with pipewire.
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -115,16 +115,16 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    networkmanager
-    sstp
-    ppp
-    quickemu
-    vagrant
-    mono
-    msbuild
-    docker-compose
-    lazydocker
+  environment.systemPackages = [
+    pkgs.networkmanager
+    pkgs.sstp
+    pkgs.ppp
+    pkgs.quickemu
+    pkgs.vagrant
+    pkgs.mono
+    pkgs.msbuild
+    pkgs.docker-compose
+    pkgs.lazydocker
   ];
 
   tailscale.enable = true;

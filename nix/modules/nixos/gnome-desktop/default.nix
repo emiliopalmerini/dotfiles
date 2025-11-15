@@ -59,22 +59,22 @@ in
     security.rtkit.enable = true;
 
     # Remove unwanted GNOME packages
-    environment.gnome.excludePackages = (with pkgs; [
-      atomix # puzzle game
-      cheese # webcam tool
-      epiphany # web browser
-      evince # document viewer
-      geary # email reader
-      gedit # text editor
-      gnome-characters
-      gnome-music
-      gnome-photos
-      gnome-terminal
-      gnome-tour
-      hitori # sudoku game
-      iagno # go game
-      tali # poker game
-      totem # video player
-    ]);
+    environment.gnome.excludePackages = [
+      pkgs.atomix # puzzle game
+      pkgs.cheese # webcam tool
+      pkgs.epiphany # web browser
+      pkgs.evince # document viewer
+      pkgs.geary # email reader
+      pkgs.gedit # text editor
+      pkgs.gnome-characters
+      pkgs.gnome-music
+      pkgs.gnome-photos
+      pkgs.gnome-terminal
+      pkgs.gnome-tour
+      pkgs.hitori # sudoku game
+      pkgs.iagno # go game
+      pkgs.tali # poker game
+      pkgs.totem # video player
+    ];
   };
 }

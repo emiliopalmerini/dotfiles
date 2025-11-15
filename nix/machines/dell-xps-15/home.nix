@@ -30,27 +30,27 @@
   gnome-workspaces.enable = true;
 
   # Simple packages - installed directly
-  home.packages = with pkgs; [
+  home.packages = [
     # Development tools
-    claude-code
-    lazygit
-    gnumake
-    gcc
+    pkgs.claude-code
+    pkgs.lazygit
+    pkgs.gnumake
+    pkgs.gcc
 
     # Desktop applications
-    google-chrome
-    obsidian
-    todoist
-    telegram-desktop
-    ghostty
-    gnomeExtensions.clipboard-indicator # Clipboard history manager
+    pkgs.google-chrome
+    pkgs.obsidian
+    pkgs.todoist
+    pkgs.telegram-desktop
+    pkgs.ghostty
+    pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
 
     # Work tools
-    libreoffice
-    slack
-    postman
-    bruno
-  ] ++ lib.optionals stdenv.isLinux [ xclip ];
+    pkgs.libreoffice
+    pkgs.slack
+    pkgs.postman
+    pkgs.bruno
+  ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip ];
 
   # Browser - zen-browser requires special setup
   programs.zen-browser = {

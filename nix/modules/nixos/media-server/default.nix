@@ -139,8 +139,8 @@ in
     ];
 
     # Additional packages
-    environment.systemPackages = with pkgs; mkIf cfg.calibre.enable [
-      calibre
+    environment.systemPackages = mkIf cfg.calibre.enable [
+      pkgs.calibre
     ];
   };
 }

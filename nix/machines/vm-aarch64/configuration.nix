@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, userConfig, commonEnv, ... }:
+{ pkgs, lib, inputs, userConfig, commonEnv, ... }:
 
 {
   imports = [
@@ -9,7 +9,7 @@
 
   # Enable VM module
   vm.enable = true;
-  vm.headless = false;  # Enable GUI for development VMs
+  vm.headless = false; # Enable GUI for development VMs
   vm.diskSize = "20G";
   vm.memorySize = "4G";
 
@@ -20,7 +20,7 @@
   networking.hostName = "vm-dev";
 
   # Setup qemu so we can run x86_64 binaries
-  boot.binfmt.emulatedSystems = ["x86_64-linux"];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" ];
 
   # Network configuration for VMware Fusion
   networking.useDHCP = lib.mkDefault true;
@@ -77,7 +77,7 @@
   };
 
   # VM-optimized settings
-  security.sudo.wheelNeedsPassword = false;  # Convenience for VMs
+  security.sudo.wheelNeedsPassword = false; # Convenience for VMs
 
   # Enable SSH for remote access
   services.openssh.enable = true;
@@ -92,34 +92,34 @@
   tailscale.enable = true;
 
   # Development and system tools
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     # Core utilities
-    vim
-    git
-    wget
-    curl
-    htop
-    tree
-    gnumake
+    pkgs.vim
+    pkgs.git
+    pkgs.wget
+    pkgs.curl
+    pkgs.htop
+    pkgs.tree
+    pkgs.gnumake
 
     # Development tools
-    gcc
-    python3
+    pkgs.gcc
+    pkgs.python3
 
     # Network utilities
-    nettools
-    dnsutils
+    pkgs.nettools
+    pkgs.dnsutils
 
     # Container tools
-    docker-compose
-    lazydocker
+    pkgs.docker-compose
+    pkgs.lazydocker
 
     # System monitoring
-    iotop
-    iftop
+    pkgs.iotop
+    pkgs.iftop
 
     # Clipboard support for Wayland
-    wl-clipboard
+    pkgs.wl-clipboard
   ];
 
   # Pass common environment variables

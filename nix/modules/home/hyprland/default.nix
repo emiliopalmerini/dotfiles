@@ -11,25 +11,25 @@ in
 
   config = mkIf cfg.enable {
     # Install Hyprland-related packages
-    home.packages = with pkgs; [
+    home.packages = [
       # App launcher
-      wofi
+      pkgs.wofi
 
       # Notification daemon
-      dunst
+      pkgs.dunst
 
       # Screen locker
-      swaylock-effects
+      pkgs.swaylock-effects
 
       # Screenshot tools
-      grim
-      slurp
+      pkgs.grim
+      pkgs.slurp
 
       # Clipboard
-      wl-clipboard
+      pkgs.wl-clipboard
 
       # Network management GUI
-      networkmanagerapplet
+      pkgs.networkmanagerapplet
     ];
 
     # Hyprland configuration

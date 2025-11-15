@@ -11,9 +11,9 @@ in
 
   config = mkIf cfg.enable {
     # Install GNOME extensions for workspace management
-    home.packages = with pkgs; [
-      gnomeExtensions.space-bar # Workspace indicator in top bar
-      gnomeExtensions.switcher # Quick window/workspace switcher with Super+Space
+    home.packages = [
+      pkgs.gnomeExtensions.space-bar # Workspace indicator in top bar
+      pkgs.gnomeExtensions.switcher # Quick window/workspace switcher with Super+Space
     ];
 
     # GNOME dconf settings for workspaces and keybindings

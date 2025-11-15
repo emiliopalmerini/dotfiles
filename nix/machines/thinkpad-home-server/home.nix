@@ -24,9 +24,9 @@
   tmux.enable = true;
 
   # Simple packages - installed directly
-  home.packages = with pkgs; [
-    claude-code
-    lazygit
-    gnumake
-  ] ++ lib.optionals stdenv.isLinux [ xclip ];
+  home.packages = [
+    pkgs.claude-code
+    pkgs.lazygit
+    pkgs.gnumake
+  ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip ];
 }

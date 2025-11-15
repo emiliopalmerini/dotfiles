@@ -10,12 +10,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      mongosh
-      mongodb-tools
+    home.packages = [
+      pkgs.mongosh
+      pkgs.mongodb-tools
     ] ++ lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
       # mongodb-compass is not available on aarch64-linux
-      mongodb-compass
+      pkgs.mongodb-compass
     ];
 
   };

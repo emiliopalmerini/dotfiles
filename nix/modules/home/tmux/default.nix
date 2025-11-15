@@ -48,11 +48,11 @@ in
         bind % split-window -h -c "#{pane_current_path}"
       '';
 
-      plugins = with pkgs; with tmuxPlugins; [
-        yank
-        vim-tmux-navigator
-        sensible
-        tokyo-night-tmux
+      plugins = [
+        pkgs.tmuxPlugins.yank
+        pkgs.tmuxPlugins.vim-tmux-navigator
+        pkgs.tmuxPlugins.sensible
+        pkgs.tmuxPlugins.tokyo-night-tmux
       ];
     };
   };

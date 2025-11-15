@@ -30,7 +30,7 @@
   hyprland.enable = true;
 
   # Simple packages - installed directly
-  home.packages = with pkgs; [
+  home.packages =  [
     # Development tools
     claude-code
     lazygit

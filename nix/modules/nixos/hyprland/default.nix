@@ -72,19 +72,19 @@ in
     };
 
     # Useful packages for Hyprland environment
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = [
       # Wayland utilities
-      wl-clipboard # Clipboard utilities
-      grim # Screenshot utility
-      slurp # Screen area selection
+      pkgs.wl-clipboard # Clipboard utilities
+      pkgs.grim # Screenshot utility
+      pkgs.slurp # Screen area selection
 
       # System utilities
-      brightnessctl # Backlight control
-      playerctl # Media player control
+      pkgs.brightnessctl # Backlight control
+      pkgs.playerctl # Media player control
 
       # Qt theming for Wayland
-      qt5.qtwayland
-      qt6.qtwayland
+      pkgs.qt5.qtwayland
+      pkgs.qt6.qtwayland
     ];
 
     # Enable polkit for privilege escalation
