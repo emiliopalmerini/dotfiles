@@ -228,19 +228,19 @@ conform.setup({
 	},
 })
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function(args)
-		local extension = vim.fn.expand("%:e")
-		if extension == "mlx" then
-			return
-		end
-		require("conform").format({
-			bufnr = args.buf,
-			lsp_fallback = true,
-			quiet = true,
-		})
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	callback = function(args)
+-- 		local extension = vim.fn.expand("%:e")
+-- 		if extension == "mlx" then
+-- 			return
+-- 		end
+-- 		require("conform").format({
+-- 			bufnr = args.buf,
+-- 			lsp_fallback = true,
+-- 			quiet = true,
+-- 		})
+-- 	end,
+-- })
 
 require("lsp_lines").setup()
 
