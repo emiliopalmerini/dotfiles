@@ -99,8 +99,10 @@
   };
   c = {
     detectPackage = "gcc";
-    packages = [ ];
-    treesitterGrammars = p: lib.optional (p ? tree-sitter-c) p.tree-sitter-c;
+    packages = [ pkgs.clang-tools ];
+    treesitterGrammars = p:
+      (lib.optional (p ? tree-sitter-c) p.tree-sitter-c)
+      ++ (lib.optional (p ? tree-sitter-cpp) p.tree-sitter-cpp);
     dapPlugins = [ ];
     plugins = [ ];
   };
