@@ -26,6 +26,8 @@ vim.opt.updatetime = 50
 vim.opt.conceallevel = 0
 
 vim.opt.showmode = false
+vim.g.no_ligatures = true
+vim.opt.guifont = "Hack Nerd Font Mono:h12"
 vim.opt.scrolloff = 8
 
 vim.api.nvim_create_autocmd("TextYankPost", {

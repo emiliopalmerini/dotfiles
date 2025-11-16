@@ -29,6 +29,12 @@
     "$HOME/.local/bin"
   ];
 
+  home.file.".config/ghostty/config".text = ''
+    font-family = "Hack Nerd Font Mono"
+    font-feature = -calt -liga -dlig
+    theme = tokyonight-storm
+  '';
+
   # Packages - both macOS specific and cross-platform
   home.packages = [
     # Development tools
