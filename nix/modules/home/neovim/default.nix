@@ -82,7 +82,6 @@ in
             vp.conform-nvim
             vp.neodev-nvim
             vp.SchemaStore-nvim
-            vp.lsp_lines-nvim
             vp.luasnip
             vp.friendly-snippets
             vp.harpoon2

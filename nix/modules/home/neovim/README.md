@@ -109,7 +109,7 @@ Keybindings are organized into mnemonic groups following vim grammar:
 
 ### [T]rouble/Toggle - Diagnostics & toggles (`<leader>t`)
 - `tt` diagnostics, `tT` buffer diagnostics, `tL` location list, `tQ` quickfix list
-- `tf` temp file, `tl` toggle lsp_lines
+- `tf` temp file
 
 ### [H]arpoon - Quick navigation (`<leader>h`)
 - `h` quick menu, `H` add file, `1-4` select file 1-4

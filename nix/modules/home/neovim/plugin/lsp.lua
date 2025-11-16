@@ -144,15 +144,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>cd", builtin.lsp_document_symbols, { buffer = 0, desc = "Code: Document symbols" })
 		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = 0, desc = "Code: Format" })
 
-		-- Enable inlay hints if supported
-		if client.server_capabilities and client.server_capabilities.inlayHintProvider then
-			local ih = vim.lsp.inlay_hint
-			if type(ih) == "table" and ih.enable then
-				ih.enable(true, { bufnr = bufnr })
-			elseif type(ih) == "function" then
-				ih(bufnr, true)
-			end
-		end
 
 		local filetype = vim.bo[bufnr].filetype
 		if disable_semantic_tokens[filetype] then
@@ -242,11 +233,8 @@ conform.setup({
 -- 	end,
 -- })
 
-require("lsp_lines").setup()
-
 vim.diagnostic.config({
 	virtual_text = true,
-	virtual_lines = false,
 	signs = {
 		text = {
 			[vim.diagnostic.severity.ERROR] = "",
@@ -259,12 +247,3 @@ vim.diagnostic.config({
 	update_in_insert = false,
 	severity_sort = true,
 })
-
-vim.keymap.set("n", "<leader>tl", function()
-	local config = vim.diagnostic.config() or {}
-	if config.virtual_text then
-		vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
-	else
-		vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
-	end
-end, { desc = "Toggle: LSP lines" })
