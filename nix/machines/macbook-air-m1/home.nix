@@ -44,6 +44,7 @@
     pkgs.gcc
     pkgs.lua
     pkgs.python313Packages.markitdown
+    pkgs.ffmpeg
 
     # Desktop applications
     pkgs.obsidian
