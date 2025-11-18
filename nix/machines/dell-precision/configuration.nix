@@ -19,7 +19,7 @@
   # Enable shared modules
   basic-system.enable = true;
   basic-system.enableBootloader = false; # Custom boot config above
-  hyprland.enable = true;
+  gnome-desktop.enable = true;
   italian-locale.enable = true;
   # Note: using manual home-manager config due to zen-browser special import
   system = {

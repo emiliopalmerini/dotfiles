@@ -1,4 +1,4 @@
-{ inputs, pkgs, userConfig, lib, ... }: {
+{ pkgs, inputs, userConfig, lib, ... }: {
   imports = [
     ./../../modules/home
     inputs.zen-browser.homeModules.twilight
@@ -27,35 +27,36 @@
   dotnet.enable = true;
 
   # Desktop environment configuration
-  hyprland.enable = true;
+  gnome-workspaces.enable = true;
 
   # Simple packages - installed directly
-  home.packages =  [
+  home.packages = [
     # Development tools
-    claude-code
-    lazygit
-    gnumake
-    gcc
-    protobuf # Protocol Buffers compiler (includes protoc)
-    grpcurl # gRPC CLI tool for testing endpoints
+    pkgs.claude-code
+    pkgs.lazygit
+    pkgs.gnumake
+    pkgs.gcc
+    pkgs.protobuf # Protocol Buffers compiler (includes protoc)
+    pkgs.grpcurl # gRPC CLI tool for testing endpoints
 
     # Desktop applications
-    google-chrome
-    obsidian
-    todoist
-    telegram-desktop
-    ghostty
-    gnomeExtensions.clipboard-indicator # Clipboard history manager
+    pkgs.google-chrome
+    pkgs.obsidian
+    pkgs.todoist
+    pkgs.telegram-desktop
+    pkgs.ghostty
+    pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
 
     # Work tools
-    libreoffice
-    slack
-    postman
-    bruno
-    openfortivpn
-    jetbrains.rider
-    dbeaver-bin
-  ] ++ lib.optionals stdenv.isLinux [ xclip ];
+    pkgs.libreoffice
+    pkgs.postman
+    pkgs.bruno
+    pkgs.openfortivpn
+    pkgs.jetbrains.rider
+    pkgs.dbeaver-bin
+
+    pkgs.xclip
+  ];
 
   # Browser - zen-browser requires special setup
   programs.zen-browser = {
