@@ -19,16 +19,6 @@ in
       enable = true;
     };
 
-    virtualisation.oci-containers = {
-      backend = "docker";
-      containers = {
-        it-tools = {
-          image = "ghcr.io/corentinth/it-tools:latest";
-          ports = [ "${toString cfg.itToolsPort}:80" ];
-        };
-      };
-    };
-
     environment.systemPackages = [
       pkgs.docker-compose
       pkgs.docker-buildx
