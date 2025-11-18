@@ -1,4 +1,4 @@
-{ pkgs, inputs, userConfig, lib, ... }: {
+{ pkgs, inputs, userConfig, ... }: {
   imports = [
     ./../../modules/home
     inputs.zen-browser.homeModules.twilight
@@ -54,6 +54,8 @@
     pkgs.openfortivpn
     pkgs.jetbrains.rider
     pkgs.dbeaver-bin
+    pkgs.amp-cli
+    pkgs.lsof
 
     pkgs.xclip
   ];
