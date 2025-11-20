@@ -28,7 +28,7 @@ in
       "org/gnome/mutter" = {
         dynamic-workspaces = false;
         auto-maximize = true;
-        workspaces-only-on-primary = false; # Workspaces span all monitors
+        workspaces-only-on-primary = true; # Workspaces span all monitors
       };
 
       # Configure Super+1 through Super+6 keybindings for workspace switching

@@ -46,6 +46,7 @@
     pkgs.telegram-desktop
     pkgs.ghostty
     pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
+    pkgs.vlc
 
     # Work tools
     pkgs.libreoffice
