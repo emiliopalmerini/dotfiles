@@ -24,6 +24,10 @@
   tmux.enable = true;
   nodejs.enable = true;
 
+  # Raycast configuration
+  programs.raycast.enable = true;
+  programs.raycast.hotkey = "opt+space";
+
   # macOS specific session path
   home.sessionPath = [
     "$HOME/.local/bin"
