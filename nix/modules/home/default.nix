@@ -7,6 +7,7 @@
     ./tmux
     ./nodejs
     ./dotnet
+    ./yazi
 
     # Convenient package bundles
     ./go

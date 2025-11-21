@@ -1,0 +1,51 @@
+[[mgr]]
+prepend_keymap = [
+  # Vim navigation
+  { on = ["k"], run = "arrow -1", desc = "Move cursor up" },
+  { on = ["j"], run = "arrow 1", desc = "Move cursor down" },
+  { on = ["h"], run = "leave", desc = "Leave current directory" },
+  { on = ["l"], run = "enter", desc = "Enter directory/open file" },
+  
+  # Goto bookmarks
+  { on = ["g", "h"], run = "cd ~", desc = "Goto home" },
+  { on = ["g", "d"], run = "cd ~/Downloads", desc = "Goto Downloads" },
+  { on = ["g", "r"], run = "cd ~/repos", desc = "Goto Projects" },
+  
+  # Search/find operations [f]ind group
+  { on = ["f", "f"], run = "search fd", desc = "Find: Files via fd" },
+  { on = ["f", "g"], run = "search rg", desc = "Find: Content via rg" },
+  { on = ["f", "/"], run = "find --previous", desc = "Find: Previous file" },
+  { on = ["f", "?"], run = "find --next", desc = "Find: Next file" },
+  
+  # Yank/delete operations [y]ank group
+  { on = ["y", "y"], run = "copy path", desc = "Yank: File path" },
+  { on = ["y", "d"], run = "copy dirname", desc = "Yank: Directory path" },
+  { on = ["y", "f"], run = "copy filename", desc = "Yank: Filename" },
+  { on = ["y", "n"], run = "copy name_without_ext", desc = "Yank: Filename without extension" },
+  
+  # Tab operations [t]ab group
+  { on = ["t", "n"], run = "tab_create --current", desc = "Tab: New with current dir" },
+  { on = ["t", "c"], run = "tab_close", desc = "Tab: Close current" },
+  { on = ["["], run = "tab_switch -1", desc = "Tab: Previous" },
+  { on = ["]"], run = "tab_switch 1", desc = "Tab: Next" },
+  
+  # Sort operations [s]ort group - using comma prefix like vim
+  { on = [",", "m"], run = "sort mtime", desc = "Sort: By modified time" },
+  { on = [",", "M"], run = "sort mtime --reverse", desc = "Sort: By modified time (reverse)" },
+  { on = [",", "s"], run = "sort size", desc = "Sort: By size" },
+  { on = [",", "S"], run = "sort size --reverse", desc = "Sort: By size (reverse)" },
+  { on = [",", "e"], run = "sort extension", desc = "Sort: By extension" },
+  { on = [",", "a"], run = "sort alphabetical", desc = "Sort: Alphabetically" },
+  { on = [",", "n"], run = "sort natural", desc = "Sort: Naturally" },
+  
+  # Additional operations
+  { on = ["<C-h>"], run = "arrow -5", desc = "Move up 5 items" },
+  { on = ["<C-j>"], run = "arrow 5", desc = "Move down 5 items" },
+  { on = ["<C-k>"], run = "arrow -5", desc = "Move up 5 items" },
+  { on = ["<C-l>"], run = "arrow 5", desc = "Move down 5 items" },
+  
+  # Line mode
+  { on = ["z", "l"], run = "linemode size", desc = "Linemode: Size" },
+  { on = ["z", "m"], run = "linemode mtime", desc = "Linemode: Modified time" },
+  { on = ["z", "p"], run = "linemode permissions", desc = "Linemode: Permissions" },
+]

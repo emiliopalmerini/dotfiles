@@ -25,6 +25,7 @@
   mongodb.enable = true;
   nodejs.enable = true;
   dotnet.enable = true;
+  yazi.enable = true;
 
   # Desktop environment configuration
   gnome-workspaces.enable = true;
