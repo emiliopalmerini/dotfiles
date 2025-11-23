@@ -24,10 +24,6 @@
   tmux.enable = true;
   nodejs.enable = true;
 
-  # Raycast configuration
-  programs.raycast.enable = true;
-  programs.raycast.hotkey = "opt+space";
-
   # macOS specific session path
   home.sessionPath = [
     "$HOME/.local/bin"
@@ -38,31 +34,4 @@
     font-feature = -calt -liga -dlig
     theme = tokyonight-storm
   '';
-
-  # Packages - both macOS specific and cross-platform
-  home.packages = [
-    # Development tools
-    pkgs.claude-code
-    pkgs.lazygit
-    pkgs.gnumake
-    pkgs.gcc
-    pkgs.lua
-    pkgs.python313Packages.markitdown
-    pkgs.ffmpeg
-
-    # Desktop applications
-    pkgs.obsidian
-
-    # macOS specific tools
-    pkgs.mongosh
-    pkgs.mongodb-tools
-    pkgs.raycast
-    pkgs.docker
-    pkgs.docker-compose
-    pkgs.lazydocker
-    pkgs.mas
-    pkgs.clamav
-    pkgs.hugo
-    pkgs.colima
-  ];
 }

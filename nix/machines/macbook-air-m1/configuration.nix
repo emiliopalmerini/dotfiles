@@ -16,6 +16,33 @@
     SHELL = "${pkgs.zsh}/bin/zsh";
   };
   system.primaryUser = userConfig.username;
+
+  environment.systemPackages = with pkgs; [
+    # Development tools
+    claude-code
+    lazygit
+    gnumake
+    gcc
+    lua
+    python313Packages.markitdown
+    ffmpeg
+
+    # Desktop applications
+    obsidian
+
+    # macOS specific tools
+    mongosh
+    mongodb-tools
+    raycast
+    docker
+    docker-compose
+    lazydocker
+    mas
+    clamav
+    hugo
+    colima
+  ];
+
   # Darwin module configurations
   darwin.dock = {
     enable = true;
