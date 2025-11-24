@@ -29,6 +29,10 @@
     "$HOME/.local/bin"
   ];
 
+  home.packages = with pkgs; [
+    zig
+  ];
+
   home.file.".config/ghostty/config".text = ''
     font-family = "Hack Nerd Font Mono"
     font-feature = -calt -liga -dlig
