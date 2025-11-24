@@ -21,6 +21,17 @@ with lib; let
   languageTreesitterGrammars = p: lib.flatten (lib.mapAttrsToList (_: lang: lang.treesitterGrammars p) enabledLanguages);
   languageDapPlugins = lib.flatten (lib.mapAttrsToList (_: lang: lang.dapPlugins) enabledLanguages);
   languagePlugins = lib.flatten (lib.mapAttrsToList (_: lang: lang.plugins) enabledLanguages);
+
+  # Generate LSP servers table from enabled languages
+  languageLspConfigs = lib.flatten (lib.mapAttrsToList
+    (_: lang: lib.mapAttrsToList (name: config: { inherit name config; }) (lang.lsp or { }))
+    enabledLanguages);
+
+  generateLspServersLua = configs:
+    let
+      entries = map (c: ''["${c.name}"] = ${c.config}'') configs;
+    in
+    "{\n  ${lib.concatStringsSep ",\n  " entries}\n}";
 in
 {
   options = {
@@ -125,7 +136,14 @@ in
             { plugin = vp.obsidian-nvim; type = "lua"; config = builtins.readFile ./plugin/obsidian.lua; }
 
             # LSP
-            { plugin = vp.nvim-lspconfig; type = "lua"; config = builtins.readFile ./plugin/lsp.lua; }
+            {
+              plugin = vp.nvim-lspconfig;
+              type = "lua";
+              config = ''
+                local language_servers = ${generateLspServersLua languageLspConfigs}
+                ${builtins.readFile ./plugin/lsp.lua}
+              '';
+            }
 
             # Editing
             { plugin = vp.comment-nvim; type = "lua"; config = "require('Comment').setup()"; }

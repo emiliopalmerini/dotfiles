@@ -5,103 +5,22 @@ if pcall(require, "cmp_nvim_lsp") then
 	capabilities = require("cmp_nvim_lsp").default_capabilities()
 end
 
-local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
-	or (vim.fn.exepath("typescript-language-server") ~= "" and "ts_ls")
-	or "vtsls"
+-- language_servers is injected from Nix (languages.nix)
+local servers = {}
 
-local servers = {
-	[ts_server_name] = true,
-	-- XML
-	lemminx = true,
-	-- Protobuf
-	bufls = true,
-	bashls = {
-		cmd = { "bash-language-server", "start" },
-		filetypes = { "sh", "bash" },
-	},
-	jsonls = {
-		settings = {
-			json = {
-				schemas = (function()
-					local ok, schemastore = pcall(require, "schemastore")
-					if ok then
-						return schemastore.json.schemas()
-					end
-					return nil
-				end)(),
-				validate = { enable = true },
-			},
-		},
-	},
-	yamlls = {
-		settings = {
-			yaml = {
-				schemas = (function()
-					local ok, schemastore = pcall(require, "schemastore")
-					if ok then
-						return schemastore.yaml.schemas()
-					end
-					return nil
-				end)(),
-			},
-		},
-	},
-	gopls = {
-		settings = {
-			gopls = {
-				hints = {
-					assignVariableTypes = true,
-					compositeLiteralFields = true,
-					compositeLiteralTypes = true,
-					constantValues = true,
-					functionTypeParameters = true,
-					parameterNames = true,
-					rangeVariableTypes = true,
-				},
-			},
-		},
-	},
-	lua_ls = {
-		server_capabilities = {
-			semanticTokensProvider = vim.NIL,
-		},
-	},
-	pyright = true,
-	ruff = true,
-	nil_ls = {
-		settings = {
-			["nil"] = {
-				formatting = {
-					command = { "nixpkgs-fmt" },
-				},
-				nix = {
-					flake = {
-						autoEvalInputs = true,
-					},
-				},
-			},
-		},
-	},
-	clangd = {
-		cmd = {
-			"clangd",
-			"--background-index",
-			"--clang-tidy",
-			"--header-insertion=iwyu",
-			"--completion-style=detailed",
-			"--function-arg-placeholders",
-			"--fallback-style=llvm",
-		},
-		init_options = {
-			usePlaceholders = true,
-			completeUnimported = true,
-			clangdFileStatus = true,
-		},
-		capabilities = {
-			offsetEncoding = { "utf-16" },
-		},
-	},
-}
+-- Handle TypeScript server detection
+if language_servers["__ts_server"] then
+	local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
+		or (vim.fn.exepath("typescript-language-server") ~= "" and "ts_ls")
+		or "vtsls"
+	servers[ts_server_name] = language_servers["__ts_server"]
+	language_servers["__ts_server"] = nil
+end
+
+-- Merge language servers from Nix
+for name, config in pairs(language_servers) do
+	servers[name] = config
+end
 
 -- Configurazione diretta dei server LSP senza Mason usando vim.lsp.config
 for name, config in pairs(servers) do
