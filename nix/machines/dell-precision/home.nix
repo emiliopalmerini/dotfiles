@@ -32,6 +32,7 @@
 
   # Simple packages - installed directly
   home.packages = [
+    pkgs.xclip
     # Development tools
     pkgs.claude-code
     pkgs.lazygit
@@ -58,8 +59,8 @@
     pkgs.dbeaver-bin
     pkgs.amp-cli
     pkgs.lsof
-
-    pkgs.xclip
+    pkgs.google-cloud-sdk-gce
+    pkgs.k9s
   ];
 
   # Browser - zen-browser requires special setup

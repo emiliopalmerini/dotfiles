@@ -78,42 +78,114 @@ if vim.fn.executable("netcoredbg") == 1 then
 		args = { "--interpreter=vscode" },
 	}
 
+	-- Cache for .NET project info (reset on each debug session)
+	local dotnet_project_cache = {}
+
+	local function find_dotnet_project()
+		if dotnet_project_cache.dll then
+			return dotnet_project_cache
+		end
+
+		local project_dir = vim.fn.getcwd()
+
+		-- Find .csproj file (supports multi-project solutions)
+		local csproj_file = vim.fn.glob(project_dir .. "/*.csproj")
+		if csproj_file == "" then
+			-- Search for API/Web projects first (most likely to be runnable)
+			local patterns = {
+				project_dir .. "/src/**/*.API.csproj",
+				project_dir .. "/src/**/*.Web.csproj",
+				project_dir .. "/**/*.API.csproj",
+				project_dir .. "/**/*.Web.csproj",
+				project_dir .. "/src/**/*.csproj",
+				project_dir .. "/**/*.csproj",
+			}
+
+			local candidates = {}
+			for _, pattern in ipairs(patterns) do
+				candidates = vim.fn.glob(pattern, false, true)
+				if #candidates > 0 then
+					break
+				end
+			end
+
+			if #candidates == 1 then
+				csproj_file = candidates[1]
+			elseif #candidates > 1 then
+				-- Let user select from found projects
+				local choices = {}
+				for i, c in ipairs(candidates) do
+					table.insert(choices, string.format("%d: %s", i, c:gsub(project_dir .. "/", "")))
+				end
+				local choice = vim.fn.inputlist(choices)
+				if choice > 0 and choice <= #candidates then
+					csproj_file = candidates[choice]
+				else
+					csproj_file = vim.fn.input("Path to .csproj: ", project_dir .. "/", "file")
+				end
+			else
+				csproj_file = vim.fn.input("No .csproj found. Enter path: ", project_dir .. "/", "file")
+			end
+		end
+
+		local csproj_dir = vim.fn.fnamemodify(csproj_file, ":h")
+		local project_name = vim.fn.fnamemodify(csproj_file, ":t:r")
+
+		local file = io.open(csproj_file, "r")
+		if not file then
+			dotnet_project_cache = { cwd = csproj_dir, dll = vim.fn.input("Cannot open .csproj. Path to dll: ", csproj_dir .. "/bin/Debug/", "file") }
+			return dotnet_project_cache
+		end
+
+		local content = file:read("*a")
+		file:close()
+		local version = content:match("<TargetFramework>(net[%d%.]+)</TargetFramework>")
+		if not version then
+			version = vim.fn.input("Cannot determine version. Enter (e.g. net8.0): ")
+		end
+
+		local build_config = "Debug"
+		local build_output_dir = table.concat({ csproj_dir, "bin", build_config, version }, "/")
+
+		-- Look for the project DLL specifically
+		local dll = build_output_dir .. "/" .. project_name .. ".dll"
+		if vim.fn.filereadable(dll) == 0 then
+			local dlls = vim.fn.glob(build_output_dir .. "/*.dll", false, true)
+			if #dlls == 0 then
+				dll = vim.fn.input("DLL not found. Run 'dotnet build' first.\nPath to dll: ", build_output_dir .. "/", "file")
+			else
+				dll = dlls[1]
+			end
+		end
+
+		dotnet_project_cache = { cwd = csproj_dir, dll = dll }
+		return dotnet_project_cache
+	end
+
+	-- Clear cache when debug session ends
+	dap.listeners.before.event_terminated.dotnet_cache = function()
+		dotnet_project_cache = {}
+	end
+	dap.listeners.before.event_exited.dotnet_cache = function()
+		dotnet_project_cache = {}
+	end
+
 	dap.configurations.cs = {
 		{
 			type = "coreclr",
 			name = "launch - netcoredbg",
 			request = "launch",
 			program = function()
-				local project_dir = vim.fn.getcwd()
-				local csproj_file = vim.fn.glob(project_dir .. "/*.csproj")
-				if csproj_file == "" then
-					return vim.fn.input(
-						"File .csproj non trovato. Inserisci percorso .csproj: ",
-						project_dir .. "/",
-						"file"
-					)
-				end
-
-				local file = io.open(csproj_file, "r")
-				if not file then
-					return vim.fn.input("Impossibile aprire .csproj. Specifica versione (es. net8.0): ", "", "file")
-				end
-
-				local content = file:read("*a")
-				file:close()
-				local version = content:match("<TargetFramework>(net[%d%.]+)</TargetFramework>")
-				if not version then
-					return vim.fn.input("Impossibile determinare versione. Specifica (es. net8.0): ", "", "file")
-				end
-
-				local build_config = "Debug"
-				local build_output_dir = table.concat({ project_dir, "bin", build_config, version }, "/")
-				local dll = vim.fn.glob(build_output_dir .. "/*.dll")
-				if dll == "" then
-					return vim.fn.input("Percorso al dll: ", build_output_dir .. "/", "file")
-				end
-				return dll
+				return find_dotnet_project().dll
 			end,
+			cwd = function()
+				return find_dotnet_project().cwd
+			end,
+			env = {
+				ASPNETCORE_ENVIRONMENT = "Development",
+				DOTNET_ENVIRONMENT = "Development",
+			},
+			stopAtEntry = false,
 		},
 	}
 end
