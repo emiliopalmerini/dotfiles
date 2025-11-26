@@ -1,5 +1,17 @@
 { lib, pkgs }:
 
+let
+  xunit-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "xunit-nvim";
+    src = pkgs.fetchFromGitHub {
+      owner = "mox669";
+      repo = "xunit.nvim";
+      rev = "main";
+      hash = "sha256-Z56CGsnU3T9vtUyRFBk3awFPlD84MtmF3RsCAWeKyO8=";
+    };
+  };
+in
+
 {
   # Core languages (always enabled)
   nix = {
@@ -171,7 +183,7 @@
     dapPlugins = [ ];
     plugins = [
       { plugin = pkgs.vimPlugins.roslyn-nvim; type = "lua"; config = builtins.readFile ./plugin/roslyn.lua; }
-      { plugin = pkgs.vimPlugins.xunit-nvim; type = "lua"; config = builtins.readFile ./plugin/xunit.lua; }
+      { plugin = xunit-nvim; type = "lua"; config = builtins.readFile ./plugin/xunit.lua; }
     ];
     lsp = { };
   };
