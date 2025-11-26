@@ -26,6 +26,7 @@
   nodejs.enable = true;
   dotnet.enable = true;
   yazi.enable = true;
+  gcloud.enable = true;
 
   # Desktop environment configuration
   gnome-workspaces.enable = true;
@@ -59,7 +60,6 @@
     pkgs.dbeaver-bin
     pkgs.amp-cli
     pkgs.lsof
-    pkgs.google-cloud-sdk-gce
     pkgs.k9s
   ];
 

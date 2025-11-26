@@ -12,6 +12,7 @@
     # Convenient package bundles
     ./go
     ./mongodb
+    ./gcloud
 
     # Desktop environment configurations
     ./gnome-workspaces

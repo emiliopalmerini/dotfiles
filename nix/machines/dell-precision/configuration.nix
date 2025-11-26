@@ -67,8 +67,6 @@
     pkgs.ppp
     pkgs.mono
     pkgs.msbuild
-    pkgs.docker-compose
-    pkgs.lazydocker
   ];
 
   tailscale.enable = true;
@@ -80,11 +78,6 @@
     };
     backupFileExtension = "bak";
   };
-
-  virtualisation.docker = {
-    enable = true;
-  };
-
   environment.variables = commonEnv;
 
   # Some programs need SUID wrappers, can be configured further or are

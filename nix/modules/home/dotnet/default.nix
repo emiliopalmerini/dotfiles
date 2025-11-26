@@ -6,19 +6,23 @@
 let
   dotnetSdks = [
     pkgs.dotnetCorePackages.sdk_6_0
-    pkgs.dotnetCorePackages.sdk_7_0
     pkgs.dotnetCorePackages.sdk_8_0
     pkgs.dotnetCorePackages.sdk_9_0
-    pkgs.dotnetCorePackages.sdk_10_0-bin
+    pkgs.dotnetCorePackages.sdk_10_0
+  ];
+
+  dotnetRuntimes = [
+    pkgs.dotnetCorePackages.runtime_6_0
+    pkgs.dotnetCorePackages.runtime_8_0
+    pkgs.dotnetCorePackages.runtime_9_0
   ];
 
   insecurePackages = [
     "dotnet-sdk-6.0.428"
     "dotnet-runtime-6.0.36"
-    "dotnet-sdk-7.0.410"
   ];
 
-  dotnet-combined = (pkgs.dotnetCorePackages.combinePackages dotnetSdks).overrideAttrs (finalAttrs: previousAttrs: {
+  dotnet-combined = (pkgs.dotnetCorePackages.combinePackages (dotnetSdks ++ dotnetRuntimes)).overrideAttrs (finalAttrs: previousAttrs: {
     postBuild = (previousAttrs.postBuild or "") + ''
       for i in $out/sdk/*
       do
