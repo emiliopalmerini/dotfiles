@@ -9,6 +9,7 @@ let
       rev = "main";
       hash = "sha256-Z56CGsnU3T9vtUyRFBk3awFPlD84MtmF3RsCAWeKyO8=";
     };
+    skipRuntimeCheck = true;
   };
 in
 
