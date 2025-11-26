@@ -13,7 +13,7 @@ with lib; let
     gco = "git checkout";
     gcp = "git cherry-pick";
     gdiff = "git diff";
-    gl = "git prettylog";
+    gl = "git pull";
     gp = "git push";
     gs = "git status";
     gt = "git tag";
