@@ -169,7 +169,10 @@
     packages = [ pkgs.roslyn-ls ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.netcoredbg ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-c_sharp) p.tree-sitter-c_sharp;
     dapPlugins = [ ];
-    plugins = [{ plugin = pkgs.vimPlugins.roslyn-nvim; type = "lua"; config = builtins.readFile ./plugin/roslyn.lua; }];
+    plugins = [
+      { plugin = pkgs.vimPlugins.roslyn-nvim; type = "lua"; config = builtins.readFile ./plugin/roslyn.lua; }
+      { plugin = pkgs.vimPlugins.xunit-nvim; type = "lua"; config = builtins.readFile ./plugin/xunit.lua; }
+    ];
     lsp = { };
   };
   c = {
