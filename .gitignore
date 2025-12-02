@@ -3,6 +3,7 @@
 .config/zed/.*
 .config/go/telemetry/*
 .config/go/telemetry/local
+.claude
 
 # Sensitive files
 **/secrets/
