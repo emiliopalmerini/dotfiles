@@ -76,6 +76,12 @@ in
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward
 
+        # kubectl completion
+        if command -v kubectl &> /dev/null; then
+          source <(kubectl completion zsh)
+          compdef _kubectl kubectl
+        fi
+
         eval "$(oh-my-posh init zsh)"
       '';
       plugins = [
