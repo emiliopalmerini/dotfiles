@@ -41,6 +41,7 @@
     pkgs.gcc
     pkgs.protobuf # Protocol Buffers compiler (includes protoc)
     pkgs.grpcurl # gRPC CLI tool for testing endpoints
+    pkgs.postgresql_18
 
     # Desktop applications
     pkgs.google-chrome
