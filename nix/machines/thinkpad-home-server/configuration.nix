@@ -66,7 +66,6 @@
           name = "Servizi locali";
           items = [
             { name = "qBittorrent"; url = "http://hera:8080"; }
-            { name = "Calibre-Web"; url = "http://hera:8083"; }
             { name = "Plex"; url = "http://hera:32400/web"; }
             { name = "Due Draghi SRD Parser"; url = "http://hera:8100"; }
             { name = "Homer"; url = "http://hera:8090"; }
@@ -82,7 +81,6 @@
 
   environment.systemPackages = [
     pkgs.nodejs
-    pkgs.calibre
   ];
   # Tailscale handled by tailscale-only-access module
 

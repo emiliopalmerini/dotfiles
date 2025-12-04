@@ -16,10 +16,7 @@
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    # ghostty = {
-    #   url = "github:ghostty-org/ghostty";
-    # };
-
+    abitudini.url = "git+https://github.com/emiliopalmerini/abitudini";
     plugin-harpoon = {
       url = "git+https://github.com/ThePrimeagen/harpoon?ref=harpoon2";
       flake = false;
@@ -33,7 +30,7 @@
     , nix-darwin
     , home-manager
     , zen-browser
-      # , ghostty
+    , abitudini
     , ...
     } @ inputs:
     let

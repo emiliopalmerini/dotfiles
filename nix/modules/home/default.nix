@@ -13,6 +13,7 @@
     ./go
     ./mongodb
     ./gcloud
+    ./abitudini
 
     # Desktop environment configurations
     ./gnome-workspaces

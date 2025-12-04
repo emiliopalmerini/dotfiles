@@ -5,7 +5,7 @@ Reproducible Neovim setup managed by Home Manager. No Mason: all tools and LSPs 
 ## What it provides
 - Plugins: Treesitter, Telescope (+ FZF), LSP, CMP, DAP, UI/statusline, Git, utilities
 - LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (roslyn-ls), XML (`lemminx`), Protobuf (`bufls`)
-- DAP: Go (`delve`), C# (`netcoredbg`), Python (`debugpy`), JS/TS (vscode-js-debug if available)
+- DAP: Go (`delve`), C# (`netcoredbg`), Python (`debugpy`), Zig (`lldb`), JS/TS (vscode-js-debug if available)
 - Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, Python (isort + black), JS/TS/JSON (Biome or Prettier/Prettierd), YAML (Prettier/Prettierd), SQL (sleek), Go (optional: gofumpt, golines)
 - Completion extras: signature help (`cmp-nvim-lsp-signature-help`)
 - OS-aware extras: Linux clipboard tools (`xclip`, `wl-clipboard`) and macOS `reattach-to-user-namespace`
@@ -74,9 +74,10 @@ JSON and YAML support are enabled by default and their Treesitter parsers are in
 Auto-format on save (except for `.mlx`).
 
 ## DAP
-- Go: `nvim-dap-go`
+- Go: `nvim-dap-go` with `delve`
 - C#: `netcoredbg` via `coreclr` adapter
 - Python: `nvim-dap-python` with `debugpy`
+- Zig: `lldb` via `lldb-vscode` adapter
 - JS/TS: `dap-vscode-js` (pwa-node) when `ms-vscode.js-debug` is available in nixpkgs
 
 Keymaps in `plugin/dap.lua`:

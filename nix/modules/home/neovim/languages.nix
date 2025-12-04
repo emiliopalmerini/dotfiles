@@ -212,7 +212,7 @@
   };
   zig = {
     detectPackage = "zig";
-    packages = [ pkgs.zls ];
+    packages = [ pkgs.zls pkgs.lldb ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-zig) p.tree-sitter-zig;
     dapPlugins = [ ];
     plugins = [ ];

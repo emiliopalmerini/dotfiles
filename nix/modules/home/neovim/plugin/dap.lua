@@ -190,6 +190,39 @@ if vim.fn.executable("netcoredbg") == 1 then
 	}
 end
 
+-- Zig via lldb
+if vim.fn.executable("lldb") == 1 then
+	if not dap.adapters.lldb then
+		dap.adapters.lldb = {
+			type = "executable",
+			command = "lldb-vscode",
+		}
+	end
+
+	dap.configurations.zig = {
+		{
+			type = "lldb",
+			request = "launch",
+			name = "Launch (LLDB)",
+			program = function()
+				return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/zig-cache/bin/", "file")
+			end,
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+			args = {},
+		},
+		{
+			type = "lldb",
+			request = "launch",
+			name = "Launch built binary",
+			program = "${workspaceFolder}/zig-cache/bin/${workspaceFolderBasename}",
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+			args = {},
+		},
+	}
+end
+
 -- Function key mappings for quick debugging (F5 = continue, F2-F4 in reverse for ergonomics)
 vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
 vim.keymap.set("n", "<F4>", dap.step_over, { desc = "Debug: Step Over" })

@@ -82,6 +82,13 @@ in
           compdef _kubectl kubectl
         fi
 
+        # Enable completion for git aliases
+        for alias in ''${(k)aliases[@]}; do
+          if [[ $alias == g* ]] && [[ ''${aliases[$alias]} == git* ]]; then
+            compdef $alias=git
+          fi
+        done
+
         eval "$(oh-my-posh init zsh)"
       '';
       plugins = [
