@@ -6,10 +6,10 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1764948445,
-        "narHash": "sha256-aFML8Uut8CBv3rxd7Yn3fox6n3UqoixZuDJm0+PAzdk=",
+        "lastModified": 1764952018,
+        "narHash": "sha256-DGcl1AqYnv7TG49EjyLmbScrkGqFllPd7UNE+7MGRRE=",
         "ref": "refs/heads/main",
-        "rev": "79d6d851282fb428699a98d631adc7c49bb9b836",
+        "rev": "21843ebedc28f4b16e94a86d7670bedac38d821d",
         "revCount": 4,
         "type": "git",
         "url": "https://github.com/emiliopalmerini/abitudini"
