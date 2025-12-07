@@ -33,7 +33,6 @@
     # macOS specific tools
     mongosh
     mongodb-tools
-    raycast
     docker
     docker-compose
     lazydocker
