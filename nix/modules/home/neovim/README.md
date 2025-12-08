@@ -88,7 +88,7 @@ Keymaps in `plugin/dap.lua`:
 
 Notes:
 - C#: CoreCLR adapter is registered only if `netcoredbg` is available (typically Linux). On macOS without `netcoredbg`, C# DAP is disabled automatically.
-- JS/TS: Adapter loads only if `ms-vscode.js-debug` exists in nixpkgs; the "Launch via ts-node" config is added only if `ts-node` is on PATH.
+- JS/TS: Adapter loads only if `ms-vscode.js-debug` exists in nixpkgs.
 
 ## Keymaps (Mnemonic Groups)
 

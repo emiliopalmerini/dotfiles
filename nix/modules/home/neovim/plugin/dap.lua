@@ -35,7 +35,6 @@ require("nvim-dap-virtual-text").setup({
 -- JavaScript / TypeScript via vscode-js-debug (pwa-node)
 pcall(function()
 	local langs = { "javascript", "typescript", "javascriptreact", "typescriptreact" }
-	local has_tsnode = vim.fn.exepath("ts-node") ~= ""
 	for _, lang in ipairs(langs) do
 		local configs = {
 			{
@@ -53,20 +52,6 @@ pcall(function()
 				cwd = "${workspaceFolder}",
 			},
 		}
-		if has_tsnode then
-			table.insert(configs, 2, {
-				type = "pwa-node",
-				request = "launch",
-				name = "Launch via ts-node",
-				program = "${file}",
-				cwd = "${workspaceFolder}",
-				runtimeExecutable = "node",
-				runtimeArgs = { "-r", "ts-node/register" },
-				sourceMaps = true,
-				protocol = "inspector",
-				console = "integratedTerminal",
-			})
-		end
 		dap.configurations[lang] = configs
 	end
 end)

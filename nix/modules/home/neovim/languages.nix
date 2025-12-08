@@ -138,7 +138,6 @@
     detectPackage = "nodejs";
     packages = [
       pkgs.nodePackages.typescript
-      pkgs.nodePackages.ts-node
     ];
     treesitterGrammars = p:
       (lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
