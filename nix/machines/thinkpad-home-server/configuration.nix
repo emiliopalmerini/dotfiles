@@ -79,8 +79,21 @@
   # Homer will be accessible only via Tailscale due to firewall rules
   services.nginx.virtualHosts."hera".listen = [{ addr = "0.0.0.0"; port = 8090; }];
 
-  environment.systemPackages = [
-    pkgs.nodejs
+  environment.systemPackages = with pkgs; [
+    nodejs
+    (writeScriptBin "pbcopy" ''
+      #!/bin/sh
+      # OSC 52 escape sequence for clipboard copy
+      # Works through SSH with terminals that support OSC 52 (iTerm2, Alacritty, kitty, Ghostty, etc)
+      payload=$(base64)
+      printf '\033]52;c;%s\007' "$payload"
+    '')
+    (writeScriptBin "pbpaste" ''
+      #!/bin/sh
+      # OSC 52 escape sequence for clipboard paste
+      # Supported by modern terminals: Ghostty, Alacritty, kitty, and others
+      printf '\033]52;c;?\007'
+    '')
   ];
   # Tailscale handled by tailscale-only-access module
 
@@ -100,22 +113,9 @@
     '';
   };
 
-  # ACPI daemon
-  services.acpid = {
-    enable = true;
-    lidEventCommands = ''
-      export PATH=$PATH:/run/current-system/sw/bin
-      lid_state=$(awk '{print $NF}' /proc/acpi/button/lid/LID0/state)
-      if [ "$lid_state" = "closed" ]; then
-        echo 0  > /sys/class/backlight/acpi_video0/brightness
-      else
-        echo 50 > /sys/class/backlight/acpi_video0/brightness
-      fi
-    '';
-    powerEventCommands = ''
-      systemctl suspend
-    '';
-  };
+  # Disable display server for SSH-only server
+  services.xserver.enable = false;
+  services.displayManager.enable = false;
 
   system.stateVersion = "24.11";
 }
