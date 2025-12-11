@@ -66,6 +66,7 @@
       interfaceStyle = "Dark";
       naturalScrollDirection = true;
       keyRepeat = 2;
+      hideMenuBar = true;
     };
   };
 

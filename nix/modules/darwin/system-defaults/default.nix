@@ -58,6 +58,12 @@ with lib;
         default = 2;
         description = "Key repeat rate (lower is faster)";
       };
+
+      hideMenuBar = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Auto-hide the menu bar";
+      };
     };
   };
 
@@ -76,6 +82,7 @@ with lib;
         AppleInterfaceStyle = config.darwin.systemDefaults.globalDomain.interfaceStyle;
         "com.apple.swipescrolldirection" = config.darwin.systemDefaults.globalDomain.naturalScrollDirection;
         KeyRepeat = config.darwin.systemDefaults.globalDomain.keyRepeat;
+        "_HIHideMenuBar" = config.darwin.systemDefaults.globalDomain.hideMenuBar;
       };
     };
   };
