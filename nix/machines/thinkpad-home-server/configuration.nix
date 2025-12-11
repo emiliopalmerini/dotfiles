@@ -75,12 +75,6 @@
               icon = "fas fa-download";
               description = "Torrent client";
             }
-            { 
-              name = "Calibre-Web"; 
-              url = "http://hera:8083"; 
-              icon = "fas fa-book";
-              description = "E-book library";
-            }
           ];
         }
         {
@@ -98,6 +92,12 @@
               url = "http://hera:8082"; 
               icon = "fas fa-weight";
               description = "Weight tracker";
+            }
+            { 
+              name = "Abitudini"; 
+              url = "http://hera:8083"; 
+              icon = "fas fa-check-circle";
+              description = "Habit tracker";
             }
           ];
         }
