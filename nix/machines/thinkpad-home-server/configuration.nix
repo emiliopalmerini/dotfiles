@@ -95,7 +95,7 @@
             }
             { 
               name = "Abitudini"; 
-              url = "http://hera:8083"; 
+              url = "http://hera:8380"; 
               icon = "fas fa-check-circle";
               description = "Habit tracker";
             }
