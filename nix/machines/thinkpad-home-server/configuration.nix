@@ -36,47 +36,88 @@
 
   # SSH handled by tailscale-only-access module
 
-  # Homer dashboard (replaces Glance)
+  # Homer dashboard
   services.homer = {
     enable = true;
-    # Serve via nginx on hera:8090
     virtualHost = {
       nginx.enable = true;
       domain = "hera";
     };
     settings = {
       title = "Hera";
-      subtitle = "Self-hosted services";
+      subtitle = "Homelab Dashboard";
       header = true;
-      footer = "";
-      columns = "auto";
-      # Quick links in the top navbar (optional)
-      links = [ ];
+      footer = "<p>Tailscale-secured homelab</p>";
+      columns = 3;
+      connectivityCheck = false;
+      
+      # Quick navigation links
+      links = [
+        { name = "GitHub"; icon = "fab fa-github"; url = "https://github.com"; }
+        { name = "NixOS"; icon = "fab fa-linux"; url = "https://nixos.org"; }
+      ];
+      
       # Service groups and items
       services = [
         {
-          name = "Strumenti";
+          name = "Media & Downloads";
+          icon = "fas fa-film";
           items = [
-            { name = "Due Draghi SRD"; url = "http://hera:8000"; }
-            { name = "Spese"; url = "http://hera:8081"; }
-            { name = "Peso"; url = "http://hera:8082"; }
+            { 
+              name = "Plex"; 
+              url = "http://hera:32400/web"; 
+              icon = "fas fa-play";
+              description = "Media server";
+            }
+            { 
+              name = "qBittorrent"; 
+              url = "http://hera:8080"; 
+              icon = "fas fa-download";
+              description = "Torrent client";
+            }
+            { 
+              name = "Calibre-Web"; 
+              url = "http://hera:8083"; 
+              icon = "fas fa-book";
+              description = "E-book library";
+            }
           ];
         }
         {
-          name = "Servizi locali";
+          name = "Personal Tools";
+          icon = "fas fa-tools";
           items = [
-            { name = "qBittorrent"; url = "http://hera:8080"; }
-            { name = "Plex"; url = "http://hera:32400/web"; }
-            { name = "Due Draghi SRD Parser"; url = "http://hera:8100"; }
-            { name = "Homer"; url = "http://hera:8090"; }
-            { name = "Il Turno di Guardia Demo"; url = "http://hera:3001"; }
+            { 
+              name = "Spese"; 
+              url = "http://hera:8081"; 
+              icon = "fas fa-wallet";
+              description = "Expense tracker";
+            }
+            { 
+              name = "Peso"; 
+              url = "http://hera:8082"; 
+              icon = "fas fa-weight";
+              description = "Weight tracker";
+            }
+          ];
+        }
+        {
+          name = "System";
+          icon = "fas fa-cogs";
+          items = [
+            { 
+              name = "Homer"; 
+              url = "http://hera:8090"; 
+              icon = "fas fa-home";
+              description = "This dashboard";
+            }
           ];
         }
       ];
     };
   };
 
-  # Homer will be accessible only via Tailscale due to firewall rules
+  # Homer accessible only via Tailscale due to firewall rules
   services.nginx.virtualHosts."hera".listen = [{ addr = "0.0.0.0"; port = 8090; }];
 
   environment.systemPackages = with pkgs; [

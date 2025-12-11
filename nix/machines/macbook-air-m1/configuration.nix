@@ -19,7 +19,6 @@
 
   environment.systemPackages = with pkgs; [
     # Development tools
-    claude-code
     lazygit
     gnumake
     gcc
