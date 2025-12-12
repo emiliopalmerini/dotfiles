@@ -4,6 +4,12 @@ with lib;
 
 let
   cfg = config.gcloud;
+  # Fix google-cloud-sdk to include missing Tcl/Tk dependencies for bundled Python
+  google-cloud-sdk-fixed = pkgs.google-cloud-sdk.overrideAttrs (old: {
+    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.autoPatchelfHook ];
+    buildInputs = (old.buildInputs or []) ++ [ pkgs.tcl pkgs.tk ];
+    autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or []) ++ [ "libtcl8.6.so" "libtk8.6.so" ];
+  });
 in
 {
   options.gcloud = {
@@ -12,7 +18,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = let
-      gcloud = pkgs.google-cloud-sdk-gce.withExtraComponents (with pkgs.google-cloud-sdk.components; [
+      gcloud = google-cloud-sdk-fixed.withExtraComponents (with google-cloud-sdk-fixed.components; [
         gke-gcloud-auth-plugin
         kubectl
       ]);

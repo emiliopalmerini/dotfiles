@@ -52,6 +52,7 @@
     pkgs.ghostty
     pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
     pkgs.vlc
+    pkgs.teams-for-linux
 
     # Work tools
     pkgs.libreoffice

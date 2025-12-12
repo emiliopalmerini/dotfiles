@@ -31,8 +31,18 @@ for name, config in pairs(servers) do
 		capabilities = capabilities,
 	}, config)
 
-	vim.lsp.config[name] = config
-	vim.lsp.enable(name)
+	-- Handle roslyn with its plugin setup
+	if name == "roslyn" then
+		require("roslyn").setup(config)
+		
+		-- Roslyn commands
+		vim.api.nvim_create_user_command("RoslynTarget", function()
+			require("roslyn.util").pick_solution()
+		end, { desc = "Roslyn: Pick solution target" })
+	else
+		vim.lsp.config[name] = config
+		vim.lsp.enable(name)
+	end
 end
 
 local disable_semantic_tokens = {
