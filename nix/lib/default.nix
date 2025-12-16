@@ -13,50 +13,22 @@ rec {
   # Expose common utilities  
   inherit (commonLib) mkEnvironment;
 
-  # Helper function to create NixOS configurations (physical machines - x86_64)
-  mkNixosSystem = machineName: nixpkgs.lib.nixosSystem {
-    system = linuxSystem;
-    specialArgs = {
-      inherit inputs;
-      userConfig = getUserConfig machineName;
-      commonEnv = mkEnvironment { isDarwin = false; };
-    };
-    modules = [
-      ../machines/${machineName}/configuration.nix
-    ];
-  };
-
-  # Helper function to create VM configurations (aarch64-linux for ARM Macs)
-  mkVmSystem = machineName: nixpkgs.lib.nixosSystem {
-    system = "aarch64-linux";
-    specialArgs = {
-      inherit inputs;
-      userConfig = getUserConfig machineName;
-      commonEnv = mkEnvironment { isDarwin = false; };
-    };
-    modules = [
-      ../machines/${machineName}/configuration.nix
-    ];
-  };
-
-  # Helper function to create Darwin configurations
-  mkDarwinSystem = machineName: inputs.nix-darwin.lib.darwinSystem {
-    specialArgs = {
-      inherit inputs;
-      userConfig = getUserConfig machineName;
-      commonEnv = mkEnvironment { isDarwin = true; };
-    };
-    modules = [
-      ../machines/${machineName}/configuration.nix
-    ];
-  };
-
   # Generate nixosConfigurations from machine list
   mkNixosConfigurations = machineNames:
     builtins.listToAttrs (
       map (machine: {
         name = machine;
-        value = mkNixosSystem machine;
+        value = nixpkgs.lib.nixosSystem {
+          system = linuxSystem;
+          specialArgs = {
+            inherit inputs;
+            userConfig = getUserConfig machine;
+            commonEnv = mkEnvironment { isDarwin = false; };
+          };
+          modules = [
+            ../machines/${machine}/configuration.nix
+          ];
+        };
       }) machineNames
     );
 
@@ -65,7 +37,17 @@ rec {
     builtins.listToAttrs (
       map (machine: {
         name = machine;
-        value = mkVmSystem machine;
+        value = nixpkgs.lib.nixosSystem {
+          system = "aarch64-linux";
+          specialArgs = {
+            inherit inputs;
+            userConfig = getUserConfig machine;
+            commonEnv = mkEnvironment { isDarwin = false; };
+          };
+          modules = [
+            ../machines/${machine}/configuration.nix
+          ];
+        };
       }) machineNames
     );
 
@@ -74,7 +56,16 @@ rec {
     builtins.listToAttrs (
       map (machine: {
         name = machine;
-        value = mkDarwinSystem machine;
+        value = inputs.nix-darwin.lib.darwinSystem {
+          specialArgs = {
+            inherit inputs;
+            userConfig = getUserConfig machine;
+            commonEnv = mkEnvironment { isDarwin = true; };
+          };
+          modules = [
+            ../machines/${machine}/configuration.nix
+          ];
+        };
       }) machineNames
     );
 }

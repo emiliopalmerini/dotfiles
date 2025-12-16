@@ -50,11 +50,9 @@ require("obsidian").setup({
 		return path:with_suffix(".md")
 	end,
 
-	-- Optional, set to true if you don't want obsidian.nvim to manage frontmatter.
-	disable_frontmatter = false,
-
-	-- Optional, alternatively you can customize the frontmatter data.
+	-- Optional, customize the frontmatter data.
 	frontmatter = {
+		enabled = true,
 		func = function(note)
 			-- Add the title of the note as an alias.
 			if note.title then
@@ -89,8 +87,10 @@ require("obsidian").setup({
 	finder = "telescope.nvim",
 
 	-- Optional, sort search results by "path", "modified", "accessed", or "created".
-	sort_by = "modified",
-	sort_reversed = true,
+	search = {
+		sort_by = "modified",
+		sort_reversed = true,
+	},
 
 	-- Optional, determines how certain commands open notes and URI behavior.
 	open = {

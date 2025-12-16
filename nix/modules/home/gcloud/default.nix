@@ -4,10 +4,13 @@ with lib;
 
 let
   cfg = config.gcloud;
-  # Fix google-cloud-sdk to include missing Tcl/Tk dependencies for bundled Python
+  # Fix google-cloud-sdk bundled Python missing tcl/tk dependencies
+  # by adding them to buildInputs and ignoring missing deps.
+  # This is a temporary workaround until the fix from nixpkgs PR#469521
+  # reaches the nixpkgs version being used.
   google-cloud-sdk-fixed = pkgs.google-cloud-sdk.overrideAttrs (old: {
+    buildInputs = (old.buildInputs or []) ++ [ pkgs.tcl-8_6 pkgs.tk ];
     nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ pkgs.autoPatchelfHook ];
-    buildInputs = (old.buildInputs or []) ++ [ pkgs.tcl pkgs.tk ];
     autoPatchelfIgnoreMissingDeps = (old.autoPatchelfIgnoreMissingDeps or []) ++ [ "libtcl8.6.so" "libtk8.6.so" ];
   });
 in

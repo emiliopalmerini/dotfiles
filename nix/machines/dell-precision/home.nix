@@ -26,7 +26,8 @@
   nodejs.enable = true;
   dotnet.enable = true;
   yazi.enable = true;
-  gcloud.enable = true;
+  # TODO: Re-enable once nixpkgs receives fix from PR#469521 for bundled python tcl/tk dependencies
+  gcloud.enable = false;
 
   # Desktop environment configuration
   gnome-workspaces.enable = true;

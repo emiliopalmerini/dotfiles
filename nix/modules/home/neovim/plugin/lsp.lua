@@ -33,12 +33,17 @@ for name, config in pairs(servers) do
 
 	-- Handle roslyn with its plugin setup
 	if name == "roslyn" then
-		require("roslyn").setup(config)
-		
-		-- Roslyn commands
-		vim.api.nvim_create_user_command("RoslynTarget", function()
-			require("roslyn.util").pick_solution()
-		end, { desc = "Roslyn: Pick solution target" })
+		local ok, roslyn = pcall(require, "roslyn")
+		if ok then
+			roslyn.setup(config)
+			
+			-- Roslyn commands
+			vim.api.nvim_create_user_command("RoslynTarget", function()
+				require("roslyn.util").pick_solution()
+			end, { desc = "Roslyn: Pick solution target" })
+		else
+			vim.notify("Failed to load roslyn plugin: " .. tostring(roslyn), vim.log.levels.WARN)
+		end
 	else
 		vim.lsp.config[name] = config
 		vim.lsp.enable(name)
