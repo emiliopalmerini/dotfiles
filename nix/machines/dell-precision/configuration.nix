@@ -21,6 +21,7 @@
   basic-system.enableBootloader = false; # Custom boot config above
   gnome-desktop.enable = true;
   italian-locale.enable = true;
+  input-method.enable = true;
   # Note: using manual home-manager config due to zen-browser special import
   system = {
     autoUpgrade.enable = true;

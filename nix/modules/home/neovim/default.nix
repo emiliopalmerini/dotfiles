@@ -61,8 +61,6 @@ in
           pkgs.tree-sitter
           pkgs.nodejs
 
-          # JS/TS formatters
-          pkgs.biome
         ]
         ++ languagePackages
         ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip pkgs.wl-clipboard ]

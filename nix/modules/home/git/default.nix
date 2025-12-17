@@ -58,8 +58,7 @@ in
           pl = "pull";
           unstage = "reset HEAD --";
           last = "log -1 HEAD";
-          gh = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-          graph = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+          graph = "log --oneline --all --graph";
           st = "status";
           sh = "stash";
         };

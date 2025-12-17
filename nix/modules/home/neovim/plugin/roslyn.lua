@@ -1,1 +1,0 @@
--- Roslyn configuration is managed through languages.nix and lsp.lua

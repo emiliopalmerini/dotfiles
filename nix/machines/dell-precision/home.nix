@@ -26,7 +26,6 @@
   nodejs.enable = true;
   dotnet.enable = true;
   yazi.enable = true;
-  # ghostty.enable = true;
   # TODO: Re-enable once nixpkgs receives fix from PR#469521 for bundled python tcl/tk dependencies
   gcloud.enable = false;
 
@@ -44,7 +43,6 @@
     pkgs.protobuf # Protocol Buffers compiler (includes protoc)
     pkgs.grpcurl # gRPC CLI tool for testing endpoints
     pkgs.postgresql_18
-    pkgs.zig
 
     # Desktop applications
     pkgs.google-chrome
@@ -54,6 +52,7 @@
     pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
     pkgs.vlc
     pkgs.teams-for-linux
+    pkgs.ghostty
 
     # Work tools
     pkgs.libreoffice

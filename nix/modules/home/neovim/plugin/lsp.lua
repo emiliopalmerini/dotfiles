@@ -8,15 +8,6 @@ end
 -- language_servers is injected from Nix (languages.nix)
 local servers = {}
 
--- Handle TypeScript server detection
-if language_servers["__ts_server"] then
-	local ts_server_name = (vim.fn.exepath("vtsls") ~= "" and "vtsls")
-		or (vim.fn.exepath("typescript-language-server") ~= "" and "ts_ls")
-		or "vtsls"
-	servers[ts_server_name] = language_servers["__ts_server"]
-	language_servers["__ts_server"] = nil
-end
-
 -- Merge language servers from Nix
 for name, config in pairs(language_servers) do
 	servers[name] = config
@@ -36,7 +27,6 @@ for name, config in pairs(servers) do
 		local ok, roslyn = pcall(require, "roslyn")
 		if ok then
 			roslyn.setup(config)
-			
 			-- Roslyn commands
 			vim.api.nvim_create_user_command("RoslynTarget", function()
 				require("roslyn.util").pick_solution()

@@ -1,6 +1,7 @@
 {
     "diagnostics.globals": [
         "ls",
-        "vim"
+        "vim",
+        "language_servers"
     ]
 }

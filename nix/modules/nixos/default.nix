@@ -5,8 +5,9 @@
     ./mainUser
     ./home-manager-integration
 
-    # Localization
+    # Localization and input
     ./italian-locale
+    ./input-method
 
     # Desktop environments
     ./gnome-desktop

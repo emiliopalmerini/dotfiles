@@ -134,35 +134,6 @@
       }
     '';
   };
-  typescript = {
-    detectPackage = "nodejs";
-    packages = [
-      pkgs.nodePackages.typescript
-    ];
-    treesitterGrammars = p:
-      (lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
-      ++ (lib.optional (p ? tree-sitter-typescript) p.tree-sitter-typescript)
-      ++ (lib.optional (p ? tree-sitter-tsx) p.tree-sitter-tsx);
-    dapPlugins = [ ];
-    plugins = [ ];
-    lsp.__ts_server = "true";
-  };
-  python = {
-    detectPackage = "python3";
-    packages = [
-      pkgs.python3Packages.pyright
-      pkgs.python3Packages.ruff
-      pkgs.python3Packages.black
-      pkgs.python3Packages.isort
-    ];
-    treesitterGrammars = p: lib.optional (p ? tree-sitter-python) p.tree-sitter-python;
-    dapPlugins = [ pkgs.vimPlugins.nvim-dap-python ];
-    plugins = [ ];
-    lsp = {
-      pyright = "true";
-      ruff = "true";
-    };
-  };
   csharp = {
     detectPackage = "dotnet-sdk";
     packages = [ pkgs.roslyn-ls ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.netcoredbg ];
