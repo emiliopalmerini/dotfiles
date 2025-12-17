@@ -61,7 +61,6 @@
     pkgs.openfortivpn
     pkgs.jetbrains.rider
     pkgs.dbeaver-bin
-    pkgs.amp-cli
     pkgs.lsof
     pkgs.k9s
   ];
