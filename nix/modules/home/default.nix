@@ -18,6 +18,5 @@
     # Desktop environment configurations
     ./gnome-workspaces
     ./hyprland
-    ./ghostty
   ];
 }

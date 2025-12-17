@@ -26,6 +26,7 @@
   nodejs.enable = true;
   dotnet.enable = true;
   yazi.enable = true;
+  # ghostty.enable = true;
   # TODO: Re-enable once nixpkgs receives fix from PR#469521 for bundled python tcl/tk dependencies
   gcloud.enable = false;
 
@@ -50,7 +51,6 @@
     pkgs.obsidian
     pkgs.todoist
     pkgs.telegram-desktop
-    pkgs.ghostty
     pkgs.gnomeExtensions.clipboard-indicator # Clipboard history manager
     pkgs.vlc
     pkgs.teams-for-linux
