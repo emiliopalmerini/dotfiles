@@ -91,7 +91,7 @@
       "vlc"
       "home-assistant"
       "rectangle"
-      "zen-browser"
+      "zen"
       "caffeine"
     ];
     cleanup = "zap";
