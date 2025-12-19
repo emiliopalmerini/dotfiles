@@ -8,7 +8,7 @@
   nix.settings.experimental-features = "nix-command flakes";
 
   system.stateVersion = 5;
-  services.tailscale.enable = true;
+  # services.tailscale.enable = true;
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -87,6 +87,7 @@
       "logi-options+"
       "legcord"
       "notion"
+      "notion-calendar"
       "vlc"
       "home-assistant"
       "rectangle"
@@ -101,7 +102,7 @@
       env = pkgs.buildEnv {
         name = "system-applications";
         paths = config.environment.systemPackages;
-        pathsToLink = "/Applications";
+        pathsToLink = [ "/Applications" ];
       };
     in
     pkgs.lib.mkForce ''
