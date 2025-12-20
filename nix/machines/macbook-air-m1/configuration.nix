@@ -18,26 +18,9 @@
   system.primaryUser = userConfig.username;
 
   environment.systemPackages = with pkgs; [
-    # Development tools
-    lazygit
-    gnumake
-    gcc
-    lua
-    python313Packages.markitdown
-    ffmpeg
-
-    # Desktop applications
-    obsidian
-
-    # macOS specific tools
-    mongosh
-    mongodb-tools
+    # Docker requires system-level access on macOS
     docker
     docker-compose
-    lazydocker
-    mas
-    clamav
-    hugo
     colima
   ];
 
@@ -80,19 +63,34 @@
     enable = true;
     brews = [ ];
     casks = [
+      # Terminal & Development
       "ghostty"
+
+      # Database & Data Tools
       "mongodb-compass"
+
+      # Media & Content Creation
       "obs"
+      "vlc"
+
+      # Productivity & Notes
       "obsidian"
-      "logi-options+"
-      "legcord"
       "notion"
       "notion-calendar"
-      "vlc"
-      "home-assistant"
-      "rectangle"
+
+      # Communication
+      "legcord"
+
+      # Browsers
       "zen"
-      "caffeine"
+
+      # System Utilities
+      "rectangle"           # Window management
+      "caffeine"            # Keep Mac awake
+      "logi-options+"       # Logitech device management
+
+      # Smart Home
+      "home-assistant"
     ];
     cleanup = "zap";
   };
