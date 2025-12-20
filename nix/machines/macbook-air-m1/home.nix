@@ -29,8 +29,10 @@
     "$HOME/.local/bin"
   ];
 
-  home.packages = with pkgs; [
-    zig
+  home.packages = [
+    pkgs.zig
+    pkgs.code-cursor
+    pkgs.graphite-cli
   ];
 
   home.file.".config/ghostty/config".text = ''

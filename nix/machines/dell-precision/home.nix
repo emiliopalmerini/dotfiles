@@ -37,6 +37,8 @@
     pkgs.xclip
     # Development tools
     pkgs.claude-code
+    pkgs.code-cursor
+    pkgs.graphite-cli
     pkgs.lazygit
     pkgs.gnumake
     pkgs.gcc

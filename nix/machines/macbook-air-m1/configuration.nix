@@ -47,6 +47,7 @@
     autohide = true;
     persistentApps = [
       "/Applications/Ghostty.app"
+      "/Applications/Cursor.app"
       "/Applications/Obsidian.app"
       "/Applications/Zen.app"
       "/Applications/Notion.app"
@@ -79,7 +80,6 @@
     enable = true;
     brews = [ ];
     casks = [
-      "arc"
       "ghostty"
       "mongodb-compass"
       "obs"
