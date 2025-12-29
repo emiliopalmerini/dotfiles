@@ -13,7 +13,6 @@ for name, config in pairs(language_servers) do
 	servers[name] = config
 end
 
--- Configurazione diretta dei server LSP senza Mason usando vim.lsp.config
 for name, config in pairs(servers) do
 	if config == true then
 		config = {}
@@ -27,7 +26,6 @@ for name, config in pairs(servers) do
 		local ok, roslyn = pcall(require, "roslyn")
 		if ok then
 			roslyn.setup(config)
-			-- Roslyn commands
 			vim.api.nvim_create_user_command("RoslynTarget", function()
 				require("roslyn.util").pick_solution()
 			end, { desc = "Roslyn: Pick solution target" })
@@ -54,6 +52,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 		local builtin = require("telescope.builtin")
 		vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+
 		-- Go-to mappings (g prefix)
 		vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0, desc = "LSP: Go to definition" })
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, { buffer = 0, desc = "LSP: Go to implementation" })
@@ -68,11 +67,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "<leader>cd", builtin.lsp_document_symbols, { buffer = 0, desc = "Code: Document symbols" })
 		vim.keymap.set("n", "<leader>cf", vim.lsp.buf.format, { buffer = 0, desc = "Code: Format" })
 
-
 		local filetype = vim.bo[bufnr].filetype
 		if disable_semantic_tokens[filetype] then
 			client.server_capabilities.semanticTokensProvider = nil
 		end
+
 		-- Override server capabilities
 		if settings.server_capabilities then
 			for k, v in pairs(settings.server_capabilities) do
@@ -85,77 +84,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
-
--- Configurazione Autoformatting
-local conform = require("conform")
-local prefer_prettier = (vim.g.prefer_prettier == true)
-local has_prettierd = (vim.fn.executable("prettierd") == 1)
-local js_formatters = nil
-if prefer_prettier then
-	js_formatters = has_prettierd and { "prettierd", "prettier", "biome" } or { "prettier", "biome" }
-else
-	js_formatters = has_prettierd and { "biome", "prettierd", "prettier" } or { "biome", "prettier" }
-end
-
-conform.setup({
-	formatters_by_ft = {
-		lua = { "stylua" },
-		nix = { "nixpkgs-fmt" }, -- Nix formatter
-		python = { "isort", "black" },
-		-- JS/TS formatting
-		javascript = js_formatters,
-		javascriptreact = js_formatters,
-		typescript = js_formatters,
-		typescriptreact = js_formatters,
-		json = js_formatters,
-		yaml = has_prettierd and { "prettierd", "prettier" } or { "prettier" },
-		go = { "gofumpt", "gofmt" },
-		proto = { "buf" },
-		cs = { "csharpier" }, -- C# formatter
-	},
-	formatters = {
-		-- Define missing formatter configs
-		["nixpkgs-fmt"] = {
-			command = "nixpkgs-fmt",
-			stdin = true,
-		},
-		-- CSharpier formatter configuration
-		csharpier = {
-			command = "csharpier",
-			args = { "format", "--write-stdout" },
-			stdin = true,
-		},
-		-- Configure Prettier to not use trailing commas in JSON
-		prettier = {
-			prepend_args = { "--trailing-comma", "none" },
-		},
-		prettierd = {
-			prepend_args = { "--trailing-comma", "none" },
-		},
-		injected = {
-			options = {
-				ignore_errors = false,
-				lang_to_formatters = {
-					sql = { "sleek" },
-				},
-			},
-		},
-	},
-})
-
--- vim.api.nvim_create_autocmd("BufWritePre", {
--- 	callback = function(args)
--- 		local extension = vim.fn.expand("%:e")
--- 		if extension == "mlx" then
--- 			return
--- 		end
--- 		require("conform").format({
--- 			bufnr = args.buf,
--- 			lsp_fallback = true,
--- 			quiet = true,
--- 		})
--- 	end,
--- })
 
 vim.diagnostic.config({
 	virtual_text = true,

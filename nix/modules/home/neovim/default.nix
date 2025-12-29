@@ -88,7 +88,7 @@ in
             vp.telescope-fzf-native-nvim
             vp.plenary-nvim
             vp.vim-nix
-            vp.conform-nvim
+            { plugin = vp.conform-nvim; type = "lua"; config = builtins.readFile ./plugin/conform.lua; }
             vp.neodev-nvim
             vp.SchemaStore-nvim
             vp.luasnip
