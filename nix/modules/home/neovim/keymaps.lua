@@ -111,13 +111,13 @@ end
 -- [G]it group
 vim.keymap.set("n", "<leader>gf", vim.cmd.Git, { desc = "Git: Fugitive" })
 
--- [T]rouble group
+-- [T]rouble group (lazy-loaded)
 vim.keymap.set("n", "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Trouble: Diagnostics" })
 vim.keymap.set("n", "<leader>tT", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Trouble: Buffer diagnostics" })
 vim.keymap.set("n", "<leader>tL", "<cmd>Trouble loclist toggle<cr>", { desc = "Trouble: Location list" })
 vim.keymap.set("n", "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Trouble: Quickfix list" })
 
--- [Z]en group
+-- [Z]en group (lazy-loaded on first use)
 vim.keymap.set("n", "<leader>zz", function()
 	require("zen-mode").setup({
 		window = {
@@ -145,10 +145,39 @@ vim.keymap.set("n", "<leader>zZ", function()
 	vim.opt.colorcolumn = "0"
 end, { desc = "Zen: Mode (width 80, minimal)" })
 
--- [R]efactor group
+-- [R]efactor group (lazy-loaded on first use)
 vim.keymap.set({ "n", "x" }, "<leader>rr", function()
 	require("telescope").extensions.refactoring.refactors()
 end, { desc = "Refactor: Select action" })
+
+-- [D]ebug group (lazy-loaded on first use)
+local function with_dap(fn)
+	return function()
+		local dap = require("dap")
+		fn(dap)
+	end
+end
+
+vim.keymap.set("n", "<F5>", with_dap(function(dap) dap.continue() end), { desc = "Debug: Continue" })
+vim.keymap.set("n", "<F4>", with_dap(function(dap) dap.step_over() end), { desc = "Debug: Step Over" })
+vim.keymap.set("n", "<F3>", with_dap(function(dap) dap.step_into() end), { desc = "Debug: Step Into" })
+vim.keymap.set("n", "<F2>", with_dap(function(dap) dap.step_out() end), { desc = "Debug: Step Out" })
+
+vim.keymap.set("n", "<space>b", with_dap(function(dap) dap.toggle_breakpoint() end), { desc = "Debug: Toggle breakpoint" })
+vim.keymap.set("n", "<space>gb", with_dap(function(dap) dap.run_to_cursor() end), { desc = "Debug: Run to cursor" })
+vim.keymap.set("n", "<space>?", function()
+	require("dapui").eval(nil, { enter = true })
+end, { desc = "Debug: Eval under cursor" })
+
+vim.keymap.set("n", "<leader>db", with_dap(function(dap) dap.toggle_breakpoint() end), { desc = "Debug: Toggle breakpoint" })
+vim.keymap.set("n", "<leader>dc", with_dap(function(dap) dap.continue() end), { desc = "Debug: Continue" })
+vim.keymap.set("n", "<leader>do", with_dap(function(dap) dap.step_over() end), { desc = "Debug: Step over" })
+vim.keymap.set("n", "<leader>di", with_dap(function(dap) dap.step_into() end), { desc = "Debug: Step into" })
+vim.keymap.set("n", "<leader>dO", with_dap(function(dap) dap.step_out() end), { desc = "Debug: Step out" })
+vim.keymap.set("n", "<leader>dr", with_dap(function(dap) dap.restart() end), { desc = "Debug: Restart" })
+vim.keymap.set("n", "<leader>de", function()
+	require("dapui").eval(nil, { enter = true })
+end, { desc = "Debug: Eval" })
 
 -- vim-tmux-navigator
 vim.keymap.set("n", "<C-h>", "<cmd>TmuxNavigateLeft<cr>", { noremap = true, silent = true, desc = "Tmux: Move left" })

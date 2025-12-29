@@ -36,7 +36,7 @@ with lib; let
   vp = pkgs.vimPlugins;
 
   # Helper to create plugin specs with optional lazy-loading support
-  # When optional = true, plugin is available but not auto-loaded
+  # When optional = true, plugin is available but not auto-loaded (packadd required)
   mkPlugin = { plugin, config ? null, optional ? false }:
     if config != null then
       { inherit plugin optional; type = "lua"; config = config; }
@@ -54,7 +54,7 @@ with lib; let
     }
   ];
 
-  # Completion plugins - loaded on InsertEnter (can be lazy)
+  # Completion plugins - needed early for insert mode
   completionPlugins = [
     vp.cmp-nvim-lsp
     vp.cmp-path
@@ -67,7 +67,7 @@ with lib; let
     (mkPlugin { plugin = vp.nvim-cmp; config = builtins.readFile ./plugin/cmp.lua; })
   ];
 
-  # LSP plugins - loaded on BufReadPre (can be lazy)
+  # LSP plugins - loaded on BufReadPre
   lspPlugins = [
     vp.neodev-nvim
     vp.SchemaStore-nvim
@@ -82,7 +82,7 @@ with lib; let
     (mkPlugin { plugin = vp.fidget-nvim; config = "require('fidget').setup({})"; })
   ];
 
-  # Treesitter plugins
+  # Treesitter plugins - needed for highlighting
   treesitterPlugins = [
     (mkPlugin {
       plugin = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;
@@ -91,31 +91,33 @@ with lib; let
     vp.nvim-treesitter-textobjects
   ];
 
-  # Telescope plugins - loaded on command (can be lazy)
+  # Telescope plugins - loaded on command
   telescopePlugins = [
     vp.telescope-fzf-native-nvim
     (mkPlugin { plugin = vp.telescope-nvim; config = builtins.readFile ./plugin/telescope.lua; })
   ];
 
-  # Git plugins - loaded on command/event (can be lazy)
+  # Git plugins - gitsigns needed for buffer signs
   gitPlugins = [
     vp.vim-fugitive
     (mkPlugin { plugin = vp.gitsigns-nvim; config = builtins.readFile ./plugin/gitsigns.lua; })
   ];
 
-  # DAP plugins - loaded on command (can be lazy)
+  # DAP plugins - LAZY: loaded on first debug command via keymaps.lua
+  # Uses require("dap") which triggers plugin loading
   dapPlugins = [
-    vp.nvim-dap-ui
-    vp.nvim-dap-virtual-text
-    vp.nvim-nio
-    (mkPlugin { plugin = vp.nvim-dap; config = builtins.readFile ./plugin/dap.lua; })
+    (mkPlugin { plugin = vp.nvim-dap-ui; optional = true; })
+    (mkPlugin { plugin = vp.nvim-dap-virtual-text; optional = true; })
+    (mkPlugin { plugin = vp.nvim-nio; optional = true; })
+    (mkPlugin { plugin = vp.nvim-dap; optional = true; config = builtins.readFile ./plugin/dap.lua; })
   ];
 
-  # UI plugins
+  # UI plugins - which-key and statusline needed at startup
   uiPlugins = [
     (mkPlugin { plugin = vp.which-key-nvim; config = builtins.readFile ./plugin/which-key.lua; })
     (mkPlugin { plugin = vp.heirline-nvim; config = builtins.readFile ./plugin/statusline.lua; })
-    (mkPlugin { plugin = vp.trouble-nvim; config = "require('trouble').setup()"; })
+    # LAZY: Trouble loaded on :Trouble command
+    (mkPlugin { plugin = vp.trouble-nvim; optional = true; config = "require('trouble').setup()"; })
     (mkPlugin { plugin = vp.todo-comments-nvim; config = "require('todo-comments').setup()"; })
   ];
 
@@ -126,14 +128,17 @@ with lib; let
     vp.vim-tmux-navigator
     vp.vim-nix
     (mkPlugin { plugin = vp.comment-nvim; config = "require('Comment').setup()"; })
-    (mkPlugin { plugin = vp.refactoring-nvim; config = builtins.readFile ./plugin/refactoring.lua; })
-    (mkPlugin { plugin = vp.zen-mode-nvim; config = "require('zen-mode').setup()"; })
+    # LAZY: Refactoring loaded on first use via keymaps.lua
+    (mkPlugin { plugin = vp.refactoring-nvim; optional = true; config = builtins.readFile ./plugin/refactoring.lua; })
+    # LAZY: Zen-mode loaded on first use via keymaps.lua
+    (mkPlugin { plugin = vp.zen-mode-nvim; optional = true; config = "require('zen-mode').setup()"; })
   ];
 
   # File navigation plugins
   navigationPlugins = [
     (mkPlugin { plugin = vp.oil-nvim; config = builtins.readFile ./plugin/oil.lua; })
-    (mkPlugin { plugin = vp.obsidian-nvim; config = builtins.readFile ./plugin/obsidian.lua; })
+    # LAZY: Obsidian loaded on markdown files
+    (mkPlugin { plugin = vp.obsidian-nvim; optional = true; config = builtins.readFile ./plugin/obsidian.lua; })
   ];
 
   # TypeScript DAP (conditional)
@@ -146,6 +151,7 @@ with lib; let
 
   typescriptDapPlugins = lib.optionals (builtins.hasAttr "typescript" enabledLanguages) [{
     plugin = vp.nvim-dap-vscode-js;
+    optional = true;
     type = "lua";
     config = ''
       local ok, js = pcall(require, "dap-vscode-js")

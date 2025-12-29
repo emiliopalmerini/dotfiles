@@ -16,6 +16,19 @@ vim.api.nvim_create_autocmd("TermOpen", {
 	end,
 })
 
+-- Lazy-load obsidian.nvim on markdown files in vault directories
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	once = true,
+	callback = function()
+		local cwd = vim.fn.getcwd()
+		-- Only load if in an obsidian vault (has .obsidian folder)
+		if vim.fn.isdirectory(cwd .. "/.obsidian") == 1 then
+			pcall(vim.cmd, "packadd obsidian.nvim")
+		end
+	end,
+})
+
 local emilio_fugitive = vim.api.nvim_create_augroup("emilio_fugitive", {})
 
 vim.api.nvim_create_autocmd("BufWinEnter", {
