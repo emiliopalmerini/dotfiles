@@ -103,21 +103,19 @@ with lib; let
     (mkPlugin { plugin = vp.gitsigns-nvim; config = builtins.readFile ./plugin/gitsigns.lua; })
   ];
 
-  # DAP plugins - LAZY: loaded on first debug command via keymaps.lua
-  # Uses require("dap") which triggers plugin loading
+  # DAP plugins - loaded on first debug command via keymaps.lua
   dapPlugins = [
-    (mkPlugin { plugin = vp.nvim-dap-ui; optional = true; })
-    (mkPlugin { plugin = vp.nvim-dap-virtual-text; optional = true; })
-    (mkPlugin { plugin = vp.nvim-nio; optional = true; })
-    (mkPlugin { plugin = vp.nvim-dap; optional = true; config = builtins.readFile ./plugin/dap.lua; })
+    vp.nvim-dap-ui
+    vp.nvim-dap-virtual-text
+    vp.nvim-nio
+    (mkPlugin { plugin = vp.nvim-dap; config = builtins.readFile ./plugin/dap.lua; })
   ];
 
   # UI plugins - which-key and statusline needed at startup
   uiPlugins = [
     (mkPlugin { plugin = vp.which-key-nvim; config = builtins.readFile ./plugin/which-key.lua; })
     (mkPlugin { plugin = vp.heirline-nvim; config = builtins.readFile ./plugin/statusline.lua; })
-    # LAZY: Trouble loaded on :Trouble command
-    (mkPlugin { plugin = vp.trouble-nvim; optional = true; config = "require('trouble').setup()"; })
+    (mkPlugin { plugin = vp.trouble-nvim; config = "require('trouble').setup()"; })
     (mkPlugin { plugin = vp.todo-comments-nvim; config = "require('todo-comments').setup()"; })
   ];
 
@@ -128,17 +126,15 @@ with lib; let
     vp.vim-tmux-navigator
     vp.vim-nix
     (mkPlugin { plugin = vp.comment-nvim; config = "require('Comment').setup()"; })
-    # LAZY: Refactoring loaded on first use via keymaps.lua
-    (mkPlugin { plugin = vp.refactoring-nvim; optional = true; config = builtins.readFile ./plugin/refactoring.lua; })
-    # LAZY: Zen-mode loaded on first use via keymaps.lua
-    (mkPlugin { plugin = vp.zen-mode-nvim; optional = true; config = "require('zen-mode').setup()"; })
+    (mkPlugin { plugin = vp.refactoring-nvim; config = builtins.readFile ./plugin/refactoring.lua; })
+    # Zen-mode setup is called in keymaps.lua on first use
+    vp.zen-mode-nvim
   ];
 
   # File navigation plugins
   navigationPlugins = [
     (mkPlugin { plugin = vp.oil-nvim; config = builtins.readFile ./plugin/oil.lua; })
-    # LAZY: Obsidian loaded on markdown files
-    (mkPlugin { plugin = vp.obsidian-nvim; optional = true; config = builtins.readFile ./plugin/obsidian.lua; })
+    (mkPlugin { plugin = vp.obsidian-nvim; config = builtins.readFile ./plugin/obsidian.lua; })
   ];
 
   # TypeScript DAP (conditional)
@@ -151,7 +147,6 @@ with lib; let
 
   typescriptDapPlugins = lib.optionals (builtins.hasAttr "typescript" enabledLanguages) [{
     plugin = vp.nvim-dap-vscode-js;
-    optional = true;
     type = "lua";
     config = ''
       local ok, js = pcall(require, "dap-vscode-js")
