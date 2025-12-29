@@ -216,6 +216,9 @@ in
           change_detection = {
             enabled = false,  -- Nix handles plugin updates
           },
+          rocks = {
+            enabled = false,  -- Nix provides everything, no luarocks needed
+          },
         })
 
         -- Load autocmds and keymaps after plugins

@@ -14,7 +14,6 @@
         { "<leader>t", group = "Trouble/Toggle" },
         { "<leader>r", group = "Refactor/Replace" },
         { "<leader>z", group = "Zen" },
-        { "<leader>b", group = "Buffer" },
       })
     end,
   },
