@@ -9,6 +9,11 @@
     ./dotnet
     ./yazi
 
+    # Application configurations
+    ./ghostty
+    ./lazygit
+    ./ripgrep
+
     # Convenient package bundles
     ./go
     ./mongodb

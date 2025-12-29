@@ -67,11 +67,25 @@ in
           unstage = "reset HEAD --";
         };
 
-        diff.algorithm = "histogram";
+        diff = {
+          algorithm = "histogram";
+          colorMoved = "default";
+        };
         merge.conflictstyle = "zdiff3";
         pull.rebase = true;
         rerere.enabled = true;
         fetch.prune = true;
+      };
+    };
+
+    programs.delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        light = false;
+        side-by-side = true;
+        line-numbers = true;
+        theme = "tokyonight_storm";
       };
     };
   };

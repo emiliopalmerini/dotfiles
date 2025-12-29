@@ -47,9 +47,6 @@ return {
             path = "~/Documents/notes",
           },
         },
-        completion = {
-          nvim_cmp = true,
-        },
       })
     end,
   },

@@ -87,7 +87,6 @@ in
       pkgs.jq
       pkgs.jqp
       pkgs.httpie
-      pkgs.ripgrep
       pkgs.tree
       pkgs.gh
     ];

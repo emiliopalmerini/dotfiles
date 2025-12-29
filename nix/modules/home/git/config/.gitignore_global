@@ -1,3 +1,35 @@
-*~
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+vendor/
+
+# Build outputs
+dist/
+build/
+*.out
+
+# Nix
+result
+result-*
+
+# Temporary files
 *.tmp
