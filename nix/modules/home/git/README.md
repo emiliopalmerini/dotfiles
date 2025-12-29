@@ -17,7 +17,7 @@ Opinionated Git setup with aliases, sensible defaults, and optional LFS filter. 
 - Better diffs: `diff.algorithm = histogram`, `merge.conflictstyle = zdiff3`
 - Global ignore and hooks from `./config/` (resolved via `builtins.toString`)
 - LFS filter configured
-- Aliases: `cm`, `co`, `br`, `ph`, `phf` (force-with-lease), `pl`, `unstage`, `last`, `graph`, `st`, `sh`
+- Aliases: `a`, `br`, `cm`, `co`, `cp`, `d`, `graph`, `last`, `ph`, `phf` (force-with-lease), `pl`, `sh`, `st`, `t`, `unstage`
 - Includes `git-absorb` for autosquash workflows
 
 ## Hooks

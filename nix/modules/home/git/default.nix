@@ -50,17 +50,21 @@ in
         };
 
         alias = {
+          a = "add";
+          br = "branch";
           cm = "commit";
           co = "checkout";
-          br = "branch";
+          cp = "cherry-pick";
+          d = "diff";
+          graph = "log --oneline --all --graph";
+          last = "log -1 HEAD";
           ph = "push";
           phf = "push --force-with-lease";
           pl = "pull";
-          unstage = "reset HEAD --";
-          last = "log -1 HEAD";
-          graph = "log --oneline --all --graph";
-          st = "status";
           sh = "stash";
+          st = "status";
+          t = "tag";
+          unstage = "reset HEAD --";
         };
 
         diff.algorithm = "histogram";

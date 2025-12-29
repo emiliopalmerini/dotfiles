@@ -7,15 +7,6 @@ with lib; let
   cfg = config.shell;
   myAliases = {
     cat = "bat";
-    ga = "git add";
-    gc = "git commit";
-    gco = "git checkout";
-    gcp = "git cherry-pick";
-    gdiff = "git diff";
-    gl = "git pull";
-    gp = "git push";
-    gs = "git status";
-    gt = "git tag";
   };
   zshColors = "\${(s.:.)LS_COLORS}";
 in
@@ -82,13 +73,6 @@ in
           source <(kubectl completion zsh)
           compdef _kubectl kubectl
         fi
-
-        # Enable completion for git aliases
-        for alias in ''${(k)aliases[@]}; do
-          if [[ $alias == g* ]] && [[ ''${aliases[$alias]} == git* ]]; then
-            compdef $alias=git
-          fi
-        done
       '';
 
       plugins = [
