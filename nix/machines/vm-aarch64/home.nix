@@ -24,7 +24,6 @@
   # Core developer tools (complex modules with configs)
   go.enable = true;
   neovim.enable = true;
-  neovim.enableCSharp = false; # roslyn-nvim not available on aarch64-linux
   shell.enable = true;
   tmux.enable = true;
   mongodb.enable = true;

@@ -35,129 +35,88 @@ with lib; let
 
   vp = pkgs.vimPlugins;
 
-  # Helper to create plugin specs with optional lazy-loading support
-  # When optional = true, plugin is available but not auto-loaded (packadd required)
-  mkPlugin = { plugin, config ? null, optional ? false }:
-    if config != null then
-      { inherit plugin optional; type = "lua"; config = config; }
-    else
-      { inherit plugin optional; };
+  # All plugins that will be managed by lazy.nvim
+  # We still use Nix to provide them, lazy.nvim just handles loading
+  allPlugins = {
+    # Core (loaded immediately)
+    "plenary.nvim" = vp.plenary-nvim;
+    "nvim-web-devicons" = vp.nvim-web-devicons;
+    "tokyonight.nvim" = vp.tokyonight-nvim;
 
-  # Core plugins - loaded immediately (essential for startup)
-  corePlugins = [
-    vp.plenary-nvim
-    vp.nvim-web-devicons
-    { plugin = vp.tokyonight-nvim; type = "lua"; config = ''
-        ${builtins.readFile ./plugin/tokyonight.lua}
-        pcall(vim.cmd.colorscheme, 'tokyonight-storm')
-      '';
-    }
-  ];
+    # Completion
+    "nvim-cmp" = vp.nvim-cmp;
+    "cmp-nvim-lsp" = vp.cmp-nvim-lsp;
+    "cmp-path" = vp.cmp-path;
+    "cmp-buffer" = vp.cmp-buffer;
+    "cmp_luasnip" = vp.cmp_luasnip;
+    "lspkind.nvim" = vp.lspkind-nvim;
+    "LuaSnip" = vp.luasnip;
+    "friendly-snippets" = vp.friendly-snippets;
+    "cmp-nvim-lsp-signature-help" = vp.cmp-nvim-lsp-signature-help;
 
-  # Completion plugins - needed early for insert mode
-  completionPlugins = [
-    vp.cmp-nvim-lsp
-    vp.cmp-path
-    vp.cmp-buffer
-    vp.cmp_luasnip
-    vp.lspkind-nvim
-    vp.luasnip
-    vp.friendly-snippets
-    vp.cmp-nvim-lsp-signature-help
-    (mkPlugin { plugin = vp.nvim-cmp; config = builtins.readFile ./plugin/cmp.lua; })
-  ];
+    # LSP
+    "nvim-lspconfig" = vp.nvim-lspconfig;
+    "neodev.nvim" = vp.neodev-nvim;
+    "SchemaStore.nvim" = vp.SchemaStore-nvim;
+    "conform.nvim" = vp.conform-nvim;
+    "fidget.nvim" = vp.fidget-nvim;
 
-  # LSP plugins - loaded on BufReadPre
-  lspPlugins = [
-    vp.neodev-nvim
-    vp.SchemaStore-nvim
-    (mkPlugin {
-      plugin = vp.nvim-lspconfig;
-      config = ''
-        local language_servers = ${generateLspServersLua languageLspConfigs}
-        ${builtins.readFile ./plugin/lsp.lua}
-      '';
-    })
-    (mkPlugin { plugin = vp.conform-nvim; config = builtins.readFile ./plugin/conform.lua; })
-    (mkPlugin { plugin = vp.fidget-nvim; config = "require('fidget').setup({})"; })
-  ];
+    # Treesitter
+    "nvim-treesitter" = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;
+    "nvim-treesitter-textobjects" = vp.nvim-treesitter-textobjects;
 
-  # Treesitter plugins - needed for highlighting
-  treesitterPlugins = [
-    (mkPlugin {
-      plugin = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;
-      config = builtins.readFile ./plugin/treesitter.lua;
-    })
-    vp.nvim-treesitter-textobjects
-  ];
+    # Telescope
+    "telescope.nvim" = vp.telescope-nvim;
+    "telescope-fzf-native.nvim" = vp.telescope-fzf-native-nvim;
 
-  # Telescope plugins - loaded on command
-  telescopePlugins = [
-    vp.telescope-fzf-native-nvim
-    (mkPlugin { plugin = vp.telescope-nvim; config = builtins.readFile ./plugin/telescope.lua; })
-  ];
+    # Git
+    "vim-fugitive" = vp.vim-fugitive;
+    "gitsigns.nvim" = vp.gitsigns-nvim;
 
-  # Git plugins - gitsigns needed for buffer signs
-  gitPlugins = [
-    vp.vim-fugitive
-    (mkPlugin { plugin = vp.gitsigns-nvim; config = builtins.readFile ./plugin/gitsigns.lua; })
-  ];
+    # DAP
+    "nvim-dap" = vp.nvim-dap;
+    "nvim-dap-ui" = vp.nvim-dap-ui;
+    "nvim-dap-virtual-text" = vp.nvim-dap-virtual-text;
+    "nvim-nio" = vp.nvim-nio;
+    "nvim-dap-go" = vp.nvim-dap-go;
 
-  # DAP plugins - loaded on first debug command via keymaps.lua
-  dapPlugins = [
-    vp.nvim-dap-ui
-    vp.nvim-dap-virtual-text
-    vp.nvim-nio
-    (mkPlugin { plugin = vp.nvim-dap; config = builtins.readFile ./plugin/dap.lua; })
-  ];
+    # UI
+    "which-key.nvim" = vp.which-key-nvim;
+    "heirline.nvim" = vp.heirline-nvim;
+    "trouble.nvim" = vp.trouble-nvim;
+    "todo-comments.nvim" = vp.todo-comments-nvim;
 
-  # UI plugins - which-key and statusline needed at startup
-  uiPlugins = [
-    (mkPlugin { plugin = vp.which-key-nvim; config = builtins.readFile ./plugin/which-key.lua; })
-    (mkPlugin { plugin = vp.heirline-nvim; config = builtins.readFile ./plugin/statusline.lua; })
-    (mkPlugin { plugin = vp.trouble-nvim; config = "require('trouble').setup()"; })
-    (mkPlugin { plugin = vp.todo-comments-nvim; config = "require('todo-comments').setup()"; })
-  ];
+    # Editing
+    "undotree" = vp.undotree;
+    "harpoon" = vp.harpoon2;
+    "vim-tmux-navigator" = vp.vim-tmux-navigator;
+    "vim-nix" = vp.vim-nix;
+    "Comment.nvim" = vp.comment-nvim;
+    "refactoring.nvim" = vp.refactoring-nvim;
+    "zen-mode.nvim" = vp.zen-mode-nvim;
 
-  # Editing plugins
-  editingPlugins = [
-    vp.undotree
-    vp.harpoon2
-    vp.vim-tmux-navigator
-    vp.vim-nix
-    (mkPlugin { plugin = vp.comment-nvim; config = "require('Comment').setup()"; })
-    (mkPlugin { plugin = vp.refactoring-nvim; config = builtins.readFile ./plugin/refactoring.lua; })
-    # Zen-mode setup is called in keymaps.lua on first use
-    vp.zen-mode-nvim
-  ];
+    # Navigation
+    "oil.nvim" = vp.oil-nvim;
+    "obsidian.nvim" = vp.obsidian-nvim;
 
-  # File navigation plugins
-  navigationPlugins = [
-    (mkPlugin { plugin = vp.oil-nvim; config = builtins.readFile ./plugin/oil.lua; })
-    (mkPlugin { plugin = vp.obsidian-nvim; config = builtins.readFile ./plugin/obsidian.lua; })
-  ];
+    # lazy.nvim itself
+    "lazy.nvim" = vp.lazy-nvim;
+  };
 
-  # TypeScript DAP (conditional)
+  # Generate Lua table mapping plugin names to Nix store paths
+  pluginPathsLua =
+    let
+      entries = lib.mapAttrsToList (name: pkg: ''["${name}"] = "${pkg}"'') allPlugins;
+    in
+    "{\n  ${lib.concatStringsSep ",\n  " entries}\n}";
+
+  # TypeScript DAP path (conditional)
   jsDebugPath =
     if (builtins.hasAttr "vscode-extensions" pkgs)
       && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
       && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
     then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
     else "";
-
-  typescriptDapPlugins = lib.optionals (builtins.hasAttr "typescript" enabledLanguages) [{
-    plugin = vp.nvim-dap-vscode-js;
-    type = "lua";
-    config = ''
-      local ok, js = pcall(require, "dap-vscode-js")
-      if ok then
-        local debugger_path = "${jsDebugPath}"
-        if debugger_path ~= "" then
-          js.setup({ debugger_path = debugger_path, adapters = { 'pwa-node', 'pwa-chrome', 'pwa-extensionHost', 'node-terminal' }, })
-        end
-      end
-    '';
-  }];
 
 in
 {
@@ -203,28 +162,68 @@ in
       ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip pkgs.wl-clipboard ]
       ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.reattach-to-user-namespace ];
 
-      plugins =
-        corePlugins
-        ++ completionPlugins
-        ++ lspPlugins
-        ++ treesitterPlugins
-        ++ telescopePlugins
-        ++ gitPlugins
-        ++ dapPlugins
-        ++ uiPlugins
-        ++ editingPlugins
-        ++ navigationPlugins
-        ++ languageDapPlugins
-        ++ languagePlugins
-        ++ typescriptDapPlugins
-        ++ cfg.extraPlugins;
+      # We still provide plugins via Nix, but lazy.nvim manages loading
+      plugins = lib.attrValues allPlugins ++ languageDapPlugins ++ languagePlugins ++ cfg.extraPlugins;
 
-      extraLuaConfig = lib.concatStrings [
-        (builtins.readFile ./options.lua)
-        (builtins.readFile ./autocmds.lua)
-        (builtins.readFile ./keymaps.lua)
-        cfg.extraLuaConfig
-      ];
+      extraLuaConfig = ''
+        -- Plugin paths from Nix store
+        local nix_plugins = ${pluginPathsLua}
+
+        -- Helper to get plugin path
+        local function plugin_path(name)
+          return nix_plugins[name]
+        end
+
+        -- LSP server configs from Nix
+        local language_servers = ${generateLspServersLua languageLspConfigs}
+
+        -- JS Debug path for DAP
+        local js_debug_path = "${jsDebugPath}"
+
+        -- Bootstrap lazy.nvim from Nix store
+        local lazypath = plugin_path("lazy.nvim")
+        vim.opt.rtp:prepend(lazypath)
+
+        -- Load options first (before plugins)
+        ${builtins.readFile ./options.lua}
+
+        -- Load lazy.nvim with plugin specs
+        require("lazy").setup({
+          spec = {
+            ${builtins.readFile ./plugins/core.lua}
+            ${builtins.readFile ./plugins/completion.lua}
+            ${builtins.readFile ./plugins/lsp.lua}
+            ${builtins.readFile ./plugins/treesitter.lua}
+            ${builtins.readFile ./plugins/telescope.lua}
+            ${builtins.readFile ./plugins/git.lua}
+            ${builtins.readFile ./plugins/dap.lua}
+            ${builtins.readFile ./plugins/ui.lua}
+            ${builtins.readFile ./plugins/editing.lua}
+            ${builtins.readFile ./plugins/navigation.lua}
+          },
+          defaults = {
+            lazy = true,  -- Lazy load by default
+          },
+          performance = {
+            reset_packpath = false,  -- Keep Nix plugins in packpath
+            rtp = {
+              reset = false,  -- Don't reset runtimepath
+            },
+          },
+          install = {
+            missing = false,  -- Don't try to install - Nix provides everything
+          },
+          change_detection = {
+            enabled = false,  -- Nix handles plugin updates
+          },
+        })
+
+        -- Load autocmds and keymaps after plugins
+        ${builtins.readFile ./autocmds.lua}
+        ${builtins.readFile ./keymaps.lua}
+
+        ${cfg.extraLuaConfig}
+      '';
     };
   };
 }
