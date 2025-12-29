@@ -189,6 +189,8 @@ in
 
         extraLuaConfig = lib.concatStrings [
           (builtins.readFile ./options.lua)
+          (builtins.readFile ./autocmds.lua)
+          (builtins.readFile ./keymaps.lua)
           cfg.extraLuaConfig
         ];
       };
