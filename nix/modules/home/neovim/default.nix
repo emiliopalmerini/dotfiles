@@ -32,167 +32,198 @@ with lib; let
       entries = map (c: ''["${c.name}"] = ${c.config}'') configs;
     in
     "{\n  ${lib.concatStringsSep ",\n  " entries}\n}";
+
+  vp = pkgs.vimPlugins;
+
+  # Helper to create plugin specs with optional lazy-loading support
+  # When optional = true, plugin is available but not auto-loaded
+  mkPlugin = { plugin, config ? null, optional ? false }:
+    if config != null then
+      { inherit plugin optional; type = "lua"; config = config; }
+    else
+      { inherit plugin optional; };
+
+  # Core plugins - loaded immediately (essential for startup)
+  corePlugins = [
+    vp.plenary-nvim
+    vp.nvim-web-devicons
+    { plugin = vp.tokyonight-nvim; type = "lua"; config = ''
+        ${builtins.readFile ./plugin/tokyonight.lua}
+        pcall(vim.cmd.colorscheme, 'tokyonight-storm')
+      '';
+    }
+  ];
+
+  # Completion plugins - loaded on InsertEnter (can be lazy)
+  completionPlugins = [
+    vp.cmp-nvim-lsp
+    vp.cmp-path
+    vp.cmp-buffer
+    vp.cmp_luasnip
+    vp.lspkind-nvim
+    vp.luasnip
+    vp.friendly-snippets
+    vp.cmp-nvim-lsp-signature-help
+    (mkPlugin { plugin = vp.nvim-cmp; config = builtins.readFile ./plugin/cmp.lua; })
+  ];
+
+  # LSP plugins - loaded on BufReadPre (can be lazy)
+  lspPlugins = [
+    vp.neodev-nvim
+    vp.SchemaStore-nvim
+    (mkPlugin {
+      plugin = vp.nvim-lspconfig;
+      config = ''
+        local language_servers = ${generateLspServersLua languageLspConfigs}
+        ${builtins.readFile ./plugin/lsp.lua}
+      '';
+    })
+    (mkPlugin { plugin = vp.conform-nvim; config = builtins.readFile ./plugin/conform.lua; })
+    (mkPlugin { plugin = vp.fidget-nvim; config = "require('fidget').setup({})"; })
+  ];
+
+  # Treesitter plugins
+  treesitterPlugins = [
+    (mkPlugin {
+      plugin = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;
+      config = builtins.readFile ./plugin/treesitter.lua;
+    })
+    vp.nvim-treesitter-textobjects
+  ];
+
+  # Telescope plugins - loaded on command (can be lazy)
+  telescopePlugins = [
+    vp.telescope-fzf-native-nvim
+    (mkPlugin { plugin = vp.telescope-nvim; config = builtins.readFile ./plugin/telescope.lua; })
+  ];
+
+  # Git plugins - loaded on command/event (can be lazy)
+  gitPlugins = [
+    vp.vim-fugitive
+    (mkPlugin { plugin = vp.gitsigns-nvim; config = builtins.readFile ./plugin/gitsigns.lua; })
+  ];
+
+  # DAP plugins - loaded on command (can be lazy)
+  dapPlugins = [
+    vp.nvim-dap-ui
+    vp.nvim-dap-virtual-text
+    vp.nvim-nio
+    (mkPlugin { plugin = vp.nvim-dap; config = builtins.readFile ./plugin/dap.lua; })
+  ];
+
+  # UI plugins
+  uiPlugins = [
+    (mkPlugin { plugin = vp.which-key-nvim; config = builtins.readFile ./plugin/which-key.lua; })
+    (mkPlugin { plugin = vp.heirline-nvim; config = builtins.readFile ./plugin/statusline.lua; })
+    (mkPlugin { plugin = vp.trouble-nvim; config = "require('trouble').setup()"; })
+    (mkPlugin { plugin = vp.todo-comments-nvim; config = "require('todo-comments').setup()"; })
+  ];
+
+  # Editing plugins
+  editingPlugins = [
+    vp.undotree
+    vp.harpoon2
+    vp.vim-tmux-navigator
+    vp.vim-nix
+    (mkPlugin { plugin = vp.comment-nvim; config = "require('Comment').setup()"; })
+    (mkPlugin { plugin = vp.refactoring-nvim; config = builtins.readFile ./plugin/refactoring.lua; })
+    (mkPlugin { plugin = vp.zen-mode-nvim; config = "require('zen-mode').setup()"; })
+  ];
+
+  # File navigation plugins
+  navigationPlugins = [
+    (mkPlugin { plugin = vp.oil-nvim; config = builtins.readFile ./plugin/oil.lua; })
+    (mkPlugin { plugin = vp.obsidian-nvim; config = builtins.readFile ./plugin/obsidian.lua; })
+  ];
+
+  # TypeScript DAP (conditional)
+  jsDebugPath =
+    if (builtins.hasAttr "vscode-extensions" pkgs)
+      && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
+      && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
+    then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
+    else "";
+
+  typescriptDapPlugins = lib.optionals (builtins.hasAttr "typescript" enabledLanguages) [{
+    plugin = vp.nvim-dap-vscode-js;
+    type = "lua";
+    config = ''
+      local ok, js = pcall(require, "dap-vscode-js")
+      if ok then
+        local debugger_path = "${jsDebugPath}"
+        if debugger_path ~= "" then
+          js.setup({ debugger_path = debugger_path, adapters = { 'pwa-node', 'pwa-chrome', 'pwa-extensionHost', 'node-terminal' }, })
+        end
+      end
+    '';
+  }];
+
 in
 {
   options = {
     neovim.enable = mkEnableOption "enable neovim module";
 
-    # Extensibility
-    neovim.extraPlugins = mkOption { type = types.listOf types.package; default = [ ]; description = "Additional Vim plugins to load."; };
-    neovim.extraLuaConfig = mkOption { type = types.lines; default = ""; description = "Extra Lua appended to module config."; };
+    neovim.extraPlugins = mkOption {
+      type = types.listOf types.package;
+      default = [ ];
+      description = "Additional Vim plugins to load.";
+    };
+
+    neovim.extraLuaConfig = mkOption {
+      type = types.lines;
+      default = "";
+      description = "Extra Lua appended to module config.";
+    };
   };
 
-  config = mkIf cfg.enable
-    {
-      programs.neovim = {
-        enable = true;
+  config = mkIf cfg.enable {
+    # Copy lua/plugins directory to ~/.config/nvim/lua/plugins
+    # lazy.nvim will find them there via { import = "plugins" }
+    xdg.configFile."nvim/lua/plugins".source = ./lua/plugins;
 
-        viAlias = true;
-        vimAlias = true;
-        vimdiffAlias = true;
-        defaultEditor = true;
+    programs.neovim = {
+      enable = true;
 
-        extraPackages = [
-          # Base tooling
-          pkgs.ripgrep
-          pkgs.fd
-          pkgs.unzip
-          pkgs.gcc
-          pkgs.tree-sitter
-          pkgs.nodejs
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      defaultEditor = true;
 
-        ]
-        ++ languagePackages
-        ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip pkgs.wl-clipboard ]
-        ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.reattach-to-user-namespace ];
+      extraPackages = [
+        # Base tooling
+        pkgs.ripgrep
+        pkgs.fd
+        pkgs.unzip
+        pkgs.gcc
+        pkgs.tree-sitter
+        pkgs.nodejs
+      ]
+      ++ languagePackages
+      ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip pkgs.wl-clipboard ]
+      ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.reattach-to-user-namespace ];
 
-        plugins =
-          let
-            vp = pkgs.vimPlugins;
-            jsDebugPath =
-              if (builtins.hasAttr "vscode-extensions" pkgs)
-                && (builtins.hasAttr "ms-vscode" pkgs.vscode-extensions)
-                && (builtins.hasAttr "js-debug" pkgs.vscode-extensions."ms-vscode")
-              then "${pkgs.vscode-extensions."ms-vscode"."js-debug"}/share/vscode/extensions/ms-vscode.js-debug"
-              else "";
-          in
-          [
-            # Core plugins
-            vp.undotree
-            vp.cmp-nvim-lsp
-            vp.cmp-path
-            vp.cmp-buffer
-            vp.cmp_luasnip
-            vp.lspkind-nvim
-            vp.nvim-web-devicons
-            vp.telescope-fzf-native-nvim
-            vp.plenary-nvim
-            vp.vim-nix
-            { plugin = vp.conform-nvim; type = "lua"; config = builtins.readFile ./plugin/conform.lua; }
-            vp.neodev-nvim
-            vp.SchemaStore-nvim
-            vp.luasnip
-            vp.friendly-snippets
-            vp.harpoon2
-            vp.vim-fugitive
-            vp.fidget-nvim
+      plugins =
+        corePlugins
+        ++ completionPlugins
+        ++ lspPlugins
+        ++ treesitterPlugins
+        ++ telescopePlugins
+        ++ gitPlugins
+        ++ dapPlugins
+        ++ uiPlugins
+        ++ editingPlugins
+        ++ navigationPlugins
+        ++ languageDapPlugins
+        ++ languagePlugins
+        ++ typescriptDapPlugins
+        ++ cfg.extraPlugins;
 
-            # UI plugins with config
-            {
-              plugin = vp.which-key-nvim;
-              type = "lua";
-              config = builtins.readFile ./plugin/which-key.lua;
-            }
-            {
-              plugin = vp.gitsigns-nvim;
-              type = "lua";
-              config = builtins.readFile ./plugin/gitsigns.lua;
-            }
-            {
-              plugin = vp.todo-comments-nvim;
-              type = "lua";
-              config = ''require("todo-comments").setup()'';
-            }
-
-            # DAP plugins
-            vp.nvim-dap-ui
-            vp.nvim-dap-virtual-text
-            vp.nvim-nio
-
-            # Treesitter
-            {
-              plugin = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;
-              type = "lua";
-              config = builtins.readFile ./plugin/treesitter.lua;
-            }
-            { plugin = vp.nvim-treesitter-textobjects; }
-
-            # File navigation
-            { plugin = vp.oil-nvim; type = "lua"; config = builtins.readFile ./plugin/oil.lua; }
-
-            # Note taking
-            { plugin = vp.obsidian-nvim; type = "lua"; config = builtins.readFile ./plugin/obsidian.lua; }
-
-            # LSP
-            {
-              plugin = vp.nvim-lspconfig;
-              type = "lua";
-              config = ''
-                local language_servers = ${generateLspServersLua languageLspConfigs}
-                ${builtins.readFile ./plugin/lsp.lua}
-              '';
-            }
-
-            # Editing
-            { plugin = vp.comment-nvim; type = "lua"; config = "require('Comment').setup()"; }
-            { plugin = vp.refactoring-nvim; type = "lua"; config = builtins.readFile ./plugin/refactoring.lua; }
-            vp.vim-tmux-navigator
-
-            # UI
-            { plugin = vp.heirline-nvim; type = "lua"; config = builtins.readFile ./plugin/statusline.lua; }
-            {
-              plugin = vp.tokyonight-nvim;
-              type = "lua";
-              config = ''${builtins.readFile ./plugin/tokyonight.lua}
-                pcall(vim.cmd.colorscheme, 'tokyonight-storm')
-              '';
-            }
-            { plugin = vp.trouble-nvim; type = "lua"; config = "require('trouble').setup()"; }
-            { plugin = vp.zen-mode-nvim; type = "lua"; config = "require('zen-mode').setup()"; }
-
-            # Completion
-            { plugin = vp.nvim-cmp; type = "lua"; config = builtins.readFile ./plugin/cmp.lua; }
-            vp.cmp-nvim-lsp-signature-help
-
-            # Telescope
-            { plugin = vp.telescope-nvim; type = "lua"; config = builtins.readFile ./plugin/telescope.lua; }
-
-            # DAP
-            { plugin = vp.nvim-dap; type = "lua"; config = builtins.readFile ./plugin/dap.lua; }
-          ]
-          ++ languageDapPlugins
-          ++ languagePlugins
-          ++ lib.optionals (builtins.hasAttr "typescript" enabledLanguages) [{
-            plugin = vp.nvim-dap-vscode-js;
-            type = "lua";
-            config = ''
-              local ok, js = pcall(require, "dap-vscode-js")
-              if ok then
-                local debugger_path = "${jsDebugPath}"
-                if debugger_path ~= "" then
-                  js.setup({ debugger_path = debugger_path, adapters = { 'pwa-node', 'pwa-chrome', 'pwa-extensionHost', 'node-terminal' }, })
-                end
-              end
-            '';
-          }]
-          ++ cfg.extraPlugins;
-
-        extraLuaConfig = lib.concatStrings [
-          (builtins.readFile ./options.lua)
-          (builtins.readFile ./autocmds.lua)
-          (builtins.readFile ./keymaps.lua)
-          cfg.extraLuaConfig
-        ];
-      };
+      extraLuaConfig = lib.concatStrings [
+        (builtins.readFile ./options.lua)
+        (builtins.readFile ./autocmds.lua)
+        (builtins.readFile ./keymaps.lua)
+        cfg.extraLuaConfig
+      ];
     };
+  };
 }
