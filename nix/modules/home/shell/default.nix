@@ -6,7 +6,6 @@
 with lib; let
   cfg = config.shell;
   myAliases = {
-    cd = "z";
     cat = "bat";
     ga = "git add";
     gc = "git commit";
@@ -18,7 +17,6 @@ with lib; let
     gs = "git status";
     gt = "git tag";
   };
-  oh-my-posh-config = ./oh-my-posh.json;
   zshColors = "\${(s.:.)LS_COLORS}";
 in
 {
@@ -38,13 +36,6 @@ in
       enableZshIntegration = true;
     };
 
-    programs.oh-my-posh = {
-      enable = true;
-      enableZshIntegration = true;
-
-      settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile oh-my-posh-config));
-    };
-
     programs.zsh = {
       enable = true;
       enableCompletion = true;
@@ -53,10 +44,11 @@ in
 
       shellAliases = myAliases;
 
-      initContent = ''
-        if [[ -f "/opt/homebrew/bin/brew" ]] then
+      initContent = lib.optionalString pkgs.stdenv.isDarwin ''
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
           eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
+      '' + ''
         HISTDUP=erase
 
         setopt HIST_FIND_NO_DUPS
@@ -64,6 +56,7 @@ in
         setopt HIST_IGNORE_ALL_DUPS
         setopt HIST_IGNORE_DUPS
         setopt NO_BEEP
+        setopt PROMPT_SUBST
 
         zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
         zstyle ':completion:*' menu no
@@ -75,6 +68,14 @@ in
         bindkey '^Y' yank
         bindkey '^p' history-search-backward
         bindkey '^n' history-search-forward
+
+        # Simple prompt: path, git branch, prompt char
+        autoload -Uz vcs_info
+        precmd() { vcs_info }
+        zstyle ':vcs_info:git:*' formats '%F{242}%b%f'
+
+        PROMPT='%F{blue}%~%f ''${vcs_info_msg_0_:+ $vcs_info_msg_0_}
+%(?.%F{magenta}.%F{red})❯%f '
 
         # kubectl completion
         if command -v kubectl &> /dev/null; then
@@ -88,18 +89,12 @@ in
             compdef $alias=git
           fi
         done
-
-        eval "$(oh-my-posh init zsh)"
       '';
+
       plugins = [
         {
           name = "fzf-tab";
-          src = pkgs.fetchFromGitHub {
-            owner = "Aloxaf";
-            repo = "fzf-tab";
-            rev = "v1.1.2";
-            sha256 = "Qv8zAiMtrr67CbLRrFjGaPzFZcOiMVEFLg1Z+N6VMhg=";
-          };
+          src = pkgs.zsh-fzf-tab;
         }
       ];
     };
