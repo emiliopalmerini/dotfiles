@@ -9,7 +9,6 @@ in
     enable = mkEnableOption "Enable mainUser module";
     user = mkOption {
       type = types.str;
-      default = "emil_io";
       description = "The main user of the system";
     };
   };
