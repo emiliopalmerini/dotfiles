@@ -3,37 +3,33 @@
   {
     "stevearc/oil.nvim",
     dir = plugin_path("oil.nvim"),
-    cmd = "Oil",
-    keys = {
-      { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
-    },
+    lazy = false,
     config = function()
+      CustomOilBar = function()
+        local path = vim.fn.expand("%")
+        path = path:gsub("oil://", "")
+        return "  " .. vim.fn.fnamemodify(path, ":.")
+      end
+
       require("oil").setup({
-        default_file_explorer = true,
-        columns = {
-          "icon",
+        columns = { "icon" },
+        keymaps = {
+          ["<C-h>"] = false,
+          ["<C-l>"] = false,
+          ["<C-k>"] = false,
+          ["<C-j>"] = false,
+          ["<M-h>"] = "actions.select_split",
+        },
+        win_options = {
+          winbar = "%{v:lua.CustomOilBar()}",
         },
         view_options = {
           show_hidden = true,
         },
-        keymaps = {
-          ["g?"] = "actions.show_help",
-          ["<CR>"] = "actions.select",
-          ["<C-v>"] = "actions.select_vsplit",
-          ["<C-s>"] = "actions.select_split",
-          ["<C-t>"] = "actions.select_tab",
-          ["<C-p>"] = "actions.preview",
-          ["<C-c>"] = "actions.close",
-          ["<C-r>"] = "actions.refresh",
-          ["-"] = "actions.parent",
-          ["_"] = "actions.open_cwd",
-          ["`"] = "actions.cd",
-          ["~"] = "actions.tcd",
-          ["gs"] = "actions.change_sort",
-          ["gx"] = "actions.open_external",
-          ["g."] = "actions.toggle_hidden",
-        },
       })
+
+      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+      vim.keymap.set("n", "<space>-", require("oil").toggle_float, { desc = "Open Oil in floating window" })
     end,
   },
   {
