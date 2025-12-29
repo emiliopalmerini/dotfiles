@@ -13,15 +13,19 @@ Opinionated Git setup with aliases, sensible defaults, and optional LFS filter. 
 ```
 
 ## Features
-- Sets editor to `nvim`, default branch to `main`, prune on fetch, rebase on pull, enables `rerere`.
-- Global ignore file sourced from this repo:
-  - `nix/modules/home/git/config/.gitignore_global`
-- Git hooks directory: `nix/modules/home/git/config/hooks`
-- LFS filter configured (requires `git-lfs` if you plan to use it).
-- Handy aliases: `cm`, `co`, `br`, `ph`, `phf`, `pl`, `unstage`, `last`, `gh`, `graph`, `st`, `sh`.
-- Installs `git-absorb` to turn fixups into autosquash commits.
-- Configuration uses `programs.git.settings` structure (not `config`).
+- Editor: `nvim`, default branch: `main`, rebase on pull, prune on fetch, `rerere` enabled
+- Better diffs: `diff.algorithm = histogram`, `merge.conflictstyle = zdiff3`
+- Global ignore and hooks from `./config/` (resolved via `builtins.toString`)
+- LFS filter configured
+- Aliases: `cm`, `co`, `br`, `ph`, `phf` (force-with-lease), `pl`, `unstage`, `last`, `graph`, `st`, `sh`
+- Includes `git-absorb` for autosquash workflows
 
-## Notes
-- Paths are resolved relative to the repo: `config` directory is used for the global ignore file.
-- If you maintain dotfiles in a different location, update the module accordingly.
+## Hooks
+
+**Warning:** Global hooks apply to all repositories.
+
+- `post-commit`: Auto-appends ticket number from branch name (e.g., `123-feature` → `(#123)`)
+
+## LFS
+
+LFS filter is configured globally but hooks are per-repo. Run `git lfs install` in repos that need it.

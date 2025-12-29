@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.git;
-  gitConfigPath = "${config.home.homeDirectory}/repos/dotfiles/nix/modules/home/git/config";
+  configDir = builtins.toString ./config;
 in
 {
   options = {
@@ -35,10 +35,10 @@ in
           email = cfg.userEmail;
         };
         core = {
-          excludesfile = "${gitConfigPath}/.gitignore_global"; # Percorso per .gitignore_global
+          excludesfile = "${configDir}/.gitignore_global";
           editor = "nvim";
           autocrlf = "input";
-          hooksPath = "${gitConfigPath}/hooks";
+          hooksPath = "${configDir}/hooks";
         };
         init.defaultBranch = "main";
 
@@ -54,7 +54,7 @@ in
           co = "checkout";
           br = "branch";
           ph = "push";
-          phf = "push --force";
+          phf = "push --force-with-lease";
           pl = "pull";
           unstage = "reset HEAD --";
           last = "log -1 HEAD";
@@ -63,6 +63,8 @@ in
           sh = "stash";
         };
 
+        diff.algorithm = "histogram";
+        merge.conflictstyle = "zdiff3";
         pull.rebase = true;
         rerere.enabled = true;
         fetch.prune = true;
