@@ -1,25 +1,20 @@
 { inputs, nixpkgs, ... }:
 let
-  linuxSystem = "x86_64-linux";
-  darwinSystem = "aarch64-darwin";
   userLib = import ./users.nix;
   commonLib = import ./common.nix;
 in
 rec {
-  # Expose user configurations
   users = userLib.users;
   getUserConfig = userLib.getUserConfig;
-  
-  # Expose common utilities  
   inherit (commonLib) mkEnvironment;
 
-  # Generate nixosConfigurations from machine list
-  mkNixosConfigurations = machineNames:
+  # Generate NixOS configurations with specified system architecture
+  mkNixosConfigurations = { machineNames, system ? "x86_64-linux" }:
     builtins.listToAttrs (
       map (machine: {
         name = machine;
         value = nixpkgs.lib.nixosSystem {
-          system = linuxSystem;
+          inherit system;
           specialArgs = {
             inherit inputs;
             userConfig = getUserConfig machine;
@@ -32,26 +27,7 @@ rec {
       }) machineNames
     );
 
-  # Generate VM configurations from machine list
-  mkVmConfigurations = machineNames:
-    builtins.listToAttrs (
-      map (machine: {
-        name = machine;
-        value = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs = {
-            inherit inputs;
-            userConfig = getUserConfig machine;
-            commonEnv = mkEnvironment { isDarwin = false; };
-          };
-          modules = [
-            ../machines/${machine}/configuration.nix
-          ];
-        };
-      }) machineNames
-    );
-
-  # Generate darwinConfigurations from machine list
+  # Generate Darwin configurations
   mkDarwinConfigurations = machineNames:
     builtins.listToAttrs (
       map (machine: {

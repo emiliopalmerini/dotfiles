@@ -33,14 +33,11 @@
     } @ inputs:
     let
       lib = import ./lib/default.nix { inherit inputs nixpkgs; };
-
-      # Define machine lists
-      nixosMachines = [ "dell-xps-15" "thinkpad-home-server" "dell-precision" ];
-      vmMachines = [ "vm-aarch64" ];
-      darwinMachines = [ "macbook-air-m1" ];
     in
     {
-      nixosConfigurations = lib.mkNixosConfigurations nixosMachines // lib.mkVmConfigurations vmMachines;
-      darwinConfigurations = lib.mkDarwinConfigurations darwinMachines;
+      nixosConfigurations =
+        lib.mkNixosConfigurations { machineNames = [ "dell-xps-15" "thinkpad-home-server" "dell-precision" ]; }
+        // lib.mkNixosConfigurations { machineNames = [ "vm-aarch64" ]; system = "aarch64-linux"; };
+      darwinConfigurations = lib.mkDarwinConfigurations [ "macbook-air-m1" ];
     };
 }
