@@ -18,10 +18,25 @@
 
       -- Setup all language servers from Nix
       for name, config in pairs(language_servers) do
-        local server_config = vim.tbl_deep_extend("force", {
-          capabilities = capabilities,
-        }, config)
-        lspconfig[name].setup(server_config)
+        -- Skip roslyn - it uses roslyn-nvim plugin, not lspconfig
+        if name ~= "roslyn" then
+          local server_config = vim.tbl_deep_extend("force", {
+            capabilities = capabilities,
+          }, config)
+          lspconfig[name].setup(server_config)
+        end
+      end
+
+      -- Setup roslyn-nvim for C# if configured
+      if language_servers.roslyn then
+        local ok, roslyn = pcall(require, "roslyn")
+        if ok then
+          local roslyn_config = vim.tbl_deep_extend("force", {
+            capabilities = capabilities,
+            filewatching = "vsdir",
+          }, language_servers.roslyn)
+          roslyn.setup(roslyn_config)
+        end
       end
 
       -- LSP keymaps on attach
@@ -101,4 +116,3 @@
       })
     end,
   },
-},
