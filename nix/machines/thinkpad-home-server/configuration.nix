@@ -50,28 +50,28 @@
       footer = "<p>Tailscale-secured homelab</p>";
       columns = 3;
       connectivityCheck = false;
-      
+
       # Quick navigation links
       links = [
         { name = "GitHub"; icon = "fab fa-github"; url = "https://github.com"; }
         { name = "NixOS"; icon = "fab fa-linux"; url = "https://nixos.org"; }
       ];
-      
+
       # Service groups and items
       services = [
         {
           name = "Media & Downloads";
           icon = "fas fa-film";
           items = [
-            { 
-              name = "Plex"; 
-              url = "http://hera:32400/web"; 
+            {
+              name = "Plex";
+              url = "http://hera:32400/web";
               icon = "fas fa-play";
               description = "Media server";
             }
-            { 
-              name = "qBittorrent"; 
-              url = "http://hera:8080"; 
+            {
+              name = "qBittorrent";
+              url = "http://hera:8080";
               icon = "fas fa-download";
               description = "Torrent client";
             }
@@ -81,23 +81,17 @@
           name = "Personal Tools";
           icon = "fas fa-tools";
           items = [
-            { 
-              name = "Spese"; 
-              url = "http://hera:8081"; 
+            {
+              name = "Spese";
+              url = "http://hera:8081";
               icon = "fas fa-wallet";
               description = "Expense tracker";
             }
-            { 
-              name = "Peso"; 
-              url = "http://hera:8082"; 
+            {
+              name = "Peso";
+              url = "http://hera:8082";
               icon = "fas fa-weight";
               description = "Weight tracker";
-            }
-            { 
-              name = "Abitudini"; 
-              url = "http://hera:8380"; 
-              icon = "fas fa-check-circle";
-              description = "Habit tracker";
             }
           ];
         }
@@ -105,9 +99,9 @@
           name = "System";
           icon = "fas fa-cogs";
           items = [
-            { 
-              name = "Homer"; 
-              url = "http://hera:8090"; 
+            {
+              name = "Homer";
+              url = "http://hera:8090";
               icon = "fas fa-home";
               description = "This dashboard";
             }

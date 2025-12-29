@@ -22,7 +22,6 @@
   neovim.enable = true;
   shell.enable = true;
   tmux.enable = true;
-  abitudini.enable = true;
 
   # Simple packages - installed directly
   home.packages = [
