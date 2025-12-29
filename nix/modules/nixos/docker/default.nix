@@ -6,7 +6,7 @@ let
 in
 {
   options.docker = {
-    enable = mkEnableOption "Enable Docker and it-tools container";
+    enable = mkEnableOption "Enable Docker with compose and buildx";
   };
 
   config = mkIf cfg.enable {
