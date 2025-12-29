@@ -89,13 +89,13 @@ in
 
   xml = mkLang {
     packages = [ pkgs.lemminx ];
-    lsp.lemminx = "true";
+    lsp.lemminx = "{}";
   };
 
   protobuf = mkLang {
     packages = [ pkgs.buf ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-proto) p.tree-sitter-proto;
-    lsp.bufls = "true";
+    lsp.bufls = "{}";
   };
 
   sql = mkLang {
@@ -216,14 +216,14 @@ in
     detectPackage = "rustc";
     packages = [ pkgs.rust-analyzer pkgs.rustfmt ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-rust) p.tree-sitter-rust;
-    lsp.rust_analyzer = "true";
+    lsp.rust_analyzer = "{}";
   };
 
   zig = mkLang {
     detectPackage = "zig";
     packages = [ pkgs.zls pkgs.lldb ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-zig) p.tree-sitter-zig;
-    lsp.zls = "true";
+    lsp.zls = "{}";
   };
 
   elixir = mkLang {
@@ -233,6 +233,6 @@ in
       (lib.optional (p ? tree-sitter-elixir) p.tree-sitter-elixir)
       ++ (lib.optional (p ? tree-sitter-heex) p.tree-sitter-heex)
       ++ (lib.optional (p ? tree-sitter-eex) p.tree-sitter-eex);
-    lsp.elixirls = "true";
+    lsp.elixirls = "{}";
   };
 }
