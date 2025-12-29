@@ -60,6 +60,7 @@ with lib; let
     "SchemaStore.nvim" = vp.SchemaStore-nvim;
     "conform.nvim" = vp.conform-nvim;
     "fidget.nvim" = vp.fidget-nvim;
+    "roslyn.nvim" = vp.roslyn-nvim;
 
     # Treesitter
     "nvim-treesitter" = vp.nvim-treesitter.withPlugins languageTreesitterGrammars;

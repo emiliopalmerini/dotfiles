@@ -142,6 +142,24 @@ in
       {
         dotnet_cmd = "dotnet",
         roslyn_version = "4.12.0-2.24421.11",
+        choose_target = function(targets)
+          if #targets == 1 then
+            return targets[1]
+          end
+          -- Filter out solutions in parent directories
+          local local_targets = vim.tbl_filter(function(t)
+            local rel = vim.fn.fnamemodify(t, ":.")
+            return not vim.startswith(rel, "..")
+          end, targets)
+          if #local_targets > 0 then
+            targets = local_targets
+          end
+          -- Pick the closest one
+          table.sort(targets, function(a, b)
+            return #vim.fn.fnamemodify(a, ":.") < #vim.fn.fnamemodify(b, ":.")
+          end)
+          return targets[1]
+        end,
         on_attach = function(client, bufnr)
           -- Enable inlay hints if supported
           if client.server_capabilities and client.server_capabilities.inlayHintProvider then
