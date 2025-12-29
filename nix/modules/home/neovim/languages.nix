@@ -95,7 +95,11 @@ in
   protobuf = mkLang {
     packages = [ pkgs.buf ];
     treesitterGrammars = p: lib.optional (p ? tree-sitter-proto) p.tree-sitter-proto;
-    lsp.bufls = "{}";
+    lsp.buf_ls = ''
+      {
+        cmd = { "buf", "beta", "lsp" },
+      }
+    '';
   };
 
   sql = mkLang {
@@ -252,5 +256,52 @@ in
       ++ (lib.optional (p ? tree-sitter-heex) p.tree-sitter-heex)
       ++ (lib.optional (p ? tree-sitter-eex) p.tree-sitter-eex);
     lsp.elixirls = "{}";
+  };
+
+  python = mkLang {
+    detectPackage = "python3";
+    packages = [ pkgs.pyright pkgs.black pkgs.isort ];
+    treesitterGrammars = p: lib.optional (p ? tree-sitter-python) p.tree-sitter-python;
+    lsp.pyright = ''
+      {
+        settings = {
+          python = {
+            analysis = {
+              typeCheckingMode = "basic",
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      }
+    '';
+  };
+
+  typescript = mkLang {
+    detectPackage = "nodejs";
+    packages = [
+      pkgs.nodePackages.typescript-language-server
+      pkgs.nodePackages.typescript
+      pkgs.nodePackages.prettier
+    ];
+    treesitterGrammars = p:
+      (lib.optional (p ? tree-sitter-javascript) p.tree-sitter-javascript)
+      ++ (lib.optional (p ? tree-sitter-typescript) p.tree-sitter-typescript)
+      ++ (lib.optional (p ? tree-sitter-tsx) p.tree-sitter-tsx);
+    lsp.ts_ls = ''
+      {
+        init_options = {
+          preferences = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+      }
+    '';
   };
 }
