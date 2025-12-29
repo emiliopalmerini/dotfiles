@@ -1,8 +1,8 @@
 -- Debug Adapter Protocol plugins
-{
+return {
   {
     "mfussenegger/nvim-dap",
-    dir = plugin_path("nvim-dap"),
+    dir = _G.plugin_path("nvim-dap"),
     keys = {
       { "<F5>", function() require("dap").continue() end, desc = "Debug: Continue" },
       { "<F4>", function() require("dap").step_over() end, desc = "Debug: Step Over" },
@@ -20,10 +20,10 @@
       { "<leader>de", function() require("dapui").eval(nil, { enter = true }) end, desc = "Debug: Eval" },
     },
     dependencies = {
-      { "rcarriga/nvim-dap-ui", dir = plugin_path("nvim-dap-ui") },
-      { "theHamsta/nvim-dap-virtual-text", dir = plugin_path("nvim-dap-virtual-text") },
-      { "nvim-neotest/nvim-nio", dir = plugin_path("nvim-nio") },
-      { "leoluz/nvim-dap-go", dir = plugin_path("nvim-dap-go") },
+      { "rcarriga/nvim-dap-ui", dir = _G.plugin_path("nvim-dap-ui") },
+      { "theHamsta/nvim-dap-virtual-text", dir = _G.plugin_path("nvim-dap-virtual-text") },
+      { "nvim-neotest/nvim-nio", dir = _G.plugin_path("nvim-nio") },
+      { "leoluz/nvim-dap-go", dir = _G.plugin_path("nvim-dap-go") },
     },
     config = function()
       local dap = require("dap")
@@ -55,14 +55,14 @@
       dap.listeners.before.event_exited["dapui_config"] = dapui.close
 
       -- TypeScript/JavaScript DAP configuration
-      if js_debug_path ~= "" then
+      if _G.js_debug_path ~= "" then
         require("dap").adapters["pwa-node"] = {
           type = "server",
           host = "localhost",
           port = "${port}",
           executable = {
             command = "node",
-            args = { js_debug_path .. "/src/dapDebugServer.js", "${port}" },
+            args = { _G.js_debug_path .. "/src/dapDebugServer.js", "${port}" },
           },
         }
 
@@ -87,4 +87,4 @@
       end
     end,
   },
-},
+}

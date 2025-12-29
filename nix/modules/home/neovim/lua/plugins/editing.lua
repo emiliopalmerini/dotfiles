@@ -1,8 +1,8 @@
 -- Editing plugins
-{
+return {
   {
     "mbbill/undotree",
-    dir = plugin_path("undotree"),
+    dir = _G.plugin_path("undotree"),
     cmd = "UndotreeToggle",
     keys = {
       { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle UndoTree" },
@@ -10,7 +10,7 @@
   },
   {
     "ThePrimeagen/harpoon",
-    dir = plugin_path("harpoon"),
+    dir = _G.plugin_path("harpoon"),
     branch = "harpoon2",
     keys = {
       { "<leader>h", function() require("harpoon").ui:toggle_quick_menu(require("harpoon"):list()) end, desc = "Harpoon: Quick menu" },
@@ -23,7 +23,7 @@
       { "<C-S-N>", function() require("harpoon"):list():next() end, desc = "Harpoon: Next" },
     },
     dependencies = {
-      { "nvim-lua/plenary.nvim", dir = plugin_path("plenary.nvim") },
+      { "nvim-lua/plenary.nvim", dir = _G.plugin_path("plenary.nvim") },
     },
     config = function()
       require("harpoon"):setup()
@@ -31,17 +31,17 @@
   },
   {
     "christoomey/vim-tmux-navigator",
-    dir = plugin_path("vim-tmux-navigator"),
+    dir = _G.plugin_path("vim-tmux-navigator"),
     lazy = false,
   },
   {
     "LnL7/vim-nix",
-    dir = plugin_path("vim-nix"),
+    dir = _G.plugin_path("vim-nix"),
     ft = "nix",
   },
   {
     "numToStr/Comment.nvim",
-    dir = plugin_path("Comment.nvim"),
+    dir = _G.plugin_path("Comment.nvim"),
     event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("Comment").setup({})
@@ -49,7 +49,7 @@
   },
   {
     "ThePrimeagen/refactoring.nvim",
-    dir = plugin_path("refactoring.nvim"),
+    dir = _G.plugin_path("refactoring.nvim"),
     keys = {
       {
         "<leader>rr",
@@ -59,8 +59,8 @@
       },
     },
     dependencies = {
-      { "nvim-lua/plenary.nvim", dir = plugin_path("plenary.nvim") },
-      { "nvim-treesitter/nvim-treesitter", dir = plugin_path("nvim-treesitter") },
+      { "nvim-lua/plenary.nvim", dir = _G.plugin_path("plenary.nvim") },
+      { "nvim-treesitter/nvim-treesitter", dir = _G.plugin_path("nvim-treesitter") },
     },
     config = function()
       require("refactoring").setup({})
@@ -68,7 +68,7 @@
   },
   {
     "folke/zen-mode.nvim",
-    dir = plugin_path("zen-mode.nvim"),
+    dir = _G.plugin_path("zen-mode.nvim"),
     keys = {
       {
         "<leader>zz",
@@ -95,4 +95,4 @@
       },
     },
   },
-},
+}

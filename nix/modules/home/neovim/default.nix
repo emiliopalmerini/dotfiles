@@ -166,22 +166,20 @@ in
       plugins = lib.attrValues allPlugins ++ languageDapPlugins ++ languagePlugins ++ cfg.extraPlugins;
 
       extraLuaConfig = ''
-        -- Plugin paths from Nix store
+        -- Plugin paths from Nix store (global for plugin specs)
         local nix_plugins = ${pluginPathsLua}
-
-        -- Helper to get plugin path
-        local function plugin_path(name)
+        _G.plugin_path = function(name)
           return nix_plugins[name]
         end
 
-        -- LSP server configs from Nix
-        local language_servers = ${generateLspServersLua languageLspConfigs}
+        -- LSP server configs from Nix (global for lsp.lua)
+        _G.language_servers = ${generateLspServersLua languageLspConfigs}
 
-        -- JS Debug path for DAP
-        local js_debug_path = "${jsDebugPath}"
+        -- JS Debug path for DAP (global for dap.lua)
+        _G.js_debug_path = "${jsDebugPath}"
 
         -- Bootstrap lazy.nvim from Nix store
-        local lazypath = plugin_path("lazy.nvim")
+        local lazypath = _G.plugin_path("lazy.nvim")
         vim.opt.rtp:prepend(lazypath)
 
         -- Load options first (before plugins)
@@ -190,16 +188,7 @@ in
         -- Load lazy.nvim with plugin specs
         require("lazy").setup({
           spec = {
-            ${builtins.readFile ./plugins/core.lua}
-            ${builtins.readFile ./plugins/completion.lua}
-            ${builtins.readFile ./plugins/lsp.lua}
-            ${builtins.readFile ./plugins/treesitter.lua}
-            ${builtins.readFile ./plugins/telescope.lua}
-            ${builtins.readFile ./plugins/git.lua}
-            ${builtins.readFile ./plugins/dap.lua}
-            ${builtins.readFile ./plugins/ui.lua}
-            ${builtins.readFile ./plugins/editing.lua}
-            ${builtins.readFile ./plugins/navigation.lua}
+            { import = "plugins" },
           },
           defaults = {
             lazy = true,  -- Lazy load by default

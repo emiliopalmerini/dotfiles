@@ -1,18 +1,18 @@
 -- Core plugins (load immediately)
-{
+return {
   {
     "nvim-lua/plenary.nvim",
-    dir = plugin_path("plenary.nvim"),
+    dir = _G.plugin_path("plenary.nvim"),
     lazy = false,
   },
   {
     "nvim-tree/nvim-web-devicons",
-    dir = plugin_path("nvim-web-devicons"),
+    dir = _G.plugin_path("nvim-web-devicons"),
     lazy = false,
   },
   {
     "folke/tokyonight.nvim",
-    dir = plugin_path("tokyonight.nvim"),
+    dir = _G.plugin_path("tokyonight.nvim"),
     lazy = false,
     priority = 1000,
     config = function()
@@ -30,4 +30,4 @@
       vim.cmd.colorscheme("tokyonight-storm")
     end,
   },
-},
+}

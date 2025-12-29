@@ -1,8 +1,8 @@
 -- Telescope plugins (load on command/keys)
-{
+return {
   {
     "nvim-telescope/telescope.nvim",
-    dir = plugin_path("telescope.nvim"),
+    dir = _G.plugin_path("telescope.nvim"),
     cmd = "Telescope",
     keys = {
       { "<leader>ff", function() require("telescope.builtin").find_files() end, desc = "Find: Files" },
@@ -19,8 +19,8 @@
       { "<leader>bl", function() require("telescope.builtin").buffers() end, desc = "Buffer: List" },
     },
     dependencies = {
-      { "nvim-lua/plenary.nvim", dir = plugin_path("plenary.nvim") },
-      { "nvim-telescope/telescope-fzf-native.nvim", dir = plugin_path("telescope-fzf-native.nvim") },
+      { "nvim-lua/plenary.nvim", dir = _G.plugin_path("plenary.nvim") },
+      { "nvim-telescope/telescope-fzf-native.nvim", dir = _G.plugin_path("telescope-fzf-native.nvim") },
     },
     config = function()
       local telescope = require("telescope")
@@ -74,4 +74,4 @@
       telescope.load_extension("refactoring")
     end,
   },
-},
+}

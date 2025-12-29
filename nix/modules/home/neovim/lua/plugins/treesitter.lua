@@ -1,11 +1,11 @@
 -- Treesitter plugins (load on BufReadPost/BufNewFile)
-{
+return {
   {
     "nvim-treesitter/nvim-treesitter",
-    dir = plugin_path("nvim-treesitter"),
+    dir = _G.plugin_path("nvim-treesitter"),
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      { "nvim-treesitter/nvim-treesitter-textobjects", dir = plugin_path("nvim-treesitter-textobjects") },
+      { "nvim-treesitter/nvim-treesitter-textobjects", dir = _G.plugin_path("nvim-treesitter-textobjects") },
     },
     config = function()
       require("nvim-treesitter.configs").setup({

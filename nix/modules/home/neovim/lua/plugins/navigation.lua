@@ -1,11 +1,11 @@
 -- Navigation plugins
-{
+return {
   {
     "stevearc/oil.nvim",
-    dir = plugin_path("oil.nvim"),
+    dir = _G.plugin_path("oil.nvim"),
     lazy = false,
     config = function()
-      CustomOilBar = function()
+      _G.CustomOilBar = function()
         local path = vim.fn.expand("%")
         path = path:gsub("oil://", "")
         return "  " .. vim.fn.fnamemodify(path, ":.")
@@ -34,10 +34,10 @@
   },
   {
     "epwalsh/obsidian.nvim",
-    dir = plugin_path("obsidian.nvim"),
+    dir = _G.plugin_path("obsidian.nvim"),
     ft = "markdown",
     dependencies = {
-      { "nvim-lua/plenary.nvim", dir = plugin_path("plenary.nvim") },
+      { "nvim-lua/plenary.nvim", dir = _G.plugin_path("plenary.nvim") },
     },
     config = function()
       require("obsidian").setup({
@@ -53,4 +53,4 @@
       })
     end,
   },
-},
+}

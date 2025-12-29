@@ -1,13 +1,13 @@
 -- LSP plugins (load on BufReadPre/BufNewFile)
-{
+return {
   {
     "neovim/nvim-lspconfig",
-    dir = plugin_path("nvim-lspconfig"),
+    dir = _G.plugin_path("nvim-lspconfig"),
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      { "folke/neodev.nvim", dir = plugin_path("neodev.nvim") },
-      { "b0o/SchemaStore.nvim", dir = plugin_path("SchemaStore.nvim") },
-      { "j-hui/fidget.nvim", dir = plugin_path("fidget.nvim") },
+      { "folke/neodev.nvim", dir = _G.plugin_path("neodev.nvim") },
+      { "b0o/SchemaStore.nvim", dir = _G.plugin_path("SchemaStore.nvim") },
+      { "j-hui/fidget.nvim", dir = _G.plugin_path("fidget.nvim") },
     },
     config = function()
       require("neodev").setup({})
@@ -17,24 +17,24 @@
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- Setup all language servers from Nix
-      for name, config in pairs(language_servers) do
+      for name, lsp_config in pairs(_G.language_servers) do
         -- Skip roslyn - it uses roslyn-nvim plugin, not lspconfig
         if name ~= "roslyn" then
           local server_config = vim.tbl_deep_extend("force", {
             capabilities = capabilities,
-          }, config)
+          }, lsp_config)
           lspconfig[name].setup(server_config)
         end
       end
 
       -- Setup roslyn-nvim for C# if configured
-      if language_servers.roslyn then
+      if _G.language_servers.roslyn then
         local ok, roslyn = pcall(require, "roslyn")
         if ok then
           local roslyn_config = vim.tbl_deep_extend("force", {
             capabilities = capabilities,
             filewatching = "vsdir",
-          }, language_servers.roslyn)
+          }, _G.language_servers.roslyn)
           roslyn.setup(roslyn_config)
         end
       end
@@ -76,7 +76,7 @@
   },
   {
     "stevearc/conform.nvim",
-    dir = plugin_path("conform.nvim"),
+    dir = _G.plugin_path("conform.nvim"),
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     keys = {
@@ -116,3 +116,4 @@
       })
     end,
   },
+}

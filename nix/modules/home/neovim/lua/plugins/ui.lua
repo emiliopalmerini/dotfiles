@@ -1,8 +1,8 @@
 -- UI plugins
-{
+return {
   {
     "folke/which-key.nvim",
-    dir = plugin_path("which-key.nvim"),
+    dir = _G.plugin_path("which-key.nvim"),
     event = "VeryLazy",
     config = function()
       require("which-key").setup({})
@@ -19,7 +19,7 @@
   },
   {
     "rebelot/heirline.nvim",
-    dir = plugin_path("heirline.nvim"),
+    dir = _G.plugin_path("heirline.nvim"),
     event = "VeryLazy",
     config = function()
       local conditions = require("heirline.conditions")
@@ -225,7 +225,7 @@
   },
   {
     "folke/trouble.nvim",
-    dir = plugin_path("trouble.nvim"),
+    dir = _G.plugin_path("trouble.nvim"),
     cmd = { "Trouble", "TroubleToggle" },
     keys = {
       { "<leader>tt", "<cmd>Trouble diagnostics toggle<cr>", desc = "Trouble: Diagnostics" },
@@ -239,13 +239,13 @@
   },
   {
     "folke/todo-comments.nvim",
-    dir = plugin_path("todo-comments.nvim"),
+    dir = _G.plugin_path("todo-comments.nvim"),
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      { "nvim-lua/plenary.nvim", dir = plugin_path("plenary.nvim") },
+      { "nvim-lua/plenary.nvim", dir = _G.plugin_path("plenary.nvim") },
     },
     config = function()
       require("todo-comments").setup({})
     end,
   },
-},
+}

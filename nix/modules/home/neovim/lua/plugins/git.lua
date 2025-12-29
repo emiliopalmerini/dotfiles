@@ -1,8 +1,8 @@
 -- Git plugins
-{
+return {
   {
     "tpope/vim-fugitive",
-    dir = plugin_path("vim-fugitive"),
+    dir = _G.plugin_path("vim-fugitive"),
     cmd = { "Git", "G", "Gstatus", "Gblame", "Gpush", "Gpull" },
     keys = {
       { "<leader>gf", "<cmd>Git<cr>", desc = "Git: Fugitive" },
@@ -39,7 +39,7 @@
   },
   {
     "lewis6991/gitsigns.nvim",
-    dir = plugin_path("gitsigns.nvim"),
+    dir = _G.plugin_path("gitsigns.nvim"),
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("gitsigns").setup({
@@ -108,4 +108,4 @@
       })
     end,
   },
-},
+}

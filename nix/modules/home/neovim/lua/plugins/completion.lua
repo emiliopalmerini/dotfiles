@@ -1,18 +1,18 @@
 -- Completion plugins (load on InsertEnter)
-{
+return {
   {
     "hrsh7th/nvim-cmp",
-    dir = plugin_path("nvim-cmp"),
+    dir = _G.plugin_path("nvim-cmp"),
     event = "InsertEnter",
     dependencies = {
-      { "hrsh7th/cmp-nvim-lsp", dir = plugin_path("cmp-nvim-lsp") },
-      { "hrsh7th/cmp-path", dir = plugin_path("cmp-path") },
-      { "hrsh7th/cmp-buffer", dir = plugin_path("cmp-buffer") },
-      { "saadparwaiz1/cmp_luasnip", dir = plugin_path("cmp_luasnip") },
-      { "onsails/lspkind.nvim", dir = plugin_path("lspkind.nvim") },
-      { "L3MON4D3/LuaSnip", dir = plugin_path("LuaSnip") },
-      { "rafamadriz/friendly-snippets", dir = plugin_path("friendly-snippets") },
-      { "hrsh7th/cmp-nvim-lsp-signature-help", dir = plugin_path("cmp-nvim-lsp-signature-help") },
+      { "hrsh7th/cmp-nvim-lsp", dir = _G.plugin_path("cmp-nvim-lsp") },
+      { "hrsh7th/cmp-path", dir = _G.plugin_path("cmp-path") },
+      { "hrsh7th/cmp-buffer", dir = _G.plugin_path("cmp-buffer") },
+      { "saadparwaiz1/cmp_luasnip", dir = _G.plugin_path("cmp_luasnip") },
+      { "onsails/lspkind.nvim", dir = _G.plugin_path("lspkind.nvim") },
+      { "L3MON4D3/LuaSnip", dir = _G.plugin_path("LuaSnip") },
+      { "rafamadriz/friendly-snippets", dir = _G.plugin_path("friendly-snippets") },
+      { "hrsh7th/cmp-nvim-lsp-signature-help", dir = _G.plugin_path("cmp-nvim-lsp-signature-help") },
     },
     config = function()
       local cmp = require("cmp")
@@ -70,4 +70,4 @@
       })
     end,
   },
-},
+}
