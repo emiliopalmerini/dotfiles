@@ -54,11 +54,7 @@
   # Additional groups specific to dell-xps-15
   users.users.${userConfig.username}.extraGroups = [ "vboxusers" ];
 
-  # Install firefox.
   programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -100,11 +96,8 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  programs.zsh.enable = true;
   services.flatpak.enable = true;
-  users.defaultUserShell = pkgs.zsh; # Did you read the comment?
-
-  # Enable generic Docker module and it-tools container
+  users.defaultUserShell = pkgs.zsh;
   docker.enable = true;
 
   programs.nix-ld.enable = true;

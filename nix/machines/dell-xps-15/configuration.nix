@@ -107,11 +107,7 @@
   # Additional groups specific to dell-xps-15
   users.users.${userConfig.username}.extraGroups = [ "vboxusers" ];
 
-  # Install firefox.
   programs.firefox.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -123,8 +119,6 @@
     pkgs.vagrant
     pkgs.mono
     pkgs.msbuild
-    pkgs.docker-compose
-    pkgs.lazydocker
   ];
 
   tailscale.enable = true;
@@ -137,9 +131,6 @@
     backupFileExtension = "bak";
   };
 
-  virtualisation.docker = {
-    enable = true;
-  };
   virtualisation.oci-containers.backend = "docker";
 
   environment.variables = commonEnv;
@@ -168,10 +159,7 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
-  programs.zsh.enable = true;
   services.flatpak.enable = true;
-  users.defaultUserShell = pkgs.zsh; # Did you read the comment?
-
-  # Enable generic Docker module and it-tools container
+  users.defaultUserShell = pkgs.zsh;
   docker.enable = true;
 }
