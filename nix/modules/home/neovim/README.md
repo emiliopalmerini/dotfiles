@@ -4,9 +4,9 @@ Reproducible Neovim setup managed by Home Manager. No Mason: all tools and LSPs 
 
 ## What it provides
 - Plugins: Treesitter, Telescope (+ FZF), LSP, CMP, DAP, UI/statusline, Git, utilities
-- LSP: Lua, Nix, TypeScript (vtsls or tsserver fallback), Go, Python (Pyright, Ruff), JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (roslyn-ls), XML (`lemminx`), Protobuf (`bufls`)
-- DAP: Go (`delve`), C# (`netcoredbg`), Python (`debugpy`), Zig (`lldb`), JS/TS (vscode-js-debug if available)
-- Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, Python (isort + black), JS/TS/JSON (Biome or Prettier/Prettierd), YAML (Prettier/Prettierd), SQL (sleek), Go (optional: gofumpt, golines)
+- LSP: Lua, Nix, Go, JSON (`jsonls`), YAML (`yamlls`), Bash (`bashls`), C# (roslyn-ls), XML (`lemminx`), Protobuf (`bufls`)
+- DAP: Go (`delve`), C# (`netcoredbg`), Zig (`lldb`)
+- Formatting via `conform.nvim`: Stylua, nixpkgs-fmt, YAML (Prettier/Prettierd), SQL (sleek), Go (gofumpt)
 - Completion extras: signature help (`cmp-nvim-lsp-signature-help`)
 - OS-aware extras: Linux clipboard tools (`xclip`, `wl-clipboard`) and macOS `reattach-to-user-namespace`
 
@@ -32,53 +32,43 @@ In your host `home.nix`:
 - Editing: `Comment.nvim`, `oil.nvim`, `refactoring.nvim`, `undotree`, `which-key.nvim`, `todo-comments.nvim`
 - Git: `vim-fugitive`, `gitsigns.nvim`, `harpoon2`
 - Telescope: `telescope.nvim`, `telescope-fzf-native.nvim`, `plenary.nvim`
-- Treesitter: `nvim-treesitter` with pinned parsers (nix, vim, lua, json, c_sharp, go, python, markdown[_inline]) + `nvim-treesitter-textobjects`
-- DAP: `nvim-dap`, `nvim-dap-ui`, `nvim-dap-virtual-text`, `nvim-dap-go`, `nvim-dap-python`, `nvim-nio`, `dap-vscode-js` (optional)
+- Treesitter: `nvim-treesitter` with pinned parsers (nix, vim, lua, json, c_sharp, go, markdown[_inline]) + `nvim-treesitter-textobjects`
+- DAP: `nvim-dap`, `nvim-dap-ui`, `nvim-dap-virtual-text`, `nvim-dap-go`, `nvim-nio`
 
 ## LSP
 Configured in `plugin/lsp.lua`. Servers enabled:
-- TypeScript: `vtsls` (preferred) or `tsserver` (`ts_ls`) as fallback if present on PATH
-- `gopls`, `lua_ls`, `nil_ls`, `roslyn_ls`, `pyright`, `ruff`, `jsonls`, `yamlls`, `bashls`, `lemminx` (XML), `bufls` (Protobuf)
+- `gopls`, `lua_ls`, `nil_ls`, `roslyn_ls`, `jsonls`, `yamlls`, `bashls`, `lemminx` (XML), `bufls` (Protobuf)
 - Capabilities integrated with `nvim-cmp`
-- Diagnostics: toggle virtual text/lines with `<leader>tl`
 - Inlay hints: auto-enabled on attach when server supports them (e.g., gopls)
 - JSON/YAML schemas via SchemaStore integration
 
-Ruff uses `ruff server`, not `ruff-lsp` (deprecated).
-
 ### LSP Servers & Packages
-- TypeScript: `vtsls` (package: `nodePackages.vtsls` or `pkgs.vtsls`); fallback `tsserver` (`typescript-language-server` + `typescript`) if present on PATH.
-- JSON: `jsonls` (package: `pkgs.vscode-langservers-extracted` or `nodePackages.vscode-json-languageserver` or `pkgs.json-lsp`).
+- JSON: `jsonls` (package: `pkgs.vscode-langservers-extracted`).
 - YAML: `yamlls` (package: `nodePackages.yaml-language-server`).
-- Bash: `bashls` (package: `nodePackages.bash-language-server` or `pkgs.bash-language-server`).
+- Bash: `bashls` (package: `nodePackages.bash-language-server`).
 - Go: `gopls` (package: `gopls`).
 - Lua: `lua_ls` (package: `lua-language-server`).
 - Nix: `nil_ls` (package: `nil`).
-- Python: `pyright` (package: `pyright`), `ruff` (package: `ruff`).
 - C#: `roslyn_ls` (package: `roslyn-ls`).
 - XML: `lemminx` (package: `lemminx`).
 - Protobuf: `bufls` (package: `buf`).
 
-To add/remove a server per host: adjust `plugin/lsp.lua` `servers` table and ensure the package is present in `programs.neovim.extraPackages`.
+To add/remove a server: modify `languages.nix` and ensure the package is listed.
 JSON and YAML support are enabled by default and their Treesitter parsers are included by default when available in nixpkgs.
 
 ## Formatting (Conform)
 - Lua: `stylua`
 - Nix: `nixpkgs-fmt`
-- Python: `isort`, `black`
 - SQL (injected): `sleek`
-- JS/TS/JSON: `biome` or `prettierd`/`prettier` (order configurable via `neovim.preferPrettier`)
 - YAML: `prettierd`/`prettier`
-- Go: optional `gofumpt`, `golines` (if available in nixpkgs)
-
-Auto-format on save (except for `.mlx`).
+- Go: `gofumpt`
+- C#: `csharpier`
+- Protobuf: `buf`
 
 ## DAP
 - Go: `nvim-dap-go` with `delve`
-- C#: `netcoredbg` via `coreclr` adapter
-- Python: `nvim-dap-python` with `debugpy`
+- C#: `netcoredbg` via `coreclr` adapter (Linux only)
 - Zig: `lldb` via `lldb-vscode` adapter
-- JS/TS: `dap-vscode-js` (pwa-node) when `ms-vscode.js-debug` is available in nixpkgs
 
 Keymaps in `plugin/dap.lua`:
 - Toggle breakpoint: `<space>b` or `<leader>db`
@@ -86,9 +76,7 @@ Keymaps in `plugin/dap.lua`:
 - Eval variable (UI prompt): `<space>?` or `<leader>de`
 - Control: `<F5>` continue, `<F4>` step over, `<F3>` step into, `<F2>` step out; restart: `<leader>dr`
 
-Notes:
-- C#: CoreCLR adapter is registered only if `netcoredbg` is available (typically Linux). On macOS without `netcoredbg`, C# DAP is disabled automatically.
-- JS/TS: Adapter loads only if `ms-vscode.js-debug` exists in nixpkgs.
+Note: C# CoreCLR adapter is registered only if `netcoredbg` is available (typically Linux).
 
 ## Keymaps (Mnemonic Groups)
 
@@ -136,9 +124,9 @@ See `options.lua` for general settings and helpful mappings (Harpoon, Trouble, U
 
 ## Packages installed for Neovim
 The module injects necessary runtime tools via `programs.neovim.extraPackages`:
-- LSPs: `lua-language-server`, `gopls`, `vtsls` (optional), `typescript`, `pyright`, `ruff`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON), `bash-language-server`, `roslyn-ls`, `lemminx`, `buf`
-- DAP/Debug: `delve` (Go), `python3 + debugpy`, `netcoredbg` (Linux only, C#)
-- Formatters: `stylua`, `nixpkgs-fmt`, `black`, `isort`, `sleek`, optional `biome`, `prettierd`, `prettier`, `gofumpt`, `golines`
+- LSPs: `lua-language-server`, `gopls`, `nil`, `yaml-language-server`, `vscode-langservers-extracted` (JSON), `bash-language-server`, `roslyn-ls`, `lemminx`, `buf`
+- DAP/Debug: `delve` (Go), `netcoredbg` (Linux only, C#)
+- Formatters: `stylua`, `nixpkgs-fmt`, `sleek`, `gofumpt`
 - Utils: `ripgrep`, `fd`, `unzip`, `gcc`, `tree-sitter`, `nodejs`
 - Clipboard: `xclip`, `wl-clipboard` (Linux) or `reattach-to-user-namespace` (macOS)
 
@@ -155,28 +143,13 @@ If clipboard fails, verify the session type and that the corresponding binaries 
 
 ## Module options
 - `neovim.enable`: enable the module
-- `neovim.preferPrettier` (bool): if true and both Biome and Prettier are installed, Prettier/Prettierd is preferred for JS/TS/JSON; otherwise Biome is preferred. Default: false.
-- `neovim.colorscheme` (str): colorscheme name to apply (default: `tokyonight-storm`). Ensure the theme plugin is available via built-ins or `extraPlugins`.
-- Feature toggles (bool):
-  - `neovim.enableUI` (default: true)
-  - `neovim.enableDAP` (default: true)
-  - `neovim.enableGit` (default: true)
-  - `neovim.enableTreesitter` (default: true)
-  - `neovim.enableHarpoon` (default: true)
-- Per-language toggles (bool):
-  - `neovim.enableTypeScript`, `enableGo`, `enablePython`, `enableCSharp` (all default: true)
-- Extensibility:
-  - `neovim.extraPlugins` (list): add extra `pkgs.vimPlugins.*` entries
-  - `neovim.extraLuaConfig` (string): appended to the generated `extraLuaConfig`
+- `neovim.extraPlugins` (list): add extra `pkgs.vimPlugins.*` entries
+- `neovim.extraLuaConfig` (string): appended to the generated `extraLuaConfig`
 
 Example:
-```
+```nix
 neovim = {
   enable = true;
-  colorscheme = "tokyonight-day";
-  preferPrettier = true; # use Prettier when both exist
-  enableGit = true;
-  enableDAP = false; # slim build without DAP
   extraPlugins = [ pkgs.vimPlugins.gruvbox-community ];
   extraLuaConfig = ''pcall(vim.cmd.colorscheme, "gruvbox")'';
 };
@@ -185,5 +158,5 @@ neovim = {
 ## Troubleshooting
 - Run `:checkhealth` in Neovim
 - Ensure formatters/servers appear in `:echo $PATH` from within Neovim
-- For JS/TS DAP: if `ms-vscode.js-debug` isn’t in nixpkgs, the JS/TS adapter won’t initialize; you can remove the `dap-vscode-js` plugin or add a fallback adapter
- - Inspect LSPs with `:LspInfo` and Conform with `:ConformInfo`; Telescope health via `:checkhealth telescope`.
+- Inspect LSPs with `:LspInfo` and Conform with `:ConformInfo`
+- Telescope health via `:checkhealth telescope`
