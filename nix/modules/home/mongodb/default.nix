@@ -13,10 +13,8 @@ in
     home.packages = [
       pkgs.mongosh
       pkgs.mongodb-tools
-    ] ++ lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
-      # mongodb-compass is not available on aarch64-linux
+    ] ++ lib.optionals (!pkgs.stdenv.isDarwin && pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
       pkgs.mongodb-compass
     ];
-
   };
 }

@@ -8,11 +8,10 @@
   home.username = userConfig.username;
   home.homeDirectory = userConfig.homeDirectory;
   home.stateVersion = "24.11";
-
   nixpkgs.config.allowUnfree = true;
   programs.home-manager.enable = true;
 
-  # Core developer tools (complex modules with configs)
+  # Core developer tools
   git.enable = true;
   git.userEmail = userConfig.email;
   go.enable = true;
@@ -21,44 +20,56 @@
   tmux.enable = true;
   nodejs.enable = true;
   yazi.enable = true;
+  mongodb.enable = true;
 
   # Application configurations
   ghostty.enable = true;
   lazygit.enable = true;
   ripgrep.enable = true;
 
+  # Environment management
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
+  # SSH configuration
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    matchBlocks."*" = {
+      addKeysToAgent = "yes";
+      identitiesOnly = true;
+    };
+  };
+
   # macOS specific session path
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
 
-  home.packages = [
+  home.packages = with pkgs; [
     # Development tools
-    pkgs.gnumake
-    pkgs.gcc
-    pkgs.zig
-    pkgs.lua
-    pkgs.hugo
+    gnumake
+    gcc
+    zig
+    lua
+    hugo
 
     # Version control and collaboration
-    pkgs.graphite-cli
+    graphite-cli
 
-    # Database tools
-    pkgs.mongosh
-    pkgs.mongodb-tools
-
-    # Docker management
-    pkgs.lazydocker
+    # Docker
+    docker
+    docker-compose
+    colima
+    lazydocker
 
     # Media tools
-    pkgs.ffmpeg
-    pkgs.python313Packages.markitdown
+    ffmpeg
+    python313Packages.markitdown
 
     # macOS utilities
-    pkgs.mas
-    pkgs.clamav
-
-    # IDEs and editors
-    pkgs.code-cursor
+    mas
   ];
 }

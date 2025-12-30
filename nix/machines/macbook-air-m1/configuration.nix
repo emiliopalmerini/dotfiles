@@ -18,7 +18,6 @@
   };
 
   system.stateVersion = 5;
-  # services.tailscale.enable = true;
 
   programs.zsh.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -27,12 +26,7 @@
   };
   system.primaryUser = userConfig.username;
 
-  environment.systemPackages = with pkgs; [
-    # Docker requires system-level access on macOS
-    docker
-    docker-compose
-    colima
-  ];
+  environment.systemPackages = [ ];
 
   # Darwin module configurations
   darwin.dock = {
@@ -69,6 +63,8 @@
     shell = pkgs.zsh;
   };
 
+  darwin.applications.enable = true;
+
   darwin.homebrew = {
     enable = true;
     brews = [ ];
@@ -97,6 +93,9 @@
       # Browsers
       "zen"
 
+      # IDEs and editors
+      "cursor"
+
       # System Utilities
       "rectangle"           # Window management
       "caffeine"            # Keep Mac awake
@@ -107,27 +106,6 @@
     ];
     cleanup = "zap";
   };
-
-  system.activationScripts.applications.text =
-    let
-      env = pkgs.buildEnv {
-        name = "system-applications";
-        paths = config.environment.systemPackages;
-        pathsToLink = [ "/Applications" ];
-      };
-    in
-    pkgs.lib.mkForce ''
-      # Set up applications.
-      echo "setting up /Applications..." >&2
-      rm -rf /Applications/Nix\ Apps
-      mkdir -p /Applications/Nix\ Apps
-      find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-      while read -r src; do
-        app_name=$(basename "$src")
-        echo "copying $src" >&2
-            ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-      done
-    '';
 
   home-manager = {
     extraSpecialArgs = { inherit inputs userConfig; };

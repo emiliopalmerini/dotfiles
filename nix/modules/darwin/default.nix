@@ -2,8 +2,9 @@
 
 {
   imports = [
+    ./applications
     ./dock
-    ./homebrew  
+    ./homebrew
     ./system-defaults
   ];
 }
