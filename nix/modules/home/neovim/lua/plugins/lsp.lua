@@ -20,17 +20,30 @@ return {
 			for name, user_config in pairs(_G.language_servers) do
 				-- Skip roslyn - it uses roslyn-nvim plugin
 				if name ~= "roslyn" then
-					-- Get default config from lspconfig
-					local ok, server_defaults = pcall(require, "lspconfig.configs." .. name)
-					local base_config = ok and server_defaults.default_config or {}
+					local ok, err = pcall(function()
+						-- Get default config from lspconfig
+						local config_ok, server_defaults = pcall(require, "lspconfig.configs." .. name)
+						local base_config = {}
+						if config_ok and server_defaults.default_config then
+							-- Copy only compatible fields (exclude root_dir which uses async)
+							for k, v in pairs(server_defaults.default_config) do
+								if k ~= "root_dir" then
+									base_config[k] = v
+								end
+							end
+						end
 
-					-- Merge: defaults <- capabilities <- user config
-					local final_config = vim.tbl_deep_extend("force", base_config, {
-						capabilities = capabilities,
-					}, user_config)
+						-- Merge: defaults <- capabilities <- user config
+						local final_config = vim.tbl_deep_extend("force", base_config, {
+							capabilities = capabilities,
+						}, user_config)
 
-					vim.lsp.config[name] = final_config
-					table.insert(servers_to_enable, name)
+						vim.lsp.config[name] = final_config
+						table.insert(servers_to_enable, name)
+					end)
+					if not ok then
+						vim.notify("LSP config error for " .. name .. ": " .. tostring(err), vim.log.levels.WARN)
+					end
 				end
 			end
 

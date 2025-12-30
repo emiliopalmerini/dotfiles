@@ -34,7 +34,9 @@ in
     treesitterGrammars = p: [ p.tree-sitter-lua p.tree-sitter-vim ];
     lsp.lua_ls = ''
       {
-        server_capabilities = { semanticTokensProvider = vim.NIL },
+        on_attach = function(client, bufnr)
+          client.server_capabilities.semanticTokensProvider = nil
+        end,
       }
     '';
   };
