@@ -1,5 +1,23 @@
 {
   "nodes": {
+    "grimoire": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1767300898,
+        "narHash": "sha256-nMfdZO+YeDWlzFyZDsB68RGrCW3cburJOFeyIKtvo24=",
+        "owner": "emiliopalmerini",
+        "repo": "grimoire",
+        "rev": "1124407800f917e0c791bc3b2132eafbeb91853a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emiliopalmerini",
+        "repo": "grimoire",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -63,6 +81,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1767116409,
+        "narHash": "sha256-5vKw92l1GyTnjoLzEagJy5V5mDFck72LiQWZSOnSicw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "cad22e7d996aea55ecab064e84834289143e44a0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1764950072,
         "narHash": "sha256-BmPWzogsG2GsXZtlT+MTcAWeDK5hkbGRZTeZNW42fwA=",
         "owner": "NixOS",
@@ -95,9 +129,10 @@
     },
     "root": {
       "inputs": {
+        "grimoire": "grimoire",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "plugin-harpoon": "plugin-harpoon",
         "zen-browser": "zen-browser"
       }

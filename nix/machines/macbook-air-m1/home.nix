@@ -1,4 +1,4 @@
-{ pkgs, userConfig, ... }:
+{ pkgs, inputs, userConfig, ... }:
 {
   imports = [
     ./../../modules/home
@@ -55,6 +55,7 @@
     zig
     lua
     hugo
+    inputs.grimoire.packages.${pkgs.system}.default
 
     # Version control and collaboration
     graphite-cli

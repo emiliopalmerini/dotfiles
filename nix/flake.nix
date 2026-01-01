@@ -21,6 +21,8 @@
       flake = false;
     };
 
+    grimoire.url = "github:emiliopalmerini/grimoire";
+
   };
 
   outputs =
