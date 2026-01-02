@@ -26,6 +26,7 @@
   ghostty.enable = true;
   lazygit.enable = true;
   ripgrep.enable = true;
+  claude.enable = true;
 
   # Environment management
   programs.direnv = {

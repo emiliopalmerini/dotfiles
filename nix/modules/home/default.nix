@@ -13,6 +13,7 @@
     ./ghostty
     ./lazygit
     ./ripgrep
+    ./claude
 
     # Convenient package bundles
     ./go
