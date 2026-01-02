@@ -19,6 +19,8 @@ in
       pkgs.templ
       pkgs.sqlc
       pkgs.air
+      pkgs.hey
+      pkgs.go-tools # includes benchstat
     ];
   };
 }
