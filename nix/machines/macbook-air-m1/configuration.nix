@@ -96,6 +96,9 @@
       # IDEs and editors
       "cursor"
 
+      # Docker
+      "docker"
+
       # System Utilities
       "rectangle"           # Window management
       "caffeine"            # Keep Mac awake

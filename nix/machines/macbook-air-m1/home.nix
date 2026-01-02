@@ -64,7 +64,6 @@
     # Docker
     docker
     docker-compose
-    colima
     lazydocker
 
     # Media tools
