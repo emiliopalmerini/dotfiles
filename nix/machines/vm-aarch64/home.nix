@@ -39,7 +39,6 @@
   # Development and productivity packages
   home.packages = [
     # Development tools
-    pkgs.claude-code
     pkgs.lazygit
     pkgs.gnumake
     pkgs.gcc

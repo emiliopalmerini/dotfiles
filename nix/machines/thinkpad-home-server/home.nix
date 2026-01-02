@@ -28,7 +28,6 @@
 
   # Simple packages - installed directly
   home.packages = [
-    pkgs.claude-code
     pkgs.lazygit
     pkgs.gnumake
   ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.xclip ];

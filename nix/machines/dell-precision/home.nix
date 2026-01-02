@@ -39,7 +39,6 @@
   home.packages = [
     pkgs.xclip
     # Development tools
-    pkgs.claude-code
     pkgs.code-cursor
     pkgs.graphite-cli
     pkgs.lazygit

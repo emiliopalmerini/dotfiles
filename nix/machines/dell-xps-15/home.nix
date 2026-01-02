@@ -35,7 +35,6 @@
   # Simple packages - installed directly
   home.packages = [
     # Development tools
-    pkgs.claude-code
     pkgs.lazygit
     pkgs.gnumake
     pkgs.gcc

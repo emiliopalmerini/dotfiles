@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 
 with lib;
 let
@@ -10,6 +10,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    home.packages = [ pkgs.claude-code ];
+
     home.file.".claude/CLAUDE.md".text = ''
       # Git Commit Guidelines
 
@@ -179,13 +181,13 @@ in
     home.file.".claude/skills/transmute/SKILL.md".text = ''
       ---
       name: transmute
-      description: Convert data between formats (JSON, YAML, TOML, CSV, Markdown, HTML) using grimoire transmute. Use when asked to convert, transform, or render data files.
+      description: Convert data between formats (JSON, YAML, TOML, XML, CSV, Markdown, HTML) using grimoire transmute. Use when asked to convert, transform, or render data files.
       allowed-tools: Bash(grimoire:*), Bash(./grimoire:*), Bash(go build:*)
       ---
 
       # Transmute - Format Conversion Spell
 
-      Converts data between different formats with intelligent rendering for document outputs.
+      Converts data between different formats. All formats support both reading and writing.
 
       ## Prerequisites
 
@@ -204,22 +206,23 @@ in
 
       ## Flags
 
-      | Flag       | Short | Default   | Description                                    |
-      | ---------- | ----- | --------- | ---------------------------------------------- |
-      | `--to`     | `-t`  | (required)| Output format: json, yaml, toml, csv, md, html |
-      | `--from`   | `-f`  | auto      | Input format (auto-detected from extension)    |
-      | `--output` | `-o`  | stdout    | Output file path                               |
+      | Flag       | Short | Default   | Description                                         |
+      | ---------- | ----- | --------- | --------------------------------------------------- |
+      | `--to`     | `-t`  | (required)| Output format: json, yaml, toml, xml, csv, md, html |
+      | `--from`   | `-f`  | auto      | Input format (auto-detected from extension)         |
+      | `--output` | `-o`  | stdout    | Output file path                                    |
 
       ## Supported Formats
 
-      | Format   | Extension | Read | Write |
-      | -------- | --------- | ---- | ----- |
-      | JSON     | .json     | Yes  | Yes   |
-      | YAML     | .yaml/.yml| Yes  | Yes   |
-      | TOML     | .toml     | Yes  | Yes   |
-      | CSV      | .csv      | Yes  | Yes   |
-      | Markdown | .md       | No   | Yes   |
-      | HTML     | .html     | No   | Yes   |
+      | Format   | Extension  | Read | Write |
+      | -------- | ---------- | ---- | ----- |
+      | JSON     | .json      | Yes  | Yes   |
+      | YAML     | .yaml/.yml | Yes  | Yes   |
+      | TOML     | .toml      | Yes  | Yes   |
+      | XML      | .xml       | Yes  | Yes   |
+      | CSV      | .csv       | Yes  | Yes   |
+      | Markdown | .md        | Yes  | Yes   |
+      | HTML     | .html      | Yes  | Yes   |
 
       ## Examples
 
@@ -228,7 +231,8 @@ in
       ```bash
       grimoire transmute config.json --to yaml
       grimoire transmute settings.yaml --to toml
-      grimoire transmute data.toml --to json
+      grimoire transmute data.xml --to json
+      grimoire transmute users.json --to xml
       ```
 
       Document rendering (auto-detects structure):
@@ -236,6 +240,13 @@ in
       ```bash
       grimoire transmute users.json --to markdown    # Arrays render as tables
       grimoire transmute config.json --to html       # Objects render as key-value
+      ```
+
+      Parse documents back to data:
+
+      ```bash
+      grimoire transmute table.html --to json        # HTML tables to JSON
+      grimoire transmute data.md --to yaml           # Markdown tables to YAML
       ```
 
       CSV conversions:
@@ -249,7 +260,7 @@ in
 
       ```bash
       cat data.json | grimoire transmute --from json --to yaml
-      curl api.example.com/data | grimoire transmute --from json --to md
+      curl api.example.com/data | grimoire transmute --from json --to xml
       ```
 
       Output to file:
@@ -260,10 +271,11 @@ in
 
       ## Rendering Rules
 
-      - **Arrays of objects** -> Tables (Markdown/HTML)
-      - **Single objects** -> Key-value pairs (definition lists)
-      - **Nested structures** -> Hierarchical output with headers
+      - **Arrays of objects** -> Tables (Markdown/HTML/XML)
+      - **Single objects** -> Key-value pairs
+      - **Nested structures** -> Hierarchical output
       - **Simple arrays** -> Bulleted lists
+      - **XML attributes** -> Preserved as @key in JSON/YAML
     '';
   };
 }
