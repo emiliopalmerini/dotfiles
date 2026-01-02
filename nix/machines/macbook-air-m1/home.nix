@@ -56,7 +56,7 @@
     zig
     lua
     hugo
-    inputs.grimoire.packages.${pkgs.system}.default
+    inputs.grimoire.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Version control and collaboration
     graphite-cli
