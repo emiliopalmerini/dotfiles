@@ -5,11 +5,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1767366262,
-        "narHash": "sha256-hKmkQntu84h4kTr0sd2bGQluSig45cvXO8b4Pm60eCo=",
+        "lastModified": 1767367733,
+        "narHash": "sha256-uP0NuaERRgecdWb+ctI/jwYhQ4ZJiQOSn0VXqXdgsFs=",
         "owner": "emiliopalmerini",
         "repo": "grimoire",
-        "rev": "9579948187b4fedb470ebb7c7ab9b770f19c0431",
+        "rev": "2fef46f76cd6ed45b7ee953e93d4f31de504fc73",
         "type": "github"
       },
       "original": {

@@ -277,5 +277,82 @@ in
       - **Simple arrays** -> Bulleted lists
       - **XML attributes** -> Preserved as @key in JSON/YAML
     '';
+
+    home.file.".claude/skills/mend/SKILL.md".text = ''
+      ---
+      name: mend
+      description: Format files using LSP servers. Use when asked to format, lint, or fix code style in files.
+      allowed-tools: Bash(grimoire:*), Bash(./grimoire:*), Bash(go build:*)
+      ---
+
+      # Mend - LSP Formatting Spell
+
+      Formats files using language server protocol. Organizes imports and formats code.
+
+      ## Prerequisites
+
+      The appropriate LSP server must be installed:
+      - Go: `gopls`
+      - Python: `pyright-langserver`
+      - Rust: `rust-analyzer`
+      - C#: `OmniSharp`
+      - TypeScript/JavaScript: `typescript-language-server`
+      - HTML: `vscode-html-language-server`
+      - JSON: `vscode-json-language-server`
+      - YAML: `yaml-language-server`
+      - Nix: `nil`
+      - Lua: `lua-language-server`
+
+      If grimoire is not in PATH, build it first:
+
+      ```bash
+      go build -o grimoire . && ./grimoire mend ...
+      ```
+
+      ## Usage
+
+      ```bash
+      grimoire mend <files...> [flags]
+      ```
+
+      ## Flags
+
+      | Flag      | Short | Description                              |
+      | --------- | ----- | ---------------------------------------- |
+      | `--check` | `-c`  | Check only, exit 1 if changes needed    |
+      | `--diff`  | `-d`  | Show diff of changes                    |
+
+      ## Examples
+
+      Format a single file:
+
+      ```bash
+      grimoire mend file.go
+      ```
+
+      Format directory recursively:
+
+      ```bash
+      grimoire mend ./internal/...
+      ```
+
+      Check formatting in CI:
+
+      ```bash
+      grimoire mend --check .
+      ```
+
+      Show what would change:
+
+      ```bash
+      grimoire mend --diff file.py
+      ```
+
+      ## Behavior
+
+      For each file, mend will:
+      1. Organize imports (if supported by LSP)
+      2. Format code according to language standards
+    '';
   };
 }
