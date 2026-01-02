@@ -33,6 +33,9 @@
   # Desktop environment configuration
   hyprland.enable = true;
 
+  # CLI tools configuration
+  claude.enable = true;
+
   # Development and productivity packages
   home.packages = [
     # Development tools

@@ -23,6 +23,9 @@
   shell.enable = true;
   tmux.enable = true;
 
+  # CLI tools configuration
+  claude.enable = true;
+
   # Simple packages - installed directly
   home.packages = [
     pkgs.claude-code
