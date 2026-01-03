@@ -78,7 +78,33 @@ in
       plugins = [
         {
           name = "fzf-tab";
-          src = pkgs.zsh-fzf-tab;
+          src = "${pkgs.zsh-fzf-tab}/share/fzf-tab";
+          file = "fzf-tab.plugin.zsh";
+        }
+        {
+          name = "nix-zsh-completions";
+          src = "${pkgs.nix-zsh-completions}/share/zsh/plugins/nix";
+          file = "nix-zsh-completions.plugin.zsh";
+        }
+        {
+          name = "zsh-history-substring-search";
+          src = "${pkgs.zsh-history-substring-search}/share/zsh/plugins/zsh-history-substring-search";
+          file = "zsh-history-substring-search.plugin.zsh";
+        }
+        {
+          name = "zsh-you-should-use";
+          src = "${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use";
+          file = "you-should-use.plugin.zsh";
+        }
+        {
+          name = "zsh-forgit";
+          src = "${pkgs.zsh-forgit}/share/zsh/zsh-forgit";
+          file = "forgit.plugin.zsh";
+        }
+        {
+          name = "zsh-autopair";
+          src = "${pkgs.zsh-autopair}/share/zsh/zsh-autopair";
+          file = "autopair.zsh";
         }
       ];
     };
@@ -89,6 +115,7 @@ in
       pkgs.httpie
       pkgs.tree
       pkgs.gh
+      pkgs.zsh-completions
     ];
   };
 }
