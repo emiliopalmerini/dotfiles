@@ -66,7 +66,7 @@ in
         precmd() { vcs_info }
         zstyle ':vcs_info:git:*' formats '%F{242}%b%f'
 
-        PROMPT='%F{blue}%~%f ''${vcs_info_msg_0_:+ $vcs_info_msg_0_}
+        PROMPT='%F{green}%n@%m%f %F{blue}%~%f ''${vcs_info_msg_0_:+ $vcs_info_msg_0_}
 %(?.%F{magenta}.%F{red})❯%f '
 
         # kubectl completion
