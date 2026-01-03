@@ -7,6 +7,23 @@ with lib; let
   cfg = config.shell;
   myAliases = {
     cat = "bat";
+
+    # git
+    ga = "git add";
+    gbr = "git branch";
+    gcm = "git commit";
+    gco = "git checkout";
+    gcp = "git cherry-pick";
+    gd = "git diff";
+    ggraph = "git log --oneline --all --graph";
+    glast = "git log -1 HEAD";
+    gph = "git push";
+    gphf = "git push --force-with-lease";
+    gpl = "git pull";
+    gsh = "git stash";
+    gst = "git status";
+    gt = "git tag";
+    gunstage = "git reset HEAD --";
   };
   zshColors = "\${(s.:.)LS_COLORS}";
 in

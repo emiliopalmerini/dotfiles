@@ -49,24 +49,6 @@ in
           process = "git-lfs filter-process";
         };
 
-        alias = {
-          a = "add";
-          br = "branch";
-          cm = "commit";
-          co = "checkout";
-          cp = "cherry-pick";
-          d = "diff";
-          graph = "log --oneline --all --graph";
-          last = "log -1 HEAD";
-          ph = "push";
-          phf = "push --force-with-lease";
-          pl = "pull";
-          sh = "stash";
-          st = "status";
-          t = "tag";
-          unstage = "reset HEAD --";
-        };
-
         diff = {
           algorithm = "histogram";
           colorMoved = "default";
